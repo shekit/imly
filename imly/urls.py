@@ -1,9 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
+from django.contrib.auth.decorators import login_required
 from imly.models import *
 
-from imly.views.stores import StoresByCategory
-from imly.views.products import ProductsByCategory
+from imly.views.stores import *
+from imly.views.products import *
 
 product_info = {
     "queryset" : Product.objects.all(),
@@ -29,6 +30,7 @@ urlpatterns = patterns('',
     
     url(r"^stores/$", ListView.as_view(**store_info), name="imly_store_list"),
     #url(r"^stores/(?P<store_slug>[-\w]+)/$", "store_detail", name="imly_store_detail"),
+    
 )
 
 urlpatterns += patterns('',
@@ -51,4 +53,12 @@ urlpatterns += patterns('',
 #    url(r"^places/(?P<place_slug>[-\w]+)/stores/$", "stores_by_place", name="imly_stores_by_place"),
 #    url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
     
+)
+
+urlpatterns += patterns('',
+    url(r"^account/store/product/add/$", login_required(ProductCreate.as_view()), name="product_add"),
+    url(r"^account/store/product/(?P<pk>\d+)/$", login_required(ProductEdit.as_view()), name="product_edit"),
+    url(r"^account/store/product/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="product_delete"),
+    url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
+    url(r"^account/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
 )

@@ -1,8 +1,14 @@
 from django import forms
-from imly.models import Store
+from imly.models import Store, Product
 
 class StoreForm(forms.ModelForm):
     
     class Meta:
         model = Store
-        exclude = ["slug","date_created","date_updated", "is_featured","is_approved"]
+        exclude = ["slug","owner","date_created","date_updated", "is_featured","is_approved"]
+        
+class ProductForm(forms.ModelForm):
+    
+    class Meta:
+        model = Product
+        exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller"]
