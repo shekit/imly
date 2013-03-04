@@ -10,6 +10,10 @@ class Category(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=False)
     
+    class Meta:
+        verbose_name = "Categories"
+        ordering = ["name"]
+    
     def __unicode__(self):
         return self.name
 
@@ -22,6 +26,9 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
+    
+    class Meta:
+        ordering = ["name"]
 
 class Store(models.Model):
     #Store Details
@@ -40,6 +47,8 @@ class Store(models.Model):
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     
+    class Meta:
+        ordering = ["-date_created"]
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.owner)
@@ -61,6 +70,7 @@ class Product(models.Model):
     
     class Meta:
         unique_together =("name","store",)
+        ordering = ["-date_created"]
     
     def __unicode__(self):
         return "%s in store %s" % (self.name, self.store.name)
