@@ -5,9 +5,10 @@ from django.contrib.auth.models import User
 
 class Category(models.Model):
     
-    name = models.CharField(max_length=50)
-    description = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
+    name = models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
     
     class Meta:
@@ -20,8 +21,9 @@ class Category(models.Model):
 class Location(models.Model):
     
     name = models.CharField(max_length=50, unique=True)
-    description = models.TextField()
-    date_created = models.DateTimeField(auto_now_add=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
     
     def __unicode__(self):
@@ -40,7 +42,7 @@ class Store(models.Model):
     #metadata
     categories = models.ManyToManyField(Category)
     delivery_areas = models.ManyToManyField(Location)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True)
     
     #status
@@ -63,7 +65,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
     product_image = models.CharField(max_length=250)
-    date_created = models.DateTimeField(auto_now_add=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
