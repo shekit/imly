@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>Products by Category</title>
+    </head>
+    
+    <body>
+        <p>{{ object.name }}</p>
+        <p>{{ object.get_price.unit_price }}</p>
+        <form method="post" action="{% url "imly_add_order" object.slug %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+        <input type="submit" value="Add to Cart">
+    </body>
+</html>

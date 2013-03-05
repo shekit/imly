@@ -6,6 +6,17 @@ from imly.models import *
 from imly.views.stores import *
 from imly.views.products import *
 
+from plata.contact.models import Contact
+from plata.discount.models import Discount
+from plata.shop.models import Order
+from plata.shop.views import Shop
+
+shop = Shop(
+    contact_model=Contact,
+    order_model=Order,
+    discount_model=Discount,
+    )
+
 product_info = {
     "queryset" : Product.objects.all(),
     "template_name" : "product_list.html"
@@ -35,8 +46,8 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     
-    url(r"^products/$", ListView.as_view(**product_info), product_info, name="imly_product_list"),
-    #url(r"^stores/(?P<store_slug>[-\w]+)/products/(?P<product_slug>[-\w]+)/$", "product_detail", name="imly_product_detail"),
+    url(r"^products/$", ListView.as_view(**product_info), name="imly_product_list"),
+    url(r"^stores/(?P<store_slug>[-\w]+)/products/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
     
 )
 
@@ -56,9 +67,14 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
-    url(r"^account/store/product/add/$", login_required(ProductCreate.as_view()), name="product_add"),
-    url(r"^account/store/product/(?P<pk>\d+)/$", login_required(ProductEdit.as_view()), name="product_edit"),
-    url(r"^account/store/product/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="product_delete"),
+    url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="product_add"),
+    url(r"^account/store/products/(?P<pk>\d+)/$", login_required(ProductEdit.as_view()), name="product_edit"),
+    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     url(r"^account/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
+)
+urlpatterns += patterns('',
+    url(r"^shop/", include(shop.urls), name="imly_shop"),
+    url(r"^shop/add/(?P<product_slug>[-\w]+)/$", "imly.views.stores.add_order", name="imly_add_order"),
+    
 )

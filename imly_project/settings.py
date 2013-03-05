@@ -5,7 +5,9 @@ TEMPLATE_DEBUG = DEBUG
 
 import os
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
-LOGIN_URL="/"
+LOGIN_URL="/login-form/"
+LOGIN_REDIRECT_URL = "/"
+LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
@@ -118,6 +120,13 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR,"templates")
 )
 
+PLATA_SHOP_PRODUCT = 'imly.Product'
+
+PAYPAL = {
+    'LIVE': False, # Use sandbox or live payment interface?
+    'BUSINESS': 'paypal@example.com',
+    }
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -129,9 +138,30 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'imly',
     'south',
+    'plata',
+    'plata.contact',
+    'plata.discount',
+    'plata.payment',
+    'plata.shop',
+    'social_auth',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+)
+
+TWITTER_CONSUMER_KEY              = 'wHfjzXbpeGdl8Pv7LjoQxA'
+TWITTER_CONSUMER_SECRET           = 'IYJVEkI382WdVsjQrTfld6wSRlPJ2hFsmMg1iqg'
+FACEBOOK_APP_ID                   = '226521154024720'
+FACEBOOK_API_SECRET               = '9955be3b6e211b51921cb4b8eb08e69e'
+GOOGLE_OAUTH2_CLIENT_ID = '21020041491.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET = 'GugnauX_b1NuEnIycxh-wAof'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

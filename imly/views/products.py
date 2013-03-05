@@ -1,8 +1,8 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
-from imly.forms import ProductForm
+from imly.forms import ProductForm, OrderItemForm
 
 from imly.models import Product, Category, Store
 
@@ -43,3 +43,20 @@ class ProductsByAccount(ListView):
     
     def get_queryset(self):
         return self.request.user.store.product_set.all()
+    
+
+class ProductDetail(DetailView):
+    
+    model = Product
+    template_name = "imly_product_detail.html"
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super(ProductDetail, self).get_context_data(**kwargs)
+        context["form"] = OrderItemForm()
+        return context
+    
+    def get_queryset(self):
+        store = get_object_or_404(Store, slug=self.kwargs["store_slug"])
+        return store.product_set.all()
+    
