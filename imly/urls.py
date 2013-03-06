@@ -1,10 +1,10 @@
 from django.conf.urls import patterns, include, url
 from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
-from imly.models import *
+from imly.models import Product, Store, Category, Location
 
-from imly.views.stores import *
-from imly.views.products import *
+from imly.views.stores import StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace
+from imly.views.products import ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount
 
 from plata.contact.models import Contact
 from plata.discount.models import Discount
@@ -40,7 +40,9 @@ location_info = {
 urlpatterns = patterns('',
     
     url(r"^stores/$", ListView.as_view(**store_info), name="imly_store_list"),
-    #url(r"^stores/(?P<store_slug>[-\w]+)/$", "store_detail", name="imly_store_detail"),
+    url(r"^stores/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
+    url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
+    url(r"^stores/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
     
 )
 
@@ -61,7 +63,7 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     
     url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
-#    url(r"^places/(?P<place_slug>[-\w]+)/stores/$", "stores_by_place", name="imly_stores_by_place"),
+    url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
 #    url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
     
 )
@@ -71,7 +73,7 @@ urlpatterns += patterns('',
     url(r"^account/store/products/(?P<pk>\d+)/$", login_required(ProductEdit.as_view()), name="product_edit"),
     url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
-    url(r"^account/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
+    
 )
 urlpatterns += patterns('',
     url(r"^shop/", include(shop.urls), name="imly_shop"),

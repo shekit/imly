@@ -1,10 +1,10 @@
 from django.contrib import admin
 
-from imly.models import *
+from imly.models import Category, Location, Product, Store
 
-from plata.contact.models import Contact
-from plata.discount.models import Discount
-from plata.shop.models import Order
+#from plata.contact.models import Contact
+#from plata.discount.models import Discount
+#from plata.shop.models import Order
 
 
 class CategoryAdmin(admin.ModelAdmin):

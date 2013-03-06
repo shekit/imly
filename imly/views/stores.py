@@ -1,11 +1,14 @@
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, redirect, render
-from django.views.generic.edit import UpdateView
+from django.views.generic.edit import UpdateView, CreateView
+from django.http import HttpResponseForbidden
 
-from imly.models import Category, Store, Product
+from imly.models import Category, Store, Product, Location
 from imly.forms import StoreForm, OrderItemForm
 
 import plata
+
+# how to confirm store is owned by person editing it?
 
 class StoresByCategory(ListView):
     
@@ -13,9 +16,17 @@ class StoresByCategory(ListView):
     template_name = "stores_by_category.html"
     
     def get_queryset(self):
-        self.categories = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return Store.objects.filter(categories=self.categories)
+        categories = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+        return Store.objects.filter(categories=categories)
+
+class StoresByPlace(ListView):
     
+    model = Store
+    template_name = "stores_by_place.html"
+    
+    def get_queryset(self):
+        place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
+        return Store.objects.filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     
@@ -24,9 +35,39 @@ class StoreEdit(UpdateView):
     template_name="store_edit.html"
     
     success_url = "/account/store/products/"
+
+    #forbidding everything..why??      
+    def get(self,request, *args, **kwargs):
+        if self.model.owner == self.request.user:
+            return super(StoreEdit, self).get(request,*args, **kwargs)
+        else:
+            return HttpResponseForbidden()
     
-    def get_queryset(self):
-        return Store.objects.all()
+class StoreCreate(CreateView):
+    
+    form_class = StoreForm
+    model = Store
+    template_name = "store_create.html"
+    
+    success_url = "/account/store/products"
+    
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super(StoreCreate, self).form_valid(form)    
+    
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            self.request.user.store
+            return redirect("imly_store_products")
+        except Store.DoesNotExist:
+            return super(StoreCreate, self).get(request, *args, **kwargs)
+        
+
+class StoreDetail(DetailView):
+    
+    model = Store
+    template_name = "imly_store_detail.html"
     
 
 def add_order(request, product_slug):

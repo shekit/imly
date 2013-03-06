@@ -154,14 +154,16 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleOAuthBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
     'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    
 )
 
 TWITTER_CONSUMER_KEY              = 'wHfjzXbpeGdl8Pv7LjoQxA'
 TWITTER_CONSUMER_SECRET           = 'IYJVEkI382WdVsjQrTfld6wSRlPJ2hFsmMg1iqg'
 FACEBOOK_APP_ID                   = '226521154024720'
 FACEBOOK_API_SECRET               = '9955be3b6e211b51921cb4b8eb08e69e'
-GOOGLE_OAUTH2_CLIENT_ID = '21020041491.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET = 'GugnauX_b1NuEnIycxh-wAof'
+GOOGLE_OAUTH2_CLIENT_ID           = '21020041491.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET       = 'GugnauX_b1NuEnIycxh-wAof'
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to

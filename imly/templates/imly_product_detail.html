@@ -5,6 +5,7 @@
     
     <body>
         <p>{{ object.name }}</p>
+        <p>{{ object.store.name }}</p>
         <p>{{ object.get_price.unit_price }}</p>
         <form method="post" action="{% url "imly_add_order" object.slug %}">
             {% csrf_token %}

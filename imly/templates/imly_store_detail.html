@@ -1,0 +1,14 @@
+<html>
+    <head>
+        <title>{{ object.name }}</title>
+    </head>
+    
+    <body>
+        <p>{{ object.name }}</p>
+        <p>{{ object.owner }}</p>
+        <p>{% for product in object.product_set.all %}</p>
+        <p>{{ product.name }}</p>
+        <p>{{ product.unit_price }}</p>
+        {% endfor %}
+    </body>
+</html>

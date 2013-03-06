@@ -18,7 +18,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default=False)
     
     class Meta:
-        verbose_name = "Categories"
+        verbose_name_plural = "Categories"
         ordering = ["name"]
     
     def __unicode__(self):
@@ -71,7 +71,7 @@ class Product(ProductBase, PriceBase):
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    product_image = models.CharField(max_length=250)
+    product_image = models.ImageField(upload_to="media")
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     
     is_featured= models.BooleanField(default=False)
@@ -86,7 +86,7 @@ class Product(ProductBase, PriceBase):
     
     @models.permalink
     def get_absolute_url(self):
-        return ("imly_product_detail", (), {"store_slug": store.slug,
+        return ("imly_product_detail", (), {"store_slug": self.store.slug,
                                             "product_slug":self.slug})
     
     def get_price(self, *args, **kwargs):

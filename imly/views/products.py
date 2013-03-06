@@ -6,14 +6,18 @@ from imly.forms import ProductForm, OrderItemForm
 
 from imly.models import Product, Category, Store
 
+# how to put products by location?
+#how is it finding a single product in product detail??
+#how do you restrict product edit, product delete to the specific shop owner?
+
 class ProductsByCategory(ListView):
     
     model = Product
     template_name = "products_by_category.html"
     
     def get_queryset(self):
-        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return Product.objects.filter(category=self.category)
+        category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+        return Product.objects.filter(category=category)
     
 
 class ProductCreate(CreateView):
