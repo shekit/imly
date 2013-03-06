@@ -64,7 +64,7 @@ urlpatterns += patterns('',
     
     url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
     url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
-#    url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
+    url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
     
 )
 

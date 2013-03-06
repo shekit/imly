@@ -3,6 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from imly.forms import ProductForm, OrderItemForm
+from django.http import HttpResponseForbidden
 
 from imly.models import Product, Category, Store
 
@@ -19,6 +20,14 @@ class ProductsByCategory(ListView):
         category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         return Product.objects.filter(category=category)
     
+class ProductsByPlace(ListView):
+    
+    model = Product
+    template_name = "products_by_place.html"
+    
+    def get_queryset(self):
+        place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
+        return self.model.objects.filter(store__in=Store.objects.filter(delivery_areas=place))
 
 class ProductCreate(CreateView):
     form_class = ProductForm
@@ -35,9 +44,19 @@ class ProductEdit(UpdateView):
     model = Product
     success_url = "/account/store/products/"
     
+    def get(self,request,*args, **kwargs):
+        if self.get_object().store.owner != self.request.user:
+            return HttpResponseForbidden()
+        return super(ProductEdit,self).get(request, *args, **kwargs)
+    
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"
+    
+    def get(self,request, *args,**kwargs):
+        if self.get_object().store.owner != self.request.user:
+            return HttpResponseForbidden()
+        return super(ProductDelete, self).get(request, *args, **kwargs)
     
 class ProductsByAccount(ListView):
     

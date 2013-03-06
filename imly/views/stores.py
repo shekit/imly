@@ -38,7 +38,7 @@ class StoreEdit(UpdateView):
 
     #forbidding everything..why??      
     def get(self,request, *args, **kwargs):
-        if self.model.owner == self.request.user:
+        if self.get_object().owner == self.request.user:
             return super(StoreEdit, self).get(request,*args, **kwargs)
         else:
             return HttpResponseForbidden()
@@ -95,3 +95,7 @@ def add_order(request, product_slug):
         form = OrderItemForm()
         
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
+
+class OrderList(ListView):
+    pass
+    #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set()))

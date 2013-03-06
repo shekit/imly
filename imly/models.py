@@ -71,7 +71,7 @@ class Product(ProductBase, PriceBase):
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    product_image = models.ImageField(upload_to="media")
+    product_image = models.CharField(max_length=50)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     
     is_featured= models.BooleanField(default=False)
