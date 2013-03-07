@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Imly {% block title %}{% endblock title %}</title>
+        
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+        <!-- HTML5 shim for IE backwards compatibility -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+     <style type="text/css">
+        
+        
+        .navbar .navbar-inner {
+        border: 0;
+        background: white;
+         -webkit-box-shadow: none;
+         -moz-box-shadow: none;
+              box-shadow: none;
+        }
+ 
+        .negative {
+            margin-top:-40px;
+        }
+       
+    
+        /* Navbar links: increase padding for taller navbar */
+        .navbar .nav > li > a {
+          margin: 30px 0 5px 5px;
+        }
+        
+                
+        .navbar .nav > li > a:hover {
+            color: #333;
+        }
+        
+        .well {
+            background: none;
+        }
+        
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+        
+        .sidebar-nav .nav > li > a {
+            color: #999;
+        }
+        
+        .sidebar-nav .nav > li.nav-header {
+            color: #F05A28;
+        }        
+        .sidebar-nav .nav > li > a:hover {
+            color: #FFF;
+            background: #F05A28;
+        }
+        
+
+        
+        .dropdown-submenu > a.hover {
+            background: #F05A28;
+        }
+        
+        .dropdown-menu > li > a.hover {
+            color: #F05A28;
+        }
+        
+                
+        .centered-pills { text-align:center; }
+        .centered-pills ul.nav-pills { display:inline-block; }
+        .centered-pills li { display:inline; }
+        .centered-pills a { float:left; }
+        * html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
+        *+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
+        
+        .nav-pills > .active > a,
+        .nav-pills > .active > a:hover,
+        .nav-pills > .active > a:focus {
+          color: #ffffff;
+          background-color: #F05A28;
+        }
+        
+        .nav-pills > li > a {
+            color:#F05A28
+        }
+        
+        .thumbnails {
+        text-align:center;
+        }
+      
+        .margined {
+            margin-bottom: 30px;
+        }
+
+
+        
+     </style>   
+    </head>
+    
+    <body>
+        <div class="container">
+            {% block navigation %}
+                
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a href="#" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/logo.png" width="110" height="90" alt="Imly Logo"></a>
+                            <div class="nav-collapse">
+                                
+                                <ul class="nav pull-right">
+                                    <li><a href="#">How it works</a></li>
+                                    <li><a href="{% url "imly_store_create" %}">Open your Store</a></li>
+                                    <li><a href="#">Blog</a></li>
+                                    
+                                    
+                                    {% if user.is_authenticated %}
+                                        <li class="disabled"><a href="#"></a></li>
+                                        <li class="dropdown"><a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url "imly_store_products" %}">My Store</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#">Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li class="disabled"><a href="#">|</a></li>
+                                        <li><a href="#">Log-In</a></li>
+                                        <li><a href="#">Sign-Up</a></li>
+                                    {% endif %}
+                                    
+                                </ul>
+                            </div> <!-- end of nav-collapse div -->
+                        </div><!-- end of container --> 
+                    </div> <!-- end of navbar-inner --> 
+
+                </nav> <!-- end of navbar -->               
+            {% endblock navigation %}
+        </div> <!-- end of div container -->
+        
+        <div class="container-fluid negative">
+            <hr>
+        </div>
+            
+        <div class="container">
+            <div class="row-fluid">
+                <nav class="span3">
+                {% block sidebar_nav %}
+                    <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">Search by Category</li>
+                            <li><a href="#">Cakes</a></li>
+                            <li class="dropdown-submenu"><a href="#">Cakes</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">Cupcakes</a></li>
+                                    <li><a href="#">Cookies</a></li>
+                                </ul>
+                            </li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li class="nav-header">Search by Location</li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li class="nav-header">Search by Taste</li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                            <li><a href="#">Cakes</a></li>
+                        </ul>
+                    </div>
+                {% endblock sidebar_nav %}
+                </nav>
+                
+                <section class="span9">
+                    {% block shop_or_product %}
+                    <div class="row-fluid">
+                        
+                        <div class="span12 centered-pills">
+                            <p class="text-center"><small>SEARCH BY</small></p>
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="{% url "imly_store_list" %}">Shop</a></li>
+                                <li><a href="{% url "imly_product_list" %}">Products</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    
+                    </div>
+                  
+                    {% endblock shop_or_product %}
+                    
+                    <div class="row-fluid">
+                        {% block content %}
+                    
+                    
+                        {% endblock content %}
+                    </div>
+                </section>
+            </div>
+            
+            
+        </div> <!-- end of container div -->
+        
+        
+        <script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    </body>
+</html>

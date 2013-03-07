@@ -62,6 +62,10 @@ class Store(models.Model):
     def __unicode__(self):
         return "%s by %s" % (self.name, self.owner)
     
+    @models.permalink
+    def get_absolute_url(self):
+        return ("imly_store_detail", (), {"slug": self.slug})
+    
 class Product(ProductBase, PriceBase):
     #Product Details
     name = models.CharField(max_length=100)
@@ -71,7 +75,7 @@ class Product(ProductBase, PriceBase):
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    product_image = models.CharField(max_length=50)
+    product_image = models.CharField(max_length=255)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     
     is_featured= models.BooleanField(default=False)
@@ -87,7 +91,7 @@ class Product(ProductBase, PriceBase):
     @models.permalink
     def get_absolute_url(self):
         return ("imly_product_detail", (), {"store_slug": self.store.slug,
-                                            "product_slug":self.slug})
+                                            "slug":self.slug})
     
     def get_price(self, *args, **kwargs):
         return self

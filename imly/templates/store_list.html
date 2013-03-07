@@ -1,11 +1,26 @@
-<html>
-    <head>
-        <title>Stores</title>
-    </head>
-    
-    <body>
-        {% for store in object_list %}
-            {{ store.name }}
+{% extends "base.html" %}
+
+{% block title %}Stores{% endblock title %}
+
+{% block content %}
+<!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
+
+    <ul class="thumbnails">
+        {% for object in object_list %}
+        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+        <li class="span4">
+            <div class="thumbnail">
+                {% with object.product_set.all|first as product %}
+                    <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/{{ product.product_image }}" alt="{{ object.name }}"></a>
+                {% endwith %}
+                
+                <a href="{% url "imly_store_detail" object.slug %}"><h5>{{ object.name }}</h5></a><small> by {{ object.owner }}</small>
+                
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
-    </body>
-</html>
+    </ul>
+
+{% endblock content %}

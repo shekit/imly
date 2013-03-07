@@ -1,12 +1,13 @@
 <html>
     <head>
-        <title>Products by Category</title>
+        <title>{{ object.store.name }} | {{ object.name }}</title>
     </head>
     
     <body>
         <p>{{ object.name }}</p>
         <p>{{ object.store.name }}</p>
         <p>{{ object.get_price.unit_price }}</p>
+        <p><img src="{{ STATIC_URL }}bootstrap/img/{{ object.product_image }}"></p>
         <form method="post" action="{% url "imly_add_order" object.slug %}">
             {% csrf_token %}
             {{ form.as_p }}
