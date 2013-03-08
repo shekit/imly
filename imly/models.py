@@ -9,6 +9,21 @@ from plata.discount.models import Discount
 from plata.shop.views import Shop
 # Create your models here.
 
+class SuperCategory(models.Model):
+    
+    name= models.CharField(max_length=100, unique=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    is_active = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ["name"]
+        verbose_name_plural = "Super Categories"
+        
+    def __unicode__(self):
+        return self.name
+
 class Category(models.Model):
     
     name = models.CharField(max_length=50, unique=True)
@@ -16,6 +31,7 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
+    super_category = models.ForeignKey(SuperCategory)
     
     class Meta:
         verbose_name_plural = "Categories"
