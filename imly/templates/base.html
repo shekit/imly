@@ -13,7 +13,7 @@
         <![endif]-->
      <style type="text/css">
         
-        
+        /* make top-most navbar background white and get rid of border and shadow */
         .navbar .navbar-inner {
         border: 0;
         background: white;
@@ -21,24 +21,30 @@
          -moz-box-shadow: none;
               box-shadow: none;
         }
- 
-        .negative {
-            margin-top:-40px;
-        }
-       
-    
-        /* Navbar links: increase padding for taller navbar */
+        
+        /* change positioning of top navbar links */
         .navbar .nav > li > a {
           margin: 30px 0 5px 5px;
         }
         
-                
+        /* change hover color of top navbar links */       
         .navbar .nav > li > a:hover {
             color: #333;
         }
         
+        /* the hr line at the top of the site contained in a container fluid, to move it into place */
+        .negative {
+            margin-top:-40px;
+        }
+        
+        /* customizing the sidebar navigation */
         .well {
             background: none;
+        }
+
+        /* overriding 1px white text shadow on all nav-list links, not needed because bg is white, distorts links on hover */
+        .nav-list > li > a, .nav-list .nav-header {   
+            text-shadow: none;
         }
         
         .sidebar-nav {
@@ -57,17 +63,61 @@
             background: #F05A28;
         }
         
-
-        
-        .dropdown-submenu > a.hover {
-            background: #F05A28;
+        /* class added to search by taste links to make them look like inline tags */
+        .tags_for_product_home {
+            margin-top:5px;
         }
         
-        .dropdown-menu > li > a.hover {
-            color: #F05A28;
+        ul.tags_for_product_home > li {
+            background: none;
+            padding-right: 0px;
+            padding-left:0px;
+            margin-top:5px;
+        }
+        
+        .tags_for_product_home > li > a {
+            background: #e6e6e6;
+            border: 1px solid white;
+            border-radius: 5px;
+            color:#F05A28;
+            padding: 2px 5px;
+        }
+        
+        .tags_for_product_home > li > a:hover {
+            background: #F05A28;
+            border: 1px solid white;
+            border-radius: 5px;
+            color:white;
+            text-decoration: none;
+        }
+
+        /* still have to figure how to get rid of the blue whenn hovering over sidebar items with submenus */
+        /*.dropdown-submenu > a:hover {
+            background: red;
+        }*/
+
+                
+        .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+            color: #ffffff;
+            background: #FF7752;
         }
         
                 
+        .dropdown-submenu:hover > a,
+        .dropdown-submenu:focus > a{
+            color: #ffffff;
+            background: #F05A28;
+        }
+        
+        .dropdown-menu > .active > a,
+        .dropdown-menu > .active > a:hover,
+        .dropdown-menu > .active > a:focus {
+            color:#ffffff;
+            background: #F05A28;
+        }
+                
+        
+        /* used to center the search by SHOP or PRODUCT nav pills */        
         .centered-pills { text-align:center; }
         .centered-pills ul.nav-pills { display:inline-block; }
         .centered-pills li { display:inline; }
@@ -75,27 +125,84 @@
         * html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
         *+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
         
+        /* customizing the nav-pills look */
+        .nav-pills > li > a {
+            color:#F05A28;
+        }
+        
         .nav-pills > .active > a,
         .nav-pills > .active > a:hover,
         .nav-pills > .active > a:focus {
-          color: #ffffff;
-          background-color: #F05A28;
+            color: #ffffff;
+            background-color: #F05A28;
         }
         
-        .nav-pills > li > a {
-            color:#F05A28
+        /* customizing tabbed navigation in manage store templates */
+        .nav-tabs > .active > a,
+        .nav-tabs > .active > a:hover,
+        .nav-tabs > .active > a:focus{
+            color: #F05A28;    
         }
         
+        /* center aligning the images in the white bordered thumbnails */
         .thumbnails {
-        text-align:center;
+            text-align:center;
         }
       
+        /* adding margin to each row of 3 thumbnails so rows have space between them */
         .margined {
             margin-bottom: 30px;
         }
-
-
         
+                
+        /* customizing well in shop_detail and product_detail and manage store pages */
+
+        .shop_info > h3 {
+            color: #F05A28;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            line-height: 20px;
+        }
+        
+        .shop_info > h4 {
+            margin-top: 0px;
+            margin-bottom: 5px;
+        }
+        
+        .shop_info > h5 {
+            color: #F05A28;
+        
+        }
+        
+        
+        /* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
+        .margined_product_detail_aside {
+            margin-bottom:4px;
+        }
+        
+        /* customizing the This Item is: Tags in the product_detail page */
+        .tags_for_product > li {
+            background: #F05A28;
+            border: 1px solid white;
+            border-radius: 5px;
+            color:white;
+        }
+        
+        /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
+        .checkbox {
+            padding-left: 0;
+        }
+        .checkbox input[type="checkbox"]{
+            float: none;
+            margin-left: 0px;
+        }
+        
+        /* getting rid of borders in the shipping/billing information form */
+        .table-order th,
+        .table-order td {
+
+          border-top: none;
+        }
      </style>   
     </head>
     
@@ -111,11 +218,11 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </a>
-                            <a href="#" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/logo.png" width="110" height="90" alt="Imly Logo"></a>
+                            <a href="{% url "imly_product_list" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/logo.png" width="110" height="90" alt="Imly Logo"></a>
                             <div class="nav-collapse">
                                 
                                 <ul class="nav pull-right">
-                                    <li><a href="#">How it works</a></li>
+                                    <li><a href="#">What is Imly</a></li>
                                     <li><a href="{% url "imly_store_create" %}">Open your Store</a></li>
                                     <li><a href="#">Blog</a></li>
                                     
@@ -124,16 +231,15 @@
                                         <li class="disabled"><a href="#"></a></li>
                                         <li class="dropdown"><a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url "imly_store_products" %}">My Store</a></li>
-                                                <li><a href="#">My Cart</a></li>
+                                                <li><a href="{% url "imly_store_create" %}"><span class="icon-home"></span> My Store</a></li>
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
                                                 <li class="divider"></li>
-                                                <li><a href="#">Logout</a></li>
+                                                <li><a href="#"><span class="icon-off"></span> Logout</a></li>
                                             </ul>
                                         </li>
                                     {% else %}
                                         <li class="disabled"><a href="#">|</a></li>
-                                        <li><a href="#">Log-In</a></li>
-                                        <li><a href="#">Sign-Up</a></li>
+                                        <li><strong><a href="#">Log-In</a></strong></li>
                                     {% endif %}
                                     
                                 </ul>
@@ -150,38 +256,46 @@
         </div>
             
         <div class="container">
+            {% block main_body %}
             <div class="row-fluid">
                 <nav class="span3">
                 {% block sidebar_nav %}
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header">Search by Category</li>
-                            <li><a href="#">Cakes</a></li>
-                            <li class="dropdown-submenu"><a href="#">Cakes</a>
-                                <ul class="dropdown-menu">
-                                    <li><a href="#">Cupcakes</a></li>
-                                    <li><a href="#">Cookies</a></li>
-                                </ul>
-                            </li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
+                            {% load imly_tags %}
+                            {% get_category_list %}
+                            
+                                {% for category in categories %}
+                                    {% if category.sub_categories.count %}
+                                        <li class="dropdown-submenu"><a href="#">{{ category.name|capfirst }}</a>
+                                            <ul class="dropdown-menu">
+                                                {% for sub_category in category.sub_categories.all %}
+                                                    <li><a href="#">{{ sub_category.name|capfirst }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="#">{{ category.name|capfirst }}</a></li>
+                                    {% endif %}
+                                {% endfor %}
+                                
                             <li class="nav-header">Search by Location</li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
+                            {% get_location_list %}
+                            {% for location in locations %}
+                                <li><a href="#">{{ location.name|capfirst }}</a></li>
+                            {% endfor %}
                             <li class="nav-header">Search by Taste</li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                            <li><a href="#">Cakes</a></li>
-                        </ul>
-                    </div>
+                                <ul class="inline tags_for_product_home">
+                                    {% get_tag_list %}
+                                    {% for tag in tags %}
+                                        <li><a href="#">{{ tag.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                        </ul> <!-- end of ul nav-list -->
+                    </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
-                </nav>
+                </nav> <!-- end of nav span3 -->
                 
                 <section class="span9">
                     {% block shop_or_product %}
@@ -190,14 +304,14 @@
                         <div class="span12 centered-pills">
                             <p class="text-center"><small>SEARCH BY</small></p>
                             <ul class="nav nav-pills">
-                                <li class="active"><a href="{% url "imly_store_list" %}">Shop</a></li>
+                                <li><a href="{% url "imly_store_list" %}">Shop</a></li>
                                 <li><a href="{% url "imly_product_list" %}">Products</a></li>
                                 
                             </ul>
                             
                         </div>
                     
-                    </div>
+                    </div> <!-- end of row fluid for search by products/ shop -->
                   
                     {% endblock shop_or_product %}
                     
@@ -207,9 +321,9 @@
                     
                         {% endblock content %}
                     </div>
-                </section>
-            </div>
-            
+                </section> <!-- end of section span9 -->
+            </div> <!-- end of row-fluid -->
+            {% endblock main_body %}
             
         </div> <!-- end of container div -->
         

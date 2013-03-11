@@ -1,0 +1,63 @@
+{% extends base_template|default:"base_cart.html" %}
+
+{% load i18n plata_tags %}
+
+{% block title %}{% trans "Cart" %}{% endblock %}
+
+
+{% block cart_content %}
+    <div class="row-fluid">
+        {% if empty %}
+        <h2 class="muted text-center">Your Cart is Empty :(</h2>
+        <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
+        {% else %}
+        <h3>{% trans "Cart" %} {{ plata.order.items.count }}</h3>
+        
+        <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
+        
+        {% form_errors orderitemformset %}
+        <table class="table table-striped">
+            <tr>
+                <th>{% trans "product"|capfirst %}</th>
+                <th>{% trans "details"|capfirst %}</th>
+                <th>{% trans "price"|capfirst %}</th>
+                <th>{% trans "quantity"|capfirst %}</th>
+                <th>{% trans "sub total"|capfirst %}</th>
+                
+                <th>{% trans "Delete" %}</th>
+            </tr>
+        {% for orderitemform in orderitemformset.forms %}
+            <tr>
+                <td><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ STATIC_URL }}bootstrap/img/{{ orderitemform.instance.product.product_image }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></td>
+                <td>{{ orderitemform.instance.product.name }}
+                    <p><small>by <a href="{% url "imly_store_detail" orderitemform.instance.product.store.slug %}">{{ orderitemform.instance.product.store.name }}</a></small></p>
+                </td>
+                <td>INR {{ orderitemform.instance.unit_price|floatformat:0 }}</td>
+                <td>
+                    {{ orderitemform.id }}
+                    {% form_item_plain orderitemform.quantity %}
+                </td>
+                
+                <td>INR {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</td>
+                <td><p class="text-center">{% form_item_plain orderitemform.DELETE %}</p></td>
+            </tr>
+        {% endfor %}
+            <tr>
+
+                <td colspan="4"></td>
+                <td colspan="2">
+                    <input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" />
+                    <input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" />
+                </td>
+            </tr>
+        </table>
+        </form>
+        {% endif %}
+</div>
+{% endblock cart_content %}
+
+
+{% block shop_info %}
+    <br><br>
+    <a href="{% url "imly_product_list" %}" class="btn btn-warning pull-right">Keep Shopping</a>
+{% endblock shop_info %}   

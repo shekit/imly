@@ -1,20 +1,24 @@
 from django.contrib import admin
 
-from imly.models import Category, Location, Product, Store
+from imly.models import Category, Tag, Location, Product, Store
 
 #from plata.contact.models import Contact
 #from plata.discount.models import Discount
 #from plata.shop.models import Order
 
-class SuperCategoryAdmin(admin.ModelAdmin):
-    
-    list_display = [""]
-    prepopulated_fields = {"slug":("name")}
 
 class CategoryAdmin(admin.ModelAdmin):
     
+    list_display = ["name", "super_category", "is_active"]
+    prepopulated_fields = {"slug":("name",)}
+    list_filter = ["super_category"]
+    ordering = ["super_category"]
+    
+class TagAdmin(admin.ModelAdmin):
+    
     list_display = ["name", "is_active"]
     prepopulated_fields = {"slug":("name",)}
+
 
 class LocationAdmin(admin.ModelAdmin):
     
@@ -29,12 +33,13 @@ class StoreAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     
-    list_display = ["name","store", "category","get_price", "capacity_per_month", "lead_time", "is_featured", "is_bestseller"]
+    list_display = ["name","store", "category", "capacity_per_month", "lead_time", "is_featured", "is_bestseller"]
     list_filter = ["store", "is_featured"]
     prepopulated_fields = {"slug":("name",)}
     
-admin.site.register(SuperCategory, SuperCategoryAdmin)    
+ 
 admin.site.register(Category, CategoryAdmin)
+admin.site.register(Tag, TagAdmin)
 admin.site.register(Location, LocationAdmin)
 admin.site.register(Store, StoreAdmin)
 admin.site.register(Product, ProductAdmin)

@@ -1,37 +1,48 @@
 {% extends "base_store_manage.html" %}
 
-{% block title %}Add/Edit Products{% endblock title %}
-
 {% block shop_content %}
-
-        <ul class="nav nav-pills">
-            <li><a href="#">Store Details</a></li>
-            <li class="active"><a href="#">Product Details</a></li>
-            <li><a href="#">My Profile</a></li>
-        </ul>
-        
-        <div class="row-fluid">
-            <div class="span12">
-                <hr>
-            </div>
+    <div class="row-fluid">
+        <div class="span12">
+        {% if user.store %}
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{% url "imly_store_info" object.slug %}">Store Details</a></li>
+                <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+                <li><a href="#">My Profile</a></li>
+            </ul>
+        {% else %}
+            <ul class="nav nav-tabs">
+                <li class="active"><a href="{% url "imly_store_info" object.slug %}">Store Details</a></li>
+                <li class="disabled"><a href="{% url "imly_store_products" %}">Product Details</a></li>
+                <li class="disabled"><a href="#">My Profile</a></li>
+            </ul>
+        {% endif %}
         </div>
+    </div>
+    
+        
         
             
         <div class="row-fluid">
-            
+            {% if user.store %}
             <div class="span12">
-                <form method="post" action="">
-                    {{ form.as_p }}
-                <input type="submit" value="Submit">   
+                <h2>Hello</h2>
+                <a href="{% url "imly_store_edit" object.slug %}" class="btn">Edit Store</a>
             </div>
-    
+            
+            {% else %}
+                <h2 class="muted text-center">You do not have a store yet.<br>
+                Add a store now by clicking on the button below.</h2>
+                
+                <p class="text-center"><a href="{% url "imly_store_create" %}" class="btn btn-large btn-success">Create Your Store</a></p>
+            {% endif %}
+        
         </div>
 
 
            
 {% endblock shop_content %}
                 
-
+<!-- should show product thumbnail -->
 {% block shop_info %}
     <div class="well shop_info">
 
@@ -68,17 +79,4 @@
             {% endfor %}
         </ul>
     </div>           
-{% endblock shop_info %}            
-
-
-<html>
-    <head>
-        <title>Products by Category</title>
-    </head>
-    
-    <body>
-        <form method="post" action="">
-            {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </body>
-</html>
+{% endblock shop_info %} 

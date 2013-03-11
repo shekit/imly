@@ -61,13 +61,14 @@ class ProductDelete(DeleteView):
 class ProductsByAccount(ListView):
     
     model = Product
-    template_name = "product_list.html"
+    template_name = "manage_products.html"   #was product_list.html
     
     
     def get_queryset(self):
         return self.request.user.store.product_set.all()
     
 
+    
 class ProductDetail(DetailView):
     
     model = Product

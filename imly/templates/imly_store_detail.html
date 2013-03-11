@@ -1,14 +1,72 @@
-<html>
-    <head>
-        <title>{{ object.name }}</title>
-    </head>
+{% extends "base_store_product.html" %}
+
+{% block title %}{{ object.name }}{% endblock title %}
+
+{% block shop_info %}
+    <div class="well shop_info">
+        <h3>Hi!</h3>
+        Welcome to {{ object.name }} by <strong>{{ object.owner }}</strong> opened on {{ object.date_created|date:"F j, Y" }}
+        
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+        <p>{{ object.description }}</p>
+        
+        <h5>We sell:</h5>
+        <ul class="unstyled">
+            {% for category in object.categories.all %}
+                <li>{{ category.name }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h5>Total Items in Shop: <span style="color:#333;font-size: 14px; font-weight: normal;">{{ object.product_set.count }}</span></h5>
+             
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+        <h5>We deliver to:</h5>   
+        <ul class="unstyled">
+            {% for delivery in object.delivery_areas.all %}
+                <li>{{ delivery|capfirst }}</li>
+            {% endfor %}
+        </ul>
+    </div>            
+{% endblock shop_info %}
+
+{% block shop_product_content %}
+    <div class="hero-unit">
+        <h1 class="store_name">{{ object.name }}</h1>
+        {% if object.tagline %}
+            <p>{{ object.tagline }}</p>
+        {% endif %}
+    </div>
     
-    <body>
-        <p>{{ object.name }}</p>
-        <p>{{ object.owner }}</p>
-        <p>{% for product in object.product_set.all %}</p>
-        <p>{{ product.name }}</p>
-        <p>{{ product.unit_price }}</p>
+    <div class="row-fluid">
+        <ul class="thumbnails">
+        {% for product in object.product_set.all %}
+        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+        <li class="span4">
+            <div class="thumbnail">
+                <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/{{ product.product_image }}" alt="{{ product.name }}" class="centered"></a>
+                <h5>{{ product.name }}</h5> <span class="pull-left">INR {{ product.get_price.unit_price }}</span>
+ <!-- passing in cheesecake as slug for all products              <form method="post" action="{% url "imly_add_order" product.slug %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" class="btn btn-mini pull-right" value="Add to Cart">-->
+                <div class="clearfix"></div>
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
-    </body>
-</html>
+        </ul>
+    </div>
+{% endblock shop_product_content %}
+
+

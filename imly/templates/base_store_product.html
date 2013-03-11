@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block main_body %}
+    <div class="row-fluid">
+
+        <aside class="span3">
+            {% block shop_info %}
+                
+            {% endblock shop_info %}            
+        </aside>
+        
+        <section class="span9">
+            {% block shop_product_content %}
+                
+            {% endblock shop_product_content %}
+                
+        </section>
+        
+
+        
+    </div>
+{% endblock main_body %}

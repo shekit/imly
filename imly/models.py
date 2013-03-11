@@ -9,20 +9,6 @@ from plata.discount.models import Discount
 from plata.shop.views import Shop
 # Create your models here.
 
-class SuperCategory(models.Model):
-    
-    name= models.CharField(max_length=100, unique=True)
-    slug = models.SlugField(unique=True)
-    description = models.TextField(blank=True)
-    date_created = models.DateTimeField(auto_now_add=True, editable=False)
-    is_active = models.BooleanField(default=False)
-    
-    class Meta:
-        ordering = ["name"]
-        verbose_name_plural = "Super Categories"
-        
-    def __unicode__(self):
-        return self.name
 
 class Category(models.Model):
     
@@ -31,12 +17,29 @@ class Category(models.Model):
     description = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
-    super_category = models.ForeignKey(SuperCategory)
+    super_category = models.ForeignKey("self", blank=True, null=True, related_name="sub_categories")
+    
     
     class Meta:
         verbose_name_plural = "Categories"
         ordering = ["name"]
     
+    def __unicode__(self):
+        return self.name
+
+#how to create filter for multiple tags
+#if has count , make it active?
+class Tag(models.Model):
+    
+    name= models.CharField(max_length=50, unique=True)
+    slug = models.SlugField(unique=True)
+    description = models.TextField(blank=True)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    is_active = models.BooleanField(default=False)
+    
+    class Meta:
+        ordering = ["name"]
+        
     def __unicode__(self):
         return self.name
 
@@ -61,6 +64,7 @@ class Store(models.Model):
     slug = models.SlugField(unique=True)
     owner = models.OneToOneField(User)
     description = models.TextField()
+    tagline = models.CharField(max_length=255, blank=True)
     
     #metadata
     categories = models.ManyToManyField(Category)
@@ -71,6 +75,8 @@ class Store(models.Model):
     #status
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
+    
+    tags = models.ManyToManyField(Tag)
     
     class Meta:
         ordering = ["-date_created"]
@@ -87,15 +93,20 @@ class Product(ProductBase, PriceBase):
     name = models.CharField(max_length=100)
     slug = models.SlugField()
     capacity_per_month = models.IntegerField()
+    description = models.TextField(blank=True)
     
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
     product_image = models.CharField(max_length=255)
-    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    date_created = models.DateTimeField(auto_now=True, editable=False)
+
     
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
+
+    
+    tags = models.ManyToManyField(Tag)
     
     class Meta:
         unique_together =("name","store",)

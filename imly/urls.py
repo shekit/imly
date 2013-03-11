@@ -3,7 +3,8 @@ from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-from imly.views.stores import StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace
+
+from imly.views.stores import StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail
 from imly.views.products import ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount
 
 from plata.contact.models import Contact
@@ -15,6 +16,7 @@ shop = Shop(
     contact_model=Contact,
     order_model=Order,
     discount_model=Discount,
+    default_currency= "INR",
     )
 
 product_info = {
@@ -40,9 +42,10 @@ location_info = {
 urlpatterns = patterns('',
     
     url(r"^stores/$", ListView.as_view(**store_info), name="imly_store_list"),
-    url(r"^stores/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
-    url(r"^stores/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
+    url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
+    url(r"^account/store/(?P<slug>[-\w]+)/details", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
+    url(r"^account/store/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
     
 )
 
@@ -69,9 +72,9 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
-    url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="product_add"),
-    url(r"^account/store/products/(?P<pk>\d+)/$", login_required(ProductEdit.as_view()), name="product_edit"),
-    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="product_delete"),
+    url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="imly_product_add"),
+    url(r"^account/store/products/(?P<pk>\d+)/edit$", login_required(ProductEdit.as_view()), name="imly_product_edit"),
+    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     
 )

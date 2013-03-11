@@ -1,12 +1,74 @@
-<html>
-    <head>
-        <title>Products by Category</title>
-    </head>
+{% extends "base_store_manage.html" %}
+
+{% block title %}Add/Edit Products{% endblock title %}
+
+{% block shop_content %}
+
+    <div class="row-fluid">
+        <div class="span12">
+        <ul class="nav nav-tabs">
+            <li><a href="{% url "imly_store_info" user.store.slug %}">Store Details</a></li>
+            <li class="active"><a href="{% url "imly_store_products" %}">Product Details</a></li>
+            <li><a href="#">My Profile</a></li>
+        </ul>
+        </div>
+    </div>
+        
+            
+        <div class="row-fluid">
+            
+            <div class="span12">
+                <form method="post" action="">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
+                    <input type="submit" class="btn btn-success" value="Done">
+
+                </form>
+            </div>
     
-    <body>
-        <form method="post" action="">
-            {% csrf_token %}
-            {{ form.as_p }}
-        <input type="submit" value="Submit">
-    </body>
-</html>
+        </div>
+
+
+           
+{% endblock shop_content %}
+                
+
+{% block shop_info %}
+    <div class="well shop_info">
+
+        <h4>{{ user.store.name }}</h4>
+        <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
+        
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+        <p>{{ user.store.description }}</p>
+        
+        <h5>Items Offered:</h5>
+        <ul class="unstyled">
+            {% for category in user.store.categories.all %}
+                <li>{{ category.name }}</li>
+            {% endfor %}
+        </ul>
+        
+        <h5>Total Items in Shop: <span style="color:#333;font-size: 14px; font-weight: normal;">{{ user.store.product_set.count }}</span></h5>
+             
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+        <h5>Delivery Areas:</h5>   
+        <ul class="unstyled">
+            {% for delivery in user.store.delivery_areas.all %}
+                <li>{{ delivery|capfirst }}</li>
+            {% endfor %}
+        </ul>
+    </div>           
+{% endblock shop_info %}            
+

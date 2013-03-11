@@ -69,6 +69,11 @@ class StoreDetail(DetailView):
     model = Store
     template_name = "imly_store_detail.html"
     
+class StoreInfoDetail(DetailView):
+    
+    model = Store
+    template_name = "imly_store_info.html"
+
 
 def add_order(request, product_slug):
     shop = plata.shop_instance()

@@ -121,13 +121,6 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR,"templates")
 )
 
-PLATA_SHOP_PRODUCT = 'imly.Product'
-
-PAYPAL = {
-    'LIVE': False, # Use sandbox or live payment interface?
-    'BUSINESS': 'paypal@example.com',
-    }
-
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -194,3 +187,15 @@ LOGGING = {
         },
     }
 }
+
+#Plata settings
+PLATA_SHOP_PRODUCT = 'imly.Product'
+
+PAYPAL = {
+    'LIVE': False, # Use sandbox or live payment interface?
+    'BUSINESS': 'paypal@example.com',
+    }
+
+CURRENCIES = ('INR',)
+
+PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards")}

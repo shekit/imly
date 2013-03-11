@@ -2,6 +2,22 @@
 
 {% block title %}Stores{% endblock title %}
 
+{% block shop_or_product %}
+                    <div class="row-fluid">
+                        
+                        <div class="span12 centered-pills">
+                            <p class="text-center"><small>SEARCH BY</small></p>
+                            <ul class="nav nav-pills">
+                                <li class="active"><a href="{% url "imly_store_list" %}">Shop</a></li>
+                                <li><a href="{% url "imly_product_list" %}">Products</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    
+                    </div>
+{% endblock shop_or_product %}
+
 {% block content %}
 <!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
 
