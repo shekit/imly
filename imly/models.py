@@ -113,7 +113,7 @@ class Product(ProductBase, PriceBase):
         ordering = ["-date_created"]
     
     def __unicode__(self):
-        return "%s in store %s" % (self.name, self.store.name)
+        return self.name
     
     @models.permalink
     def get_absolute_url(self):

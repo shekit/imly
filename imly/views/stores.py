@@ -7,6 +7,7 @@ from imly.models import Category, Store, Product, Location
 from imly.forms import StoreForm, OrderItemForm
 
 import plata
+from plata.shop.models import Order, OrderItem
 
 # how to confirm store is owned by person editing it?
 
@@ -102,5 +103,10 @@ def add_order(request, product_slug):
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
 
 class OrderList(ListView):
-    pass
-    #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set()))
+    #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
+    model = OrderItem
+    template_name = "imly_store_orders.html"
+    
+    def get_queryset(self):
+        store = get_object_or_404(Store, slug=self.kwargs["slug"])
+        return OrderItem.objects.filter(product__in=store.product_set.all())

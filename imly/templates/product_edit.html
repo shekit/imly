@@ -1,6 +1,6 @@
 {% extends "base_store_manage.html" %}
 
-{% block title %}Add/Edit Products{% endblock title %}
+{% block title %}Edit a Product{% endblock title %}
 
 {% block manage_store_navigation %}
 
@@ -12,7 +12,7 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-   <h4>Edit Product</h4>
+   <h4>Edit Product: {{ object.name }}</h4>
    <br>
     
         <div class="row-fluid">
@@ -22,7 +22,7 @@
                     {% csrf_token %}
                     {{ form.as_p }}
                     <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
-                    <input type="submit" class="btn btn-success" value="Done">
+                    <input type="submit" class="btn btn-success" value="Update">
 
                 </form>
             </div>

@@ -1,16 +1,17 @@
 {% extends "base_store_manage.html" %}
 
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" object.store.slug %}">Shop Details</a></li>
+    <li class="active"><a href="#">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" object.store.slug %}">Order Details</a></li>
+    <li><a href="#">My Profile</a></li>
+                
+{% endblock manage_store_navigation %}
+
 {% block shop_content %}
     
-    <div class="row-fluid">
-        <div class="span12">
-        <ul class="nav nav-tabs">
-            <li><a href="{% url "imly_store_info" object.store.slug %}">Store Details</a></li>
-            <li class="active"><a href="{% url "imly_store_products" %}">Product Details</a></li>
-            <li><a href="#">My Profile</a></li>
-        </ul>
-        </div>
-    </div>
+
     
         <div class="row-fluid">
             <div class="span9">

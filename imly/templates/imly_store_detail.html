@@ -5,7 +5,7 @@
 {% block shop_info %}
     <div class="well shop_info">
         <h3>Hi!</h3>
-        Welcome to {{ object.name }} by <strong>{{ object.owner }}</strong> opened on {{ object.date_created|date:"F j, Y" }}
+        Welcome to {{ object.name }}, proudly run by <strong>{{ object.owner }}</strong> since {{ object.date_created|date:"F j, Y" }}
         
         <div class="row-fluid">
             <div class="span10 offset1">
@@ -22,7 +22,7 @@
             {% endfor %}
         </ul>
         
-        <h5>Total Items in Shop: <span style="color:#333;font-size: 14px; font-weight: normal;">{{ object.product_set.count }}</span></h5>
+        <h5>Total Items in Shop: <span class="h5_inline">{{ object.product_set.count }}</span></h5>
              
         <div class="row-fluid">
             <div class="span10 offset1">

@@ -1,17 +1,23 @@
 {% extends "base_store_manage.html" %}
 
+{% block manage_store_navigation %}
+
+    <li class="active"><a href="#">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" user.store.slug %}">Order Details</a></li>
+    <li><a href="#">My Profile</a></li>
+                
+{% endblock manage_store_navigation %}
+
 {% block shop_content %}
-        <h1>This is edit page</h1>
-        <ul class="nav nav-tabs">
-            <li class="active"><a href="#tab1" data-toggle="tab">Store Details</a></li>
-            <li><a href="#" data-toggle="tab">Product Details</a></li>
-            <li><a href="#" data-toggle="tab">My Profile</a></li>
-        </ul>
+    <h4>Edit Your Store</h4>
+    <br>
         <form method="post" action="">
             {% csrf_token %}
             {{ form.as_p }}
-        <input type="submit" value="Submit">
-           
+        <a href="{% url "imly_store_info" object.slug %}" class="btn">Cancel</a>
+        <input type="submit" class="btn btn-success" value="Update">
+        </form> 
 {% endblock shop_content %}
                 
 

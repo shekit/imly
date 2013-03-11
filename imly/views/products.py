@@ -32,6 +32,7 @@ class ProductsByPlace(ListView):
 class ProductCreate(CreateView):
     form_class = ProductForm
     model = Product
+    template_name = "product_create.html"
     success_url = "/account/store/products/"
     
     def form_valid(self,form):
@@ -42,6 +43,7 @@ class ProductCreate(CreateView):
 class ProductEdit(UpdateView):
     form_class = ProductForm
     model = Product
+    template_name = "product_edit.html"
     success_url = "/account/store/products/"
     
     def get(self,request,*args, **kwargs):

@@ -34,7 +34,7 @@
             </ul>
         </div>
         
-        <h5>Total Items in Shop: <a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.product_set.count }}</a></h5>
+        <h5>Total Items in Shop: <span class="h5_inline">{{ object.store.product_set.count }}</span></h5>
              
         <div class="row-fluid">
             <div class="span10 offset1">

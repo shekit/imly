@@ -1,0 +1,88 @@
+{% extends "base_store_manage.html" %}
+
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" user.store.slug %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li class="active"><a href="#">Order Details</a></li>
+    <li><a href="#">My Profile</a></li>
+                 
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+        <br>
+        <br>
+        <br>
+            
+        <div class="row-fluid">
+    
+            {% if object_list.count %}
+            <div class="span12">
+                <table class="table table-striped table-bordered clearfix">
+                    <tr>
+                        <th>S.No</th>
+                        <th>Product</th>
+                        <th>Category</th>
+                        <th>Ordered On</th>
+                        <th>Quantity</th>
+                        <th>Subtotal</th>
+                    </tr>
+                {% for object in object_list reversed %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ object.product.name }}</td>
+                        <td>{{ object.product.category }}</td>
+                        <td>{{ object.order.created|date:"F j, Y" }}</td>
+                        <td>{{ object.quantity }}</td>
+                        <td>{{ object.currency }} {{ object.subtotal|floatformat:"2" }}</td>
+                    </tr>
+                {% endfor %}
+                </table>
+            </div>
+            
+            {% else %}
+                <h2 class="muted text-center">You haven't received any orders yet.<br>
+                Promote your shop.<br>Start by telling your friends and family.</h2>
+            {% endif %}
+        
+        </div>
+           
+{% endblock shop_content %}
+                
+
+{% block shop_info %}
+    <div class="well shop_info">
+
+        <h4>{{ user.store.name }}</h4>
+        <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
+        
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+        <h5>Total Orders till date: <span class="h5_inline">{{ object_list.count }}</span></h5>
+        
+        <h5>Orders by Product:</h5>
+        <table class="table table-condensed table-bordered">
+            <tr>
+                <th>Name</th>
+                <th class="center_aligned_th">Total Orders</th>
+            </tr>
+        {% for product in user.store.product_set.all %}
+            <tr>
+                <td>{{ product.name }}</td>
+                <td class="center_aligned_td">{{ product.orderitem_set.count }}</td>
+            </tr>
+        {% endfor %}
+        </table>
+             
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+        
+    </div>                
+{% endblock shop_info %}    

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 
+{% comment %}
 {% block navigation %}
                 
                 <nav class="navbar">
@@ -23,7 +24,7 @@
                                         <li class="disabled"><a href="#"></a></li>
                                         <li class="dropdown"><a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} <span class="caret"></span></a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url "imly_store_create" %}"><span class="icon-home"></span> My Store</a></li>
+                                                <li><a href="{% url "imly_store_create" %}"><span class="icon-home"></span> Manage Shop</a></li>
                                                 <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="#"><span class="icon-off"></span> Logout</a></li>
@@ -41,18 +42,24 @@
 
                 </nav> <!-- end of navbar -->               
 {% endblock navigation %}
-
+{% endcomment %}
 
 {% block main_body %}
-   <!-- <div class="row-fluid">
-        <div class="span12">
-        </div>
-    </div> -->
     
     <div class="row-fluid">
         
         <section class="span9">
-            <h3>Manage Your Store</h3>
+            <h3>Manage Your Shop</h3>
+            <div class="row-fluid">
+                <div class="span12">
+                    <ul class="nav nav-tabs">
+                    {% block manage_store_navigation %}
+                    
+                    {% endblock manage_store_navigation %}
+                    </ul>
+                </div>
+            </div>
+            
             {% block shop_content %}
                 
             {% endblock shop_content %}
