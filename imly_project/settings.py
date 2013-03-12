@@ -198,4 +198,11 @@ PAYPAL = {
 
 CURRENCIES = ('INR',)
 
+PLATA_PAYMENT_MODULES = (
+    #'plata.payment.modules.cod.PaymentProcessor',
+    #'plata.payment.modules.postfinance.PaymentProcessor',
+    'plata.payment.modules.paypal.PaymentProcessor',
+    )
+
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards")}
+

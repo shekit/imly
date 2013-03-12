@@ -11,7 +11,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "tax_class", "currency"]
+        exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "currency"]
         
 class OrderItemForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1, max_value=50)

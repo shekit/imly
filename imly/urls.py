@@ -44,9 +44,9 @@ urlpatterns = patterns('',
     url(r"^stores/$", ListView.as_view(**store_info), name="imly_store_list"),
     url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
-    url(r"^account/store/(?P<slug>[-\w]+)/details", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
-    url(r"^account/store/(?P<slug>[-\w]+)/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/(?P<slug>[-\w]+)/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
+    url(r"^account/store/details", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
+    url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
+    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
     
 )
 

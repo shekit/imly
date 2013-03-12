@@ -55,10 +55,9 @@
             <div class="thumbnail">
                 <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/{{ product.product_image }}" alt="{{ product.name }}" class="centered"></a>
                 <h5>{{ product.name }}</h5> <span class="pull-left">INR {{ product.get_price.unit_price }}</span>
- <!-- passing in cheesecake as slug for all products              <form method="post" action="{% url "imly_add_order" product.slug %}">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" class="btn btn-mini pull-right" value="Add to Cart">-->
+
+                <a href="{% url "imly_product_detail" object.slug product.slug %}" class="btn btn-mini pull-right" value="Add to Cart">
+
                 <div class="clearfix"></div>
             </div>
         </li>

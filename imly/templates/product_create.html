@@ -46,7 +46,7 @@
             </div>
         </div>
         
-        <p>{{ user.store.description }}</p>
+        <p>{{ user.store.description|truncatewords_html:"50" }}</p>
         
         <h5>Items Offered:</h5>
         <ul class="unstyled">

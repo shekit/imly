@@ -43,6 +43,9 @@ class StoreEdit(UpdateView):
             return super(StoreEdit, self).get(request,*args, **kwargs)
         else:
             return HttpResponseForbidden()
+        
+    def get_object(self):
+        return get_object_or_404(Store, owner=self.request.user)
     
 class StoreCreate(CreateView):
     
@@ -74,6 +77,9 @@ class StoreInfoDetail(DetailView):
     
     model = Store
     template_name = "imly_store_info.html"
+    
+    def get_object(self):
+        return get_object_or_404(Store, owner=self.request.user)
 
 
 def add_order(request, product_slug):
@@ -108,5 +114,5 @@ class OrderList(ListView):
     template_name = "imly_store_orders.html"
     
     def get_queryset(self):
-        store = get_object_or_404(Store, slug=self.kwargs["slug"])
+        store = self.request.user.store#get_object_or_404(Store, slug=self.kwargs["slug"])
         return OrderItem.objects.filter(product__in=store.product_set.all())

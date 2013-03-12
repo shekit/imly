@@ -6,14 +6,14 @@
 
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
-                <li><a href="{% url "imly_store_orders" user.store.slug %}">Order Details</a></li>
+                <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
                 <li><a href="#">My Profile</a></li>
 
         {% else %}
 
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
-                <li class="disabled"><a href="{% url "imly_store_orders" user.store.slug %}">Order Details</a></li>
+                <li class="disabled"><a href="#">Order Details</a></li>
                 <li class="disabled"><a href="#">My Profile</a></li>
 
         {% endif %}
@@ -26,7 +26,7 @@
             {% if user.store %}
             <div class="row-fluid">
                     <div class="span12">
-                        <p class="text-right"><a href="{% url "imly_store_edit" object.slug %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
+                        <p class="text-right"><a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
                     </div>
             </div>
 
