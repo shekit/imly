@@ -53,10 +53,10 @@
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail">
-                <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/{{ product.product_image }}" alt="{{ product.name }}" class="centered"></a>
+                <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}" class="centered"></a>
                 <h5>{{ product.name }}</h5> <span class="pull-left">INR {{ product.get_price.unit_price }}</span>
 
-                <a href="{% url "imly_product_detail" object.slug product.slug %}" class="btn btn-mini pull-right" value="Add to Cart">
+                <a href="{% url "imly_product_detail" object.slug product.slug %}" class="btn btn-mini pull-right">View Details</a>
 
                 <div class="clearfix"></div>
             </div>

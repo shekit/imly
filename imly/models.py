@@ -9,7 +9,7 @@ from plata.discount.models import Discount
 from plata.shop.views import Shop
 
 from imagekit.models import ImageSpecField
-from imagekit.processors import SmartResize
+from imagekit.processors import ResizeToFill
 
 from imly_project.settings import MEDIA_ROOT
 # Create your models here.
@@ -103,18 +103,16 @@ class Product(ProductBase, PriceBase):
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    product_image = models.CharField(max_length=255)
     image = models.ImageField(upload_to="images")
-    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(300,200)], options={"quality":80})
-    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(100,80)], options={"quality":60})
-    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(575,275)], options={"quality":80})
+    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to="regular")
+    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to="mini")
+    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to="large")
     
     date_created = models.DateTimeField(auto_now=True, editable=False)
     
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
 
-    
     tags = models.ManyToManyField(Tag)
     
     class Meta:
