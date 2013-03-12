@@ -17,3 +17,10 @@ urlpatterns = patterns('',
     url(r"", include("imly.urls")),
     url(r"", include("social_auth.urls")),
 )
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   )

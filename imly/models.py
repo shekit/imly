@@ -7,6 +7,11 @@ from plata.shop.models import PriceBase, Order
 from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.views import Shop
+
+from imagekit.models import ImageSpecField
+from imagekit.processors import SmartResize
+
+from imly_project.settings import MEDIA_ROOT
 # Create your models here.
 
 
@@ -99,8 +104,12 @@ class Product(ProductBase, PriceBase):
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
     product_image = models.CharField(max_length=255)
+    image = models.ImageField(upload_to="images")
+    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(300,200)], options={"quality":80})
+    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(100,80)], options={"quality":60})
+    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [SmartResize(575,275)], options={"quality":80})
+    
     date_created = models.DateTimeField(auto_now=True, editable=False)
-
     
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)

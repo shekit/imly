@@ -54,7 +54,7 @@
 {% block shop_product_content %}
     <div class="row-fluid">
         <div class="span8">
-            <img class="img-rounded img-polaroid" src="{{ STATIC_URL }}bootstrap/img/{{ object.product_image|slice:"-4" }}-large.jpg" alt="{{ object.name }}">    
+            <img class="img-rounded img-polaroid" src="{{ object.image.url }}" alt="{{ object.name }}">    
         </div>
         
         <div class="span4">
