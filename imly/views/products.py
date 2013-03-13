@@ -18,7 +18,7 @@ class ProductsByCategory(ListView):
     
     def get_queryset(self):
         category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return Product.objects.filter(category=category)
+        return self.model.objects.is_approved().filter(category=category)
     
 class ProductsByPlace(ListView):
     
@@ -27,7 +27,7 @@ class ProductsByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return self.model.objects.filter(store__in=Store.objects.filter(delivery_areas=place))
+        return self.model.objects.is_approved().filter(store__in=Store.objects.filter(delivery_areas=place))
 
 class ProductCreate(CreateView):
     form_class = ProductForm

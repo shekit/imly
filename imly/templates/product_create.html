@@ -4,9 +4,9 @@
 
 {% block manage_store_navigation %}
 
-    <li><a href="{% url "imly_store_info" user.store.slug %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
     <li class="active"><a href="#">Product Details</a></li>
-    <li><a href="{% url "imly_store_orders" user.store.slug %}">Order Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
     <li><a href="#">My Profile</a></li>
                 
 {% endblock manage_store_navigation %}
@@ -46,7 +46,9 @@
             </div>
         </div>
         
-        <p>{{ user.store.description|truncatewords_html:"50" }}</p>
+        <div class="expandable">
+            {{ user.store.description_html|safe }}
+        </div>
         
         <h5>Items Offered:</h5>
         <ul class="unstyled">

@@ -212,6 +212,8 @@
         td.center_aligned_td, th.center_aligned_th {
             text-align: center;
         }
+        
+        
      </style>   
     </head>
     
@@ -268,6 +270,7 @@
             {% block main_body %}
             <div class="row-fluid">
                 <nav class="span3">
+                    
                 {% block sidebar_nav %}
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
@@ -276,17 +279,19 @@
                             {% get_category_list %}
                             
                                 {% for category in categories %}
-                                    {% if category.sub_categories.count %}
-                                        <li class="dropdown-submenu"><a href="#">{{ category.name|capfirst }}</a>
-                                            <ul class="dropdown-menu">
-                                                {% for sub_category in category.sub_categories.all %}
-                                                    <li><a href="#">{{ sub_category.name|capfirst }}</a></li>
-                                                {% endfor %}
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        <li><a href="#">{{ category.name|capfirst }}</a></li>
-                                    {% endif %}
+                                    
+                                        {% if category.sub_categories.count %}
+                                            <li class="dropdown-submenu"><a href="#">{{ category.name|capfirst }}</a>
+                                                <ul class="dropdown-menu">
+                                                    {% for sub_category in category.sub_categories.all %}
+                                                        <li><a href="#">{{ sub_category.name|capfirst }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li><a href="#">{{ category.name|capfirst }}</a></li>
+                                        {% endif %}
+                                    
                                 {% endfor %}
                                 
                             <li class="nav-header">Search by Location</li>
@@ -338,6 +343,20 @@
         
         
         <script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>
+        <script src="{{ STATIC_URL }}/js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                
+                $("div.expandable").expander({
+                    slicePoint: 140,
+                    expandEffect: 'slideDown',
+                    collapseEffect: 'slideUp',
+
+                });
+            });
+        </script>
+        
     </body>
 </html>

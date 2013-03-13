@@ -18,7 +18,7 @@ class StoresByCategory(ListView):
     
     def get_queryset(self):
         categories = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return Store.objects.filter(categories=categories)
+        return Store.objects.is_approved().filter(categories=categories)
 
 class StoresByPlace(ListView):
     
@@ -27,7 +27,7 @@ class StoresByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return Store.objects.filter(delivery_areas=place)
+        return Store.objects.is_approved().filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     

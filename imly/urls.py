@@ -20,12 +20,12 @@ shop = Shop(
     )
 
 product_info = {
-    "queryset" : Product.objects.all(),
+    "queryset" : Product.objects.is_approved().all(),
     "template_name" : "product_list.html"
 }
 
 store_info = {
-    "queryset" : Store.objects.all(),
+    "queryset" : Store.objects.is_approved().all(),
     "template_name" : "store_list.html"
 }
 

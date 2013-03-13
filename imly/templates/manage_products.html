@@ -77,8 +77,9 @@
             </div>
         </div>
         
-        <p>{{ user.store.description|truncatewords_html:"25" }}</p>
-        
+        <div class="expandable">
+            {{ user.store.description_html|safe }}
+        </div>
         
         
         <h5>Items Offered:</h5>

@@ -11,7 +11,11 @@ from plata.shop.views import Shop
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+from markdown import markdown
+
 from imly_project.settings import MEDIA_ROOT
+
+from imly.managers import StoreManager, ProductManager
 # Create your models here.
 
 
@@ -23,11 +27,13 @@ class Category(models.Model):
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
     super_category = models.ForeignKey("self", blank=True, null=True, related_name="sub_categories")
+    position = models.IntegerField(default=1)
     
+    tags = models.ManyToManyField("Tag")
     
     class Meta:
         verbose_name_plural = "Categories"
-        ordering = ["name"]
+        ordering = ["position","name"]
     
     def __unicode__(self):
         return self.name
@@ -63,12 +69,14 @@ class Location(models.Model):
         return self.name
     
 
+
 class Store(models.Model):
     #Store Details
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     owner = models.OneToOneField(User)
     description = models.TextField()
+    description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True)
     
     #metadata
@@ -83,6 +91,9 @@ class Store(models.Model):
     
     tags = models.ManyToManyField(Tag)
     
+    objects = StoreManager() #default manager
+    
+    
     class Meta:
         ordering = ["-date_created"]
     
@@ -93,12 +104,18 @@ class Store(models.Model):
     def get_absolute_url(self):
         return ("imly_store_detail", (), {"slug": self.slug})
     
+    def save(self,*args, **kwargs):
+        self.description_html = markdown(self.description)
+        super(Store, self).save(*args, **kwargs)
+   
+
 class Product(ProductBase, PriceBase):
     #Product Details
     name = models.CharField(max_length=100)
     slug = models.SlugField()
     capacity_per_month = models.IntegerField()
     description = models.TextField(blank=True)
+    description_html = models.TextField(editable=False, blank=True)
     
     lead_time = models.IntegerField(default=1)
     category = models.ForeignKey(Category)
@@ -114,6 +131,8 @@ class Product(ProductBase, PriceBase):
     is_bestseller = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(Tag)
+    
+    objects = ProductManager() #defaultManager
     
     class Meta:
         unique_together =("name","store",)
@@ -133,3 +152,9 @@ class Product(ProductBase, PriceBase):
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
         PriceBase.handle_order_item(self, orderitem)
+        
+    def save(self, *args, **kwargs):
+        if self.description:
+            self.description_html = markdown(self.description)
+        super(Product, self).save(*args, **kwargs)
+        

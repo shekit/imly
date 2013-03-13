@@ -7,7 +7,9 @@
         
         <h4><a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
         
-        <p>{{ object.store.description }}</p>
+        <div class="expandable">
+            {{ object.store.description_html|safe }}
+        </div>
 
         <div class="row-fluid">
             <div class="span10 offset1">
@@ -73,14 +75,7 @@
             <hr>
         </div>
     </div>
-   
-    {% if object.description %}   
-    <div class"row-fluid">
-        <p><strong>Description: </strong>{{ object.description }}</p>
-        <br>
-    </div>
-    {% endif %}
-
+    
     <div class="row-fluid">
         <div class="span2">
             <p><strong>This item is : </strong></p>
@@ -94,6 +89,16 @@
         </div>
         
     </div>
+    
+    {% if object.description %}
+    <br>
+    <div class"row-fluid">
+        <p><strong>Description: </strong>{{ object.description }}</p>
+        <br>
+    </div>
+    {% endif %}
+
+    
     
     <div class="row-fluid">
         <br>

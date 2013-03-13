@@ -13,7 +13,9 @@
             </div>
         </div>
         
-        <p>{{ object.description }}</p>
+        <div class="expandable">
+            {{ object.description_html|safe }}
+        </div>
         
         <h5>We sell:</h5>
         <ul class="unstyled">

@@ -11,7 +11,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ["name", "super_category", "is_active"]
     prepopulated_fields = {"slug":("name",)}
     list_filter = ["super_category"]
-    ordering = ["super_category"]
+    
     
 class TagAdmin(admin.ModelAdmin):
     
