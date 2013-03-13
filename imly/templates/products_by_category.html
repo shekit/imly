@@ -1,12 +1,93 @@
-<html>
-    <head>
-        <title>Products by Category</title>
-    </head>
-    
-    <body>
-        {% for product in object_list %}
-            {{ product.name }}
-            
+{% extends "base.html" %}
+
+{% block title %}Products{% endblock title %}
+
+                {% block sidebar_nav %}
+                    <div class="well sidebar-nav">
+                        <ul class="nav nav-list">
+                            <li class="nav-header">You are currently here:</li>
+                            <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
+                                <ul>
+                                    {% for sub_category in super_category.sub_categories.all %}
+                                        <li><a {% ifequal sub_category category %}class="sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                
+                            </li>
+                            
+                            <li class="nav-header">Search by Category</li>
+                            {% load imly_tags %}
+                            {% get_category_list %}
+                            
+                                {% for category in categories %}
+                                    
+                                        {% if category.sub_categories.count %}
+                                            <li class="dropdown-submenu"><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a>
+                                                <ul class="dropdown-menu">
+                                                    {% for sub_category in category.sub_categories.all %}
+                                                        <li><a href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
+                                        {% endif %}
+                                    
+                                {% endfor %}
+                                
+                            <li class="nav-header">Search by Location</li>
+                            {% get_location_list %}
+                            {% for location in locations %}
+                                <li><a href="#">{{ location.name|capfirst }}</a></li>
+                            {% endfor %}
+                            <li class="nav-header">Search by Taste</li>
+                                <ul class="inline tags_for_product_home">
+                                    {% get_tag_list %}
+                                    {% for tag in tags %}
+                                        <li><a href="#">{{ tag.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                        </ul> <!-- end of ul nav-list -->
+                    </div> <!-- end of well sidebar-nav -->
+                {% endblock sidebar_nav %}
+
+{% block shop_or_product %}
+
+                    <div class="row-fluid">
+                        
+                        <div class="span12 centered-pills">
+                            <p class="text-center"><small>SEARCH BY</small></p>
+                            <ul class="nav nav-pills">
+                                <li><a href="{% url "imly_stores_by_category" category.slug %}">Shop</a></li>
+                                <li class="active"><a href="#">Products</a></li>
+                                
+                            </ul>
+                            
+                        </div>
+                    
+                    </div>
+{% endblock shop_or_product %}
+
+{% block content %}
+
+<!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
+    <ul class="thumbnails">
+        {% for object in object_list %}
+        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+        <li class="span4">
+            <div class="thumbnail">
+                <a href="{% url "imly_product_detail" object.store.slug object.slug %}"><img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}" class="centered"></a>
+                <h5>{{ object.name }}</h5> <span class="pull-left">by <a href="{{ object.store.get_absolute_url }}"><small>{{ object.store.name }}</small></a></span>
+                <a href="{% url "imly_add_order" object.slug %}" class="btn btn-mini pull-right">View in Store</a>
+                <div class="clearfix"></div>
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
-    </body>
-</html>
+    </ul>
+    
+
+
+{% endblock content %}
+

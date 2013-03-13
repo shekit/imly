@@ -16,7 +16,12 @@ from markdown import markdown
 from imly_project.settings import MEDIA_ROOT
 
 from imly.managers import StoreManager, ProductManager
+
+from django.db.models.signals import post_save, post_delete
+from django.dispatch import receiver
+
 # Create your models here.
+
 
 
 class Category(models.Model):
@@ -29,7 +34,7 @@ class Category(models.Model):
     super_category = models.ForeignKey("self", blank=True, null=True, related_name="sub_categories")
     position = models.IntegerField(default=1)
     
-    tags = models.ManyToManyField("Tag")
+    tags = models.ManyToManyField("Tag", blank=True)
     
     class Meta:
         verbose_name_plural = "Categories"
@@ -80,7 +85,7 @@ class Store(models.Model):
     tagline = models.CharField(max_length=255, blank=True)
     
     #metadata
-    categories = models.ManyToManyField(Category)
+    categories = models.ManyToManyField(Category, blank=True)
     delivery_areas = models.ManyToManyField(Location)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True)
@@ -107,7 +112,7 @@ class Store(models.Model):
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
         super(Store, self).save(*args, **kwargs)
-   
+        
 
 class Product(ProductBase, PriceBase):
     #Product Details
@@ -157,4 +162,15 @@ class Product(ProductBase, PriceBase):
         if self.description:
             self.description_html = markdown(self.description)
         super(Product, self).save(*args, **kwargs)
+        
+@receiver(post_save, sender=Product)
+def add_category(sender,instance, **kwargs):
+    instance.store.categories.add(instance.category)
+        
+@receiver(post_delete, sender=Product)
+def delete_category(sender,instance, **kwargs):
+    if instance.store.product_set.filter(category=instance.category):
+        return
+    else:
+        instance.store.categories.remove(instance.category)
         

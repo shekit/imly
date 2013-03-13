@@ -17,8 +17,17 @@ class ProductsByCategory(ListView):
     template_name = "products_by_category.html"
     
     def get_queryset(self):
-        category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return self.model.objects.is_approved().filter(category=category)
+        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+        if self.category.super_category:
+            return self.model.objects.is_approved().filter(category=self.category)
+        else:
+            return self.model.objects.is_approved().filter(category__in=self.category.sub_categories.all())
+        
+    def get_context_data(self, **kwargs):
+        
+        context = super(ProductsByCategory, self).get_context_data(**kwargs)
+        context["category"], context["super_category"] = self.category, self.category.super_category or self.category
+        return context
     
 class ProductsByPlace(ListView):
     

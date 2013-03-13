@@ -17,8 +17,17 @@ class StoresByCategory(ListView):
     template_name = "stores_by_category.html"
     
     def get_queryset(self):
-        categories = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        return Store.objects.is_approved().filter(categories=categories)
+        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+        if self.category.super_category:
+            return Store.objects.is_approved().filter(categories=self.category)
+        else:
+            return Store.objects.is_approved().filter(categories__in=self.category.sub_categories.all()).distinct()
+    
+    def get_context_data(self, **kwargs):
+        
+        context = super(StoresByCategory, self).get_context_data(**kwargs)
+        context["category"], context["super_category"] = self.category, self.category.super_category or self.category
+        return context
 
 class StoresByPlace(ListView):
     
