@@ -14,7 +14,7 @@
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
                 <li class="disabled"><a href="#">Order Details</a></li>
-                <li class="disabled"><a href="#">My Profile</a></li>
+                <li><a href="#">My Profile</a></li>
 
         {% endif %}
                 
@@ -23,12 +23,20 @@
 {% block shop_content %}
     
         <div class="row-fluid">
+            {% if not user.store.is_approved %}
+                <div class="alert">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Your shop is <strong>pending approval</strong>. Once approved you can start taking orders!
+                </div>
+            {% endif %}
             {% if user.store %}
             <div class="row-fluid">
                     <div class="span12">
                         <p class="text-right"><a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
                     </div>
             </div>
+            
+
 
             <div class="row-fluid">
                 <div class="span12">
@@ -38,7 +46,7 @@
                         <li><h4>Tagline:</h4>{{ object.tagline }}</li>
                         {% endif %}
                         <li><h4>Owner:</h4>{{ object.owner }}</li>
-                        <li><h4>Description:</h4>{{ object.description }}</li>
+                        <li><h4>Description:</h4>{{ object.description_html|safe }}</li>
                         {% if object.categories %}
                         <li><h4>Categories:</h4>
                             <ul class="unstyled">
@@ -69,6 +77,7 @@
             </div>
             
             {% else %}
+                <br><br><br>
                 <h2 class="muted text-center">You do not have a store yet.<br>
                 Add a store now by clicking on the button below.</h2>
                 
@@ -84,34 +93,42 @@
 <!-- should show product thumbnail -->
 {% block shop_info %}
     <div class="well shop_info">
-
+        {% if user.store %}
         <h4>{{ object.name }}</h4>
         <small><em>opened on {{ object.date_created|date:"F j, Y" }}</em></small>
-        
+        {% endif %}
         <div class="row-fluid">
             <div class="span10 offset1">
                 <hr>
             </div>
         </div>
-        
+        {% if user.store %}
         <h5>Items in Shop:</h5>
-        <div class="row-fluid">
-            <ul class="thumbnails">
-            {% for product in object.product_set.all %}
-            {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined_product_detail_aside">{% endif %}
-            <li class="span4">
-                <div class="thumbnail">
-                    <a href="{% url "imly_store_products" %}"><img src="{{ product.image_thumbnail_mini.url }}" alt="{{ product.name }}" class="centered"></a>
-
-                    <div class="clearfix"></div>
-                </div>
-            </li>
-            {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-            {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
-            {% endfor %}
-            </ul>
-        </div>
+            {% if user.store.product_set.count %}
+                <div class="row-fluid">
+                    <ul class="thumbnails">
+                    {% for product in object.product_set.all %}
+                    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined_product_detail_aside">{% endif %}
+                    <li class="span4">
+                        <div class="thumbnail">
+                            <a href="{% url "imly_store_products" %}"><img src="{{ product.image_thumbnail_mini.url }}" alt="{{ product.name }}" class="centered"></a>
         
+                            <div class="clearfix"></div>
+                        </div>
+                    </li>
+                    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+                    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+                    {% endfor %}
+                    </ul>
+                </div>
+            {% else %}
+                <div class="row-fluid">
+                    <p>You have no items in your shop yet!</p>
+                    <a href="{% url "imly_product_add" %}" class="btn btn-success btn-block">Add a Product</a>
+                </div>
+                <br>
+            {% endif %}
+        {% endif %}
         <h5>Total Items in Shop: <span class="h5_inline">{{ object.product_set.count }}</span></h5>
              
     </div>           

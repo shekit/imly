@@ -5,13 +5,19 @@ TEMPLATE_DEBUG = DEBUG
 
 import os
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
-LOGIN_URL="/login-form/"
-LOGIN_REDIRECT_URL = "/"
+LOGIN_URL="/login/"
+LOGIN_REDIRECT_URL = "/products/"
 LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
 )
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = 'imlyfood@gmail.com'
+EMAIL_HOST_PASSWORD = 'imly@food13'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 MANAGERS = ADMINS
 
@@ -121,6 +127,30 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR,"templates")
 )
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.contrib.auth.context_processors.auth',
+    'django.core.context_processors.debug',
+    'django.core.context_processors.i18n',
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'django.core.context_processors.tz',
+    'django.core.context_processors.request',
+    'django.contrib.messages.context_processors.messages',
+    'allauth.account.context_processors.account',
+    'allauth.socialaccount.context_processors.socialaccount',
+)
+
+AUTHENTICATION_BACKENDS = (
+    #'social_auth.backends.twitter.TwitterBackend',
+    #'social_auth.backends.facebook.FacebookBackend',
+    #'social_auth.backends.google.GoogleOAuthBackend',
+    #'social_auth.backends.google.GoogleOAuth2Backend',
+    #'social_auth.backends.google.GoogleBackend',
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+    
+)
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -137,29 +167,26 @@ INSTALLED_APPS = (
     'plata.discount',
     'plata.payment',
     'plata.shop',
-    'social_auth',
-    "imagekit",
+    #'social_auth',
+    'imagekit',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    #allauth providers
+    'allauth.socialaccount.providers.facebook',
+    'allauth.socialaccount.providers.google',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 
-AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'django.contrib.auth.backends.ModelBackend',
-    
-)
-
-TWITTER_CONSUMER_KEY              = 'wHfjzXbpeGdl8Pv7LjoQxA'
+"""TWITTER_CONSUMER_KEY              = 'wHfjzXbpeGdl8Pv7LjoQxA'
 TWITTER_CONSUMER_SECRET           = 'IYJVEkI382WdVsjQrTfld6wSRlPJ2hFsmMg1iqg'
 FACEBOOK_APP_ID                   = '226521154024720'
 FACEBOOK_API_SECRET               = '9955be3b6e211b51921cb4b8eb08e69e'
 GOOGLE_OAUTH2_CLIENT_ID           = '21020041491.apps.googleusercontent.com'
 GOOGLE_OAUTH2_CLIENT_SECRET       = 'GugnauX_b1NuEnIycxh-wAof'
+"""
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -207,4 +234,19 @@ PLATA_PAYMENT_MODULES = (
     )
 
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards")}
+
+#AllAuth settings
+
+ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+
+ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
+
+ACCOUNT_EMAIL_REQUIRED = True
+
+ACCOUNT_EMAIL_VERIFICATION = "optional"
+
+ACCOUNT_EMAIL_SUBJECT_PREFIX = "Welcome to Imly! "
+
+ACCOUNT_USER_MIN_LENGTH = 4
+
 

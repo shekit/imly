@@ -3,12 +3,10 @@
 {% block manage_store_navigation %}
 
     <li class="active"><a href="#">Shop Details</a></li>
-    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
-    {% if user.store %}
-    <li><a href="{% url "imly_store_orders" user.store.slug %}">Order Details</a></li>
-    {% else %}
-    <li><a href="#">Order Details</a></li>    
-    {% endif %}
+    <li class="disabled"><a href="#">Product Details</a></li>
+
+    <li class="disabled"><a href="#">Order Details</a></li>
+
     <li><a href="#">My Profile</a></li>
                 
 {% endblock manage_store_navigation %}
@@ -19,7 +17,7 @@
         <form method="post" action="">
             {% csrf_token %}
             {{ form.as_p }}
-        <a href="{% url "imly_store_list" %}" class="btn">Cancel</a>
+        <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Create">
         </form> 
 {% endblock shop_content %}

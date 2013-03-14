@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.edit import UpdateView, CreateView
 from django.http import HttpResponseForbidden
+from django.contrib.auth.decorators import login_required
 
 from imly.models import Category, Store, Product, Location
 from imly.forms import StoreForm, OrderItemForm
@@ -89,6 +90,14 @@ class StoreInfoDetail(DetailView):
     
     def get_object(self):
         return get_object_or_404(Store, owner=self.request.user)
+
+@login_required   
+def store_info_detail(request):
+    try:
+        request.user.store
+        return render(request, "imly_store_info.html", {"object":request.user.store, "user":request.user})
+    except Store.DoesNotExist:
+        return render(request, "imly_store_info.html", {"user":request.user})
 
 
 def add_order(request, product_slug):
