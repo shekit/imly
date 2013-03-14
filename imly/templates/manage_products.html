@@ -41,7 +41,7 @@
                             <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>INR {{ object.get_price.unit_price }}</td>
+                        <td>{{ object.currency}} {{ object.get_price.unit_price }}</td>
                         <td>{{ object.capacity_per_month }}</td>
                         <td>
                             <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-small">Edit</a>

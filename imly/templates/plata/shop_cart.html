@@ -29,16 +29,16 @@
         {% for orderitemform in orderitemformset.forms %}
             <tr>
                 <td><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></td>
-                <td>{{ orderitemform.instance.product.name }}
+                <td>{{ orderitemform.instance.name }}
                     <p><small>by <a href="{% url "imly_store_detail" orderitemform.instance.product.store.slug %}">{{ orderitemform.instance.product.store.name }}</a></small></p>
                 </td>
-                <td>INR {{ orderitemform.instance.unit_price|floatformat:0 }}</td>
+                <td>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }}</td>
                 <td>
                     {{ orderitemform.id }}
                     {% form_item_plain orderitemform.quantity %}
                 </td>
                 
-                <td>INR {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</td>
+                <td>{{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</td>
                 <td><p class="text-center">{% form_item_plain orderitemform.DELETE %}</p></td>
             </tr>
         {% endfor %}

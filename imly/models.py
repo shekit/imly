@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 from plata.product.models import ProductBase
-from plata.shop.models import PriceBase, Order
+from plata.shop.models import PriceBase, Order, TaxClass
 
 from plata.contact.models import Contact
 from plata.discount.models import Discount
@@ -13,12 +13,14 @@ from imagekit.processors import ResizeToFill
 
 from markdown import markdown
 
-from imly_project.settings import MEDIA_ROOT
+from imly_project import settings
 
 from imly.managers import StoreManager, ProductManager
 
 from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -111,6 +113,7 @@ class Store(models.Model):
     
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
+        self.slug = slugify(self.name)
         super(Store, self).save(*args, **kwargs)
         
 
@@ -161,6 +164,9 @@ class Product(ProductBase, PriceBase):
     def save(self, *args, **kwargs):
         if self.description:
             self.description_html = markdown(self.description)
+        self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
+        self.currency = settings.CURRENCIES[0]
+        self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
         
 @receiver(post_save, sender=Product)

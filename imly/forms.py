@@ -5,7 +5,10 @@ class StoreForm(forms.ModelForm):
     
     class Meta:
         model = Store
-        exclude = ["slug","owner","date_created","date_updated", "is_featured","is_approved"]
+        exclude = ["slug","owner","categories", "date_created","date_updated", "is_featured","is_approved"]
+        widgets = {
+            "delivery_areas": forms.CheckboxSelectMultiple,
+        }
         
 class ProductForm(forms.ModelForm):
     
@@ -15,7 +18,7 @@ class ProductForm(forms.ModelForm):
     
     class Meta:
         model = Product
-        exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "currency"]
+        exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "tax_class", "currency"]
         widgets = {
             "tags": forms.CheckboxSelectMultiple,
         }
