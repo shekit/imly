@@ -90,6 +90,13 @@ class StoreInfoDetail(DetailView):
     
     def get_object(self):
         return get_object_or_404(Store, owner=self.request.user)
+    
+    def get(self, request, *args, **kwargs):
+        try:
+            self.request.user.store
+            return render(request, "imly_store_info.html", {"object":request.user.store, "user":request.user})
+        except Store.DoesNotExist:
+            return render(request, "imly_store_info.html", {"user":request.user})
 
 @login_required   
 def store_info_detail(request):

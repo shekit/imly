@@ -90,6 +90,23 @@
             color:white;
             text-decoration: none;
         }
+        
+        .tags_for_product_home_inverted > li > a {
+
+            background: #F05A28;
+            border: 1px solid white;
+            border-radius: 5px;
+            color:white;
+            text-decoration: none;
+        }
+        
+        .tags_for_product_home_inverted > li > a:hover {
+            background: #e6e6e6;
+            border: 1px solid white;
+            border-radius: 5px;
+            color:#F05A28;
+            padding: 2px 5px;
+        }
 
         /* still have to figure how to get rid of the blue whenn hovering over sidebar items with submenus */
         /*.dropdown-submenu > a:hover {
@@ -272,7 +289,7 @@
             {% block main_body %}
             <div class="row-fluid">
                 <nav class="span3">
-                    
+                 
                 {% block sidebar_nav %}
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
@@ -305,7 +322,7 @@
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
-                                        <li><a href="#">{{ tag.name }}</a></li>
+                                        <li><a href="" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                         </ul> <!-- end of ul nav-list -->
@@ -356,6 +373,17 @@
                     expandEffect: 'slideDown',
                     collapseEffect: 'slideUp',
 
+                });
+                
+                $("a.tag").click(function() {
+                   var id = $(this).attr("id");
+                   if (window.location.search == "") {
+                        window.location.search = "?tags=" + id;
+                   }
+                   else {
+                        window.location.search += "&tags=" + id
+                   }
+                   return false;
                 });
             });
         </script>

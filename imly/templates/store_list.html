@@ -34,7 +34,7 @@
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
-                                        <li><a href="#">{{ tag.name }}</a></li>
+                                        <li><a href="" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                         </ul> <!-- end of ul nav-list -->

@@ -93,7 +93,7 @@
     {% if object.description %}
     <br>
     <div class"row-fluid">
-        <p><strong>Description: </strong>{{ object.description }}</p>
+        <p><strong>Description: </strong>{{ object.description_html|safe }}</p>
         <br>
     </div>
     {% endif %}

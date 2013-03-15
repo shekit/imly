@@ -1,15 +1,17 @@
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404
 from imly.forms import ProductForm, OrderItemForm
 from django.http import HttpResponseForbidden
 
-from imly.models import Product, Category, Store
+from imly.models import Product, Category, Store, Tag
 
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
+
+
 
 class ProductsByCategory(ListView):
     
@@ -19,14 +21,20 @@ class ProductsByCategory(ListView):
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
-            return self.model.objects.is_approved().filter(category=self.category)
+            products_by_category = self.model.objects.is_approved().filter(category=self.category)
         else:
-            return self.model.objects.is_approved().filter(category__in=self.category.sub_categories.all())
+            products_by_category = self.model.objects.is_approved().filter(category__in=self.category.sub_categories.all())
         
+        
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
+        return products_by_category.filter(tags__in=self.tags).distinct() if self.tags else products_by_category
+        
+            
     def get_context_data(self, **kwargs):
         
+        #raise exceptions.Exception(self.request.GET.getlist("tags",[]))
         context = super(ProductsByCategory, self).get_context_data(**kwargs)
-        context["category"], context["super_category"] = self.category, self.category.super_category or self.category
+        context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
     
 class ProductsByPlace(ListView):

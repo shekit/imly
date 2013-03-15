@@ -17,7 +17,11 @@ def do_tag_list(parser, token):
 class TagListNode(template.Node):
     
     def render(self,context):
-        context["tags"] = Tag.objects.all()
+        selected_tags = context.get("selected_tags",[])
+        if selected_tags:
+            context["tags"] = Tag.objects.exclude(pk__in=selected_tags)
+        else:
+            context["tags"] = Tag.objects.all()
         return ""
     
 def do_location_list(parser,token):

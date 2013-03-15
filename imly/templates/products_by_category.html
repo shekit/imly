@@ -15,6 +15,14 @@
                                 
                             </li>
                             
+                            <li>
+                                <ul class="inline tags_for_product_home_inverted">
+                                    {% for tag in selected_tags %}
+                                        <li><a href="#" class="tag" id="{{ tag.slug }}">{{ tag.name|capfirst }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                            
                             <li class="nav-header">Search by Category</li>
                             {% load imly_tags %}
                             {% get_category_list %}
@@ -44,7 +52,7 @@
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
-                                        <li><a href="#">{{ tag.name }}</a></li>
+                                        <li><a href="#" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                         </ul> <!-- end of ul nav-list -->

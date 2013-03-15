@@ -175,6 +175,7 @@ INSTALLED_APPS = (
     #allauth providers
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
+    'storages',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

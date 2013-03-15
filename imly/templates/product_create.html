@@ -18,7 +18,7 @@
         <div class="row-fluid">
             
             <div class="span12">
-                <form enctype="multipart/form-data" method="post" action="">
+                <form enctype="multipart/form-data" method="get" action="">
                     {% csrf_token %}
                     {{ form.as_p }}
                     <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
