@@ -250,4 +250,10 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "Welcome to Imly! "
 
 ACCOUNT_USER_MIN_LENGTH = 4
 
+#for Heroku
+import dj_database_url
+DATABASES['default'] = dj_database_url.config()
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
 
