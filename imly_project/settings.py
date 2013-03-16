@@ -161,7 +161,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'imly',
-    'south',
+    #'south',
     'plata',
     'plata.contact',
     'plata.discount',
@@ -251,6 +251,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "Welcome to Imly! "
 ACCOUNT_USER_MIN_LENGTH = 4
 
 #for Heroku
+
 import dj_database_url
 DATABASES['default'] = dj_database_url.config()
 

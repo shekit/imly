@@ -12,6 +12,9 @@ from plata.shop.models import Order, OrderItem
 
 # how to confirm store is owned by person editing it?
 
+def home_page(request):
+    return render(request,"index.html")
+
 class StoresByCategory(ListView):
     
     model = Store

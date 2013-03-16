@@ -25,11 +25,7 @@
                                     
                                 {% endfor %}
                                 
-                            <li class="nav-header">Search by Location</li>
-                            {% get_location_list %}
-                            {% for location in locations %}
-                                <li><a href="#">{{ location.name|capfirst }}</a></li>
-                            {% endfor %}
+
                             <li class="nav-header">Search by Taste</li>
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}

@@ -68,7 +68,7 @@
             margin-top:5px;
         }
         
-        ul.tags_for_product_home > li {
+        ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
             background: none;
             padding-right: 0px;
             padding-left:0px;
@@ -97,7 +97,7 @@
             border: 1px solid white;
             border-radius: 5px;
             color:white;
-            text-decoration: none;
+            padding: 2px 5px;
         }
         
         .tags_for_product_home_inverted > li > a:hover {
@@ -105,7 +105,8 @@
             border: 1px solid white;
             border-radius: 5px;
             color:#F05A28;
-            padding: 2px 5px;
+            text-decoration: none;
+            
         }
 
         /* still have to figure how to get rid of the blue whenn hovering over sidebar items with submenus */
@@ -253,7 +254,7 @@
                                 
                                 <ul class="nav pull-right">
                                     <li><a href="#">What is Imly</a></li>
-                                    <li><a href="{% url "imly_store_info" %}">Open your Store</a></li>
+                                    <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                     <li><a href="#">Blog</a></li>
                                     
                                     
@@ -313,11 +314,6 @@
                                     
                                 {% endfor %}
                                 
-                            <li class="nav-header">Search by Location</li>
-                            {% get_location_list %}
-                            {% for location in locations %}
-                                <li><a href="#">{{ location.name|capfirst }}</a></li>
-                            {% endfor %}
                             <li class="nav-header">Search by Taste</li>
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
@@ -378,12 +374,30 @@
                 $("a.tag").click(function() {
                    var id = $(this).attr("id");
                    if (window.location.search == "") {
-                        window.location.search = "?tags=" + id;
+                        window.location.search = "&tags=" + id;
                    }
                    else {
                         window.location.search += "&tags=" + id
                    }
                    return false;
+                });
+                
+                $("a.tag_selected").click(function(){
+                    var id = $(this).attr("id");
+                    var query = window.location.search;
+                    var new_query;
+                    if (query != ""){
+                        var tag_list = query.split("&");
+                        for(i=0;i<tag_list.length;i++) {
+                            current_tag = tag_list[i+1].split("=")
+                            if(current_tag[1]==id){
+                                alert("You clicked a tag " + id);
+                                tag_list.splice(i+1,1)
+                                alert(tag_list)
+                            }
+                        }
+                        
+                    }                
                 });
             });
         </script>

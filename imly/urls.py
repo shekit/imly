@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
 
-from imly.views.stores import StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, store_info_detail
+from imly.views.stores import StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page
 from imly.views.products import ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount
 
 from plata.contact.models import Contact
@@ -41,6 +41,7 @@ location_info = {
 
 urlpatterns = patterns('',
     
+    url(r"^home/$", home_page, name="imly_landing_page"),
     url(r"^stores/$", ListView.as_view(**store_info), name="imly_store_list"),
     url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
