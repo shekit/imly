@@ -304,7 +304,7 @@
                                             <li class="dropdown-submenu"><a href="#">{{ category.name|capfirst }}</a>
                                                 <ul class="dropdown-menu">
                                                     {% for sub_category in category.sub_categories.all %}
-                                                        <li><a href="#">{{ sub_category.name|capfirst }}</a></li>
+                                                        <li><a href="">{{ sub_category.name|capfirst }}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </li>
@@ -374,7 +374,7 @@
                 $("a.tag").click(function() {
                    var id = $(this).attr("id");
                    if (window.location.search == "") {
-                        window.location.search = "&tags=" + id;
+                        window.location.search = "tags=" + id;
                    }
                    else {
                         window.location.search += "&tags=" + id
@@ -384,20 +384,18 @@
                 
                 $("a.tag_selected").click(function(){
                     var id = $(this).attr("id");
-                    var query = window.location.search;
-                    var new_query;
-                    if (query != ""){
+                    var query = window.location.search.slice(1);
+
                         var tag_list = query.split("&");
+                        var remaining_tags = []
                         for(i=0;i<tag_list.length;i++) {
-                            current_tag = tag_list[i+1].split("=")
-                            if(current_tag[1]==id){
-                                alert("You clicked a tag " + id);
-                                tag_list.splice(i+1,1)
-                                alert(tag_list)
+                            if(tag_list[i] != "tags="+id){
+                                remaining_tags.push(tag_list[i])
                             }
                         }
                         
-                    }                
+                        window.location.search=remaining_tags.join("&");
+                        return false;
                 });
             });
         </script>
