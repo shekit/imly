@@ -7,277 +7,12 @@
         
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-     <style type="text/css">
-        
-        /* make top-most navbar background white and get rid of border and shadow */
-        .navbar .navbar-inner {
-        border: 0;
-        background: white;
-         -webkit-box-shadow: none;
-         -moz-box-shadow: none;
-              box-shadow: none;
-        }
-        
-        /* change positioning of top navbar links */
-        .navbar .nav > li > a {
-          margin: 30px 0 5px 5px;
-        }
-        
-        /* change hover color of top navbar links */       
-        .navbar .nav > li > a:hover {
-            color: #333;
-        }
-        
-        /* to solve button hover issue */
-        .navbar .nav > li > a.btn:hover {
-            background-position: 0;
-        }
-        
-
-        
-        /* the hr line at the top of the site contained in a container fluid, to move it into place */
-        .negative {
-            margin-top:-40px;
-        }
-        
-        /* customizing the sidebar navigation */
-        .well {
-            background: none;
-        }
-
-        /* overriding 1px white text shadow on all nav-list links, not needed because bg is white, distorts links on hover */
-        .nav-list > li > a, .nav-list .nav-header {   
-            text-shadow: none;
-        }
-        
-        .sidebar-nav {
-            padding: 9px 0;
-        }
-        
-        .sidebar-nav .nav > li > a {
-            color: #999;
-        }
-        
-        .sidebar-nav .nav > li.nav-header {
-            color: #F05A28;
-        }        
-        .sidebar-nav .nav > li > a:hover {
-            color: #FFF;
-            background: #F05A28;
-        }
-        
-        /* class added to search by taste links to make them look like inline tags */
-        .tags_for_product_home {
-            margin-top:5px;
-        }
-        
-        ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
-            background: none;
-            padding-right: 0px;
-            padding-left:0px;
-            margin-top:5px;
-        }
-        
-        .tags_for_product_home > li > a {
-            background: #e6e6e6;
-            border: 1px solid white;
-            border-radius: 5px;
-            color:#F05A28;
-            padding: 2px 5px;
-        }
-        
-        .tags_for_product_home > li > a:hover {
-            background: #F05A28;
-            border: 1px solid white;
-            border-radius: 5px;
-            color:white;
-            text-decoration: none;
-        }
-        
-        .tags_for_product_home_inverted > li > a {
-
-            background: #F05A28;
-            border: 1px solid white;
-            border-radius: 5px;
-            color:white;
-            padding: 2px 5px;
-        }
-        
-        .tags_for_product_home_inverted > li > a:hover {
-            background: #e6e6e6;
-            border: 1px solid white;
-            border-radius: 5px;
-            color:#F05A28;
-            text-decoration: none;
-            
-        }
-
-        /* still have to figure how to get rid of the blue whenn hovering over sidebar items with submenus */
-        /*.dropdown-submenu > a:hover {
-            background: red;
-        }*/
-
-                
-        .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-            color: #ffffff;
-            background: #FF7752;
-        }
-        
-                
-        .dropdown-submenu:hover > a,
-        .dropdown-submenu:focus > a{
-            color: #ffffff;
-            background: #F05A28;
-        }
-        
-        .dropdown-menu > .active > a,
-        .dropdown-menu > .active > a:hover,
-        .dropdown-menu > .active > a:focus {
-            color:#ffffff;
-            background: #F05A28;
-        }
-                
-        
-        /* used to center the search by SHOP or PRODUCT nav pills */        
-        .centered-pills { text-align:center; }
-        .centered-pills ul.nav-pills { display:inline-block; }
-        .centered-pills li { display:inline; }
-        .centered-pills a { float:left; }
-        * html .centered-pills ul.nav-pills { display:inline; } /* IE6 */
-        *+html .centered-pills ul.nav-pills { display:inline; } /* IE7 */
-        
-        /* customizing the nav-pills look */
-        .nav-pills > li > a {
-            color:#F05A28;
-        }
-        
-        .nav-pills > .active > a,
-        .nav-pills > .active > a:hover,
-        .nav-pills > .active > a:focus {
-            color: #ffffff;
-            background-color: #F05A28;
-        }
-        
-        /* customizing tabbed navigation in manage store templates */
-        .nav-tabs > .active > a,
-        .nav-tabs > .active > a:hover,
-        .nav-tabs > .active > a:focus{
-            color: #F05A28;    
-        }
-        
-        /* center aligning the images in the white bordered thumbnails */
-        .thumbnails {
-            text-align:center;
-        }
-      
-        /* adding margin to each row of 3 thumbnails so rows have space between them */
-        .margined {
-            margin-bottom: 30px;
-        }
-        
-                
-        /* customizing well in shop_detail and product_detail and manage store pages */
-
-        .shop_info > h3 {
-            color: #F05A28;
-            margin-top: 0px;
-            margin-bottom: 10px;
-            line-height: 20px;
-        }
-        
-        .shop_info > h4 {
-            margin-top: 0px;
-            margin-bottom: 5px;
-        }
-        
-        .shop_info > h5 {
-            color: #F05A28;
-        
-        }
-        
-        .h5_inline{
-            color:#333;
-            font-size: 14px;
-            font-weight: normal;
-        }
-        
-        /* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
-        .margined_product_detail_aside {
-            margin-bottom:4px;
-        }
-        
-        /* customizing the This Item is: Tags in the product_detail page */
-        .tags_for_product > li {
-            background: #F05A28;
-            border: 1px solid white;
-            border-radius: 5px;
-            color:white;
-        }
-        
-        /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
-        .checkbox {
-            padding-left: 0;
-        }
-        .checkbox input[type="checkbox"]{
-            float: none;
-            margin-left: 0px;
-        }
-        
-        /* getting rid of borders in the shipping/billing information form */
-        .table-order th,
-        .table-order td {
-          border-top: none;
-        }
-        
-        /* customizing tables */
-        td.center_aligned_td, th.center_aligned_th {
-            text-align: center;
-        }
-        
-        .bgfull {
-            background: #F05A28;
-            color: #fff;
-        }
-        
-        ul.footer_nav {
-            color: #fff;
-        }
-        
-        ul.footer_nav > li {
-            margin-right:10px;
-        }
-        
-        ul.footer_nav > li > a, ul.footer_nav > li > a:active{
-            color: #fff;
-            text-decoration: none;
-        }
-        
-        ul.footer_nav > li > a:hover {
-            color: #fff;
-            text-decoration: underline;
-        }
-        
-        a.give_us_a_tip {
-            background: #FF7752;
-            border: 1px solid #F05A28;
-            border-radius: 5px;
-            color:white;
-            padding: 5px 8px;
-        }
-        
-        a.give_us_a_tip:hover {
-            background: white;
-            border: 1px solid #F05A28;
-            border-radius: 5px;
-            color:#F05A28;
-            text-decoration: none;
-        }
-        
-     </style>   
+   
     </head>
     
     <body>
@@ -481,6 +216,27 @@
                 });
             });
         </script>
+        
+        <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+        
+        <!-- A tab to launch the Classic Widget -->
+        <script>
+        UserVoice = window.UserVoice || [];
+        UserVoice.push(['showTab', 'classic_widget', {
+          mode: 'feedback',
+          primary_color: '#f05a28',
+          link_color: '#ff7752',
+          forum_id: 198507,
+          support_tab_name: 'Contact Us',
+          feedback_tab_name: 'We want your Feedback',
+          tab_label: 'Feedback',
+          tab_color: '#ff7752',
+          tab_position: 'middle-right',
+          tab_inverted: true
+        }]);
+        </script>
+
         <script type="text/javascript">
 
             var _gaq = _gaq || [];

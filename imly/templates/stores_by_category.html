@@ -76,7 +76,7 @@
 
 {% block content %}
 <!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
-
+{% if object_list %}
     <ul class="thumbnails">
         {% for object in object_list %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
@@ -94,6 +94,10 @@
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
     </ul>
+{% else %}
+    <br><br><br><br>
+    <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send a tip below.</h3>
+{% endif %}
     
     {% if is_paginated %}
         <div class="pagination pagination-centered">
