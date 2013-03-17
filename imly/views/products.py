@@ -15,6 +15,7 @@ class ProductList(ListView):
     
     model = Product
     template_name = "product_list.html"
+    paginate_by = 6
     
     def get_queryset(self):
         product_list = Product.objects.is_approved().all()
@@ -30,6 +31,8 @@ class ProductsByCategory(ListView):
     
     model = Product
     template_name = "products_by_category.html"
+    paginate_by = 6
+    
     
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])

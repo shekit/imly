@@ -84,6 +84,20 @@
         {% endfor %}
     </ul>
     
+    {% if is_paginated %}
+        <div class="pagination pagination-centered">
+            <ul>
+                {% if page_obj.has_previous %}
+                    <li><a href="{% url "imly_product_list" %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                {% endif %}
+                    <li class="active"><span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
+                {% if page_obj.has_next %}
+                    <li><a href="{% url "imly_product_list" %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    {% endif %}
+    
 
 
 {% endblock content %}

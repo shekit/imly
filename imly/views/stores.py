@@ -24,6 +24,7 @@ class StoreList(ListView):
     
     model = Store
     template_name = "store_list.html"
+    paginate_by = 15
     
     def get_queryset(self):
         store_list = Store.objects.is_approved().all()
@@ -40,6 +41,7 @@ class StoresByCategory(ListView):
     
     model = Store
     template_name = "stores_by_category.html"
+    paginate_by = 15
     
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
