@@ -16,7 +16,9 @@
     <br>
         <form method="post" action="">
             {% csrf_token %}
-            {{ form.as_p }}
+                    <ul class="unstyled form">
+                        {{ form.as_ul }}
+                    </ul>
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Submit for Approval">
         </form> 

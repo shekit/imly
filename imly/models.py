@@ -85,7 +85,7 @@ class Store(models.Model):
     owner = models.OneToOneField(User)
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
-    tagline = models.CharField(max_length=255, blank=True)
+    tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
@@ -122,14 +122,14 @@ class Product(ProductBase, PriceBase):
     #Product Details
     name = models.CharField(max_length=100)
     slug = models.SlugField()
-    capacity_per_month = models.IntegerField()
-    description = models.TextField(blank=True)
+    capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
+    description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
     
-    lead_time = models.IntegerField(default=1)
+    lead_time = models.IntegerField(default=1,help_text="(in days)")
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    image = models.ImageField(upload_to="images")
+    image = models.ImageField(upload_to="images", help_text="Minimum image size - 600 X 340 pixels")
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to="regular")
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to="mini")
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to="large")
@@ -179,6 +179,13 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", blank=True)
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
+"""
+
+"""
+class GiveTip(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(max_length=100)
+    message = models.TextField()
 """
     
 #SIGNALS - Categories from products get auto added to Store when products are saved   

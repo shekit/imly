@@ -205,6 +205,12 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	color:white;
 }
 
+.tags_for_store_inverted > li {
+	background:#e6e6e6 ;
+	border: 1px solid white;
+	border-radius: 5px;
+	color:#F05A28;
+}
 /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
 .checkbox {
 	padding-left: 0;
@@ -225,6 +231,7 @@ td.center_aligned_td, th.center_aligned_th {
 	text-align: center;
 }
 
+/* customizing footer */
 .bgfull {
 	background: #F05A28;
 	color: #fff;
@@ -262,4 +269,57 @@ a.give_us_a_tip:hover {
 	border-radius: 5px;
 	color:#F05A28;
 	text-decoration: none;
+}
+
+/* customizing forms */
+ul.form > li {
+	margin-bottom:20px;
+}
+
+ul.form > li > label {
+	font-weight: 500;
+}
+
+ul.errorlist {
+	list-style: none;
+	margin:10px 0px;
+	padding:0px;
+}
+
+ul.errorlist > li {
+	color:#fff;
+	border-radius: 5px;
+	border: 1px solid #fff;
+	background: #FF7752;
+	padding:3px 5px;
+	margin-left: 0px;
+	width:175px;
+	text-align: center;
+}
+
+.helptext {
+	display:block;
+	font-style: italic;
+	font-size: 11px;
+	color: #999;
+	margin-top:-7px;
+}
+
+textarea, .uneditable-input {
+width: 400px;
+}
+
+input[type="file"] {
+height: 20px;
+line-height: 0px;
+margin-top:5px;
+}
+
+input[type="checkbox"] {
+	margin-bottom:7px;
+}
+
+h4.store_info {
+	color: #F05A28;
+	font-weight: 400;
 }

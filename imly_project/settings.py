@@ -167,7 +167,6 @@ INSTALLED_APPS = (
     'plata.discount',
     'plata.payment',
     'plata.shop',
-    #'social_auth',
     'imagekit',
     'allauth',
     'allauth.account',
@@ -176,18 +175,12 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.facebook',
     'allauth.socialaccount.providers.google',
     'storages',
+    'widget_tweaks',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
 
-"""TWITTER_CONSUMER_KEY              = 'wHfjzXbpeGdl8Pv7LjoQxA'
-TWITTER_CONSUMER_SECRET           = 'IYJVEkI382WdVsjQrTfld6wSRlPJ2hFsmMg1iqg'
-FACEBOOK_APP_ID                   = '226521154024720'
-FACEBOOK_API_SECRET               = '9955be3b6e211b51921cb4b8eb08e69e'
-GOOGLE_OAUTH2_CLIENT_ID           = '21020041491.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET       = 'GugnauX_b1NuEnIycxh-wAof'
-"""
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
