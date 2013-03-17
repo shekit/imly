@@ -4,16 +4,37 @@ from django.views.generic.edit import UpdateView, CreateView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
-from imly.models import Category, Store, Product, Location
+from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm
 
 import plata
 from plata.shop.models import Order, OrderItem
 
 # how to confirm store is owned by person editing it?
+"""
+store_info = {
+    "queryset" : Store.objects.is_approved().all(),
+    "template_name" : "store_list.html"
+}"""
 
 def home_page(request):
     return render(request,"index.html")
+
+class StoreList(ListView):
+    
+    model = Store
+    template_name = "store_list.html"
+    
+    def get_queryset(self):
+        store_list = Store.objects.is_approved().all()
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
+        return store_list.filter(tags__in=self.tags).distinct() if self.tags else store_list
+    
+    def get_context_data(self, **kwargs):
+        context = super(StoreList, self).get_context_data(**kwargs)
+        context["selected_tags"] = self.tags
+        return context
+    
 
 class StoresByCategory(ListView):
     
@@ -23,14 +44,17 @@ class StoresByCategory(ListView):
     def get_queryset(self):
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
-            return Store.objects.is_approved().filter(categories=self.category)
+            stores_by_category = Store.objects.is_approved().filter(categories=self.category)
         else:
-            return Store.objects.is_approved().filter(categories__in=self.category.sub_categories.all()).distinct()
+            stores_by_category = Store.objects.is_approved().filter(categories__in=self.category.sub_categories.all()).distinct()
+        
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
+        return stores_by_category.filter(tags__in=self.tags).distinct() if self.tags else stores_by_category
     
     def get_context_data(self, **kwargs):
         
         context = super(StoresByCategory, self).get_context_data(**kwargs)
-        context["category"], context["super_category"] = self.category, self.category.super_category or self.category
+        context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
 
 class StoresByPlace(ListView):

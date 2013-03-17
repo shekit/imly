@@ -14,6 +14,17 @@
                                 </ul>
                                 
                             </li>
+                            {% if selected_tags %}
+                            <li class="nav-header">You have filtered by:</li>
+                            
+                                <ul class="inline tags_for_product_home_inverted">
+                                    {% for tag in selected_tags %}
+                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            
+                            <br>
+                            {% endif %}
                             
                             <li class="nav-header">Search by Category</li>
                             {% load imly_tags %}

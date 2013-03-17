@@ -11,7 +11,20 @@ from imly.models import Product, Category, Store, Tag
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
 
-
+class ProductList(ListView):
+    
+    model = Product
+    template_name = "product_list.html"
+    
+    def get_queryset(self):
+        product_list = Product.objects.is_approved().all()
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
+        return product_list.filter(tags__in=self.tags).distinct() if self.tags else product_list
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProductList, self).get_context_data(**kwargs)
+        context["selected_tags"] = self.tags
+        return context
 
 class ProductsByCategory(ListView):
     

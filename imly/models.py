@@ -17,10 +17,11 @@ from imly_project import settings
 
 from imly.managers import StoreManager, ProductManager
 
-from django.db.models.signals import post_save, post_delete
+from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
 from django.dispatch import receiver
 
 from django.utils.text import slugify
+from django.core.mail import send_mail
 
 # Create your models here.
 
@@ -96,7 +97,7 @@ class Store(models.Model):
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
     
     objects = StoreManager() #default manager
     
@@ -168,15 +169,39 @@ class Product(ProductBase, PriceBase):
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
-        
+
+"""        
+class UserProfile(models.Model):
+    user = models.OneToOneField(User)
+    first_name = models.CharField(max_length=100, blank=True)
+    last_name = models.CharField(max_length=100, blank=True)
+    about_me = models.TextField(blank=True)
+    avatar = models.ImageField(upload_to="avatars", blank=True)
+    avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
+    avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
+"""
+    
+#SIGNALS - Categories from products get auto added to Store when products are saved   
 @receiver(post_save, sender=Product)
-def add_category(sender,instance, **kwargs):
+def add_category_tags(sender,instance, **kwargs):
     instance.store.categories.add(instance.category)
+    for tag in instance.tags.all():
+        instance.store.tags.add(tag)
         
 @receiver(post_delete, sender=Product)
-def delete_category(sender,instance, **kwargs):
+def delete_category_tags(sender,instance, **kwargs):
     if instance.store.product_set.filter(category=instance.category):
         return
     else:
         instance.store.categories.remove(instance.category)
+        
+    if instance.store.product_set.filter(tags__in=instance.tags.all()):
+        return
+    else:
+        for tag in instance.tags.all():
+            instance.store.tags.remove(tag)
+                
+@receiver(post_save, sender=Store)
+def send_store_mail(sender,instance, **kwargs):
+    send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), "store@imly.in", ["imlyfood@gmail.com"], fail_silently=False)
         
