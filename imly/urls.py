@@ -5,7 +5,7 @@ from imly.models import Product, Store, Category, Location
 
 
 from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page
-from imly.views.products import ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount
+from imly.views.products import ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
 from imly.views.places import set_location
 
 from plata.contact.models import Contact
@@ -50,6 +50,7 @@ urlpatterns = patterns('',
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
     url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
     
+    url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
 )
 
 urlpatterns += patterns('',
@@ -61,7 +62,7 @@ urlpatterns += patterns('',
 
 urlpatterns += patterns('',
     
-    url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
+    #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
     url(r"^categories/(?P<category_slug>[-\w]+)/stores/$", StoresByCategory.as_view(), name="imly_stores_by_category"),
     url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductsByCategory.as_view(), name="imly_products_by_category"),
 )
@@ -69,9 +70,9 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     
     url(r"^set_location/(?P<place_slug>[-\w]+)$", set_location, name="imly_filter_by_place"),
-    url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
-    url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
-    url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
+    #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
+    #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
+    #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
     
 )
 

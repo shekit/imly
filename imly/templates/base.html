@@ -31,9 +31,9 @@
                             <div class="nav-collapse">
                                 
                                 <ul class="nav pull-right">
-                                    <li><a href="#">What is Imly</a></li>
+                                    <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
                                     <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
-                                    <li><a href="#">Blog</a></li>
+                                    <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
                                     
                                     
                                     {% if user.is_authenticated %}
@@ -164,16 +164,17 @@
                     <div class="row-fluid">
                         <div class="span7">
                             <small><ul class="inline footer_nav">
-                                <li><a href="#">What is Imly</a></li>
-                                <li><a href="#">The Team</a></li>
-                                <li><a href="#">Terms of Service</a></li>
-                                <li><a href="#">FAQ</a></li>
-                                <li><a href="#">Blog</a></li>
-                                <li><a href="#">Contact Us</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
+                                <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
                             </ul></small>
                         </div>
                         <div class="span5">
-                            <small><p class="text-right">Know an amazing home chef? We'd love to know. <a href="#" class="give_us_a_tip">Give us a Tip</a></p> </small>                    
+                            <small><p class="text-right">Know an amazing home chef? We'd love to know.                  
+                            <a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>
                         </div>
                     </div>
                     <br>

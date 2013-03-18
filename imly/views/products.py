@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from imly.forms import ProductForm, OrderItemForm
 from django.http import HttpResponseForbidden
 
@@ -10,6 +10,9 @@ from imly.models import Product, Category, Store, Tag, Location
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
+
+def coming_soon(request):
+    return render(request,"coming_soon.html")
 
 class ProductList(ListView):
     
