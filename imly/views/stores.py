@@ -27,7 +27,7 @@ class StoreList(ListView):
     paginate_by = 15
     
     def get_queryset(self):
-        if not self.request.session["place_slug"]:
+        if not self.request.session.get("place_slug",""):
             store_list = Store.objects.is_approved().all()
         else:
             location = Location.objects.get(slug = self.request.session["place_slug"])
@@ -48,7 +48,7 @@ class StoresByCategory(ListView):
     paginate_by = 15
     
     def get_queryset(self):
-        if not self.request.session["place_slug"]:
+        if not self.request.session.get("place_slug",""):
             store_list = Store.objects.is_approved().all()
         else:
             location = Location.objects.get(slug=self.request.session["place_slug"])
