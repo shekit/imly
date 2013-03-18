@@ -62,7 +62,7 @@
         <div class="span4">
             <h2>{{ object.name }}</h2><small>by <a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></small>
             <br><br>
-            <h4>{{ object.currency}} {{ object.get_price.unit_price }}</h4>
+            <h4>{{ object.currency}} {{ object.get_price.unit_price|floatformat:"0" }}</h4>
 
             <form method="post" action="{% url "imly_add_order" object.slug %}">
             {% csrf_token %}
