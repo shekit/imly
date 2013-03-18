@@ -2,11 +2,13 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Signup" %}{% endblock %}
+{% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Sign Up" %}</h1>
-
+  <div class="well">
+    <div class="grey_form_bg">
+    <h3>{% trans "Sign Up" %}</h3>
+    </div>
 <p>{% blocktrans with provider_name=account.get_provider.name site_name=site.name %}You are about to use your {{provider_name}} account to login to 
 {{site_name}}. As a final step, please complete the following form:{% endblocktrans %}</p>
     
@@ -16,10 +18,10 @@
   {% if redirect_field_value %}
   <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
-  <button type="submit">{% trans "Sign Up" %} &raquo;</button>
+  <button type="submit" class="btn btn-primary">{% trans "Sign Up" %} &raquo;</button>
 </form>
         
-
+</div>
 {% endblock %}
 
 

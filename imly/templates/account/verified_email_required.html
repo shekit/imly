@@ -9,16 +9,15 @@
 <div class="row-fluid">
     <div class="span6 offset3">
         <div class="well">
-<h1>{% trans "Verify Your E-mail Address" %}</h1>
-
+            <div class="grey_form_bg">
+            <h3>{% trans "Verify Your E-mail Address" %}</h3>
+            </div>
 {% url 'account_email' as email_url %}
 
-<p>{% blocktrans %}This part of the site requires us to verify that
-you are who you claim to be. For this purpose, we require that you
-verify ownership of your e-mail address. {% endblocktrans %}</p>
+<p>{% blocktrans %}Hi, you need to verify your email to use this
+part of the site. {% endblocktrans %}</p>
 
-<p>{% blocktrans %}We have sent an e-mail to you for
-verification. Please click on the link inside this e-mail. Please
+<p>{% blocktrans %}There is an e-mail with a link in your inbox from Imly. Please click on the link to verify your e-mail. Please
 contact us if you do not receive it within a few minutes.{% endblocktrans %}</p>
 
 <p>{% blocktrans %}<strong>Note:</strong> you can still <a href="{{email_url}}">change your e-mail address</a>.{% endblocktrans %}</p>

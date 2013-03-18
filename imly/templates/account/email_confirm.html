@@ -11,8 +11,9 @@
     <div class="row-fluid">
     <div class="span6 offset3">
         <div class="well">
-<h1>{% trans "Confirm E-mail Address" %}</h1>
-
+            <div class="grey_form_bg">
+<h3>{% trans "Confirm E-mail Address" %}</h3>
+        </div>
 {% if confirmation %}
 
 {% user_display confirmation.email_address.user as user_display %}
@@ -21,7 +22,7 @@
 
 <form method="post" action="{% url 'account_confirm_email' confirmation.key %}">
 {% csrf_token %}
-    <button type="submit">{% trans 'Confirm' %}</button>
+    <button type="submit" class="btn btn-primary">{% trans 'Confirm' %}</button>
 </form>
 
 {% else %}

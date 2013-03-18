@@ -2,10 +2,13 @@
 
 {% load i18n %}
 
-{% block head_title %}{% trans "Social Network Login Failure" %}{% endblock %}
+{% block title %}{% trans "Social Network Login Failure" %}{% endblock %}
 
 {% block content %}
-<h1>{% trans "Social Network Login Failure" %}</h1>
-
-<p>{% trans "An error occurred while attempting to login via your social network account." %}</p>
+<div class="well">
+    <div class="grey_form_bg">
+    <h3>{% trans "Social Network Login Failure" %}</h3>
+    </div>
+<p>{% trans "An error occurred while attempting to login via your social network account. Please try again." %}</p>
+</div>
 {% endblock %}

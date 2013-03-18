@@ -10,9 +10,9 @@
 <div class="row-fluid">
     <div class="span6 offset3">
         <div class="well">
-
-<h1>{% trans "Confirm E-mail Address" %}</h1>
-
+        <div class="grey_form_bg">
+        <h3>{% trans "Confirm E-mail Address" %}</h3>
+        </div>
 {% user_display email_address.user as user_display %}
         
 <p>{% blocktrans with email_address.email as email %}You have confirmed that <a href="mailto:{{email}}">{{ email }}</a> is an e-mail address for user {{ user_display }}.{% endblocktrans %}</p>

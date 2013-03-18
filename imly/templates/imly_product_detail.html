@@ -63,9 +63,11 @@
             <h2>{{ object.name }}</h2><small>by <a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></small>
             <br><br>
             <h4>{{ object.currency}} {{ object.get_price.unit_price }}</h4>
+
             <form method="post" action="{% url "imly_add_order" object.slug %}">
             {% csrf_token %}
-            {{ form.as_p }}
+                {{ form.as_p }}
+
         <input type="submit" class="btn btn-success" value="Add to Cart">
         </div>
     </div>
@@ -87,15 +89,31 @@
                 {% endfor %}
             </ul>
         </div>
-        
+    </div>
+    <br>
+    <div class="row-fluid">
+        <div class="span2">
+            <p><strong>Delivery Time :</strong></p>
+        </div>
+        <div class="span10">
+            {% if object.lead_time == 1 %}
+                <p>{{ object.lead_time }} day</p>
+            {% else %}
+                <p>{{ object.lead_time }} days</p>
+            {% endif %}
+        </div>
     </div>
     
     {% if object.description %}
     <br>
-    <div class"row-fluid">
-        <p><strong>Description: </strong>{{ object.description_html|safe }}</p>
-        <br>
-    </div>
+        <div class="row-fluid">
+            <div class="span2">
+                <p><strong>Description :</strong></p>
+            </div>
+            <div class="span10">
+                {{ object.description_html|safe }}
+            </div>
+        </div>
     {% endif %}
 
     
@@ -107,7 +125,7 @@
         </div>
     </div>
     
-    <h4>Ratings & Reviews:</h4>
+ <!--   <h4>Ratings & Reviews:</h4> -->
                 
 {% endblock shop_product_content %}
 
