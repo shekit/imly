@@ -1,6 +1,32 @@
 @charset "UTF-8";
 /* CSS Document */
 
+/* styles to make footer stick to bottom even if content is less */
+html,body
+{
+    height:100%;
+}
+ 
+#wrap
+{
+  min-height: 100%;  
+}
+ 
+#main
+{
+    overflow:auto;
+    padding-bottom:120px; /* this needs to be bigger than footer height*/
+}
+ 
+.footer 
+{
+    position: relative;
+    margin-top: -120px; /* negative value of footer height */
+    height: 120px;
+    clear:both;
+} 
+
+/* navbar styling */
 .navbar .navbar-inner {
 	border: 0;
 	background: white;
@@ -319,7 +345,24 @@ input[type="checkbox"] {
 	margin-bottom:7px;
 }
 
+/*headings on store_info page */
 h4.store_info {
 	color: #F05A28;
 	font-weight: 400;
+}
+
+.legend {
+  display: block;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  line-height: 30px;
+  color: #333333;
+  border: 0;
+  text-decoration: underline;
+}
+
+.orange {
+	color: #F05A28;
 }

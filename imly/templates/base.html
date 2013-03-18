@@ -69,8 +69,12 @@
         <div class="container-fluid negative">
             <hr>
         </div>
-            
-        <div class="container">
+        
+        <div id="wrap">
+        <div id="main" class="container clear-top">
+            <div class="row">
+                <div class="span12">
+
             {% block main_body %}
             <div class="row-fluid">
                 <nav class="span3">
@@ -137,14 +141,16 @@
                 </section> <!-- end of section span9 -->
             </div> <!-- end of row-fluid -->
             {% endblock main_body %}
-            
+                </div>
+            </div>
         </div> <!-- end of container div -->
+        </div> <!-- end of wrap div -->
         
         <div class="container-fluid">
             <br><br><br><br>            
         </div>
         
-        <footer class="container-fluid bgfull">
+        <footer class="container-fluid bgfull footer">
             <div class="container">
                 <br>
                 {% block footer %}

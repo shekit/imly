@@ -8,6 +8,7 @@
 {% block cart_content %}
     <div class="row-fluid">
         {% if empty %}
+        <br><br><br><br>
         <h2 class="muted text-center">Your Cart is Empty :(</h2>
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
         {% else %}

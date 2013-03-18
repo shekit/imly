@@ -5,7 +5,7 @@
 {% block title %}{% trans "Checkout" %}{% endblock %}
 
 {% block cart_content %}
-<h1>{% trans "Checkout" %}</h1>
+<h2>{% trans "Checkout" %}</h2>
 
 {% if loginform %}
     <form method="post" action=".">{% csrf_token %}
@@ -16,7 +16,7 @@
         {{ loginform }}
     <tr>
         <td></td>
-        <td><button type="submit">{% trans "Submit" %}</button></td>
+        <td><button type="submit" class="btn btn-primary">{% trans "Log In" %}</button></td>
     </tr>
     </table>
     </form>
@@ -30,7 +30,7 @@
 
 <table class="table table-order">
 <tr><td colspan="2">
-<h2>{% trans "Billing address" %}</h2>
+<legend class="orange">{% trans "Billing address" %}</legend>
 </td></tr>
 
 {% if orderform.create_account %}
@@ -47,7 +47,7 @@
 {% form_item orderform.billing_country %}
 
 <tr><td colspan="2">
-<h2>{% trans "Shipping address" %}</h2>
+<legend class="orange">{% trans "Shipping address" %}</legend>
 </td></tr>
 
 <tr><td colspan="2">
@@ -69,7 +69,7 @@
 {# {% form_item orderform.notes %} #}
 <tr>
     <td></td>
-    <td><button class="btn btn-success" type="submit">{% trans "Submit" %}</button></td>
+    <td><button class="btn btn-success btn-large" type="submit">{% trans "Submit" %}</button></td>
 </tr>
 </table>
 </form>

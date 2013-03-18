@@ -1,4 +1,6 @@
-{% if address.company %}{{ address.company }}<br />{% endif %}
-{{ address.first_name }} {{ address.last_name }}<br />
-{{ address.address|linebreaksbr }}<br />
-{{ address.country }}-{{ address.zip_code }} {{ address.city }}<br />
+<address>{% if address.company %}{{ address.company }}<br>{% endif %}
+<strong>{{ address.first_name|capfirst }} {{ address.last_name|capfirst }}</strong><br>
+{{ address.address|linebreaksbr }}<br>
+{{ address.city|capfirst }} - {{ address.zip_code }} <br>
+{{ address.country|capfirst }}
+</address>

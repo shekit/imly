@@ -5,9 +5,9 @@
 {% block title %}{% trans "Order payment failure" %} - {{ block.super }}{% endblock %}
 
 {% block cart_content %}
-<h1>{% trans "Order payment failure" %}</h1>
+<h2>{% trans "Order payment failure" %}</h2>
 
-<button type="button" onclick="window.location.href='{% url plata_shop_cart %}'">{% trans "Cart" %}</button>
+<button type="button" class="btn" onclick="window.location.href='{% url plata_shop_cart %}'">{% trans "Cart" %}</button>
 
-<button type="button" onclick="window.location.href='{% url plata_order_new %}'">{% trans "Create new order" %}</button>
+<button type="button" class="btn btn-success" onclick="window.location.href='{% url plata_order_new %}'">{% trans "Create new order" %}</button>
 {% endblock cart_content %}

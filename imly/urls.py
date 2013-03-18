@@ -41,7 +41,7 @@ location_info = {
 
 urlpatterns = patterns('',
     
-    url(r"^home/$", home_page, name="imly_landing_page"),
+    url(r"^index/$", home_page, name="imly_landing_page"),
     url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),

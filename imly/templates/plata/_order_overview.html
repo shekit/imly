@@ -1,23 +1,42 @@
 {% load i18n %}
 {% with order.addresses as addresses %}
-<h2>{% trans "Billing address" %}</h2>
+
+<legend class="orange">{% trans "Address Details" %}</legend>
+
+<legend class="legend">{% trans "Billing address" %}</legend>
 {% with addresses.billing as address %}{% include "plata/_address.html" %}{% endwith %}
 
-<h2>{% trans "Shipping address" %}</h2>
+<legend class="legend">{% trans "Shipping address" %}</legend>
 {% with addresses.shipping as address %}{% include "plata/_address.html" %}{% endwith %}
 {% endwith %}
 
-<h2>{% trans "Order items" %}</h2>
-<table border="1">
-{% for item in order.items.all %}
-<tr>
-    <td>{{ item.product }}</td>
-    <td>{{ item.quantity }} * {{ item.currency }} {{ item.unit_price|floatformat:2 }}</td>
-    <td>{{ item.currency }} {{ item.discounted_subtotal|floatformat:2 }}</td>
-</tr>
-{% endfor %}
-</table>
+<legend class="orange">{% trans "Order Details" %}</legend>
 
+<legend class="legend">{% trans "Order items" %}</legend>
+
+<div class="row-fluid">
+    <div class="span8">
+        <table class="table table-striped table-bordered">
+        <tr>
+            <th>Item Name</th>
+            <th>Quantity * Price</th>
+            <th>Subtotal</th>
+        </tr>
+        {% for item in order.items.all %}
+        <tr>
+            <td>{{ item.product }}</td>
+            <td>{{ item.quantity }} * {{ item.currency }} {{ item.unit_price|floatformat:2 }}</td>
+            <td>{{ item.currency }} {{ item.discounted_subtotal|floatformat:2 }}</td>
+        </tr>
+        {% endfor %}
+        </table>
+    </div>
+    
+    <div class="span4"></div>
+</div>
+
+
+{% comment %}
 <h2>{% trans "Discounts" %}</h2>
 {% for discount in order.applied_discounts.all %}
     {% if forloop.first %}
@@ -35,23 +54,31 @@
 {% empty %}
     {% trans "No discounts" %}
 {% endfor %}
+{% endcomment %}
 
-<h2>{% trans "Total" %}</h2>
-<table>
-<tr>
-    <th>{% trans "subtotal"|capfirst %}</th>
-    <td>{{ order.currency }} {{ order.subtotal|floatformat:2 }}</td>
-</tr>
-<tr>
-    <th>{% trans "discount"|capfirst %}</th>
-    <td>{{ order.currency }} {{ order.discount|floatformat:2 }}</td>
-</tr>
-<tr>
-    <th>{% trans "tax"|capfirst %}</th>
-    <td>{{ order.currency }} {{ order.tax|floatformat:2 }}</td>
-</tr>
-<tr>
-    <th>{% trans "total"|capfirst %}</th>
-    <td>{{ order.currency }} {{ order.total|floatformat:2 }}</td>
-</tr>
-</table>
+<legend class="legend">{% trans "Total" %}</legend>
+<div class="row-fluid">
+    <div class="span6">
+        <table class="table table-bordered">
+        <tr>
+            <th>{% trans "subtotal"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.subtotal|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "discount"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.discount|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "tax"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.tax|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "total"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.total|floatformat:2 }}</td>
+        </tr>
+        </table>
+    </div>
+    
+    <div class="span6"></div>
+</div>
+
