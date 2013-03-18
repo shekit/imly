@@ -1,6 +1,6 @@
 # Django settings for imly_project project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 import os
@@ -23,7 +23,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -47,7 +47,7 @@ TIME_ZONE = 'Asia/Calcutta'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 1
+SITE_ID = 2
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -244,10 +244,10 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = "Hello from Imly! "
 ACCOUNT_USER_MIN_LENGTH = 4
 
 #for Heroku
-"""
+
 import dj_database_url
 DATABASES['default'] = dj_database_url.config()
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')"""
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 
