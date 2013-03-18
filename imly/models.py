@@ -197,16 +197,14 @@ def add_category_tags(sender,instance, **kwargs):
         
 @receiver(post_delete, sender=Product)
 def delete_category_tags(sender,instance, **kwargs):
-    if instance.store.product_set.filter(category=instance.category):
-        return
-    else:
+    if not instance.store.product_set.filter(category=instance.category):
         instance.store.categories.remove(instance.category)
         
-    if instance.store.product_set.filter(tags__in=instance.tags.all()):
-        return
-    else:
+    if not instance.store.product_set.filter(tags__in=instance.tags.all()):
         for tag in instance.tags.all():
             instance.store.tags.remove(tag)
+
+        
                 
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance, **kwargs):

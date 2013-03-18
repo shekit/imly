@@ -1,5 +1,21 @@
 from django import template
-from imly.models import Category, Tag, Location
+from imly.models import Category, Tag, Location, Store, Product
+
+def do_featured_store_list(parser, token):
+    return FeaturedStoreNode()
+
+class FeaturedStoreNode(template.Node):
+    
+    def render(self, context):
+        context["featured_stores"] = Store.objects.is_approved().filter(is_featured=True)
+        
+def do_bestseller_product_list(parser, token):
+    return BestsellerProductNode()
+
+class BestsellerProductNode(template.Node):
+    
+    def render(self, context):
+        context["bestselling_products"] = Product.objects.is_approved().filter(is_bestseller=True)
 
 def do_category_list(parser, token):
     return SuperCategoryNode()
@@ -37,4 +53,6 @@ register = template.Library()
 register.tag("get_category_list", do_category_list)
 register.tag("get_tag_list", do_tag_list)
 register.tag("get_location_list", do_location_list)
+register.tag("get_featured_store_list", do_featured_store_list)
+register.tag("get_bestseller_product_list", do_bestseller_product_list)
 
