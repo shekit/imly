@@ -368,3 +368,9 @@ h4.store_info {
 	background: #f5f5f5;
 	padding: 10px 10px;
 }
+
+/* customizing location select box */
+select.location_list {
+	width:100%;
+
+}

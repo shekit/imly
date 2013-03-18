@@ -7,7 +7,8 @@ def do_featured_store_list(parser, token):
 class FeaturedStoreNode(template.Node):
     
     def render(self, context):
-        context["featured_stores"] = Store.objects.is_approved().filter(is_featured=True)
+        context["featured_stores"] = Store.objects.is_approved().filter(is_featured=True)[:4]
+        return ""
         
 def do_bestseller_product_list(parser, token):
     return BestsellerProductNode()
@@ -15,7 +16,8 @@ def do_bestseller_product_list(parser, token):
 class BestsellerProductNode(template.Node):
     
     def render(self, context):
-        context["bestselling_products"] = Product.objects.is_approved().filter(is_bestseller=True)
+        context["bestselling_products"] = Product.objects.is_approved().filter(is_bestseller=True)[:4]
+        return ""
 
 def do_category_list(parser, token):
     return SuperCategoryNode()

@@ -27,7 +27,11 @@ class StoreList(ListView):
     paginate_by = 15
     
     def get_queryset(self):
-        store_list = Store.objects.is_approved().all()
+        if not self.request.session["place_slug"]:
+            store_list = Store.objects.is_approved().all()
+        else:
+            location = Location.objects.get(slug = self.request.session["place_slug"])
+            store_list = location.store_set.is_approved().all()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
         return store_list.filter(tags__in=self.tags).distinct() if self.tags else store_list
     
@@ -44,11 +48,16 @@ class StoresByCategory(ListView):
     paginate_by = 15
     
     def get_queryset(self):
+        if not self.request.session["place_slug"]:
+            store_list = Store.objects.is_approved().all()
+        else:
+            location = Location.objects.get(slug=self.request.session["place_slug"])
+            store_list = location.store_set.is_approved().all()
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
-            stores_by_category = Store.objects.is_approved().filter(categories=self.category)
+            stores_by_category = store_list.filter(categories=self.category)
         else:
-            stores_by_category = Store.objects.is_approved().filter(categories__in=self.category.sub_categories.all()).distinct()
+            stores_by_category = store_list.filter(categories__in=self.category.sub_categories.all()).distinct()
         
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
         return stores_by_category.filter(tags__in=self.tags).distinct() if self.tags else stores_by_category

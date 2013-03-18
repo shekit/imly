@@ -3,6 +3,15 @@
 {% block title %}Products{% endblock title %}
 
                 {% block sidebar_nav %}
+                    {% load imly_tags %}
+                    {% get_location_list %}
+                    <select class="location_list">
+                        <option value="all">Search by Location (All)</option>
+                        {% for location in locations %}
+                            <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             
@@ -19,7 +28,6 @@
                             {% endif %}
                             
                             <li class="nav-header">Search by Category</li>
-                            {% load imly_tags %}
                             {% get_category_list %}
                             
                                 {% for category in categories %}
@@ -85,7 +93,8 @@
         {% endfor %}
     </ul>
 {% else %}
-    <br><br><br><br>
+    <br><br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>
     <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
 {% endif %}
     

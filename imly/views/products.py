@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404
 from imly.forms import ProductForm, OrderItemForm
 from django.http import HttpResponseForbidden
 
-from imly.models import Product, Category, Store, Tag
+from imly.models import Product, Category, Store, Tag, Location
 
 # how to put products by location?
 #how is it finding a single product in product detail??
@@ -18,7 +18,12 @@ class ProductList(ListView):
     paginate_by = 6
     
     def get_queryset(self):
-        product_list = Product.objects.is_approved().all()
+        if not self.request.session["place_slug"]:
+            product_list = Product.objects.is_approved().all()
+            
+        else:
+            location = Location.objects.get(slug = self.request.session["place_slug"])
+            product_list = Product.objects.filter(store__in=location.store_set.is_approved().all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
         return product_list.filter(tags__in=self.tags).distinct() if self.tags else product_list
     
@@ -35,11 +40,16 @@ class ProductsByCategory(ListView):
     
     
     def get_queryset(self):
+        if not self.request.session["place_slug"]:
+            product_list = Product.objects.is_approved().all()
+        else:
+            location = Location.objects.get(slug=self.request.session["place_slug"])
+            product_list = Product.objects.filter(store__in=location.store_set.is_approved().all())
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
-            products_by_category = self.model.objects.is_approved().filter(category=self.category)
+            products_by_category = product_list.filter(category=self.category)
         else:
-            products_by_category = self.model.objects.is_approved().filter(category__in=self.category.sub_categories.all())
+            products_by_category = product_list.filter(category__in=self.category.sub_categories.all())
         
         
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))

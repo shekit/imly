@@ -3,6 +3,15 @@
 {% block title %}Stores{% endblock title %}
 
                 {% block sidebar_nav %}
+                    {% load imly_tags %}
+                    {% get_location_list %}
+                    <select class="location_list">
+                        <option value="all">Search by Location (All)</option>
+                        {% for location in locations %}
+                            <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header">You are currently here:</li>
@@ -27,21 +36,20 @@
                             {% endif %}
                             
                             <li class="nav-header">Search by Category</li>
-                            {% load imly_tags %}
                             {% get_category_list %}
                             
                                 {% for category in categories %}
                                     
                                         {% if category.sub_categories.count %}
-                                            <li class="dropdown-submenu"><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a>
+                                            <li class="dropdown-submenu"><a href="{% url "imly_stores_by_category" category.slug %}">{{ category.name|capfirst }}</a>
                                                 <ul class="dropdown-menu">
                                                     {% for sub_category in category.sub_categories.all %}
-                                                        <li><a href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                                        <li><a href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
                                                     {% endfor %}
                                                 </ul>
                                             </li>
                                         {% else %}
-                                            <li><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
+                                            <li><a href="{% url "imly_stores_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
                                         {% endif %}
                                     
                                 {% endfor %}
@@ -95,7 +103,8 @@
         {% endfor %}
     </ul>
 {% else %}
-    <br><br><br><br>
+    <br><br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>
     <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
 {% endif %}
     

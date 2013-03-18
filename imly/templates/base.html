@@ -78,12 +78,19 @@
             {% block main_body %}
             <div class="row-fluid">
                 <nav class="span3">
-                 
                 {% block sidebar_nav %}
+                    {% load imly_tags %}
+                    {% get_location_list %}
+                    <select class="location_list">
+                        <option value="all">Search by Location (All)</option>
+                        {% for location in locations %}
+                            <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
+                        {% endfor %}
+                    </select>
+                    <br>
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header">Search by Category</li>
-                            {% load imly_tags %}
                             {% get_category_list %}
                             
                                 {% for category in categories %}
@@ -220,6 +227,12 @@
                         window.location.search=remaining_tags.join("&");
                         return false;
                 });
+                
+                $("select.location_list").on("change", function(){
+                    var query = window.location.href
+                    window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
+                });
+                
             });
         </script>
         {% block extra_body %}
