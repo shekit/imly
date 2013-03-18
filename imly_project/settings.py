@@ -1,6 +1,6 @@
 # Django settings for imly_project project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 import os
