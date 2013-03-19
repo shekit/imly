@@ -24,7 +24,7 @@ class StoreList(ListView):
     
     model = Store
     template_name = "store_list.html"
-    paginate_by = 15
+    paginate_by = 12
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
@@ -45,7 +45,7 @@ class StoresByCategory(ListView):
     
     model = Store
     template_name = "stores_by_category.html"
-    paginate_by = 15
+    paginate_by = 12
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):

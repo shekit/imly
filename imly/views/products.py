@@ -18,7 +18,7 @@ class ProductList(ListView):
     
     model = Product
     template_name = "product_list.html"
-    paginate_by = 6
+    paginate_by = 12
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
@@ -39,7 +39,7 @@ class ProductsByCategory(ListView):
     
     model = Product
     template_name = "products_by_category.html"
-    paginate_by = 6
+    paginate_by = 12
     
     
     def get_queryset(self):
