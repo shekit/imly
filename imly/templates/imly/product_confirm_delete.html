@@ -33,7 +33,7 @@
                             <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>INR {{ object.get_price.unit_price }}</td>
+                        <td>INR {{ object.get_price.unit_price|floatformat:"0" }}</td>
                         <td>{{ object.capacity_per_month }}</td>
                     </tr>
                 </table>
