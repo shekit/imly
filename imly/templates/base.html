@@ -189,13 +189,14 @@
         
         
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script src="{{ STATIC_URL }}/js/jquery.expander.min.js"></script>
+        <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
 
         <script type="text/javascript">
-            $(document).ready(function() {
-                
-                $("div.expandable").expander({
+            
+                !function ($) {
+                  $(function(){
+                    $("div.expandable").expander({
                     slicePoint: 140,
                     expandEffect: 'slideDown',
                     collapseEffect: 'slideUp',
@@ -233,8 +234,9 @@
                     var query = window.location.href
                     window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
                 });
-                
-            });
+                  })
+                }(window.jQuery)
+              
         </script>
         {% block extra_body %}
             
