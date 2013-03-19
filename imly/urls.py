@@ -42,7 +42,8 @@ location_info = {
 
 urlpatterns = patterns('',
     
-    url(r"^index/$", home_page, name="imly_landing_page"),
+    url(r"^$", home_page, name="imly_landing_page"),
+    url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
     url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^stores/(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
