@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
             ('id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('period', self.gf('django.db.models.fields.related.ForeignKey')(related_name='stock_transactions', to=orm['stock.Period'])),
             ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('product', self.gf('django.db.models.fields.related.ForeignKey')(related_name='stock_transactions', to=orm['simple.Product'])),
+            ('product', self.gf('django.db.models.fields.related.ForeignKey')(related_name='stock_transactions', to=orm['imly.Product'])),
             ('type', self.gf('django.db.models.fields.PositiveIntegerField')()),
             ('change', self.gf('django.db.models.fields.IntegerField')()),
             ('order', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='stock_transactions', null=True, to=orm['shop.Order'])),
