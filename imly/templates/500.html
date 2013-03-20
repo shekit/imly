@@ -1,4 +1,6 @@
-{% extends "base.html" %}
+{% extends "product_list.html" %}
+
+{% block title %}Server Error{% endblock title %}
 
 {% block shop_or_product %}
     
@@ -7,8 +9,8 @@
 {% block content %}
     <div class="span12">
         <br><br><br>
-        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/404.png" alt="404 error"></p>
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/500.png" alt="500 error"></p>
         <br>
-        <h2 class="muted text-center">Oops! This link is broken.<br>Try another link on the left.</h2>
+        <h2 class="muted text-center">Oops! There was an error with the server.<br>Try again after sometime.</h2>
     </div>
 {% endblock content %}
