@@ -1,6 +1,6 @@
 # Django settings for imly_project project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 import os
@@ -11,6 +11,8 @@ LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
+    ("Abhishek Singh", "abhishek3188@gmail.com"),
+    ("Pavan Mishra", "pavanmishra@gmail.com"),
 )
 
 EMAIL_HOST = "smtp.gmail.com"
@@ -18,6 +20,7 @@ EMAIL_HOST_USER = 'imlyfood@gmail.com'
 EMAIL_HOST_PASSWORD = 'imly@food13'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
 
 MANAGERS = ADMINS
 
@@ -35,7 +38,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["alpha.imly.in","127.0.0.1"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
