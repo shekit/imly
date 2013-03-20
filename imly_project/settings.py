@@ -23,7 +23,7 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
@@ -47,7 +47,7 @@ TIME_ZONE = 'Asia/Calcutta'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-SITE_ID = 2
+SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -77,7 +77,7 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
-STATIC_URL = 'https://imly.s3.amazonaws.com/'
+STATIC_URL = '/static/' #'https://imly.s3.amazonaws.com/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -219,15 +219,25 @@ PAYPAL = {
     'BUSINESS': 'paypal@example.com',
     }
 
+OGONE = {
+    'LIVE': False,
+    'PSPID': 'abhi3188',
+    'SHA1_IN': 'imlytest@food130',
+    'SHA1_OUT': 'imlytest@food131',
+    }
+
 CURRENCIES = ('INR',)
 
 PLATA_PAYMENT_MODULES = (
     #'plata.payment.modules.cod.PaymentProcessor',
     #'plata.payment.modules.postfinance.PaymentProcessor',
-    'plata.payment.modules.paypal.PaymentProcessor',
+    'plata.payment.modules.ogone.PaymentProcessor',
+    #'plata.payment.modules.paypal.PaymentProcessor',
     )
 
-PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards")}
+
+PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
+                            "ogone" : ("Visa/Mastercard")}
 
 #AllAuth settings
 
@@ -257,10 +267,10 @@ IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCa
 
 STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #for Heroku
-
+"""
 import dj_database_url
 DATABASES['default'] = dj_database_url.config()
 
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')"""
 
 

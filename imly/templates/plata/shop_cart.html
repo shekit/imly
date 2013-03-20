@@ -48,7 +48,9 @@
 
         </table>
         
-            <p class="text-right"><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" />
+            <p class="text-right">
+                <a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a>
+                <input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" />
             <input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></p>
         </form>
         {% endif %}
