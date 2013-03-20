@@ -35,7 +35,7 @@ html,body
       top: 0;
       left: 0;
       right: 0;
-      z-index: 10;
+      z-index: 20;
       margin-top: 20px;
       margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
     }
@@ -73,6 +73,10 @@ html,body
       background: #262626;
     }
 
+    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
+	color: #ffffff;
+	background: #FF7752;
+    }
 
     /* Offset the responsive button for proper vertical alignment */
     .navbar .btn-navbar {
