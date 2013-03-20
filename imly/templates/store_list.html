@@ -86,8 +86,12 @@
                     <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
                 {% endwith %}
                 
-                <a href="{% url "imly_store_detail" object.slug %}"><h5>{{ object.name }}</h5></a><small> by {{ object.owner }}</small>
-                
+                <a href="{% url "imly_store_detail" object.slug %}"><h5>{{ object.name }}</h5></a><small> by
+                                        {% if object.owner.first_name %}
+                                            {{ object.owner.first_name }}
+                                        {% else %}
+                                            {{ object.owner.username }}
+                                        {% endif %}</small>
             </div>
         </li>
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
