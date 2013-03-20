@@ -1,6 +1,6 @@
 # Django settings for imly_project project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 import os
@@ -269,7 +269,7 @@ STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 #for Heroku
 
 import dj_database_url
-DATABASES['default'] = dj_database_url.config(default='postgres://localhost')
+DATABASES['default'] = dj_database_url.config()
 
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
