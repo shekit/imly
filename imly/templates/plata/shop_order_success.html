@@ -12,12 +12,12 @@
     {% if order.paid %}
         <h2>{% trans "Order has been partially paid." %}</h2>
     {% else %}
-        <h2>{% trans "Order has been confirmed." %}</h2>
+        <h2>{% trans "Thank You! Order has been confirmed." %}</h2>
     {% endif %}
     <p>{% trans "As soon as we receive a confirmation from the payment provider, you'll be sent a confirmation e-mail." %}</p>
 {% endif %}
 
 {% include "plata/_order_overview.html" %}
 
-<button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Create new order" %}</button>
+<button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
 {% endblock cart_content %}
