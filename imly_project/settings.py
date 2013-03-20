@@ -190,6 +190,7 @@ INSTALLED_APPS = (
     'imly',
     'south',
     'plata',
+    'plata.product.stock',
     'plata.contact',
     'plata.discount',
     'plata.payment',
