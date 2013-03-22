@@ -38,6 +38,7 @@ html,body
 /* change positioning of top navbar links */
 .navbar .nav > li > a {
  	margin: 30px 0 5px 5px;
+	text-shadow: none;
 }
 
 /* change hover color of top navbar links */       
@@ -45,6 +46,43 @@ html,body
 	color: #333;
 }
 
+.navbar .nav > li > a.white_text {
+	color: #fff;
+}
+
+.btn-custom {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff7752;
+  *background-color: #f05a28;
+  background-image: -moz-linear-gradient(top, #ff7752, #f05a28);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff7752), to(#f05a28));
+  background-image: -webkit-linear-gradient(top, #ff7752, #f05a28);
+  background-image: -o-linear-gradient(top, #ff7752, #f05a28);
+  background-image: linear-gradient(to bottom, #ff7752, #f05a28);
+  background-repeat: repeat-x;
+  border-color: #e86c4b #ea5228 #e5390c;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7752 ', endColorstr='#fff05a28', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-custom-light {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #f2f2f2;
+  *background-color: #fff;
+  background-image: -moz-linear-gradient(top, #f2f2f2, #ffffff);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f2f2f2), to(#ffffff));
+  background-image: -webkit-linear-gradient(top, #f2f2f2, #ffffff);
+  background-image: -o-linear-gradient(top, #f2f2f2, #ffffff);
+  background-image: linear-gradient(to bottom, #f2f2f2, #ffffff);
+  background-repeat: repeat-x;
+  border-color: #f4f4f4 #e7e7e7 #e4e4e4;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff2f2f2 ', endColorstr='#ffffffff', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
 /* to solve button hover issue */
 .navbar .nav > li > a.btn:hover, .navbar .nav > li > a.btn:active, .navbar .nav > li > a.btn:focus {
 	background-position: 0;
