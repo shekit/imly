@@ -1,4 +1,4 @@
-{% extends base_template|default:"base_cart_order_status.html" %}
+{% extends "base_cart_order_status.html" %}
 
 {% load i18n plata_tags %}
 
@@ -9,7 +9,8 @@
     <h2>{% trans "Thank you for shopping with us!" %}</h2>
     {# TODO this isn't correct for cash on delivery #}
     <p>Please do not click the back button. Click on continue to proceed.</p>
-    <button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
+    
+    <button type="button" class="btn btn-large btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
 {% else %}
     {% if order.paid %}
         <h2>{% trans "Order has been partially paid." %}</h2>
@@ -17,8 +18,8 @@
         <h2>{% trans "Thank You! Order has been confirmed." %}</h2>
     {% endif %}
     <p>Please do not click the back button. Click on continue to proceed.</p>
-    <button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
-    <p>{% trans "As soon as we receive a confirmation from the payment provider, you'll be sent a confirmation e-mail." %}</p>
+    <button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button><br>
+    <p>{% trans "Your order details are below" %}</p>
 {% endif %}
 
 {% include "plata/_order_overview.html" %}
