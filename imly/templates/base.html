@@ -92,7 +92,7 @@
                         <ul class="nav nav-list">
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
-                            
+                                <li><a href="#">All</a></li>
                                 {% for category in categories %}
                                     
                                         {% if category.sub_categories.count %}
@@ -109,7 +109,7 @@
                                     
                                 {% endfor %}
                                 
-                            <li class="nav-header">Search by Taste</li>
+                            <li class="nav-header">Filter by Taste</li>
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
