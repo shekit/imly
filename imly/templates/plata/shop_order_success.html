@@ -18,8 +18,9 @@
         <h2>{% trans "Thank You! Order has been confirmed." %}</h2>
     {% endif %}
     <p>Please do not click the back button. Click on continue to proceed.</p>
-    <button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button><br>
-    <p>{% trans "Your order details are below" %}</p>
+    <button type="button" class="btn btn-large btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button><br>
+    <p><br></p>
+    <p>{% trans "Your order details are below:" %}</p>
 {% endif %}
 
 {% include "plata/_order_overview.html" %}
