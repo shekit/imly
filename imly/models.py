@@ -208,7 +208,7 @@ def add_category_tags(sender,instance, **kwargs):
     instance.store.categories.add(instance.category)
     for tag in instance.tags.all():
         instance.store.tags.add(tag)
-    instance.store.save()
+
         
 @receiver(post_delete, sender=Product)
 def delete_category_tags(sender,instance, **kwargs):
@@ -218,12 +218,12 @@ def delete_category_tags(sender,instance, **kwargs):
     if not instance.store.product_set.filter(tags__in=instance.tags.all()):
         for tag in instance.tags.all():
             instance.store.tags.remove(tag)
-            
-    instance.store.save()
+
 
         
                 
 @receiver(post_save, sender=Store)
-def send_store_mail(sender,instance, **kwargs):
-    send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+def send_store_mail(sender,instance,created, **kwargs):
+    if created:
+        send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
         
