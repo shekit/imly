@@ -1,8 +1,9 @@
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
-from imly.models import Store, Product, Category#, GiveTip
+from imly.models import Store, Product, Category, UserProfile#, GiveTip
 from django.core.mail import send_mail
+import os
 
 class MyCheckboxSelectMultiple(CheckboxSelectMultiple):
     def render(self, name, value, attrs=None, choices=()):
@@ -46,6 +47,21 @@ class ProductForm(forms.ModelForm):
 class OrderItemForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1, max_value=50)
 
+
+class UserProfileForm(forms.ModelForm):
+    
+    def __init_(self,*args,**kwargs):
+        super(UserProfileForm,self).__init__(*args,**kwargs)
+        self.fields["avatar"].label = "Profile Image"
+    class Meta:
+        model = UserProfile
+        fields = ("first_name","last_name","about_me","avatar")
+        exclude = ["user","avatar_thumbnail","avatar_thumbnail_mini"]
+
+    '''def get_image(self):
+        if not self.avatar:
+            self.avatar = os.path.abspath('/imly_project/media/images/image.jpg')
+            return self.avatar'''
 """    
 class GiveTipForm(forms.ModelForm):
     

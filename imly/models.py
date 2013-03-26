@@ -1,4 +1,7 @@
 from django.db import models
+import os
+from imly_project.settings import PROJECT_DIR
+
 from django.contrib.auth.models import User
 
 from plata.product.models import ProductBase
@@ -170,7 +173,7 @@ class Product(ProductBase, PriceBase):
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
 
-"""        
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100, blank=True)
@@ -179,8 +182,14 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", blank=True)
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
-"""
 
+    def __unicode__(self):
+        return self.first_name
+
+    def get_image(self):
+        if not self.avatar:
+            self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
+            return self.avatar
 """
 class GiveTip(models.Model):
     name = models.CharField(max_length=100)
