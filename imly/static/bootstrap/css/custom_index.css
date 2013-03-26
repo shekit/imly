@@ -91,8 +91,7 @@ html,body
       z-index: 10;
       margin-left:auto;
       margin-right:auto;
-      margin-top: 150px;
-      margin-bottom: -90px; /* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
+/* Negative margin to pull up carousel. 90px is roughly margins and height of navbar. */
     }
             /* Carousel base class */
     .carousel {

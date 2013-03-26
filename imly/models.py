@@ -27,8 +27,22 @@ from django.utils.text import slugify
 from django.core.mail import send_mail
 
 # Create your models here.
+import os
+import uuid
+def get_image_path(instance,filename):
+    ext = filename.split('.')[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    store_name = instance.store.slug
+    return os.path.join("images",store_name, filename)
 
+def get_thumbnail_path(instance,path,specname,extension):
+    return os.path.join("regular",path)
 
+def get_thumbnail_mini_path(instance,path,specname,extension):
+    return os.path.join("mini", path)
+
+def get_thumbnail_large_path(instance,path,specname,extension):
+    return os.path.join("large",path)
 
 class Category(models.Model):
     
@@ -132,10 +146,10 @@ class Product(ProductBase, PriceBase):
     lead_time = models.IntegerField(default=1,help_text="(in days)")
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    image = models.ImageField(upload_to="images", help_text="Minimum image size - 600 X 340 pixels")
-    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to="regular")
-    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to="mini")
-    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to="large")
+    image = models.ImageField(upload_to=get_image_path, help_text="Minimum image size - 600 X 340 pixels")
+    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to=get_thumbnail_path)
+    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to=get_thumbnail_mini_path)
+    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to=get_thumbnail_large_path)
     
     date_created = models.DateTimeField(auto_now=True, editable=False)
     
@@ -203,7 +217,7 @@ def add_category_tags(sender,instance, **kwargs):
     instance.store.categories.add(instance.category)
     for tag in instance.tags.all():
         instance.store.tags.add(tag)
-    instance.store.save()
+
         
 @receiver(post_delete, sender=Product)
 def delete_category_tags(sender,instance, **kwargs):
@@ -213,12 +227,12 @@ def delete_category_tags(sender,instance, **kwargs):
     if not instance.store.product_set.filter(tags__in=instance.tags.all()):
         for tag in instance.tags.all():
             instance.store.tags.remove(tag)
-            
-    instance.store.save()
+
 
         
                 
 @receiver(post_save, sender=Store)
-def send_store_mail(sender,instance, **kwargs):
-    send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+def send_store_mail(sender,instance,created, **kwargs):
+    if created:
+        send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
         

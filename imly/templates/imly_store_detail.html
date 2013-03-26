@@ -5,7 +5,13 @@
 {% block shop_info %}
     <div class="well shop_info">
         <h3>Hi!</h3>
-        Welcome to {{ object.name }}, proudly run by <strong>{{ object.owner }}</strong> since {{ object.date_created|date:"F j, Y" }}
+        Welcome to {{ object.name }}, proudly run by <strong>
+                                        {% if object.owner.first_name %}
+                                            {{ object.owner.first_name }}
+                                        {% else %}
+                                            {{ object.owner.username }}
+                                        {% endif %}
+        </strong> since {{ object.date_created|date:"F j, Y" }}
         
         <div class="row-fluid">
             <div class="span10 offset1">
