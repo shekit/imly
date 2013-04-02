@@ -1,34 +1,20 @@
-from django.db import models
 import os
-from imly_project.settings import PROJECT_DIR
-
+from django.db import models
 from django.contrib.auth.models import User
-
-from plata.product.models import ProductBase
-from plata.shop.models import PriceBase, Order, TaxClass
-
-from plata.contact.models import Contact
-from plata.discount.models import Discount
-from plata.shop.views import Shop
-
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
-
-from markdown import markdown
-
-from imly_project import settings
-
-from imly.managers import StoreManager, ProductManager
-
-from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
+from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
-
 from django.utils.text import slugify
 from django.core.mail import send_mail
-
-# Create your models here.
-import os
+from plata.product.models import ProductBase
+from plata.shop.models import PriceBase, Order, TaxClass
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+from markdown import markdown
 import uuid
+from imly.managers import StoreManager, ProductManager
+from imly_project.settings import PROJECT_DIR
+from imly_project import settings
+
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -187,7 +173,6 @@ class Product(ProductBase, PriceBase):
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
 
-
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100, blank=True)
@@ -204,16 +189,28 @@ class UserProfile(models.Model):
         if not self.avatar:
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
+
+@receiver(m2m_changed, sender=Product.tags.through)
+def update_store_category_and_tags(sender, instance, action, pk_set, **kwargs):
+    if action == 'post_add':
+        print 'called post add'
+        instance.store.tags.add(*Tag.objects.filter(pk__in=pk_set))
+    elif action == 'post_clear':
+        instance.store.tags.remove(*Tag.objects.filter(pk__in=remove_set))
+
 """
 class GiveTip(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     message = models.TextField()
 """
-    
-#SIGNALS - Categories from products get auto added to Store when products are saved   
+
+'''
+#SIGNALS - Categories from products get auto added to Store when products are saved
 @receiver(post_save, sender=Product)
-def add_category_tags(sender,instance, **kwargs):
+def update_category_tags(sender,instance, **kwargs):
+    '''
+'''
     instance.store.categories.add(instance.category)
     for tag in instance.tags.all():
         instance.store.tags.add(tag)
@@ -228,7 +225,7 @@ def delete_category_tags(sender,instance, **kwargs):
         for tag in instance.tags.all():
             instance.store.tags.remove(tag)
 
-
+'''
         
                 
 @receiver(post_save, sender=Store)
