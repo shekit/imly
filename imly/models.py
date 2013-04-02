@@ -1,7 +1,7 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import m2m_changed, post_save
+from django.db.models.signals import m2m_changed, post_save, post_delete
 from django.dispatch import receiver
 from django.utils.text import slugify
 from django.core.mail import send_mail
@@ -190,44 +190,29 @@ class UserProfile(models.Model):
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
 
-@receiver(m2m_changed, sender=Product.tags.through)
-def update_store_category_and_tags(sender, instance, action, pk_set, **kwargs):
-    if action == 'post_add':
-        print 'called post add'
-        instance.store.tags.add(*Tag.objects.filter(pk__in=pk_set))
-    elif action == 'post_clear':
-        instance.store.tags.remove(*Tag.objects.filter(pk__in=remove_set))
-
 """
 class GiveTip(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     message = models.TextField()
-"""
+u"""
 
-'''
-#SIGNALS - Categories from products get auto added to Store when products are saved
+@receiver(m2m_changed, sender=Product.tags.through)
+def update_store_tags_from_product(sender, instance, action, pk_set, **kwargs):
+    if pk_set and (action == 'post_add'):
+      instance.store.tags.add(*Tag.objects.filter(pk__in=pk_set))
+    elif pk_set and (action == 'post_clear'):
+      print 'post clear called after delete'
+      instance.store.tags.remove(*Tag.objects.filter(pk__in=pk_set))
+
 @receiver(post_save, sender=Product)
-def update_category_tags(sender,instance, **kwargs):
-    '''
-'''
+def update_store_categories_from_product(sender, instance, **kwargs):
     instance.store.categories.add(instance.category)
-    for tag in instance.tags.all():
-        instance.store.tags.add(tag)
-
-        
+    
 @receiver(post_delete, sender=Product)
-def delete_category_tags(sender,instance, **kwargs):
-    if not instance.store.product_set.filter(category=instance.category):
-        instance.store.categories.remove(instance.category)
-        
-    if not instance.store.product_set.filter(tags__in=instance.tags.all()):
-        for tag in instance.tags.all():
-            instance.store.tags.remove(tag)
-
-'''
-        
-                
+def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
+  instance.store.categories.remove(instance.category)
+    
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:
