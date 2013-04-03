@@ -23,6 +23,8 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.core.mail import send_mail
 
+from djangoratings.fields import RatingField
+
 # Create your models here.
 import os
 import uuid
@@ -154,6 +156,8 @@ class Product(ProductBase, PriceBase):
     is_bestseller = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(Tag)
+    
+    rating = RatingField(range=5)
     
     objects = ProductManager() #defaultManager
     

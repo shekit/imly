@@ -69,6 +69,7 @@
                 {{ form.as_p }}
 
         <input type="submit" class="btn btn-success" value="Add to Cart">
+            </form>
         </div>
     </div>
     <div class="row-fluid">
@@ -125,7 +126,13 @@
         </div>
     </div>
     
- <!--   <h4>Ratings & Reviews:</h4> -->
+    <h4>Ratings & Reviews:</h4>
+    {% load ratings %}
+    {% load comments %}
+    
+    {% render_comment_form for object %}
+    <br>
+    {% render_comment_list for object %}
                 
 {% endblock shop_product_content %}
 

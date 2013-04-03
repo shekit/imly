@@ -54,7 +54,7 @@ else:
 if DEBUG == True:
     ALLOWED_HOSTS = []  
 else:
-    ALLOWED_HOSTS = ["alpha.imly.in"]
+    ALLOWED_HOSTS = ["alpha.imly.in","imly-south.herokuapp.com"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -188,7 +188,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'imly',
-    #'south',
+    'south',
     'plata',
     'plata.product.stock',
     'plata.contact',
@@ -204,6 +204,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'storages',
     'widget_tweaks',
+    'djangoratings',
+    'django_comments',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
