@@ -7,7 +7,9 @@ boto==2.8.0
 dj-database-url==0.2.1
 django-allauth==0.9.0
 django-appconf==0.6
+django-contrib-comments==1.5
 django-imagekit==2.0.3
+django-ratings==0.3.7
 django-social-auth==0.7.20
 django-storages==1.1.6
 django-widget-tweaks==1.1.2
