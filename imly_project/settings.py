@@ -1,6 +1,6 @@
 # Django settings for imly_project project.
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 import os
@@ -28,7 +28,7 @@ if DEBUG == True:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_DIR, "database2.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -259,7 +259,7 @@ OGONE = {
 CURRENCIES = ('INR',)
 
 PLATA_PAYMENT_MODULES = (
-    #'plata.payment.modules.cod.PaymentProcessor',
+    'plata.payment.modules.cod.PaymentProcessor',
     #'plata.payment.modules.postfinance.PaymentProcessor',
     'plata.payment.modules.ogone.PaymentProcessor',
     #'plata.payment.modules.paypal.PaymentProcessor',
@@ -267,7 +267,9 @@ PLATA_PAYMENT_MODULES = (
 
 
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
-                            "ogone" : ("Visa/Mastercard")}
+                            "ogone" : ("Visa/Mastercard"),
+                            "cod":("Cash on Delivery")
+                            }
 
 #AllAuth settings
 
