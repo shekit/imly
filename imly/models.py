@@ -1,33 +1,22 @@
+import os
 from django.db import models
 from django.contrib.auth.models import User
-
-from plata.product.models import ProductBase
-from plata.shop.models import PriceBase, Order, TaxClass
-
-from plata.contact.models import Contact
-from plata.discount.models import Discount
-from plata.shop.views import Shop
-
-from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
-
-from markdown import markdown
-
-from imly_project import settings
-
-from imly.managers import StoreManager, ProductManager
-
-from django.db.models.signals import post_save, post_delete, pre_save, pre_delete
+from django.db.models.signals import m2m_changed, post_save, post_delete
 from django.dispatch import receiver
-
 from django.utils.text import slugify
 from django.core.mail import send_mail
-
+from plata.product.models import ProductBase
+from plata.shop.models import PriceBase, Order, TaxClass
+from imagekit.models import ImageSpecField
+from imagekit.processors import ResizeToFill
+from markdown import markdown
+import uuid
+from imly.managers import StoreManager, ProductManager
+from imly_project.settings import PROJECT_DIR
+from imly_project import settings
 from djangoratings.fields import RatingField
 
-# Create your models here.
-import os
-import uuid
+
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -188,7 +177,6 @@ class Product(ProductBase, PriceBase):
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
 
-"""        
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100, blank=True)
@@ -197,35 +185,38 @@ class UserProfile(models.Model):
     avatar = models.ImageField(upload_to="avatars", blank=True)
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
-"""
+
+    def __unicode__(self):
+        return self.first_name
+
+    def get_image(self):
+        if not self.avatar:
+            self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
+            return self.avatar
 
 """
 class GiveTip(models.Model):
     name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100)
     message = models.TextField()
-"""
-    
-#SIGNALS - Categories from products get auto added to Store when products are saved   
+u"""
+
+@receiver(m2m_changed, sender=Product.tags.through)
+def update_store_tags_from_product(sender, instance, action, pk_set, **kwargs):
+    if pk_set and (action == 'post_add'):
+      instance.store.tags.add(*Tag.objects.filter(pk__in=pk_set))
+    elif pk_set and (action == 'post_clear'):
+      print 'post clear called after delete'
+      instance.store.tags.remove(*Tag.objects.filter(pk__in=pk_set))
+
 @receiver(post_save, sender=Product)
-def add_category_tags(sender,instance, **kwargs):
+def update_store_categories_from_product(sender, instance, **kwargs):
     instance.store.categories.add(instance.category)
-    for tag in instance.tags.all():
-        instance.store.tags.add(tag)
-
-        
+    
 @receiver(post_delete, sender=Product)
-def delete_category_tags(sender,instance, **kwargs):
-    if not instance.store.product_set.filter(category=instance.category):
-        instance.store.categories.remove(instance.category)
-        
-    if not instance.store.product_set.filter(tags__in=instance.tags.all()):
-        for tag in instance.tags.all():
-            instance.store.tags.remove(tag)
-
-
-        
-                
+def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
+  instance.store.categories.remove(instance.category)
+    
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:
