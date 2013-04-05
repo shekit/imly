@@ -119,8 +119,15 @@ class Store(models.Model):
         self.description_html = markdown(self.description)
         self.slug = slugify(self.name)
         super(Store, self).save(*args, **kwargs)
-        
 
+    def reassign_product_tags(self):
+      self.tags.clear()
+      self.tags.add(*Tag.objects.filter(product__in=self.product_set.all()))
+
+    def reassign_product_categories(self):
+      self.categories.clear()
+      self.categories.add(*Category.objects.filter(product__in=self.product_set.all()))
+      
 class Product(ProductBase, PriceBase):
     #Product Details
     name = models.CharField(max_length=100)
@@ -190,29 +197,21 @@ class UserProfile(models.Model):
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
 
-"""
-class GiveTip(models.Model):
-    name = models.CharField(max_length=100)
-    email = models.EmailField(max_length=100)
-    message = models.TextField()
-u"""
-
 @receiver(m2m_changed, sender=Product.tags.through)
-def update_store_tags_from_product(sender, instance, action, pk_set, **kwargs):
-    if pk_set and (action == 'post_add'):
-      instance.store.tags.add(*Tag.objects.filter(pk__in=pk_set))
-    elif pk_set and (action == 'post_clear'):
-      print 'post clear called after delete'
-      instance.store.tags.remove(*Tag.objects.filter(pk__in=pk_set))
-
+def update_store_tags_from_product(sender, instance, action, **kwargs):
+  if action == 'post_add':
+    # simple approach
+    instance.store.reassign_product_tags()
+      
 @receiver(post_save, sender=Product)
 def update_store_categories_from_product(sender, instance, **kwargs):
-    instance.store.categories.add(instance.category)
-    
+    instance.store.reassign_product_categories()
+
 @receiver(post_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
-  instance.store.categories.remove(instance.category)
-    
+  instance.store.reassign_product_tags()
+  instance.store.reassign_product_categories()
+
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:
