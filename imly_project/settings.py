@@ -28,7 +28,7 @@ if DEBUG == True:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_DIR, "database2.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -54,7 +54,7 @@ else:
 if DEBUG == True:
     ALLOWED_HOSTS = []  
 else:
-    ALLOWED_HOSTS = ["alpha.imly.in"]
+    ALLOWED_HOSTS = ["alpha.imly.in","imly-south.herokuapp.com"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -188,7 +188,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'imly',
-    #'south',
+    'south',
     'plata',
     'plata.product.stock',
     'plata.contact',
@@ -204,6 +204,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'storages',
     'widget_tweaks',
+    'djangoratings',
+    'django_comments',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
@@ -257,7 +259,7 @@ OGONE = {
 CURRENCIES = ('INR',)
 
 PLATA_PAYMENT_MODULES = (
-    #'plata.payment.modules.cod.PaymentProcessor',
+    'plata.payment.modules.cod.PaymentProcessor',
     #'plata.payment.modules.postfinance.PaymentProcessor',
     'plata.payment.modules.ogone.PaymentProcessor',
     #'plata.payment.modules.paypal.PaymentProcessor',
@@ -265,7 +267,9 @@ PLATA_PAYMENT_MODULES = (
 
 
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
-                            "ogone" : ("Visa/Mastercard")}
+                            "ogone" : ("Visa/Mastercard"),
+                            "cod":("Cash on Delivery")
+                            }
 
 #AllAuth settings
 

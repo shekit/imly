@@ -1,4 +1,4 @@
-{% extends base_template|default:"base_cart.html" %}
+{% extends "base_cart_order_status.html" %}
 
 {% load i18n plata_tags %}
 
@@ -6,6 +6,7 @@
 
 {% block cart_content %}
 <h2>{% trans "Order payment failure" %}</h2>
+<p>Please do not click the back button. Click on one of the buttons to proceed.</p><br>
 
 <button type="button" class="btn" onclick="window.location.href='{% url "plata_shop_cart" %}'">{% trans "Cart" %}</button>
 

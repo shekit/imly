@@ -32,7 +32,11 @@
                                 
                                 <ul class="nav pull-right">
                                     <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
-                                    <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                    {% if user.store.count %}
+                                        <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                    {% else %}
+                                        <li><a href="{% url "imly_store_info" %}">Manage your Shop</a></li>
+                                    {% endif %}
                                     <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
                                     
                                     
@@ -56,6 +60,7 @@
                                         <li class="disabled"><a href="#">|</a></li>
                                         <li><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
+                                    <li><a class="btn white_text" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span></a></li>
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->
@@ -92,7 +97,7 @@
                         <ul class="nav nav-list">
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
-                            
+                                <li><a href="#">All</a></li>
                                 {% for category in categories %}
                                     
                                         {% if category.sub_categories.count %}
@@ -109,7 +114,7 @@
                                     
                                 {% endfor %}
                                 
-                            <li class="nav-header">Search by Taste</li>
+                            <li class="nav-header">Filter by Taste</li>
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
