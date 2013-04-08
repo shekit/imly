@@ -104,6 +104,16 @@
             {% endif %}
         </div>
     </div>
+
+    <div class="row-fluid">
+        <div class="span2">
+            <p><strong>Item in Stock :</strong></p>
+        </div>
+        <div class="span10">
+            {{ object.items_in_stock }}
+        </div>
+    </div>
+
     
     {% if object.description %}
     <br>

@@ -6,6 +6,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.core.mail import send_mail
 from plata.product.models import ProductBase
+#from plata.product.stock.models import Period, StockTransaction
 from plata.shop.models import PriceBase, Order, TaxClass
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -128,6 +129,7 @@ class Product(ProductBase, PriceBase):
     name = models.CharField(max_length=100)
     slug = models.SlugField()
     capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
+    items_in_stock = models.IntegerField(default=0)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
     
