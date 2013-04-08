@@ -101,6 +101,7 @@ class Migration(SchemaMigration):
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50)),
             ('capacity_per_month', self.gf('django.db.models.fields.IntegerField')()),
+            ('items_in_stock', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('description', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('description_html', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('lead_time', self.gf('django.db.models.fields.IntegerField')(default=1)),
@@ -110,6 +111,8 @@ class Migration(SchemaMigration):
             ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('is_featured', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_bestseller', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('rating_votes', self.gf('django.db.models.fields.PositiveIntegerField')(default=0, blank=True)),
+            ('rating_score', self.gf('django.db.models.fields.IntegerField')(default=0, blank=True)),
         ))
         db.send_create_signal(u'imly', ['Product'])
 
@@ -123,6 +126,17 @@ class Migration(SchemaMigration):
             ('tag', models.ForeignKey(orm[u'imly.tag'], null=False))
         ))
         db.create_unique(u'imly_product_tags', ['product_id', 'tag_id'])
+
+        # Adding model 'UserProfile'
+        db.create_table(u'imly_userprofile', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('about_me', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('avatar', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
+        ))
+        db.send_create_signal(u'imly', ['UserProfile'])
 
 
     def backwards(self, orm):
@@ -158,6 +172,9 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field tags on 'Product'
         db.delete_table('imly_product_tags')
+
+        # Deleting model 'UserProfile'
+        db.delete_table(u'imly_userprofile')
 
 
     models = {
@@ -231,8 +248,11 @@ class Migration(SchemaMigration):
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
             'is_bestseller': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'items_in_stock': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'lead_time': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'rating_score': ('django.db.models.fields.IntegerField', [], {'default': '0', 'blank': 'True'}),
+            'rating_votes': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0', 'blank': 'True'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
             'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']"}),
             'tags': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Tag']", 'symmetrical': 'False'}),
@@ -264,6 +284,15 @@ class Migration(SchemaMigration):
             'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '50'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'})
+        },
+        u'imly.userprofile': {
+            'Meta': {'object_name': 'UserProfile'},
+            'about_me': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         },
         u'shop.taxclass': {
             'Meta': {'ordering': "['-priority']", 'object_name': 'TaxClass'},

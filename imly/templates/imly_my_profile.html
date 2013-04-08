@@ -1,34 +1,16 @@
-{% extends "base_store_manage.html" %}
+{% extends "base_account_manage.html" %}
 
-{% block manage_store_navigation %}
-	{% if user.store %}
-		<li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
-		<li><a href="{% url "imly_store_products" %}">Product Details</a></li>
-		<li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
-		<li class="active"><a href="#">My Profile</a></li>
-	{% else %}
-		<li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
-        <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
-        <li class="disabled"><a href="#">Order Details</a></li>
-        <li class="active"><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+{% block manage_account_navigation %}
+		<li class="active"><a href="#">Profile</a></li>
+		<li><a href="#">My Orders</a></li>
+		<li><a href="#">Whist-List</a></li>
+		
+{% endblock manage_account_navigation %}
 
-	{% endif %}
-
-{% endblock manage_store_navigation %}
-
-{% block shop_content %}
+{% block account_content %}
 <!--<h5>Profile</h5>
 Owner : {{owner|capfirst}}<br/>-->
 
-{% if not user.userprofile %}
-	<br><br><br>
-                <h2 class="muted text-center">
-                Create your Profile now by clicking on the button below.</h2>
-                
-                <p class="text-center"><a href="{% url "imly_create_profile" %}" class="btn btn-large btn-success">Create Profile</a></p>
-
-	
-{% else %}
 <div class="row-fluid">
     <div class="span12">
         <p class="text-right"><a href="{% url "imly_profile_edit" user.userprofile.id %}" class="btn btn-success"><span class="icon-edit icon-white"></span>Edit Profile</a></p>
@@ -63,10 +45,7 @@ Owner : {{owner|capfirst}}<br/>-->
                 </div>
         </div>
             	
-	
-
-{% endif %}
-{% endblock shop_content %}
+{% endblock account_content %}
                
 <!-- should show product thumbnail -->
 {% block shop_info %}

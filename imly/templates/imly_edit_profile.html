@@ -1,23 +1,13 @@
-{% extends "base_store_manage.html" %}
+{% extends "base_account_manage.html" %}
 
-{% block manage_store_navigation %}
-	{% if user.store %}
-		<li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
-		<li><a href="{% url "imly_store_products" %}">Product Details</a></li>
-		<li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
-		<li class="active"><a href="#">My Profile</a></li>
-	{% else %}
-		<li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
-        <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
-        <li class="disabled"><a href="#">Order Details</a></li>
-        <li class="active"><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+{% block manage_account_navigation %}
+		<li class="active"><a href="#">Profile</a></li>
+		<li><a href="#">My Orders</a></li>
+		<li><a href="#">Whist-List</a></li>
+		
+{% endblock manage_account_navigation %}
 
-	{% endif %}
-
-{% endblock manage_store_navigation %}
-
-
-{% block shop_content %}
+{% block account_content %}
 <form enctype="multipart/form-data" method="post" action="">
 	{% csrf_token %}
 <ul style="list-style-type:none;">
@@ -26,4 +16,4 @@
 <input type="submit" class="btn btn-success" value="Update">
 </ul>
 
-{% endblock shop_content %}
+{% endblock account_content %}

@@ -28,7 +28,7 @@ if DEBUG == True:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, "database2.db"),                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',
@@ -187,8 +187,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    'imly',
     'south',
+    'imly',
     'plata',
     'plata.product.stock',
     'plata.contact',
@@ -243,6 +243,8 @@ LOGGING = {
 
 #Plata settings
 PLATA_SHOP_PRODUCT = 'imly.Product'
+
+PLATA_STOCK_TRACKING = True
 
 PAYPAL = {
     'LIVE': False, # Use sandbox or live payment interface?
