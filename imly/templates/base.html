@@ -50,13 +50,13 @@
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
                                                 <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
                                                 {% if user.userprofile %}
-                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-font"></span> My Account</a></li>
+                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-cog"></span> My Account</a></li>
                                                 {% else %}
-                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-font"></span> Create Account</a></li>
+                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-cog"></span> My Account</a></li>
                                                 {% endif %}
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
                                             </ul>
