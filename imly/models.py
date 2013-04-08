@@ -137,7 +137,7 @@ class Product(ProductBase, PriceBase):
     capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
-    
+    items_in_stock = models.IntegerField(default=0)
     lead_time = models.IntegerField(default=1,help_text="(in days)")
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
