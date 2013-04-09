@@ -28,7 +28,11 @@ if DEBUG == True:
     DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+#<<<<<<< HEAD
         'NAME': os.path.join(PROJECT_DIR, "database4.db"),                      # Or path to database file if using sqlite3.
+#=======
+ #       'NAME': os.path.join(PROJECT_DIR, "database3.db"),                      # Or path to database file if using sqlite3.
+#>>>>>>> 8f0fd30012ae166cffbdaf1db487467c7c27cc0f
         # The following settings are not used with sqlite3:
         'USER': '',
         'PASSWORD': '',

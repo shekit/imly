@@ -15,7 +15,6 @@ import uuid
 from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR
 from imly_project import settings
-from djangoratings.fields import RatingField
 
 
 def get_image_path(instance,filename):
@@ -139,7 +138,7 @@ class Product(ProductBase, PriceBase):
     items_in_stock = models.IntegerField(default=0)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
-    
+    items_in_stock = models.IntegerField(default=0)
     lead_time = models.IntegerField(default=1,help_text="(in days)")
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
@@ -154,8 +153,6 @@ class Product(ProductBase, PriceBase):
     is_bestseller = models.BooleanField(default=False)
 
     tags = models.ManyToManyField(Tag)
-    
-    rating = RatingField(range=5)
     
     objects = ProductManager() #defaultManager
     

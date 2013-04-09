@@ -3,17 +3,27 @@
 {% block manage_account_navigation %}
 		<li class="active"><a href="#">Profile</a></li>
 		<li><a href="#">My Orders</a></li>
-		<li><a href="#">Whist-List</a></li>
+		<li><a href="#">Wishlist</a></li>
 		
 {% endblock manage_account_navigation %}
 
 {% block account_content %}
-<form enctype="multipart/form-data" method="post" action="">
-	{% csrf_token %}
-<ul style="list-style-type:none;">
-<li>{{form}}</li><br/><br/>
-<a href="{% url "imly_my_profile" %}" class="btn">Cancel</a>
-<input type="submit" class="btn btn-success" value="Update">
-</ul>
+   <h4>Edit Profile</h4>
+   <br>
+    
+        <div class="row-fluid">
+            
+		<div class="span12">
+			<form enctype="multipart/form-data" method="post" action="">
+			{% csrf_token %}
+			<ul class="unstyled form">
+			{{ form.as_ul }}
+			</ul>
+			<a href="{% url "imly_my_profile" %}" class="btn">Cancel</a>
+			<input type="submit" class="btn btn-success" value="Update">
+			</form>
+		</div>
+	</div>
+
 
 {% endblock account_content %}
