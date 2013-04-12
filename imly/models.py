@@ -6,7 +6,6 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.core.mail import send_mail
 from plata.product.models import ProductBase
-#from plata.product.stock.models import Period, StockTransaction
 from plata.shop.models import PriceBase, Order, TaxClass
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
@@ -128,17 +127,17 @@ class Store(models.Model):
 
     def reassign_product_categories(self):
       self.categories.clear()
-      self.categories.add(*Category.objects.filter(product__in=self.product_set.all()))
+      self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
       
 class Product(ProductBase, PriceBase):
     #Product Details
     name = models.CharField(max_length=100)
     slug = models.SlugField()
     capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
+    initial_cpm = models.IntegerField(default=0)
     items_in_stock = models.IntegerField(default=0)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
-    items_in_stock = models.IntegerField(default=0)
     lead_time = models.IntegerField(default=1,help_text="(in days)")
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
@@ -181,6 +180,7 @@ class Product(ProductBase, PriceBase):
         self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
+        #self.items_in_stock = self.capacity_per_month
         super(Product, self).save(*args, **kwargs)
 
 class UserProfile(models.Model):
@@ -199,6 +199,8 @@ class UserProfile(models.Model):
         if not self.avatar:
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
+
+
 
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):

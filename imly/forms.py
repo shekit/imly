@@ -39,7 +39,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "tax_class", "currency"]
-        fields = ("name", "_unit_price", "capacity_per_month","items_in_stock","description","lead_time","category","image","tags")
+        fields = ("name", "_unit_price", "capacity_per_month","description","lead_time","category","image","tags")
         widgets = {
             "tags": MyCheckboxSelectMultiple(),
         }
