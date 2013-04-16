@@ -67,6 +67,10 @@ html,body
       border-left: 1px solid #333;
     }
     
+    .navbar .nav > li > a.call_to_action {
+	background: #f05a28;
+    }
+    
     .navbar .nav > li > a:hover {
       padding: 15px 20px;
       color: #F05A28;

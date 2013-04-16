@@ -5,7 +5,7 @@ from imly.models import Product, Store, Category, Location
 
 
 from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page
-from imly.views.products import ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
+from imly.views.products import ProductReview, ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
 
@@ -62,6 +62,7 @@ urlpatterns += patterns('',
     
     url(r"^products/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^stores/(?P<store_slug>[-\w]+)/products/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
+    url(r"^review/$", login_required(ProductReview.as_view()), name="submit_product_review"),
     
 )
 

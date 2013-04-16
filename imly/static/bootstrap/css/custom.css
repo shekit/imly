@@ -358,6 +358,61 @@ ul.errorlist > li {
 
 }
 
+/* customizing forms created by django-crispy-forms */
+
+.asteriskField {
+    display: none;
+}
+.control-group {
+    margin-bottom: 25px;
+}
+.control-group .control-label {
+    font-weight: 500;
+}
+.control-group.error .control-label,
+.control-group.error .help-block,
+.control-group.error .help-inline {
+  color: #ff7752;
+}
+
+.control-group.error .checkbox,
+.control-group.error .radio,
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  color: #ff7752;
+}
+
+.control-group.error input,
+.control-group.error select,
+.control-group.error textarea {
+  border-color: #ff7752;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.control-group.error input:focus,
+.control-group.error select:focus,
+.control-group.error textarea:focus {
+  border-color: #f05a28;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffbbab;
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffbbab;
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 6px #ffbbab;
+}
+
+.control-group.error .input-prepend .add-on,
+.control-group.error .input-append .add-on {
+  color: #ff7752;
+  background-color: #ffd2c7;
+  border-color: #ff7752;
+}
+
+.control-group.error .input-prepend .add-on,
+.control-group.error .input-append .add-on {
+    text-shadow: none;
+}
+
 .helptext {
 	display:block;
 	font-style: italic;
@@ -366,14 +421,24 @@ ul.errorlist > li {
 	margin-top:-7px;
 }
 
+.help-block {
+	display:block;
+	font-style: italic;
+	font-size: 11px;
+	color: #999;
+	margin-top:-7px;
+}
+
+
 textarea, .uneditable-input {
-width: 400px;
+	width: 400px;
 }
 
 input[type="file"] {
-height: 20px;
-line-height: 0px;
-margin-top:5px;
+	height: 20px;
+	line-height: 0px;
+	margin-top:5px;
+	margin-bottom:5px;
 }
 
 input[type="checkbox"] {
@@ -387,15 +452,15 @@ h4.store_info {
 }
 
 .legend {
-  display: block;
-  width: 100%;
-  padding: 0;
-  margin-bottom: 10px;
-  font-size: 18px;
-  line-height: 30px;
-  color: #333333;
-  border: 0;
-  text-decoration: underline;
+	display: block;
+	width: 100%;
+	padding: 0;
+	margin-bottom: 10px;
+	font-size: 18px;
+	line-height: 30px;
+	color: #333333;
+	border: 0;
+	text-decoration: underline;
 }
 
 .orange {
@@ -407,8 +472,28 @@ h4.store_info {
 	padding: 10px 10px;
 }
 
+ul.no_left_padding > li {
+    padding-left: 0px;
+}
+
 /* customizing location select box */
 select.location_list {
 	width:100%;
 
+}
+
+/* customizing star-rating on product detail page */
+ul.imly_star_rating > li{
+    padding-left:0px;
+    padding-right:0px;
+}
+
+.reviewer{
+    color: #ccc;
+    font-style: italic;
+}
+
+ol.tips > li{
+    margin-bottom: 15px;
+    
 }

@@ -50,6 +50,7 @@ class BillingShippingAddress(models.Model):
     billing_company = models.CharField(_('company'), max_length=100, blank=True)
     billing_first_name = models.CharField(_('first name'), max_length=100)
     billing_last_name = models.CharField(_('last name'), max_length=100)
+    #billing_phone_number = models.CharField(_('contact number'), max_length=10)
     billing_address = models.TextField(_('address'))
     billing_zip_code = models.CharField(_('ZIP code'), max_length=50)
     billing_city = models.CharField(_('city'), max_length=100)
@@ -61,6 +62,7 @@ class BillingShippingAddress(models.Model):
     shipping_company = models.CharField(_('company'), max_length=100, blank=True)
     shipping_first_name = models.CharField(_('first name'), max_length=100, blank=True)
     shipping_last_name = models.CharField(_('last name'), max_length=100, blank=True)
+    #shipping_phone_number = models.CharField(_('contact number'), max_length=10, blank=True)
     shipping_address = models.TextField(_('address'), blank=True)
     shipping_zip_code = models.CharField(_('ZIP code'), max_length=50, blank=True)
     shipping_city = models.CharField(_('city'), max_length=100, blank=True)
@@ -428,7 +430,7 @@ class OrderItem(models.Model):
 
     currency = CurrencyField()
     _unit_price = models.DecimalField(_('unit price'),
-        max_digits=18, decimal_places=10,
+        max_digits=18, decimal_places=0,
         help_text=_('Unit price excl. tax'))
     _unit_tax = models.DecimalField(_('unit tax'),
         max_digits=18, decimal_places=10)
@@ -640,7 +642,7 @@ class PriceBase(models.Model):
         verbose_name_plural = _('prices')
 
     currency = CurrencyField()
-    _unit_price = models.DecimalField(_('unit price'), max_digits=18, decimal_places=10)
+    _unit_price = models.DecimalField(_('unit price'), max_digits=18, decimal_places=0)
     tax_included = models.BooleanField(_('tax included'),
         help_text=_('Is tax included in given unit price?'),
         default=plata.settings.PLATA_PRICE_INCLUDES_TAX)

@@ -17,13 +17,11 @@
         <div class="row-fluid">
             
             <div class="span12">
+                {% load crispy_forms_tags %}
                 <form enctype="multipart/form-data" method="post" action="">
-                    {% csrf_token %}
-                    <ul class="unstyled form">
-                        {{ form.as_ul }}
-                    </ul>
+                    {% crispy form %}
                     <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
-                    <input type="submit" class="btn btn-success" value="Save">
+                    <input type="submit" class="btn btn-success" value="Update">
 
                 </form>
             </div>

@@ -50,6 +50,10 @@ class LocationListNode(template.Node):
     def render(self,context):
         context["locations"] = Location.objects.all()
         return ""
+    
+def loop_int(value):
+    value = int(value)
+    return range(value)
 
 register = template.Library()
 register.tag("get_category_list", do_category_list)
@@ -57,4 +61,5 @@ register.tag("get_tag_list", do_tag_list)
 register.tag("get_location_list", do_location_list)
 register.tag("get_featured_store_list", do_featured_store_list)
 register.tag("get_bestseller_product_list", do_bestseller_product_list)
+register.filter("loop_int", loop_int)
 

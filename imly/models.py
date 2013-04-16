@@ -16,6 +16,8 @@ from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR
 from imly_project import settings
 
+from django.contrib.contenttypes import generic
+from reviews.models import ReviewedItem
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -88,6 +90,7 @@ class Store(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     owner = models.OneToOneField(User)
+    store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number", help_text="(Mobile number) We will not share this with anyone")
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
@@ -99,6 +102,7 @@ class Store(models.Model):
     date_updated = models.DateTimeField(auto_now=True)
     
     #status
+    store_notice = models.TextField(blank=True)
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     
@@ -132,14 +136,35 @@ class Store(models.Model):
       
 class Product(ProductBase, PriceBase):
     #Product Details
+    HOUR = 1
+    DAY = 2
+    LEAD_TIME_CHOICES = (
+        (HOUR, "hour"),
+        (DAY, "day"),
+    )
+    
+    PIECES = 1
+    SERVING = 2
+    GRAMS = 3
+    KILOS = 4
+    QUANTITY_BY_PRICE = (
+        (PIECES,"piece"),
+        (SERVING, "serving"),
+        (GRAMS, "gram"),
+        (KILOS,"kg"),
+    )
+    
     name = models.CharField(max_length=100)
     slug = models.SlugField()
+    quantity_per_item = models.IntegerField(default=1)
+    quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
     items_in_stock = models.IntegerField(default=0)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
     items_in_stock = models.IntegerField(default=0)
     lead_time = models.IntegerField(default=1,help_text="(in days)")
+    lead_time_unit = models.IntegerField(choices=LEAD_TIME_CHOICES, default=DAY)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
     image = models.ImageField(upload_to=get_image_path, help_text="Minimum image size - 600 X 340 pixels")
@@ -155,6 +180,8 @@ class Product(ProductBase, PriceBase):
     tags = models.ManyToManyField(Tag)
     
     objects = ProductManager() #defaultManager
+    
+    reviews = generic.GenericRelation(ReviewedItem)
     
     class Meta:
         unique_together =("name","store",)

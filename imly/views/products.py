@@ -1,13 +1,18 @@
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.template import RequestContext, Context
 from imly.forms import ProductForm, OrderItemForm, UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
-
+from reviews.forms import ReviewedItemForm
+from reviews.models import ReviewedItem
+from django.core.urlresolvers import reverse
+from django.views.generic.edit import ModelFormMixin
+from django.shortcuts import render_to_response
+from django.contrib.auth.decorators import login_required
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -15,6 +20,36 @@ from imly.models import Product, Category, Store, Tag, Location, UserProfile
 def coming_soon(request):
     return render(request,"coming_soon.html")
 
+#def set_review(request):
+#    return redirect(request.POST.get("next"))
+
+
+class ProductReview(CreateView):
+    form_class= ReviewedItemForm
+    model = ReviewedItem
+    
+    def get_success_url(self):
+        reviewed_item = self.object
+        return reverse("imly_product_detail", args = (reviewed_item.content_object.store.slug,reviewed_item.content_object.slug,))
+    
+    def form_valid(self,form):
+        reviewed_item = form.save(commit=False)
+        reviewed_item.user = self.request.user
+        reviewed_item.content_object = Product.objects.get(pk=1)
+        self.object = form.save()
+        return super(ModelFormMixin,self).form_valid(form)
+    
+    def get_context_data(self, **kwargs):
+        context = super(ProductReview, self).get_context_data(**kwargs)
+        context["form"] = self.get_form(self.get_form_class())
+        return context
+    
+    def form_invalid(self,form):
+        #raise Exception("being called")
+        content_object = Product.objects.get(pk=1)
+        return redirect(reverse("imly_product_detail", args = (content_object.store.slug,content_object.slug,)))
+        
+        
 class ProductList(ListView):
     
     model = Product
@@ -127,6 +162,7 @@ class ProductDetail(DetailView):
         
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
+        context["review_form"] = ReviewedItemForm()
         return context
     
     def get_queryset(self):

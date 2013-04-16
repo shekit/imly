@@ -178,6 +178,8 @@ AUTHENTICATION_BACKENDS = (
     
 )
 
+
+
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -204,13 +206,15 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'storages',
     'widget_tweaks',
+    'reviews',
+    'crispy_forms',
     #'djangoratings',
     #'django_comments',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
 
-
+MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -308,6 +312,6 @@ if DEBUG == False:
     
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-
-
+#make crispy forms fail loudly in debug mode
+CRISPY_FAIL_SILENTLY = not DEBUG
 
