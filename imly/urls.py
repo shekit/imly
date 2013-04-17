@@ -62,7 +62,7 @@ urlpatterns += patterns('',
     
     url(r"^products/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^stores/(?P<store_slug>[-\w]+)/products/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
-    url(r"^review/$", login_required(ProductReview.as_view()), name="submit_product_review"),
+    url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     
 )
 

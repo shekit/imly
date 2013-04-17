@@ -25,8 +25,9 @@ def coming_soon(request):
 
 
 class ProductReview(CreateView):
-    form_class= ReviewedItemForm
+    form_class = ReviewedItemForm
     model = ReviewedItem
+    template_name = "imly_product_detail.html"
     
     def get_success_url(self):
         reviewed_item = self.object
@@ -35,20 +36,17 @@ class ProductReview(CreateView):
     def form_valid(self,form):
         reviewed_item = form.save(commit=False)
         reviewed_item.user = self.request.user
-        reviewed_item.content_object = Product.objects.get(pk=1)
+        reviewed_item.content_object = Product.objects.get(slug=self.request.POST.get("product_slug"))
         self.object = form.save()
         return super(ModelFormMixin,self).form_valid(form)
     
     def get_context_data(self, **kwargs):
         context = super(ProductReview, self).get_context_data(**kwargs)
-        context["form"] = self.get_form(self.get_form_class())
+        context["review_form"] = self.get_form(self.get_form_class())
+        context["object"] = Product.objects.get(slug=self.request.POST.get("product_slug"))
+        context["form"] = OrderItemForm()
         return context
-    
-    def form_invalid(self,form):
-        #raise Exception("being called")
-        content_object = Product.objects.get(pk=1)
-        return redirect(reverse("imly_product_detail", args = (content_object.store.slug,content_object.slug,)))
-        
+
         
 class ProductList(ListView):
     

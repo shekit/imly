@@ -358,6 +358,14 @@ ul.errorlist > li {
 
 }
 
+.review_form {
+	color:#ff7752;
+	margin-left: 0px;
+	font-style: italic;
+	
+
+}
+
 /* customizing forms created by django-crispy-forms */
 
 .asteriskField {
