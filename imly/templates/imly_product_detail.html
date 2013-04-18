@@ -173,7 +173,7 @@
             {% endfor %}
             <br>
             {% if review_form.score.errors %}
-                <p class="review_form">Please rate this product.</p>
+                <p class="review_form_errors">Please rate this product.</p>
             {% endif %}
 
 
@@ -181,7 +181,7 @@
                 <p>{{ field }}</p>
             {% endfor %}
             {% if review_form.content.errors %}
-                <p class="review_form">Please review this product.</p>
+                <p class="review_form_errors">Please review this product.</p>
             {% endif %}
             <input type="submit" class="btn" value="Submit Review">
         </form>
