@@ -7,6 +7,7 @@ from imly.forms import UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
+from plata.shop.models import Order, OrderItem
 
 
 class ProfileInfo(DetailView):
@@ -45,3 +46,10 @@ class EditProfile(UpdateView):
         if self.get_object().user != self.request.user:
             return HttpResponseForbidden()
         return super(EditProfile,self).get(request, *args, **kwargs)'''
+
+class UserOrders(ListView):
+    model = OrderItem
+    template_name = "imly_user_orders.html"
+
+    def get_queryset(self):
+        return OrderItem.objects.filter(order__in = self.request.user.orders.all())
