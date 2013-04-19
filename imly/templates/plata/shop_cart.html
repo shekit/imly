@@ -13,7 +13,9 @@
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
         {% else %}
         <h3>{% trans "Cart" %} {{ plata.order.items.count }}</h3>
-        
+        <div class="alert alert-block">
+            <b>Heads up!</b> Please ensure that the stores you order from either deliver to your area or provide pick-up facility before confirming your order.
+        </div>
         <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
         
         {% form_errors orderitemformset %}
