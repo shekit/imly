@@ -5,6 +5,7 @@ from imly.models import Store, Product, Category, UserProfile#, GiveTip
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 import os
+import re
 
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit, Div
@@ -37,8 +38,8 @@ class StoreForm(forms.ModelForm):
 
     def clean_store_contact_number(self):
         contact = self.cleaned_data['store_contact_number']
-        if len(contact) != 10:
-            raise forms.ValidationError("Mobile number should be 10")
+        if len(contact) != 10 and not re.match(r'[0-9]+',contact):
+            raise forms.ValidationError("Mobile number must be 10 digits & number.")
         return contact
     
     class Meta:
