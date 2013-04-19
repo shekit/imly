@@ -2,6 +2,7 @@ from datetime import date, datetime
 from decimal import Decimal
 import logging
 import re
+from datetime import timedelta
 
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
@@ -469,6 +470,10 @@ class OrderItem(models.Model):
         if plata.settings.PLATA_PRICE_INCLUDES_TAX:
             return self._unit_price + self._unit_tax
         return self._unit_price
+
+    @property
+    def due_date(self):
+        return self.order.created.date() + timedelta(days = self.product.lead_time)
 
     @property
     def line_item_discount_excl_tax(self):

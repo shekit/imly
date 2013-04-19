@@ -213,66 +213,87 @@
 
         <script type="text/javascript">
             
+            
                 !function ($) {
-                  $(function(){
-                    $("div.expandable").expander({
-                    slicePoint: 140,
-                    expandEffect: 'slideDown',
-                    collapseEffect: 'slideUp',
-
-                });
-                
-                $("a.tag").click(function() {
-                   var id = $(this).attr("id");
-                   if (window.location.search == "") {
-                        window.location.search = "tags=" + id;
-                   }
-                   else {
-                        window.location.search += "&tags=" + id
-                   }
-                   return false;
-                });
-                
-                $("a.tag_selected").click(function(){
-                    var id = $(this).attr("id");
-                    var query = window.location.search.slice(1);
-
-                        var tag_list = query.split("&");
-                        var remaining_tags = []
-                        for(i=0;i<tag_list.length;i++) {
-                            if(tag_list[i] != "tags="+id){
-                                remaining_tags.push(tag_list[i])
-                            }
-                        }
+                    $(function(){
                         
-                        window.location.search=remaining_tags.join("&");
-                        return false;
-                });
-                
-                $("select.location_list").on("change", function(){
-                    var query = window.location.href
-                    window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
-                });
-                
-                $("#id_pick_up").change(function (){
-                    if($(this).is(":checked")){
-                        $(".pick_up").slideDown();
-                        return;
-                    }
-                        $(".pick_up").slideUp();
-
-                });
-                
-                $("#id_provide_delivery").change(function (){
-                    if($(this).is(":checked")){
-                        $(".delivery_areas").slideDown();
-                        return;
-                    }
-                        $(".delivery_areas").slideUp();
-
-                });
+                        //expanding, contracting stor info
+                        $("div.expandable").expander({
+                        slicePoint: 140,
+                        expandEffect: 'slideDown',
+                        collapseEffect: 'slideUp',
+    
+                        });
+                        
+                        //filtering by tags - adding the tags
+                        $("a.tag").click(function() {
+                           var id = $(this).attr("id");
+                           if (window.location.search == "") {
+                                window.location.search = "tags=" + id;
+                           }
+                           else {
+                                window.location.search += "&tags=" + id
+                           }
+                           return false;
+                        });
+                        
+                        //filtering by tags - removing the tags
+                        $("a.tag_selected").click(function(){
+                            var id = $(this).attr("id");
+                            var query = window.location.search.slice(1);
+        
+                                var tag_list = query.split("&");
+                                var remaining_tags = []
+                                for(i=0;i<tag_list.length;i++) {
+                                    if(tag_list[i] != "tags="+id){
+                                        remaining_tags.push(tag_list[i])
+                                    }
+                                }
                                 
-                  })
+                                window.location.search=remaining_tags.join("&");
+                                return false;
+                        });
+                        
+                        //filtering by location
+                        $("select.location_list").on("change", function(){
+                            var query = window.location.href
+                            window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
+                        });
+                        
+                        //script to show fields in store edit/create if checkbox is already ticked
+                        if($("#id_pick_up").is(":checked")){
+                            $(".pick_up").css({"display":"block"})
+                        }
+                        else{
+                            $(".pick_up").css({"display":"none"})
+                        }
+                        if($("#id_provide_delivery").is(":checked")){
+                            $(".delivery_areas").css({"display":"block"})
+                        }
+                        else{
+                            $(".delivery_areas").css({"display":"none"})
+                        }
+                
+                        //script to hide/reveal fields in store edit/create if checkbox is checked/unchecked
+                        $("#id_pick_up").change(function (){
+                            if($(this).is(":checked")){
+                                $(".pick_up").slideDown();
+                                return;
+                            }
+                                $(".pick_up").slideUp();
+        
+                        });
+                
+                        $("#id_provide_delivery").change(function (){
+                            if($(this).is(":checked")){
+                                $(".delivery_areas").slideDown();
+                                return;
+                            }
+                                $(".delivery_areas").slideUp();
+        
+                        });
+                                
+                    })
                 }(window.jQuery)
                 
 

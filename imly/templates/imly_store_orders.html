@@ -23,6 +23,7 @@
                         <th>Product</th>
                         <th>Category</th>
                         <th>Ordered On</th>
+                        <th>Due Date</th>
                         <th>Quantity</th>
                         <th>Subtotal</th>
                     </tr>
@@ -32,6 +33,7 @@
                         <td>{{ object.product.name }}</td>
                         <td>{{ object.product.category }}</td>
                         <td>{{ object.order.created|date:"F j, Y" }}</td>
+                        <td>{{ object.due_date|date:"F j, Y" }}</td>
                         <td>{{ object.quantity }}</td>
                         <td>{{ object.currency }} {{ object.subtotal|floatformat:"2" }}</td>
                     </tr>
