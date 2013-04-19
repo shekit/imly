@@ -1,4 +1,4 @@
-{% extends base_template|default:"base_cart.html" %}
+{% extends "base_cart2.html" %}
 
 {% load i18n plata_tags %}
 
@@ -24,13 +24,14 @@
                 <th>{% trans "price"|capfirst %}</th>
                 <th>{% trans "quantity"|capfirst %}</th>
                 <th>{% trans "subtotal"|capfirst %}</th>
-                
+                <th>{% trans "pick up"|capfirst %}</th>
+                <th>{% trans "delivery Area"|capfirst %}</th>
                 <th>{% trans "Delete" %}</th>
             </tr>
         {% for orderitemform in orderitemformset.forms %}
             <tr>
                 <td><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></td>
-                <td>{{ orderitemform.instance.name }}
+                <td>{{ orderitemform.instance.product.name }}
                     <p><small>by <a href="{% url "imly_store_detail" orderitemform.instance.product.store.slug %}">{{ orderitemform.instance.product.store.name }}</a></small></p>
                 </td>
                 <td>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }}</td>
@@ -40,6 +41,26 @@
                 </td>
                 
                 <td>{{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</td>
+                <td>
+                    {% if orderitemform.instance.product.store.pick_up %}
+                        {{ orderitemform.instance.product.store.pick_up_location }}
+                    {% else %}
+                        <p>No</p>
+                    {% endif %}
+                </td>
+
+                <td>
+                    {% if orderitemform.instance.product.store.provide_delivery %}
+                        <ul class="unstyled">
+                            {% for location in orderitemform.instance.product.store.delivery_areas.all %}
+                                <li>{{ location|capfirst }}</li>
+                            {% endfor %}
+                        </ul>
+                    {% else %}
+                        No
+                    {% endif %}                   
+                </td>
+                
                 <td><p class="text-center">{% form_item_plain orderitemform.DELETE %}</p></td>
             </tr>
         {% endfor %}

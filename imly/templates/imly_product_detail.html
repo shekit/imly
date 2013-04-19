@@ -67,7 +67,7 @@
             {% else %}
                 <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> for {{object.quantity_per_item}} {{ object.get_quantity_by_price_display }}s</small></h4>
             {% endif %}
-
+            
             <form method="post" action="{% url "imly_add_order" object.slug %}">
             {% csrf_token %}
                 {{ form.as_p }}
