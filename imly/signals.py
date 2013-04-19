@@ -1,8 +1,9 @@
-from django.db.models.signals import post_save, post_delete
 from django.dispatch import receiver
+from django.db.models.signals import m2m_changed, post_save, post_delete
+from django.core.mail import send_mail
 from django.db.models import Sum
 from plata.product.stock.models import Period, StockTransaction
-from imly.models import Product, Store, Category
+from imly.models import Product, Store
 
 @receiver(post_save, sender=Product)
 def set_product_initial_transaction(sender,instance, created,**kwargs):
@@ -76,13 +77,21 @@ def set_product_initial_transaction(sender,instance, created,**kwargs):
 
 		
 
-@receiver(post_save, sender="Product")
-def add_category(sender, **kwargs):
-    sender.store.categories.add(sender.category)
-        
-@receiver(post_delete, sender="Product")
-def delete_category(sender, **kwargs):
-    if sender.store.product_set.filter(category=sender.category):
-        return
-    else:
-        sender.store.categories.remove(sender.category)
+@receiver(m2m_changed, sender=Product.tags.through)
+def update_store_tags_from_product(sender, instance, action, **kwargs):
+  if action == 'post_add':
+    instance.store.reset_tags()
+
+@receiver(post_save, sender=Product)
+def update_store_categories_from_product(sender, instance, **kwargs):
+    instance.store.reset_categories()
+
+@receiver(post_delete, sender=Product)
+def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
+  instance.store.reset_tags()
+  instance.store.reset_categories()
+
+@receiver(post_save, sender=Store)
+def send_store_mail(sender,instance,created, **kwargs):
+    if created:
+        send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)

@@ -1,10 +1,7 @@
 import os
 from django.db import models
 from django.contrib.auth.models import User
-from django.db.models.signals import m2m_changed, post_save, post_delete
-from django.dispatch import receiver
 from django.utils.text import slugify
-from django.core.mail import send_mail
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
 from imagekit.models import ImageSpecField
@@ -31,7 +28,7 @@ def get_thumbnail_mini_path(instance,path,specname,extension):
     return os.path.join("mini", path)
 
 def get_thumbnail_large_path(instance,path,specname,extension):
-    return os.path.join("large",path)
+    return os.path.join("large", path)
 
 class Category(models.Model):
     
@@ -89,7 +86,8 @@ class Store(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     owner = models.OneToOneField(User)
-    store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number", help_text="(Mobile number) We will not share this with anyone")
+    store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
+                                            help_text="(Mobile number) We will not share this with anyone")
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
@@ -107,7 +105,7 @@ class Store(models.Model):
     
     tags = models.ManyToManyField(Tag, blank=True)
     
-    objects = StoreManager() #default manager
+    objects = StoreManager()  # default manager
     
     
     class Meta:
@@ -125,11 +123,11 @@ class Store(models.Model):
         self.slug = slugify(self.name)
         super(Store, self).save(*args, **kwargs)
 
-    def reassign_product_tags(self):
+    def reset_tags(self):
       self.tags.clear()
       self.tags.add(*Tag.objects.filter(product__in=self.product_set.all()))
 
-    def reassign_product_categories(self):
+    def reset_categories(self):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
       
@@ -187,7 +185,7 @@ class Product(ProductBase, PriceBase):
         ordering = ["-date_created"]
     
     def __unicode__(self):
-        return "%s by %s" % (self.name,self.store.name)
+        return "%s by %s" % (self.name, self.store.name)
     
     @models.permalink
     def get_absolute_url(self):
@@ -226,26 +224,3 @@ class UserProfile(models.Model):
         if not self.avatar:
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
-
-
-
-@receiver(m2m_changed, sender=Product.tags.through)
-def update_store_tags_from_product(sender, instance, action, **kwargs):
-  if action == 'post_add':
-    # simple approach
-    instance.store.reassign_product_tags()
-      
-@receiver(post_save, sender=Product)
-def update_store_categories_from_product(sender, instance, **kwargs):
-    instance.store.reassign_product_categories()
-
-@receiver(post_delete, sender=Product)
-def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
-  instance.store.reassign_product_tags()
-  instance.store.reassign_product_categories()
-
-@receiver(post_save, sender=Store)
-def send_store_mail(sender,instance,created, **kwargs):
-    if created:
-        send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
-        
