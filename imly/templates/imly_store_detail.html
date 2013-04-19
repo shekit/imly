@@ -62,10 +62,19 @@
         <li class="span4">
             <div class="thumbnail">
                 <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}" class="centered"></a>
-                <h5>{{ product.name }}</h5> <span class="pull-left">INR {{ product.get_price.unit_price|floatformat:"0" }}</span>
+                <h5>{{ product.name }}</h5> <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                    {% if product.quantity_per_item == 1 %}
+                        per {{ product.get_quantity_by_price_display }}
+                    {% else %}
+                        for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
+                    {% endif %} 
+                </small></span>
 
-                <a href="{% url "imly_product_detail" object.slug product.slug %}" class="btn btn-mini pull-right">View Details</a>
-
+                <form method="post" action="{% url "imly_add_order" product.slug %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="submit" class="btn btn-success btn-mini pull-right" value="Buy">
+                </form>
                 <div class="clearfix"></div>
             </div>
         </li>

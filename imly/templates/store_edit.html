@@ -2,7 +2,7 @@
 
 {% block manage_store_navigation %}
 
-    <li class="active"><a href="#">Shop Details</a></li>
+    <li class="active"><a href="{% url "imly_store_info" %}">Shop Details</a></li>
     <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
     <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
     
@@ -22,7 +22,7 @@
         <input type="submit" class="btn btn-success" value="Update">
         </form>
         {% endcomment %}
-
+        
         {% load crispy_forms_tags %}
         <form method="post" action="">
             {% crispy form %}

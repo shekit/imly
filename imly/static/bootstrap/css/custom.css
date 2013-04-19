@@ -53,18 +53,24 @@ html,body
 .btn-custom {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff7752;
-  *background-color: #f05a28;
-  background-image: -moz-linear-gradient(top, #ff7752, #f05a28);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff7752), to(#f05a28));
-  background-image: -webkit-linear-gradient(top, #ff7752, #f05a28);
-  background-image: -o-linear-gradient(top, #ff7752, #f05a28);
-  background-image: linear-gradient(to bottom, #ff7752, #f05a28);
+  background-color: #f99073;
+  *background-color: #ff7752;
+  background-image: -moz-linear-gradient(top, #f99073, #ff7752);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f99073), to(#ff7752));
+  background-image: -webkit-linear-gradient(top, #f99073, #ff7752);
+  background-image: -o-linear-gradient(top, #f99073, #ff7752);
+  background-image: linear-gradient(to bottom, #f99073, #ff7752);
   background-repeat: repeat-x;
   border-color: #e86c4b #ea5228 #e5390c;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7752 ', endColorstr='#fff05a28', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff99073 ', endColorstr='#ffff7752', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-custom:hover {
+  color: #ffffff;
+  background-color: #ff7752;
+  *background-color: #f05a28;
 }
 
 .btn-custom-light {
@@ -192,6 +198,22 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	background: #F05A28;
 }
 		
+/* reducing h5 bottom margin in product list page so shop name comes below product */
+.less_bottom_margin{
+    margin-bottom:0px;
+    line-height: 80%;
+    font-size:16px;
+}
+
+
+
+.ultra_small {
+    font-size: 75%;
+}
+
+.store_list_name{
+    font-weight: 500;
+}
 
 /* used to center the search by SHOP or PRODUCT nav pills */        
 .centered-pills { text-align:center; }
@@ -504,4 +526,17 @@ ul.imly_star_rating > li{
 ol.tips > li{
     margin-bottom: 15px;
     
+}
+
+/* showing/hiding delivery/pickup divs in store create/edit form */
+.pick_up{
+    display:none;
+}
+
+.delivery_areas {
+    display:none;
+}
+
+div.store_form > legend {
+    font-size:14px;
 }
