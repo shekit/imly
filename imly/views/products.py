@@ -114,11 +114,15 @@ class ProductCreate(CreateView):
     model = Product
     template_name = "product_create.html"
     success_url = "/account/store/products/"
-    
-    def form_valid(self,form):
+
+    def get_form(self, form_class):
+        form = super(ProductCreate, self).get_form(form_class)
         form.instance.store = self.request.user.store
+        return form
+
+    def form_valid(self,form):
         return super(ProductCreate,self).form_valid(form)
-    
+
     
 class ProductEdit(UpdateView):
     form_class = ProductForm

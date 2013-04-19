@@ -95,4 +95,4 @@ def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created and Site.objects.get_current().domain == 'imly.in':
-        send_mail("Store added - Awaiting Confirmation","Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+        send_mail("Store added - Awaiting Confirmation @%s" % (Site.objects.get_current(), ),"Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
