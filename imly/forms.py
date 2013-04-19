@@ -173,7 +173,13 @@ class ProductForm(forms.ModelForm):
             ),
         )
 
-    
+    def clean_name(self):
+        try:
+            Product.objects.get(name=self.cleaned_data['name'], store=self.instance.store)
+            raise ValidationError(u'You already have a product with the same name in your store.')
+        except Product.DoesNotExist:
+            return self.cleaned_data['name']
+
     class Meta:
         model = Product
         exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "tax_class", "currency"]
