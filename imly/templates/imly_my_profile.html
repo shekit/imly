@@ -2,7 +2,11 @@
 
 {% block manage_account_navigation %}
 		<li class="active"><a href="#">Profile</a></li>
-		<li><a href="#">My Orders</a></li>
+		{% if user.orders %}
+            <li><a href="{% url "imly_user_orders" user.id %}">My Orders</a></li>
+        {% else %}
+            <li><a href="#">My Orders</a></li>
+        {% endif %}
 		<li><a href="#">Wishlist</a></li>
 		
 {% endblock manage_account_navigation %}
@@ -48,54 +52,3 @@ Owner : {{owner|capfirst}}<br/>-->
 {% endblock account_content %}
                
 <!-- should show product thumbnail -->
-{% block shop_info %}
-    {% if user.store %}
-    <div class="well shop_info">
-
-        <h4>{{ user.store.name }}</h4>
-        <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
-
-        <div class="row-fluid">
-            <div class="span10 offset1">
-                <hr>
-            </div>
-        </div>
-
-        <h5>Items in Shop:</h5>
-            {% if user.store.product_set.count %}
-                <div class="row-fluid">
-                    <ul class="thumbnails">
-                    {% for product in user.store.product_set.all %}
-                    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined_product_detail_aside">{% endif %}
-                    <li class="span4">
-                        <div class="thumbnail">
-                            <a href="{% url "imly_store_products" %}"><img src="{{ product.image_thumbnail_mini.url }}" alt="{{ product.name }}" class="centered"></a>
-        
-                            <div class="clearfix"></div>
-                        </div>
-                    </li>
-                    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-                    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
-                    {% endfor %}
-                    </ul>
-                </div>
-            {% else %}
-                <div class="row-fluid">
-                    <p>You have no items in your shop yet!</p>
-                    <a href="{% url "imly_product_add" %}" class="btn btn-success btn-block">Add a Product</a>
-                </div>
-                <br>
-            {% endif %}
-
-        <h5>Total Items in Shop: <span class="h5_inline">{{ user.store.product_set.count }}</span></h5>
-             
-    </div>
-    {% else %}
-        <div class="well shop_info">
-            <h2 class="muted text-center">You do not have a shop yet.<br>
-                Create your shop now by clicking on the button below.</h2>
-                
-                <p class="text-center"><a href="{% url "imly_store_create" %}" class="btn btn-large btn-success">Create Your Shop</a></p>
-        </div>        
-    {% endif %}
-{% endblock shop_info %} 
