@@ -253,8 +253,29 @@
                     var query = window.location.href
                     window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
                 });
+                
+                $("#id_pick_up").change(function (){
+                    if($(this).is(":checked")){
+                        $(".pick_up").slideDown();
+                        return;
+                    }
+                        $(".pick_up").slideUp();
+
+                });
+                
+                $("#id_provide_delivery").change(function (){
+                    if($(this).is(":checked")){
+                        $(".delivery_areas").slideDown();
+                        return;
+                    }
+                        $(".delivery_areas").slideUp();
+
+                });
+                                
                   })
                 }(window.jQuery)
+                
+
               
         </script>
         {% block extra_body %}

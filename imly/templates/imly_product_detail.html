@@ -186,7 +186,7 @@
             <input type="submit" class="btn" value="Submit Review">
         </form>
         {% else %}
-            <h4 class="muted"><a href="{% url "account_login" %}?next={% url "imly_product_detail" object.store.slug object.slug %}#review">Login</a> to review</h4>
+            <h4 class="muted"><a href="{% url "account_login" %}?next={% url "imly_product_detail" object.store.slug object.slug %}">Login</a> to review</h4>
         {% endif %}
     </div>
     

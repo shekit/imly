@@ -39,7 +39,8 @@
             </div>
             <br>
                 
-                <div class="row-fluid">
+               {% comment %}
+               <div class="row-fluid">
                         
                         <div class="span12 well">
                                 <form method="post" action="">
@@ -52,6 +53,8 @@
                                 </form>
                         </div>
                 </div>
+                {% endcomment %}
+            
             <div class="row-fluid">
                 <div class="span12 well">
                     <div class="row-fluid">
@@ -59,7 +62,7 @@
                             <h4 class="store_info">Name:</h4>{{ object.name }} 
                         </div>
                         <div class="span4">
-                            <h4 class="store_info">Owner:</h4>{{ object.owner }} - {{ object.store_contact_number }} 
+                            <h4 class="store_info">Owner:</h4>{{ object.owner }}  <small>({{ object.store_contact_number }})</small> 
                         </div>
                         <div class="span4">
                         {% if object.tagline %}
@@ -116,8 +119,7 @@
             
             {% else %}
                 <br><br><br>
-                <h2 class="muted text-center">You do not have a shop yet.<br>
-                Create your shop now by clicking on the button below.</h2>
+                <h2 class="muted text-center">You do not have a shop yet.</h2>
                 
                 <p class="text-center"><a href="{% url "imly_store_create" %}" class="btn btn-large btn-success">Create Your Shop</a></p>
             {% endif %}

@@ -20,6 +20,7 @@ class StoreForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)
+        self.fields["provide_delivery"].label = "Provide Delivery?"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -28,8 +29,26 @@ class StoreForm(forms.ModelForm):
                 "name",
                 "tagline",
                 PrependedText("store_contact_number", "+91", placeholder="Mobile Number"),
-                "description",
-                "delivery_areas",
+                "description"
+                ),
+            Fieldset(
+                "",
+                "pick_up",
+                Div(
+                    "pick_up_address",
+                    Field("pick_up_location",placeholder="e.g Breach Candy etc"),
+                    css_class="pick_up"
+                ),
+                "provide_delivery",
+                Div(
+                    "delivery_areas",
+                    css_class="delivery_areas"
+                )
+                ),
+            Fieldset(
+                "",
+                "facebook_link",
+                "twitter_link",
             ),
         )
 
@@ -41,10 +60,24 @@ class StoreForm(forms.ModelForm):
             raise forms.ValidationError("Mobile number should be 10")
         return contact
     
+    def clean(self):
+        cleaned_data = super(StoreForm, self).clean()
+        pick_up_address = cleaned_data.get("pick_up_address")
+        delivery_areas = cleaned_data.get("delivery_areas")
+        
+        if not pick_up_address and not delivery_areas:
+            msg=u"You must either define a pick up point or a delivery area(s)"
+            self._errors["pick_up"] = self.error_class([msg])
+            
+            del cleaned_data["pick_up_address"]
+            del cleaned_data["delivery_areas"]
+        
+        return cleaned_data
+        
     class Meta:
         model = Store
         exclude = ["slug","owner","categories", "date_created","date_updated","tags", "is_featured","is_approved"]
-        fields = ("name", "tagline", "store_contact_number","description", "delivery_areas")
+        fields = ("name", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "delivery_areas", "facebook_link", "twitter_link")
         widgets = {
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
@@ -62,12 +95,12 @@ class StoreForm(forms.ModelForm):
             "delivery_areas": MyCheckboxSelectMultiple(),
         }"""
 
-class StoreNotice(forms.ModelForm):
+"""class StoreNotice(forms.ModelForm):
         
     class Meta:
         model = Store
         exclude = ["name", "tagline", "store_contact_number","description", "delivery_areas", "slug","owner","categories", "date_created","date_updated","tags", "is_featured","is_approved"]
-        fields = ("store_notice",)
+        fields = ("store_notice",)"""
         
 class ProductForm(forms.ModelForm):
     

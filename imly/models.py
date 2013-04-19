@@ -96,9 +96,17 @@ class Store(models.Model):
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
-    delivery_areas = models.ManyToManyField(Location)
+    pick_up = models.BooleanField(default=False)
+    pick_up_address = models.TextField(blank=True)
+    pick_up_location = models.CharField(max_length=50,blank=True)
+    provide_delivery = models.BooleanField(default=False)
+    delivery_areas = models.ManyToManyField(Location, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True)
+    
+    #promotion
+    facebook_link = models.URLField(blank=True, help_text="(optional)")
+    twitter_link = models.URLField(blank=True, help_text="(optional)")
     
     #status
     store_notice = models.TextField(blank=True)
@@ -231,9 +239,10 @@ class UserProfile(models.Model):
 
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):
-  if action == 'post_add':
+    if action == 'post_add':
     # simple approach
-    instance.store.reassign_product_tags()
+        instance.store.reassign_product_tags()
+    
       
 @receiver(post_save, sender=Product)
 def update_store_categories_from_product(sender, instance, **kwargs):
@@ -241,8 +250,8 @@ def update_store_categories_from_product(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
-  instance.store.reassign_product_tags()
-  instance.store.reassign_product_categories()
+    instance.store.reassign_product_tags()
+    instance.store.reassign_product_categories()
 
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):

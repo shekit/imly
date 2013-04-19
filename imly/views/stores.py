@@ -5,7 +5,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 
 from imly.models import Category, Store, Product, Location, Tag
-from imly.forms import StoreNotice, StoreForm, OrderItemForm
+from imly.forms import StoreForm, OrderItemForm
 
 import plata
 from plata.shop.models import Order, OrderItem
@@ -121,6 +121,7 @@ class StoreDetail(DetailView):
     model = Store
     template_name = "imly_store_detail.html"
 
+"""
 class StoreNotice(UpdateView):
     
     model=Store
@@ -132,6 +133,7 @@ class StoreNotice(UpdateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(StoreNotice, self).form_valid(form)
+""" 
     
 class StoreInfoDetail(DetailView):
     
