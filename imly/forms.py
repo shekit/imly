@@ -3,6 +3,7 @@ from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
 from imly.models import Store, Product, Category, UserProfile#, GiveTip
 from django.core.mail import send_mail
+from django.core.exceptions import ValidationError
 import os
 
 from crispy_forms.helper import FormHelper
@@ -33,6 +34,12 @@ class StoreForm(forms.ModelForm):
         )
 
         self.fields["delivery_areas"].help_text = "Where all can you deliver? Select all that apply"
+
+    def clean_store_contact_number(self):
+        contact = self.cleaned_data['store_contact_number']
+        if len(contact) != 10:
+            raise forms.ValidationError("Mobile number should be 10")
+        return contact
     
     class Meta:
         model = Store

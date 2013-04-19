@@ -79,21 +79,23 @@
 {% if object_list %}
     <ul class="thumbnails">
         {% for object in object_list %}
-        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-        <li class="span4">
-            <div class="thumbnail">
-                {% with object.product_set.all|first as product %}
-                    <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
-                {% endwith %}
-                
-                <a href="{% url "imly_store_detail" object.slug %}"><h5>{{ object.name }}</h5></a><small> by
-                                        {% if object.owner.first_name %}
-                                            {{ object.owner.first_name }}
-                                        {% else %}
-                                            {{ object.owner.username }}
-                                        {% endif %}</small>
-            </div>
-        </li>
+            {% if object.product_set.count  %}
+                {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+                <li class="span4">
+                    <div class="thumbnail">
+                        {% with object.product_set.all|first as product %}
+                            <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
+                        {% endwith %}
+                    
+                        <a href="{% url "imly_store_detail" object.slug %}"><h5>{{ object.name }}</h5></a><small> by
+                                            {% if object.owner.first_name %}
+                                                {{ object.owner.first_name }}
+                                            {% else %}
+                                                {{ object.owner.username }}
+                                            {% endif %}</small>
+                    </div>
+                </li>
+            {% endif %}
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
