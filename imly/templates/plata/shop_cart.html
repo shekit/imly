@@ -17,7 +17,13 @@
             <b>Heads up!</b> Please ensure that the stores you order from either deliver to your area or provide pick-up facility before confirming your order.
         </div>
         <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
-        
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}        
         {% form_errors orderitemformset %}
         <table class="table table-striped table-bordered">
             <tr>
@@ -40,6 +46,8 @@
                 <td>
                     {{ orderitemform.id }}
                     {% form_item_plain orderitemform.quantity %}
+                    <br>
+                    <small class="muted">Orders left for today: {{ orderitemform.instance.product.items_in_stock }}</small>
                 </td>
                 
                 <td>{{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</td>

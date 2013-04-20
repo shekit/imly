@@ -164,7 +164,7 @@ class Product(ProductBase, PriceBase):
     slug = models.SlugField()
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
-    capacity_per_day = models.IntegerField(help_text="How many can you make every month?")
+    capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
     items_in_stock = models.IntegerField(default=0)
     is_deleted = models.BooleanField(default = False)
