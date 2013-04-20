@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% comment %}
+{% block navigation %}
+                
+                <nav class="navbar">
+                    <div class="navbar-inner">
+                        <div class="container">
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a href="{% url "imly_product_list" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/logo.png" width="110" height="90" alt="Imly Logo"></a>
+                            <div class="nav-collapse">
+                                
+                                <ul class="nav pull-right">
+                                    <li><a href="#">What is Imly</a></li>
+                                    
+                                    <li><a href="#">Blog</a></li>
+                                    
+                                    
+                                    {% if user.is_authenticated %}
+                                        <li class="disabled"><a href="#"></a></li>
+                                        <li class="dropdown"><a class="btn dropdown-toggle" data-toggle="dropdown" href="#">{{ user.username }} <span class="caret"></span></a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url "imly_store_create" %}"><span class="icon-home"></span>Manage Shop</a></li>
+                                                {% if user.userprofile %}
+                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-font"></span> My Account</a></li>
+                                                {% else %}
+                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-font"></span> Create Account</a></li>
+                                                {% endif %}
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="#"><span class="icon-off"></span> Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li class="disabled"><a href="#">|</a></li>
+                                        <li><strong><a href="#">Log-In</a></strong></li>
+                                    {% endif %}
+                                    
+                                </ul>
+                            </div> <!-- end of nav-collapse div -->
+                        </div><!-- end of container --> 
+                    </div> <!-- end of navbar-inner --> 
+
+                </nav> <!-- end of navbar -->               
+{% endblock navigation %}
+{% endcomment %}
+
+{% block main_body %}
+    
+    <div class="row-fluid">
+        
+        <section class="span9">
+            <h3>Store Wizard</h3>
+            <div class="row-fluid">
+                <div class="span12">
+                    <ul class="nav nav-tabs">
+                    {% block manage_store_navigation %}
+                    
+                    {% endblock manage_store_navigation %}
+                    </ul>
+                </div>
+            </div>
+            
+            {% block shop_content %}
+                
+            {% endblock shop_content %}
+                
+        </section>
+        
+        <aside class="span3">
+            {% block shop_info %}
+                
+            {% endblock shop_info %}            
+        </aside>
+        
+
+        
+    </div>
+{% endblock main_body %}

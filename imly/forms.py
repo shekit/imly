@@ -61,6 +61,12 @@ class StoreForm(forms.ModelForm):
             raise forms.ValidationError("Mobile number must be 10 digits & number.")
         return contact
     
+    def clean_name(self):
+        try:
+            Store.objects.get(name=self.cleaned_data["name"])
+            raise ValidationError("A store with this name already exists. Please choose another name")
+        except Store.DoesNotExist:
+            return self.cleaned_data["name"]
     
     def clean(self):
         cleaned_data = super(StoreForm, self).clean()
@@ -190,6 +196,7 @@ class ProductForm(forms.ModelForm):
         
 class OrderItemForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1, max_value=50)
+            
     """
     def __init__(self,*args,**kwargs):
         super(OrderItemForm,self).__init__(*args,**kwargs)

@@ -3,7 +3,8 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.edit import UpdateView, CreateView
 from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
-
+from django.core.exceptions import ValidationError
+from django.contrib import messages
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm
 
@@ -169,15 +170,19 @@ def add_order(request, product_slug):
         
         if form.is_valid():
             order = shop.order_from_request(request,create=True)
+            quantity = form.cleaned_data["quantity"]
+            if quantity > product.items_in_stock:
+                messages.error(request, "I can only make %d more %ss today" %(product.items_in_stock, product.name)) 
+                return render(request, "imly_product_detail.html", {"object":product, "form":form})
             order.modify_item(product, relative=form.cleaned_data["quantity"])
-            """try:
-                
-                #messages.success(request, _("The cart has been updated"))
-            except form.ValidationError, e:
+            
+            try:
+                messages.success(request,"The cart has been updated")
+            except ValidationError, e:
                 if e.code == "order_sealed":
                     pass
                 else:
-                    raise"""
+                    raise
             return redirect("plata_shop_cart")
         
     else:

@@ -114,7 +114,8 @@ class ProductCreate(CreateView):
     model = Product
     template_name = "product_create.html"
     success_url = "/account/store/products/"
-
+    
+    # done to check whether product name exists since store of product is needed..
     def get_form(self, form_class):
         form = super(ProductCreate, self).get_form(form_class)
         form.instance.store = self.request.user.store
