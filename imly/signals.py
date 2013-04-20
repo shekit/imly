@@ -6,7 +6,7 @@ from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store
 from django.contrib.sites.models import Site
 
-@receiver(post_save, sender=Product)
+#@receiver(post_save, sender=Product)
 def set_product_initial_transaction(sender,instance, created,**kwargs):
 	period = Period.objects.current()
 	if created:
@@ -17,7 +17,6 @@ def set_product_initial_transaction(sender,instance, created,**kwargs):
 		print 'post_save for initial', instance.initial_cpm
 		instance.stock_transactions.create(period=period,type=StockTransaction.INITIAL,change=instance.capacity_per_month)
 	else:
-
 #		print instance.capacity_per_month , StockTransaction.objects.items_in_stock(instance)
 #		if instance.capacity_per_month > StockTransaction.objects.items_in_stock(instance) :
 		sale_transaction = instance.stock_transactions.filter(type=StockTransaction.SALE).aggregate(sale_sum = Sum('change'))

@@ -161,7 +161,7 @@ class ProductForm(forms.ModelForm):
                     Div(
                         css_class="span6"),
                     css_class="row-fluid inline_form_field"),
-                "capacity_per_month",
+                "capacity_per_day",
                 "description",
                 Div(
                     Div(
@@ -189,7 +189,7 @@ class ProductForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ["slug", "date_created", "store", "is_featured", "is_bestseller", "tax_included", "tax_class", "currency"]
-        fields = ("name", "_unit_price","quantity_per_item","quantity_by_price", "capacity_per_month","description","lead_time","lead_time_unit","category","image","tags")
+        fields = ("name", "_unit_price","quantity_per_item","quantity_by_price", "capacity_per_day","description","lead_time","lead_time_unit","category","image","tags")
         widgets = {
             "tags": MyCheckboxSelectMultiple(),
         }

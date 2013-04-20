@@ -32,7 +32,7 @@ class StoreAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     
-    list_display = ["admin_thumbnail","name","store", "category", "capacity_per_month", "lead_time", "is_featured", "is_bestseller"]
+    list_display = ["admin_thumbnail","name","store", "category", "capacity_per_day", "lead_time", "is_featured", "is_bestseller"]
     list_filter = ["store", "is_featured"]
     prepopulated_fields = {"slug":("name",)}
     admin_thumbnail = AdminThumbnail(image_field="image_thumbnail_mini")
