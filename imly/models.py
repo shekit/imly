@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.utils.text import slugify
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
+from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from markdown import markdown
@@ -163,8 +164,8 @@ class Product(ProductBase, PriceBase):
     slug = models.SlugField()
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
-    capacity_per_month = models.IntegerField(help_text="How many can you make every month?")
-    initial_cpm = models.IntegerField(default=0)
+    capacity_per_day = models.IntegerField(help_text="How many can you make every month?")
+    previous_cpd = models.IntegerField(default=0)
     items_in_stock = models.IntegerField(default=0)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
@@ -208,6 +209,14 @@ class Product(ProductBase, PriceBase):
         PriceBase.handle_order_item(self, orderitem)
         
     def save(self, *args, **kwargs):
+        # setting the capacity of product on change of capacity per day
+        transaction_type = change = None # using this approach so that stock transactions can be created after new products being created
+        if self.capacity_per_day != self.previous_cpd:
+            change = self.capacity_per_day - self.previous_cpd
+            if self.capacity_per_day < self.previous_cpd - self.items_in_stock:
+                self.capacity_per_day = self.previous_cpd - self.items_in_stock
+            self.previous_cpd = self.capacity_per_day
+            transaction_type = self.pk and StockTransaction.CORRECTION or StockTransaction.INITIAL
         if self.description:
             self.description_html = markdown(self.description)
         self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
@@ -215,6 +224,9 @@ class Product(ProductBase, PriceBase):
         self.tax_class = TaxClass.objects.get(name="India")
         #self.items_in_stock = self.capacity_per_month
         super(Product, self).save(*args, **kwargs)
+        if change:
+            self.stock_transactions.create(period=Period.objects.current(), type=transaction_type, change=change)
+            self.stock_transactions.items_in_stock(self, update=True)
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
