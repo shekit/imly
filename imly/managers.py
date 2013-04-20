@@ -2,18 +2,15 @@ from django.db import models
 
 class StoreManager(models.Manager):
     
-    def is_approved(self):
-        return self.filter(is_approved=True)
-    
+    def get_query_set(self):
+    	return super(StoreManager, self).get_query_set().filter(is_approved=True)
+
     def is_featured(self):
         return self.approved_stores().filter(is_featured=True)
     
 
 class ProductManager(models.Manager):
     
-    def is_approved(self):
-        from imly.models import Store
-        return self.filter(store__in=Store.objects.is_approved().all())
-
-    def get_queryset(self):
-    	return super(ProductManager, self).get_queryset().filter(is_deleted = False)
+    def get_query_set(self):
+    	from models import Store
+    	return super(ProductManager, self).get_query_set().filter(is_deleted = False, store__in=Store.objects.all())
