@@ -115,7 +115,7 @@ class Store(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     
     objects = StoreManager()  # default manager
-    
+    everything = models.Manager()
     
     class Meta:
         ordering = ["-date_created"]
@@ -187,6 +187,7 @@ class Product(ProductBase, PriceBase):
     tags = models.ManyToManyField(Tag)
     
     objects = ProductManager() #defaultManager
+    everything = models.Manager()
     
     reviews = generic.GenericRelation(ReviewedItem)
     
