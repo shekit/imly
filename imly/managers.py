@@ -11,6 +11,8 @@ class StoreManager(models.Manager):
 
 class ProductManager(models.Manager):
     
-    def get_query_set(self):
-    	from models import Store
-    	return super(ProductManager, self).get_query_set().filter(is_deleted = False, store__in=Store.objects.all())
+
+    #have to check this manager
+    def is_approved(self):
+        from imly.models import Store
+        return self.filter(store__in=Store.objects.is_approved().all())

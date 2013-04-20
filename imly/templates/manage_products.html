@@ -42,7 +42,7 @@
                         </td>
                         <td>{{ object.category }}</td>
                         <td>{{ object.currency}} {{ object.get_price.unit_price|floatformat:"0" }}</td>
-                        <td>{{ object.capacity_per_month }}</td>
+                        <td>{{ object.capacity_per_day }}</td>
                         <td>
                             <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-small">Edit</a>
                             <a href="{% url "imly_product_delete" object.id %}" class="btn btn-small">Delete</a>
