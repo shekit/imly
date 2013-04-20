@@ -30,6 +30,13 @@ class StoreAdmin(admin.ModelAdmin):
     list_filter = ["is_approved", "is_featured"]
     prepopulated_fields = {"slug":("name",)}
 
+    def queryset(self,request):
+        qs = self.model.everything.all()
+        ordering = self.ordering or ()
+        if ordering:
+            qs=qs.order_by(*ordering)
+        return qs
+    
 class ProductAdmin(admin.ModelAdmin):
     
     list_display = ["admin_thumbnail","name","store", "category", "capacity_per_day", "lead_time", "is_featured", "is_bestseller"]
@@ -39,7 +46,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display_links = ("name",)
     
     def queryset(self,request):
-        qs = self.model.everything.get_query_set()
+        qs = self.model.everything.all()
         ordering = self.ordering or ()
         if ordering:
             qs=qs.order_by(*ordering)
