@@ -45,7 +45,13 @@ class ProductAdmin(admin.ModelAdmin):
     admin_thumbnail = AdminThumbnail(image_field="image_thumbnail_mini")
     list_display_links = ("name",)
     
-
+    def queryset(self,request):
+        qs = self.model.everything.all()
+        ordering = self.ordering or ()
+        if ordering:
+            qs=qs.order_by(*ordering)
+        return qs
+ 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Location, LocationAdmin)
