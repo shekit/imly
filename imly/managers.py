@@ -14,3 +14,6 @@ class ProductManager(models.Manager):
     def is_approved(self):
         from imly.models import Store
         return self.filter(store__in=Store.objects.is_approved().all())
+
+    def get_queryset(self):
+    	return super(ProductManager, self).get_queryset().filter(is_deleted = False)
