@@ -167,6 +167,7 @@ class Product(ProductBase, PriceBase):
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
     items_in_stock = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default = False)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
     lead_time = models.IntegerField(default=1,help_text="(in days)")

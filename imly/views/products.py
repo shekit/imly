@@ -136,6 +136,12 @@ class ProductEdit(UpdateView):
             return HttpResponseForbidden()
         return super(ProductEdit,self).get(request, *args, **kwargs)
     
+def delete_product(request,product_id):
+    product = Product.objects.get(pk=product_id)
+    product.is_deleted = True
+    product.save()
+    return HttpResponseRedirect("/account/store/products/")
+
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"
