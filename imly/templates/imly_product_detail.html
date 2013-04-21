@@ -5,7 +5,7 @@
 {% block shop_info %}
     <div class="well shop_info">
         
-        <h4><a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
+        <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
         
         <div class="expandable">
             {{ object.store.description_html|safe }}
@@ -17,7 +17,7 @@
             </div>
         </div>
         
-        <h5>We also sell:</h5>
+        <h5>I also make:</h5>
         
         <div class="row-fluid">
             <ul class="thumbnails">
@@ -36,7 +36,7 @@
             </ul>
         </div>
         
-        <h5>Total Items in Shop: <span class="h5_inline">{{ object.store.product_set.count }}</span></h5>
+        <h5>Total Items in my Shop: <span class="h5_inline">{{ object.store.product_set.count }}</span></h5>
              
         <div class="row-fluid">
             <div class="span10 offset1">
@@ -44,7 +44,7 @@
             </div>
         </div>
         
-        <h5>We deliver to:</h5>  
+        <h5>I deliver to:</h5>  
         <ul class="unstyled">
             {% for delivery in object.store.delivery_areas.all %}
                 <li>{{ delivery|capfirst }}</li>

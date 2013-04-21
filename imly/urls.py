@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
 
-from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page
+from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page, why_open_your_shop
 from imly.views.products import ProductReview, ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile,UserOrders
 from imly.views.places import set_location
@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     
     url(r"^$", home_page, name="imly_landing_page"),
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
+    url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),

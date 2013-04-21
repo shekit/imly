@@ -91,8 +91,20 @@
         <li class="span4">
             <div class="thumbnail">
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}"><img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}" class="centered"></a>
-                <h5>{{ object.name }}</h5> <span class="pull-left">by <a href="{{ object.store.get_absolute_url }}"><small>{{ object.store.name }}</small></a></span>
-                <a href="{% url "imly_add_order" object.slug %}" class="btn btn-mini pull-right">View in Store</a>
+                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
+                <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
+                    {% if object.quantity_per_item == 1 %}
+                        /{{ object.get_quantity_by_price_display }}
+                    {% else %}
+                        for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
+                    {% endif %} 
+                </small></span>
+                
+                <form method="post" action="{% url "imly_add_order" object.slug %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="quantity" value="1">
+                    <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                </form>
                 <div class="clearfix"></div>
             </div>
         </li>

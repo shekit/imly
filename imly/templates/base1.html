@@ -13,42 +13,44 @@
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
-        <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
+   
     </head>
     
     <body>
-    <div class="container-fluid lower_border">
         <div class="container">
             {% block navigation %}
                 
                 <nav class="navbar">
                     <div class="navbar-inner">
-
+                        <div class="container">
                             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </a>
-                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_xsmall.png" alt="Imly Logo"></a>
-                            <div class="nav-collapse collapse">
+                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/logo.png" width="110" height="90" alt="Imly Logo"></a>
+                            <div class="nav-collapse">
                                 
                                 <ul class="nav pull-right">
-                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Home</a></li>
-                                    <li><a class="no_border"  href="{% url "imly_coming_soon" %}">What is Imly</a></li>
+                                    <li><a href="{% url "imly_product_list" %}">Home</a></li>
+                                    <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
                                     {% if user.is_authenticated %}
                                         {% if user.store %}
-                                            <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
+                                            <li><a href="{% url "imly_store_info" %}">Manage your Shop</a></li>
                                         {% else %}
-                                            <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                            <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                         {% endif %}
                                     {% else %}
-                                        <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                        <li><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                     {% endif %}
+                                    <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
+                                    
                                     
                                     {% if user.is_authenticated %}
-                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        {% if user.userprofile.first_name %}
-                                            {{ user.userprofile.first_name }} <span class="caret"></span>
+                                        <li class="disabled"><a href="#"></a></li>
+                                        <li class="dropdown"><a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
+                                        {% if user.first_name %}
+                                            {{ user.first_name }} <span class="caret"></span>
                                         {% else %}
                                             {{ user.username }} <span class="caret"></span>
                                         {% endif %}
@@ -66,22 +68,25 @@
                                             </ul>
                                         </li>
                                     {% else %}
-                                        <li><a href="{% url "account_login" %}">Sign In</a></li>
+                                        <li class="disabled"><a href="#">|</a></li>
+                                        <li><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span></a></li>
+                                    <li><a class="btn white_text" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span></a></li>
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->
-
+                        </div><!-- end of container --> 
                     </div> <!-- end of navbar-inner --> 
 
                 </nav> <!-- end of navbar -->               
             {% endblock navigation %}
         </div> <!-- end of div container -->
-    </div>   
+        
+        <div class="container-fluid negative">
+            <hr>
+        </div>
         
         <div id="wrap">
-            <br>
         <div id="main" class="container clear-top">
             <div class="row">
                 <div class="span12">

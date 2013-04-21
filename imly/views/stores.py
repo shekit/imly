@@ -21,6 +21,9 @@ store_info = {
 def home_page(request):
     return render(request,"index.html")
 
+def why_open_your_shop(request):
+    return render(request, "open_your_shop.html")
+
 class StoreList(ListView):
     
     model = Store

@@ -24,101 +24,28 @@ html,body
     margin-top: -120px; /* negative value of footer height */
     height: 120px;
     clear:both;
-    border-top: 1px solid #a83e1c;
+    border-top: 1px solid #c04820;
 } 
 
-    ::selection {
-	background: #f16a3d;
-	color: #fff;
-	text-shadow:none;
-    }
-
-
 /* navbar styling */
-    .navbar {
-	margin-bottom: 20px;
-    }
-    
-    .lower_border {
-	border-bottom:1px solid #e5e5e5;
-	height: 70px;
-    }
-    
-    .navbar .brand{
-	padding:10px 20px 10px;
-    }
-    /* Remove border and change up box shadow for more contrast */
-    .navbar .navbar-inner {
-      border: 0;
-      padding-left:10px;
-      padding-right:10px;
-      -webkit-box-shadow: 0 2px 10px rgba(0,0,0,.25);
-         -moz-box-shadow: 0 2px 10px rgba(0,0,0,.25);
-              box-shadow: 0 2px 10px rgba(0,0,0,.25);
-    }
-    
-    .navbar .navbar-inner {
+.navbar .navbar-inner {
 	border: 0;
 	background: white;
 	 -webkit-box-shadow: none;
 	 -moz-box-shadow: none;
 		  box-shadow: none;
-	z-index: 70;
-    }
+}
 
+/* change positioning of top navbar links */
+.navbar .nav > li > a {
+ 	margin: 30px 0 5px 5px;
+	text-shadow: none;
+}
 
-    /* Navbar links: increase padding for taller navbar */
-    .navbar .nav > li > a {
-      padding: 25px 20px;
-      color: #333;
-      border-left: 1px solid #e5e5e5;
-      text-shadow: none;
-        -webkit-transition: background 250ms;
-	-moz-transition: background 250ms;
-	-o-transition: background 250ms;
-	transition: background 250ms;
-    }
-    
-    
-    .navbar .nav > li > a.no_border {
-	border-left: none;
-    }
-    
-    .navbar .nav > li > a.no_border:hover {
-      color: #f05a28;
-      background: #fff;
-    }
-    
-    .navbar .nav > li > a.no_border_orange {
-	border-left: none;
-	color: #f05a28;
-    }
-    
-    .navbar .nav > li > a.no_border_orange:hover {
-	color:#ff3600;
-	background:  #fff;
-    }
-    
-    .navbar .nav > li > a:hover {
-
-      color: #fff;
-      background: #f05a28;
-    }
-
-    
-    .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
-	color: #ffffff;
-	background: #FF7752;
-    }
-
-    .border_right {
-	border-right: 1px solid #e5e5e5;
-    }
-
-    /* Offset the responsive button for proper vertical alignment */
-    .navbar .btn-navbar {
-      margin-top: 10px;
-    }
+/* change hover color of top navbar links */       
+.navbar .nav > li > a:hover {
+	color: #333;
+}
 
 .navbar .nav > li > a.white_text {
 	color: #fff;
@@ -127,24 +54,24 @@ html,body
 .btn-custom {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #ff7752;
-  *background-color: #f05a28;
-  background-image: -moz-linear-gradient(top, #fff7752, #f05a28);
-  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff7752), to(#f05a28));
-  background-image: -webkit-linear-gradient(top, #ff7752, #f05a28);
-  background-image: -o-linear-gradient(top, #ff7752, #f05a28);
-  background-image: linear-gradient(to bottom, #ff7752, #f05a28);
+  background-color: #f99073;
+  *background-color: #ff7752;
+  background-image: -moz-linear-gradient(top, #f99073, #ff7752);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#f99073), to(#ff7752));
+  background-image: -webkit-linear-gradient(top, #f99073, #ff7752);
+  background-image: -o-linear-gradient(top, #f99073, #ff7752);
+  background-image: linear-gradient(to bottom, #f99073, #ff7752);
   background-repeat: repeat-x;
   border-color: #e86c4b #ea5228 #e5390c;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7752 ', endColorstr='#fff05a28', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#fff99073 ', endColorstr='#ffff7752', GradientType=0);
   filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
 }
 
 .btn-custom:hover {
   color: #ffffff;
-  background-color: #f05a28;
-  *background-color: #ee4811;
+  background-color: #ff7752;
+  *background-color: #f05a28;
 }
 
 .btn-custom-light {
@@ -277,13 +204,8 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     margin-bottom:0px;
     line-height: 80%;
     font-size:16px;
-    font-weight: 500;
 }
 
-.larger_h5 {
-    font-size:16px;
-    font-weight: 500;
-}
 
 
 .ultra_small {
@@ -331,24 +253,6 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	margin-bottom: 30px;
 }
 
-    .top_text {
-	color: #301208;
-    }
-
-    .top_text:hover {
-	color:#301208;
-    	text-decoration: underline;
-    }
-
-
-    .sub_text {
-	color: #999999;
-    }
-    
-    .sub_text:hover {
-	color: #f05a28;
-	text-decoration: none;
-    }
 		
 /* customizing well in shop_detail and product_detail and manage store pages */
 
@@ -373,16 +277,6 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	color:#333;
 	font-size: 14px;
 	font-weight: normal;
-}
-
-.read-more > a, .read-less > a{
-    color:#ccc;
-    font-size: 12px;
-}
-
-.read-more > a:hover, .read-less > a:hover {
-    color:#f05a28;
-    text-decoration: none;
 }
 
 /* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
