@@ -115,7 +115,7 @@ class Store(models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     
     objects = StoreManager()  # default manager
-    
+    everything = models.Manager()
     
     class Meta:
         ordering = ["-date_created"]
@@ -164,9 +164,10 @@ class Product(ProductBase, PriceBase):
     slug = models.SlugField()
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
-    capacity_per_day = models.IntegerField(help_text="How many can you make every month?")
+    capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
     items_in_stock = models.IntegerField(default=0)
+    is_deleted = models.BooleanField(default = False)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
     lead_time = models.IntegerField(default=1,help_text="(in days)")
@@ -186,6 +187,7 @@ class Product(ProductBase, PriceBase):
     tags = models.ManyToManyField(Tag)
     
     objects = ProductManager() #defaultManager
+    everything = models.Manager()
     
     reviews = generic.GenericRelation(ReviewedItem)
     
@@ -211,10 +213,10 @@ class Product(ProductBase, PriceBase):
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         transaction_type = change = None # using this approach so that stock transactions can be created after new products being created
-        if self.capacity_per_day != self.previous_cpd:
+        if self.capacity_per_day != self.previous_cpd: # managing the stock for current product
             change = self.capacity_per_day - self.previous_cpd
             if self.capacity_per_day < self.previous_cpd - self.items_in_stock:
-                self.capacity_per_day = self.previous_cpd - self.items_in_stock
+                self.capacity_per_day = self.items_in_stock
             self.previous_cpd = self.capacity_per_day
             transaction_type = self.pk and StockTransaction.CORRECTION or StockTransaction.INITIAL
         if self.description:
@@ -222,9 +224,8 @@ class Product(ProductBase, PriceBase):
         self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
-        #self.items_in_stock = self.capacity_per_month
         super(Product, self).save(*args, **kwargs)
-        if change:
+        if change: #continued managing stock for the product
             self.stock_transactions.create(period=Period.objects.current(), type=transaction_type, change=change)
             self.stock_transactions.items_in_stock(self, update=True)
 

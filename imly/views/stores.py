@@ -29,10 +29,10 @@ class StoreList(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.is_approved().all()
+            store_list = Store.objects.all()
         else:
             location = Location.objects.get(slug = self.request.session["place_slug"])
-            store_list = location.store_set.is_approved().all()
+            store_list = location.store_set.all()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
         return store_list.filter(tags__in=self.tags).distinct() if self.tags else store_list
     
@@ -50,10 +50,10 @@ class StoresByCategory(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.is_approved().all()
+            store_list = Store.objects.all()
         else:
             location = Location.objects.get(slug=self.request.session["place_slug"])
-            store_list = location.store_set.is_approved().all()
+            store_list = location.store_set.all()
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
             stores_by_category = store_list.filter(categories=self.category)
@@ -76,7 +76,7 @@ class StoresByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return Store.objects.is_approved().filter(delivery_areas=place)
+        return Store.objects.filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     

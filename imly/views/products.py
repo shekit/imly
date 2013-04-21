@@ -56,11 +56,11 @@ class ProductList(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            product_list = Product.objects.is_approved().all()
+            product_list = Product.objects.all()
             
         else:
             location = Location.objects.get(slug = self.request.session["place_slug"])
-            product_list = Product.objects.filter(store__in=location.store_set.is_approved().all())
+            product_list = Product.objects.filter(store__in=location.store_set.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
         return product_list.filter(tags__in=self.tags).distinct() if self.tags else product_list
     
@@ -78,10 +78,10 @@ class ProductsByCategory(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            product_list = Product.objects.is_approved().all()
+            product_list = Product.objects.all()
         else:
             location = Location.objects.get(slug=self.request.session["place_slug"])
-            product_list = Product.objects.filter(store__in=location.store_set.is_approved().all())
+            product_list = Product.objects.filter(store__in=location.store_set.all())
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
             products_by_category = product_list.filter(category=self.category)
@@ -107,7 +107,7 @@ class ProductsByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return self.model.objects.is_approved().filter(store__in=Store.objects.filter(delivery_areas=place))
+        return self.model.objects.filter(store__in=Store.objects.filter(delivery_areas=place))
 
 class ProductCreate(CreateView):
     form_class = ProductForm
@@ -136,6 +136,12 @@ class ProductEdit(UpdateView):
             return HttpResponseForbidden()
         return super(ProductEdit,self).get(request, *args, **kwargs)
     
+def delete_product(request,product_id):
+    product = Product.objects.get(pk=product_id)
+    product.is_deleted = True
+    product.save()
+    return HttpResponseRedirect("/account/store/products/")
+
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"

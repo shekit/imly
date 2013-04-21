@@ -22,12 +22,12 @@ shop = Shop(
     )
 
 product_info = {
-    "queryset" : Product.objects.is_approved().all(),
+    "queryset" : Product.objects.all(),
     "template_name" : "product_list.html"
 }
 
 store_info = {
-    "queryset" : Store.objects.is_approved().all(),
+    "queryset" : Store.objects.all(),
     "template_name" : "store_list.html"
 }
 
@@ -86,7 +86,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="imly_product_add"),
     url(r"^account/store/products/(?P<pk>\d+)/edit$", login_required(ProductEdit.as_view()), name="imly_product_edit"),
-    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
+    url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
+    #url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     
 )
