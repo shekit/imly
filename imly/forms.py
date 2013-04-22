@@ -62,11 +62,9 @@ class StoreForm(forms.ModelForm):
         return contact
     
     def clean_name(self):
-        try:
-            Store.objects.get(name=self.cleaned_data["name"])
+        if Store.objects.filter(name=self.cleaned_data['name']).exclude(pk=self.instance.pk).count() > 0:
             raise ValidationError("A store with this name already exists. Please choose another name")
-        except Store.DoesNotExist:
-            return self.cleaned_data["name"]
+        return self.cleaned_data["name"]
     
     def clean(self):
         cleaned_data = super(StoreForm, self).clean()
@@ -180,11 +178,9 @@ class ProductForm(forms.ModelForm):
         )
 
     def clean_name(self):
-        try:
-            Product.objects.get(name=self.cleaned_data['name'], store=self.instance.store)
+        if Product.objects.filter(name=self.cleaned_data['name'], store=self.instance.store).exclude(pk=self.instance.pk).count() > 0:
             raise ValidationError(u'You already have a product with the same name in your store.')
-        except Product.DoesNotExist:
-            return self.cleaned_data['name']
+        return self.cleaned_data['name']
 
     class Meta:
         model = Product
