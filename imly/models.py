@@ -212,11 +212,12 @@ class Product(ProductBase, PriceBase):
         
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
-        transaction_type = change = None # using this approach so that stock transactions can be created after new products being created
-        if self.capacity_per_day != self.previous_cpd: # managing the stock for current product
-            change = self.capacity_per_day - self.previous_cpd
-            if self.capacity_per_day < self.previous_cpd - self.items_in_stock:
-                self.capacity_per_day = self.items_in_stock
+        # using this approach so that stock transactions can be created after new products being created
+        transaction_type = change = None
+        if self.capacity_per_day != self.previous_cpd:  # managing the stock for current product
+            # if new capacity is less than sales than adjust items in stock to make it zero
+            # else update it to the new difference
+            change = self.capacity_per_day < self.previous_cpd - self.items_in_stock and -self.items_in_stock or self.capacity_per_day - self.previous_cpd
             self.previous_cpd = self.capacity_per_day
             transaction_type = self.pk and StockTransaction.CORRECTION or StockTransaction.INITIAL
         if self.description:
@@ -225,7 +226,7 @@ class Product(ProductBase, PriceBase):
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
-        if change: #continued managing stock for the product
+        if change:  # continued managing stock for the product
             self.stock_transactions.create(period=Period.objects.current(), type=transaction_type, change=change)
             self.stock_transactions.items_in_stock(self, update=True)
 

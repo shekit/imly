@@ -121,9 +121,15 @@ class StoreCreate(CreateView):
         
 
 class StoreDetail(DetailView):
-    
+    ''' Public View/Store Preview detail view'''
     model = Store
     template_name = "imly_store_detail.html"
+
+    def get_object(self, queryset=None):
+        object = super(StoreDetail, self).get_object(queryset)
+        if self.request.user.is_authenticated() and object.owner == self.request.user or object.is_approved:
+            return object
+        return HttpResponseForbidden()
 
 """
 class StoreNotice(UpdateView):
@@ -140,7 +146,7 @@ class StoreNotice(UpdateView):
 """ 
     
 class StoreInfoDetail(DetailView):
-    
+    ''' Account view of store information '''
     model = Store
     template_name = "imly_store_info.html"
     
