@@ -33,12 +33,13 @@ class StoreList(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.all()
+            store_list = Store.objects
         else:
             location = Location.objects.get(slug = self.request.session["place_slug"])
-            store_list = location.store_set.all()
+            store_list = location.store_set
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return store_list.filter(tags__in=self.tags).distinct() if self.tags else store_list
+        stores = store_list.is_approved()
+        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
     
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
@@ -54,18 +55,18 @@ class StoresByCategory(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.all()
+            store_list = Store.objects
         else:
             location = Location.objects.get(slug=self.request.session["place_slug"])
-            store_list = location.store_set.all()
+            store_list = location.store_set
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
             stores_by_category = store_list.filter(categories=self.category)
         else:
             stores_by_category = store_list.filter(categories__in=self.category.sub_categories.all()).distinct()
-        
+        stores = stores_by_category.is_approved()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return stores_by_category.filter(tags__in=self.tags).distinct() if self.tags else stores_by_category
+        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
     
     def get_context_data(self, **kwargs):
         
@@ -80,7 +81,7 @@ class StoresByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return Store.objects.filter(delivery_areas=place)
+        return Store.objects.is_approved().filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     

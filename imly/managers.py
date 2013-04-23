@@ -6,7 +6,7 @@ class StoreManager(models.Manager):
         return self.filter(is_approved=True)
 
     def is_featured(self):
-        return self.approved_stores().filter(is_featured=True)
+        return self.is_approved().filter(is_featured=True)
     
 
 class ProductManager(models.Manager):

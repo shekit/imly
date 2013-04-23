@@ -72,7 +72,7 @@ urlpatterns += patterns('',
     
     #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
     url(r"^categories/(?P<category_slug>[-\w]+)/stores/$", StoresByCategory.as_view(), name="imly_stores_by_category"),
-    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductsByCategory.as_view(), name="imly_products_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductList.as_view(), name="imly_products_by_category"),
 )
 
 urlpatterns += patterns('',
