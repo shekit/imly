@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     
     url(r"^$", home_page, name="imly_landing_page"),
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
+    url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
