@@ -10,9 +10,7 @@ class StoreManager(models.Manager):
     
 
 class ProductManager(models.Manager):
-    
 
-    #have to check this manager
     def is_approved(self):
         from imly.models import Store
         return self.filter(store__in=Store.objects.is_approved().all())
