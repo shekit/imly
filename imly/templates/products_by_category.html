@@ -93,8 +93,7 @@
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
                     <div class="sold_out">
                         <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
-                        {% if object.items_in_stock %}
-                        {% else %}
+                        {% if not object.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         

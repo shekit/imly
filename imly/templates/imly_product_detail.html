@@ -58,8 +58,7 @@
         <div class="span8">
             <div class="sold_out">
                         <img class="img-rounded img-polaroid" src="{{ object.image_thumbnail_large.url }}" alt="{{ object.name }}">
-                        {% if object.items_in_stock %}
-                        {% else %}
+                        {% if not object.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image_product_detail">
                         {% endif %}
                         
@@ -76,11 +75,13 @@
                 <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> for {{object.quantity_per_item}} {{ object.get_quantity_by_price_display }}s</small></h4>
             {% endif %}
             
-            {% if objects.items_in_stock %}
+            {% if object.items_in_stock %}
                 {% if messages %}
-                    <ul class="messages">
+                    <ul class="messages unstyled">
                         {% for message in messages %}
-                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% if "error" in message.tags %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endif %}
                         {% endfor %}
                     </ul>
                 {% endif %}
