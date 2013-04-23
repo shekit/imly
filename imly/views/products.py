@@ -41,7 +41,6 @@ class ProductReview(CreateView):
         context["object"] = Product.objects.get(slug=self.request.POST.get("product_slug"))
         context["form"] = OrderItemForm()
         return context
-
         
 class ProductList(ListView):
     
@@ -52,15 +51,39 @@ class ProductList(ListView):
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
             product_list = Product.objects.all()
-            
         else:
             location = Location.objects.get(slug = self.request.session["place_slug"])
             product_list = Product.objects.filter(store__in=location.store_set.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return product_list.filter(tags__in=self.tags).distinct() if self.tags else product_list
+        products = product_list.is_approved()
+        return products.filter(tags__in=self.tags).distinct() if self.tags else products
     
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
+        context["selected_tags"] = self.tags
+        return context
+
+class ProductList(ListView):
+
+    model = Product
+    template_name = "products_by_category.html"
+    paginate_by = 12
+
+    def get_queryset(self):
+        products = Product.objects.is_approved().filter(is_deleted=False)
+        if self.request.session.get('place_slug', ''):
+            products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
+        self.category=None
+        if 'category_slug' in self.kwargs:
+            self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+            products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all())
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist('tags', []))
+        return products.filter(tags__in=self.tags).distinct() if self.tags else products
+
+    def get_context_data(self, **kwargs):
+        context = super(ProductList, self).get_context_data(**kwargs)
+        if self.category:
+            context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
         return context
 
@@ -83,14 +106,12 @@ class ProductsByCategory(ListView):
         else:
             products_by_category = product_list.filter(category__in=self.category.sub_categories.all())
         
-        
+        products = products_by_category.is_approved()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return products_by_category.filter(tags__in=self.tags).distinct() if self.tags else products_by_category
+        return products.filter(tags__in=self.tags).distinct() if self.tags else products
         
             
     def get_context_data(self, **kwargs):
-        
-        #raise exceptions.Exception(self.request.GET.getlist("tags",[]))
         context = super(ProductsByCategory, self).get_context_data(**kwargs)
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
@@ -102,7 +123,7 @@ class ProductsByPlace(ListView):
     
     def get_queryset(self):
         place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return self.model.objects.filter(store__in=Store.objects.filter(delivery_areas=place))
+        return self.model.objects.filter(store__in=Store.objects.is_approved().filter(delivery_areas=place))
 
 class ProductCreate(CreateView):
     form_class = ProductForm
@@ -130,22 +151,17 @@ class ProductEdit(UpdateView):
         if self.get_object().store.owner != self.request.user:
             return HttpResponseForbidden()
         return super(ProductEdit,self).get(request, *args, **kwargs)
-    
-def delete_product(request,product_id):
-    product = Product.objects.get(pk=product_id)
-    product.is_deleted = True
-    product.save()
-    return HttpResponseRedirect("/account/store/products/")
 
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"
     
-    def get(self,request, *args,**kwargs):
-        if self.get_object().store.owner != self.request.user:
-            return HttpResponseForbidden()
-        return super(ProductDelete, self).get(request, *args, **kwargs)
-    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_deleted = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 class ProductsByAccount(ListView):
     
     model = Product
@@ -153,7 +169,7 @@ class ProductsByAccount(ListView):
     
     
     def get_queryset(self):
-        return self.request.user.store.product_set.all()
+        return self.request.user.store.product_set.filter(is_deleted=False)
     
 
     
@@ -174,10 +190,11 @@ class ProductDetail(DetailView):
 
     def get_object(self, queryset=None):
         object = super(ProductDetail, self).get_object(queryset)
-        return (object.store.is_approved
-                or (self.request.user.is_authenticated()
-                and self.request.user == object.store.owner)) and object
+        return  (
+                (not object.is_deleted and object.is_approved)
+                or (self.request.user.is_authenticated() and self.request.user == object.store.owner)
+                )  and object
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()
-        return  isinstance(object, Product) and super(ProductDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
+        return  object and super(ProductDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))

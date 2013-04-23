@@ -14,6 +14,7 @@
                     <br>
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
+                            {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
                             <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
                                 <ul>
@@ -23,6 +24,7 @@
                                 </ul>
                                 
                             </li>
+                            {% endif %}
                             {% if selected_tags %}
                             <li class="nav-header">You have filtered by:</li>
                             
@@ -71,7 +73,10 @@
                         <div class="span12 centered-pills">
                             <p class="text-center"><small>SEARCH BY</small></p>
                             <ul class="nav nav-pills">
-                                <li><a href="{% url "imly_stores_by_category" category.slug %}">Shop</a></li>
+                                <li>
+                                    <a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Shop</a>
+
+                                </li>
                                 <li class="active"><a href="#">Products</a></li>
                                 
                             </ul>

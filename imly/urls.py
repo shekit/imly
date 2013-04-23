@@ -45,6 +45,7 @@ urlpatterns = patterns('',
     
     url(r"^$", home_page, name="imly_landing_page"),
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
+    url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
@@ -72,7 +73,7 @@ urlpatterns += patterns('',
     
     #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
     url(r"^categories/(?P<category_slug>[-\w]+)/stores/$", StoresByCategory.as_view(), name="imly_stores_by_category"),
-    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductsByCategory.as_view(), name="imly_products_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductList.as_view(), name="imly_products_by_category"),
 )
 
 urlpatterns += patterns('',
@@ -87,8 +88,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="imly_product_add"),
     url(r"^account/store/products/(?P<pk>\d+)/edit$", login_required(ProductEdit.as_view()), name="imly_product_edit"),
-    url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
-    #url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
+    #url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
+    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     
 )

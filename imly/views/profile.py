@@ -3,7 +3,7 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.template import RequestContext, Context
-from imly.forms import UserProfileForm
+from imly.forms import UserProfileForm, GiveUsTipForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
@@ -53,3 +53,12 @@ class UserOrders(ListView):
 
     def get_queryset(self):
         return OrderItem.objects.filter(order__in = self.request.user.orders.all())
+
+def give_us_tip(request):
+    if request.method == 'POST':
+        tip_form = GiveUsTipForm(request.POST)
+        if tip_form.is_valid():
+            tip_form.save()
+        else:
+            print "Invalid"
+        return HttpResponse("Submitted")

@@ -209,7 +209,11 @@ class Product(ProductBase, PriceBase):
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
         PriceBase.handle_order_item(self, orderitem)
-        
+
+    @property
+    def is_approved(self):
+        return self.store.is_approved
+
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
@@ -246,3 +250,14 @@ class UserProfile(models.Model):
         if not self.avatar:
             self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
             return self.avatar
+
+class GiveUsTip(models.Model):
+    name = models.CharField(max_length = 100, verbose_name = "Cheff Name")
+    tip_contact_number = models.CharField(max_length = 10, verbose_name = "Cheff Contact Number")
+    description = models.TextField()
+    your_name = models.CharField(max_length = 100, verbose_name = "Your Name")
+    email = models.EmailField(max_length = 50, verbose_name = "Your Email")
+    create = models.DateTimeField(auto_now_add = True)
+
+    def __unicode__(self):
+        return self.your_name
