@@ -62,7 +62,16 @@
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail">
-                <a href="{% url "imly_product_detail" object.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}" class="centered"></a>
+                <a href="{% url "imly_product_detail" object.slug product.slug %}">
+                    <div class="sold_out">
+                        <img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}">
+                        {% if product.items_in_stock %}
+                        {% else %}
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                        {% endif %}
+                        
+                    </div>
+                </a>
                 <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name }}</a></h5> <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
                     {% if product.quantity_per_item == 1 %}
                         /{{ product.get_quantity_by_price_display }}
@@ -70,12 +79,16 @@
                         for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
                     {% endif %} 
                 </small></span>
-
+                
+                {% if object.items_in_stock %}
                 <form method="post" action="{% url "imly_add_order" product.slug %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
                     <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
                 </form>
+                {% else %}
+                    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                {% endif %}
                 <div class="clearfix"></div>
             </div>
         </li>

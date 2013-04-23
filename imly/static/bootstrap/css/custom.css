@@ -15,14 +15,14 @@ html,body
 #main
 {
     overflow:auto;
-    padding-bottom:120px; /* this needs to be bigger than footer height*/
+    padding-bottom:130px; /* this needs to be bigger than footer height*/
 }
  
 .footer 
 {
     position: relative;
-    margin-top: -120px; /* negative value of footer height */
-    height: 120px;
+    margin-top: -130px; /* negative value of footer height */
+    height: 130px;
     clear:both;
     border-top: 1px solid #a83e1c;
 } 
@@ -105,6 +105,9 @@ html,body
       background: #f05a28;
     }
 
+    .navbar .brand {
+	padding:4px 20px 4px;
+    }
     
     .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
 	color: #ffffff;
@@ -326,6 +329,26 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	text-align:center;
 }
 
+.sold_out {
+    position:relative;
+}
+
+.sold_out_image {
+    position: absolute;
+    top:-1px;
+    left:-1px;
+}
+
+.sold_out_image_product_detail {
+    position: absolute;
+    top:3px;
+    left:3px;
+}
+
+.all_out {
+    font-weight:300;
+    margin-top:70px;
+}
 /* adding margin to each row of 3 thumbnails so rows have space between them */
 .margined {
 	margin-bottom: 30px;
@@ -464,6 +487,30 @@ a.give_us_a_tip:hover {
 	text-decoration: none;
 }
 
+.social_logo{
+	width:22px;
+	height:22px;
+	overflow: hidden;
+	background-position: top;
+    }
+    
+    .social_logo:hover{
+	background-position: bottom;
+    }
+    
+    .twitter{
+	width:23px;
+	background: url("../img/twitter_logo.png") no-repeat;
+    }
+    
+    .facebook{
+	background: url("../img/fb_logo.png") no-repeat;
+    }
+    
+    .tumblr{
+	background: url("../img/tumblr_logo.png") no-repeat;
+    }
+    
 /* customizing forms */
 ul.form > li {
 	margin-bottom:20px;

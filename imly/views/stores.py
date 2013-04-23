@@ -88,7 +88,7 @@ class StoreEdit(UpdateView):
     model = Store
     template_name="store_edit.html"
     
-    success_url = "/account/store/products/"
+    success_url = "/account/store/details/"
 
     #forbidding everything..why??      
     def get(self,request, *args, **kwargs):
