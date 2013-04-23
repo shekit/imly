@@ -5,6 +5,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm
 
@@ -87,7 +88,7 @@ class StoreEdit(UpdateView):
     model = Store
     template_name="store_edit.html"
     
-    success_url = "/account/store/products/"
+    success_url = "/account/store/details/"
 
     #forbidding everything..why??      
     def get(self,request, *args, **kwargs):
@@ -121,9 +122,19 @@ class StoreCreate(CreateView):
         
 
 class StoreDetail(DetailView):
-    
+    ''' Public View/Store Preview detail view'''
     model = Store
     template_name = "imly_store_detail.html"
+
+    def get_object(self, queryset=None):
+        object = super(StoreDetail, self).get_object(queryset)
+        return (object.is_approved or
+                (self.request.user.is_authenticated()
+                 and object.owner == self.request.user)) and object
+
+    def get(self, request, *args, **kwargs):
+        object = self.get_object()
+        return object and super(StoreDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
 
 """
 class StoreNotice(UpdateView):
@@ -137,10 +148,10 @@ class StoreNotice(UpdateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(StoreNotice, self).form_valid(form)
-""" 
-    
+"""
+
 class StoreInfoDetail(DetailView):
-    
+    ''' Account view of store information '''
     model = Store
     template_name = "imly_store_info.html"
     

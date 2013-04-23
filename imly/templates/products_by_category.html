@@ -90,7 +90,16 @@
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail">
-                <a href="{% url "imly_product_detail" object.store.slug object.slug %}"><img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}" class="centered"></a>
+                <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
+                    <div class="sold_out">
+                        <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
+                        {% if object.items_in_stock %}
+                        {% else %}
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                        {% endif %}
+                        
+                    </div>
+                </a>
                 <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
                 <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
                     {% if object.quantity_per_item == 1 %}
@@ -100,11 +109,15 @@
                     {% endif %} 
                 </small></span>
                 
+                {% if object.items_in_stock %}
                 <form method="post" action="{% url "imly_add_order" object.slug %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
                     <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
                 </form>
+                {% else %}
+                    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                {% endif %}
                 <div class="clearfix"></div>
             </div>
         </li>
