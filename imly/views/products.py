@@ -1,18 +1,13 @@
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
-from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404, render, render_to_response, redirect
-from django.template import RequestContext, Context
 from imly.forms import ProductForm, OrderItemForm, UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
-from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
 from reviews.forms import ReviewedItemForm
 from reviews.models import ReviewedItem
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import ModelFormMixin
-from django.shortcuts import render_to_response
-from django.contrib.auth.decorators import login_required
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -168,7 +163,6 @@ class ProductDetail(DetailView):
     template_name = "imly_product_detail.html"
     
     def get_context_data(self, **kwargs):
-        
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
         context["review_form"] = ReviewedItemForm()
@@ -177,4 +171,13 @@ class ProductDetail(DetailView):
     def get_queryset(self):
         store = get_object_or_404(Store, slug=self.kwargs["store_slug"])
         return store.product_set.all()
-    
+
+    def get_object(self, queryset=None):
+        object = super(ProductDetail, self).get_object(queryset)
+        return (object.store.is_approved
+                or (self.request.user.is_authenticated()
+                and self.request.user == object.store.owner)) and object
+
+    def get(self, request, *args, **kwargs):
+        object = self.get_object()
+        return  isinstance(object, Product) and super(ProductDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
