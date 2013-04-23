@@ -1,7 +1,7 @@
 from django import forms
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
-from imly.models import Store, Product, Category, UserProfile#, GiveTip
+from imly.models import Store, Product, Category, UserProfile, GiveUsTip
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 import os
@@ -220,6 +220,12 @@ class UserProfileForm(forms.ModelForm):
         if not self.avatar:
             self.avatar = os.path.abspath('/imly_project/media/images/image.jpg')
             return self.avatar'''
+
+class GiveUsTipForm(forms.ModelForm):
+    class Meta:
+        model = GiveUsTip
+        fields=("name","tip_contact_number","description","your_name","email")
+
 """    
 class GiveTipForm(forms.ModelForm):
     

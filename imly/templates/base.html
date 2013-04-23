@@ -184,8 +184,39 @@
                             </ul></small>
                         </div>
                         <div class="span5">
-                            <small><p class="text-right">Know an amazing home chef? We'd love to know.                  
-                            <a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>
+                            <small><p class="text-right">Know an amazing home chef? We'd love to know.
+
+                            <a class="give_us_a_tip" id="givetip" href="" data-toggle="modal">Give us a Tip</a></p></small>
+                            <div id="tip" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                                    <h3 id="myModalLabel" style="color:black">Suggest A Homechef</h3>
+                                </div>
+                                <form id="tip_form">
+                                <div class="modal-body">
+                                        {% csrf_token %}
+                                        <table>
+                                            <tr><td><label>Name : </label></td></tr>
+                                            <tr><td><input type="text" name="name" /> </td></tr>
+                                            <tr><td><label>Contact No : </label></td></tr>
+                                            <tr><td><input type="text" name="tip_contact_number" /> </td></tr>
+                                            <tr><td><label>Description : </label></td></tr>
+                                            <tr><td><textarea rows="3" name="description"></textarea></td></tr>
+                                            <tr><td><label>Name : </label></td></tr>
+                                            <tr><td><input type="text" name="your_name"></text></td></tr>
+                                            <tr><td><label>Email : </label></td></tr>
+                                            <tr><td><input type="text" name="email" /></td></tr>
+                                            
+                                        </table>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+                                    <input type="submit" class="btn btn-primary" value="Submit Tip" id="submit_tip"/>
+                                </div>
+                            </form>
+
+                            </div>                  
+                            <!--<a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>-->
                         </div>
                     </div>
                     <br>
@@ -220,6 +251,8 @@
             
                 !function ($) {
                     $(function(){
+
+                        
                         
                         //expanding, contracting stor info
                         $("div.expandable").expander({
@@ -228,6 +261,7 @@
                         collapseEffect: 'slideUp',
     
                         });
+                        
                         
                         //filtering by tags - adding the tags
                         $("a.tag").click(function() {
@@ -296,6 +330,21 @@
                                 $(".delivery_areas").slideUp();
         
                         });
+                        $("#givetip").click(function(){
+                            $("#tip").modal();
+                        });
+                        $('#tip_form').submit(function(){
+                            
+                            //alert("Submit");
+                            var form_data = $(this).serialize()
+                            $.post('/give_us_tip/', form_data, function(){   
+                                $('#tip').modal('hide');
+
+                            });
+                            return false;
+                        });
+
+                        
                                 
                     })
                 }(window.jQuery)
@@ -307,10 +356,10 @@
             
         {% endblock extra_body %}
         
-        <!-- UserVoice JavaScript SDK (only needed once on a page) -->
-        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+        <!-- UserVoice JavaScript SDK (only needed once on a page) 
+        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>-->
         
-        <!-- A tab to launch the Classic Widget -->
+        <!-- A tab to launch the Classic Widget 
         <script>
         UserVoice = window.UserVoice || [];
         UserVoice.push(['showTab', 'classic_widget', {
@@ -325,7 +374,7 @@
           tab_position: 'middle-right',
           tab_inverted: true
         }]);
-        </script>
+        </script>-->
 
         <script type="text/javascript">
 
