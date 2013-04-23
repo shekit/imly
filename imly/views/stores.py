@@ -5,6 +5,7 @@ from django.http import HttpResponseForbidden
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
+from django.core.urlresolvers import reverse
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm
 
@@ -127,9 +128,13 @@ class StoreDetail(DetailView):
 
     def get_object(self, queryset=None):
         object = super(StoreDetail, self).get_object(queryset)
-        if self.request.user.is_authenticated() and object.owner == self.request.user or object.is_approved:
-            return object
-        return HttpResponseForbidden()
+        return (object.is_approved or
+                (self.request.user.is_authenticated()
+                 and object.owner == self.request.user)) and object
+
+    def get(self, request, *args, **kwargs):
+        object = self.get_object()
+        return object and super(StoreDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
 
 """
 class StoreNotice(UpdateView):
