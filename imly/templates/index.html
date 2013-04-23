@@ -33,8 +33,15 @@
                   <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
                         <li><a href="{% url "imly_product_list" %}">Discover Great Food</a></li>
-                        <li><a href="{% url "imly_store_create" %}">Open Your Shop</a></li>
-                      
+                        {% if user.is_authenticated %}
+                            {% if user.store %}
+                                <li><a href="{% url "imly_store_info" %}">Manage Your Shop</a></li>
+                            {% else %}
+                                <li><a href="{% url "why_open_your_shop" %}">Open Your Shop</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li><a href="{% url "why_open_your_shop" %}">Open Your Shop</a></li>
+                        {% endif %}
       
                                           {% if user.is_authenticated %}
                                               
