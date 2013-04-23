@@ -209,7 +209,11 @@ class Product(ProductBase, PriceBase):
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
         PriceBase.handle_order_item(self, orderitem)
-        
+
+    @property
+    def is_approved(self):
+        return self.store.is_approved
+
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created

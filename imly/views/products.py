@@ -70,7 +70,7 @@ class ProductList(ListView):
     paginate_by = 12
 
     def get_queryset(self):
-        products = Product.objects.is_approved()
+        products = Product.objects.is_approved().filter(is_deleted=False)
         if self.request.session.get('place_slug', ''):
             products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
         self.category=None
@@ -151,22 +151,17 @@ class ProductEdit(UpdateView):
         if self.get_object().store.owner != self.request.user:
             return HttpResponseForbidden()
         return super(ProductEdit,self).get(request, *args, **kwargs)
-    
-def delete_product(request,product_id):
-    product = Product.objects.get(pk=product_id)
-    product.is_deleted = True
-    product.save()
-    return HttpResponseRedirect("/account/store/products/")
 
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"
     
-    def get(self,request, *args,**kwargs):
-        if self.get_object().store.owner != self.request.user:
-            return HttpResponseForbidden()
-        return super(ProductDelete, self).get(request, *args, **kwargs)
-    
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_deleted = True
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
 class ProductsByAccount(ListView):
     
     model = Product
@@ -174,7 +169,7 @@ class ProductsByAccount(ListView):
     
     
     def get_queryset(self):
-        return self.request.user.store.product_set.all()
+        return self.request.user.store.product_set.filter(is_deleted=False)
     
 
     
@@ -195,9 +190,10 @@ class ProductDetail(DetailView):
 
     def get_object(self, queryset=None):
         object = super(ProductDetail, self).get_object(queryset)
-        return (object.store.is_approved
-                or (self.request.user.is_authenticated()
-                and self.request.user == object.store.owner)) and object
+        return  (
+                (not object.is_deleted and object.is_approved)
+                or (self.request.user.is_authenticated() and self.request.user == object.store.owner)
+                )  and object
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()
