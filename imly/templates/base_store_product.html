@@ -2,7 +2,11 @@
 
 {% block main_body %}
     <div class="row-fluid">
-
+        {% if user.store and not user.store.is_approved %}
+        <div class="span12">
+            <div class="alert alert-block"> <p>Your store is yet to be approved. To continue managing your store click <a href="{% url 'imly_store_info' %}">here</a></p> </div>
+        </div>
+        {% endif %}
         <aside class="span3">
             {% block shop_info %}
                 

@@ -148,8 +148,8 @@ class StoreNotice(UpdateView):
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super(StoreNotice, self).form_valid(form)
-""" 
-    
+"""
+
 class StoreInfoDetail(DetailView):
     ''' Account view of store information '''
     model = Store
