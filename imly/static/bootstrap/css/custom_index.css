@@ -25,14 +25,14 @@ html,body
 #main
 {
     overflow:auto;
-    padding-bottom:120px; /* this needs to be bigger than footer height*/
+    padding-bottom:130px; /* this needs to be bigger than footer height*/
 }
  
 .footer 
 {
     position: relative;
-    margin-top: -120px; /* negative value of footer height */
-    height: 120px;
+    margin-top: -130px; /* negative value of footer height */
+    height: 130px;
     clear:both;
     border-top: 1px solid #a83e1c;
 }
@@ -263,6 +263,30 @@ legend {
 
     .orange {
 	color: #F05A28;
+    }
+    
+    .social_logo{
+	width:22px;
+	height:22px;
+	overflow: hidden;
+	background-position: top;
+    }
+    
+    .social_logo:hover{
+	background-position: bottom;
+    }
+    
+    .twitter{
+	width:23px;
+	background: url("../img/twitter_logo.png") no-repeat;
+    }
+    
+    .facebook{
+	background: url("../img/fb_logo.png") no-repeat;
+    }
+    
+    .tumblr{
+	background: url("../img/tumblr_logo.png") no-repeat;
     }
     
     .legend_lower {
