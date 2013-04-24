@@ -20,7 +20,34 @@
                 <hr>
             </div>
         </div>
+                <ul class="unstyled">
+            {% if object.provide_delivery and object.pick_up %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+                <br>
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
+            {% else %}
+            
+            {% if object.provide_delivery %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}</li>
+            {% endif %}
+            {% if object.pick_up %}
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
+            {% endif %}
+            {% endif %}
+        </ul>
         
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>       
+                
         <div class="expandable">
             {{ object.description_html|safe }}
         </div>
@@ -34,18 +61,9 @@
         
         <h5>Total Items in my Shop: <span class="h5_inline">{{ object.product_set.count }}</span></h5>
              
-        <div class="row-fluid">
-            <div class="span10 offset1">
-                <hr>
-            </div>
-        </div>
+
         
-        <h5>I deliver to:</h5>   
-        <ul class="unstyled">
-            {% for delivery in object.delivery_areas.all %}
-                <li>{{ delivery|capfirst }}</li>
-            {% endfor %}
-        </ul>
+
     </div>            
 {% endblock shop_info %}
 
@@ -64,7 +82,30 @@
             {% endif %}
         </div>
     {% endif %}
-    
+    {% comment %}
+    <div class="row-fluid">
+        <div class="span12 text-center delivery_area_band">
+            {% if object.provide_delivery and object.pick_up %}
+                <span class="orange">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}
+                | <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
+            {% else %}
+            
+            {% if object.provide_delivery %}
+                <span class="orange">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}
+            {% endif %}
+            {% if object.pick_up %}
+                <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endcomment %}
     <div class="row-fluid">
         <ul class="thumbnails">
         {% for product in object.product_set.all %}
