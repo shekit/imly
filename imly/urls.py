@@ -1,14 +1,12 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-
-from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoreInfoDetail, OrderList, home_page, why_open_your_shop
-from imly.views.products import ProductReview, ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
-from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile,UserOrders
+from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop
+from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
+from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
-
+from imly.views.orders import UserOrders, StoreOrders
 from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
@@ -53,9 +51,9 @@ urlpatterns = patterns('',
     url(r"^account/my_profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
     url(r"^account/create_profile/$",login_required(ProfileCreate.as_view()),name='imly_create_profile'),
     url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
-    url(r"^account/user_orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
+    url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
+    url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
     url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
 )
 

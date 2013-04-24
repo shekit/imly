@@ -41,18 +41,6 @@ class EditProfile(UpdateView):
     model = UserProfile
     template_name = "imly_edit_profile.html"
     success_url = "/account/my_profile/"
-    
-'''    def get(self,request,*args, **kwargs):
-        if self.get_object().user != self.request.user:
-            return HttpResponseForbidden()
-        return super(EditProfile,self).get(request, *args, **kwargs)'''
-
-class UserOrders(ListView):
-    model = OrderItem
-    template_name = "imly_user_orders.html"
-
-    def get_queryset(self):
-        return OrderItem.objects.filter(order__in = self.request.user.orders.all())
 
 def give_us_tip(request):
     if request.method == 'POST':
