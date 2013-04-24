@@ -1,8 +1,10 @@
+import os
+PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 DEBUG=True # also defined in settings.py
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': "database.db",                      # Or path to database file if using sqlite3.
+        'NAME': os.path.join(PROJECT_DIR, "database_abhi.db"),                      # Or path to database file if using sqlite3.
         # The following settings are not used with sqlite3:
         'USER': 'imly',
         'PASSWORD': '',
