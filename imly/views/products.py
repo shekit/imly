@@ -15,10 +15,6 @@ from django.views.generic.edit import ModelFormMixin
 def coming_soon(request):
     return render(request,"coming_soon.html")
 
-#def set_review(request):
-#    return redirect(request.POST.get("next"))
-
-
 class ProductReview(CreateView):
     form_class = ReviewedItemForm
     model = ReviewedItem
@@ -41,28 +37,6 @@ class ProductReview(CreateView):
         context["object"] = Product.objects.get(slug=self.request.POST.get("product_slug"))
         context["form"] = OrderItemForm()
         return context
-"""       
-class ProductList(ListView):
-    
-    model = Product
-    template_name = "product_list.html"
-    paginate_by = 12
-    
-    def get_queryset(self):
-        if not self.request.session.get("place_slug",""):
-            product_list = Product.objects.all()
-        else:
-            location = Location.objects.get(slug = self.request.session["place_slug"])
-            product_list = Product.objects.filter(store__in=location.store_set.all())
-        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        products = product_list.is_approved()
-        return products.filter(tags__in=self.tags).distinct() if self.tags else products
-    
-    def get_context_data(self, **kwargs):
-        context = super(ProductList, self).get_context_data(**kwargs)
-        context["selected_tags"] = self.tags
-        return context
-"""
 
 class ProductList(ListView):
 
