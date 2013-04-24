@@ -41,7 +41,7 @@ class ProductReview(CreateView):
         context["object"] = Product.objects.get(slug=self.request.POST.get("product_slug"))
         context["form"] = OrderItemForm()
         return context
-        
+"""       
 class ProductList(ListView):
     
     model = Product
@@ -62,6 +62,7 @@ class ProductList(ListView):
         context = super(ProductList, self).get_context_data(**kwargs)
         context["selected_tags"] = self.tags
         return context
+"""
 
 class ProductList(ListView):
 
@@ -115,15 +116,7 @@ class ProductsByCategory(ListView):
         context = super(ProductsByCategory, self).get_context_data(**kwargs)
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
-    
-class ProductsByPlace(ListView):
-    
-    model = Product
-    template_name = "products_by_place.html"
-    
-    def get_queryset(self):
-        place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return self.model.objects.filter(store__in=Store.objects.is_approved().filter(delivery_areas=place))
+
 
 class ProductCreate(CreateView):
     form_class = ProductForm

@@ -24,7 +24,7 @@ def home_page(request):
 
 def why_open_your_shop(request):
     return render(request, "open_your_shop.html")
-
+"""
 class StoreList(ListView):
     
     model = Store
@@ -45,7 +45,31 @@ class StoreList(ListView):
         context = super(StoreList, self).get_context_data(**kwargs)
         context["selected_tags"] = self.tags
         return context
+"""  
+class StoreList(ListView):
     
+    model = Store
+    template_name = "stores_by_category.html"
+    paginate_by = 12
+    
+    def get_queryset(self):
+        stores = Store.objects.is_approved()
+        if self.request.session.get("place_slug",""):
+            location = Location.objects.get(slug = self.request.session.get("place_slug",""))
+            stores = location.store_set.all()
+        self.category=None
+        if "category_slug" in self.kwargs:
+            self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all())
+        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
+        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
+    
+    def get_context_data(self, **kwargs):
+        context = super(StoreList, self).get_context_data(**kwargs)
+        if self.category:
+            context["category"], context["super_category"] = self.category, self.category.super_category or self.category
+        context["selected_tags"] = self.tags
+        return context
 
 class StoresByCategory(ListView):
     
@@ -73,15 +97,6 @@ class StoresByCategory(ListView):
         context = super(StoresByCategory, self).get_context_data(**kwargs)
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
-
-class StoresByPlace(ListView):
-    
-    model = Store
-    template_name = "stores_by_place.html"
-    
-    def get_queryset(self):
-        place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return Store.objects.is_approved().filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     
