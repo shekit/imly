@@ -20,7 +20,7 @@
                 <hr>
             </div>
         </div>
-                <ul class="unstyled">
+        <ul class="unstyled">
             {% if object.provide_delivery and object.pick_up %}
                 <li><span class="delivery_area_info">Deliver to:</span>
                 {% for area in object.delivery_areas.all %}
@@ -129,7 +129,7 @@
                     {% endif %} 
                 </small></span>
                 
-                {% if object.items_in_stock %}
+                {% if product.items_in_stock %}
                 <form method="post" action="{% url "imly_add_order" product.slug %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">
