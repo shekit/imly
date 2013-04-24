@@ -5,7 +5,7 @@ DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
-LOGIN_REDIRECT_URL = "/products/"
+LOGIN_REDIRECT_URL = "/food/"
 LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (

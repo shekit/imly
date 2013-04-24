@@ -92,8 +92,8 @@
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
                 <li class="span4">
                     <div class="thumbnail">
-                        {% if object.store_logo %}
-                            <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.store_logo_thumbnail.url }}" alt="{{ object.name }}"></a>
+                        {% if object.logo %}
+                            <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></a>
                         {% else %}
                             {% with object.product_set.all|first as product %}
                                 <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>

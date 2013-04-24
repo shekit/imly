@@ -16,7 +16,32 @@
                 <hr>
             </div>
         </div>
-        
+        <ul class="unstyled">
+            {% if object.store.provide_delivery and object.store.pick_up %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.store.delivery_areas.all %}
+                    {{ area }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+                <br>
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.store.pick_up_location }}</li>
+            {% else %}
+            
+            {% if object.store.provide_delivery %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.store.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}</li>
+            {% endif %}
+            {% if object.store.pick_up %}
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.store.pick_up_location }}</li>
+            {% endif %}
+            {% endif %}
+        </ul>
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
         <h5>I also make:</h5>
         
         <div class="row-fluid">
@@ -44,12 +69,6 @@
             </div>
         </div>
         
-        <h5>I deliver to:</h5>  
-        <ul class="unstyled">
-            {% for delivery in object.store.delivery_areas.all %}
-                <li>{{ delivery|capfirst }}</li>
-            {% endfor %}
-        </ul>
     </div>            
 {% endblock shop_info %}
 
@@ -67,7 +86,7 @@
         </div>
         
         <div class="span4">
-            <h2>{{ object.name }}</h2><small>by <a href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></small>
+            <h2>{{ object.name }}</h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></small>
             <br><br>
             {% if object.quantity_per_item == 1 %}
                 <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> per {{ object.get_quantity_by_price_display }}</small></h4>
@@ -150,7 +169,7 @@
     <br>
     <div class="row-fluid">
         <div class="span2">
-            <p><strong>Item in Stock :</strong></p>
+            <p><strong>Items Left :</strong></p>
         </div>
         <div class="span10">
             {{ object.items_in_stock }}

@@ -390,7 +390,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 .shop_info > h5 {
 	color: #F05A28;
-	font-weight: 600;
+	font-weight: 500;
 }
 
 .h5_inline{
@@ -403,18 +403,49 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     color:#ccc;
     font-size: 12px;
 }
-.hero-unit {
+
+.hero_unit_custom {
     height:100px;
+    background-position: 50% 50%;
+
+}
+
+.bordered_right {
+    border-right:1px solid #e5e5e5;    
 }
 
 .no_cover_photo {
+    height:100px;
     background: url("../img/store_cover_photo_lightest.png");
-    background-position: 50% top;
+    background-position: 50% 50%;
     border:1px solid #e5e5e5;
+
 }
+
+.no_cover_photo > p {
+    color: #f05a28;
+    background: white;
+}
+
 .read-more > a:hover, .read-less > a:hover {
     color:#f05a28;
     text-decoration: none;
+}
+
+.delivery_area_info {
+
+    color:#f05a28;
+    font-weight:500;
+}
+
+/* store edit/create form */
+
+.form_heading {
+    background:#efefef;
+    font-size:24px;
+    color: #f05a28;
+    font-weight:400;
+    padding: 10px 5px;
 }
 
 /* store logo */

@@ -5,22 +5,49 @@
 {% block shop_info %}
 
     <div class="well shop_info">
-        {% if object.store_logo %}
-            <p class="text-center"><img class="img-rounded" src="{{ object.store_logo_thumbnail.url }}" alt="{{ object.name }}"></p>
+        {% if object.logo %}
+            <p class="text-center"><img class="img-rounded" src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></p>
         {% endif %}
         <h3>Hi!</h3>
         {% if object.owner.userprofile.avatar %}
         <img class="img-rounded img-polaroid img_avatar pull-left" src="{{ object.owner.userprofile.avatar_thumbnail_mini.url }}">
         {% endif %}
             
-        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store.<br> Find out more about me on my <a class="profile_link" href="#">profile</a>.
+        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. Find out more about me on my <a class="profile_link" href="#">profile</a>.
         
         <div class="row-fluid">
             <div class="span10 offset1">
                 <hr>
             </div>
         </div>
+        <ul class="unstyled">
+            {% if object.provide_delivery and object.pick_up %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+                <br>
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
+            {% else %}
+            
+            {% if object.provide_delivery %}
+                <li><span class="delivery_area_info">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}</li>
+            {% endif %}
+            {% if object.pick_up %}
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
+            {% endif %}
+            {% endif %}
+        </ul>
         
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>       
+                
         <div class="expandable">
             {{ object.description_html|safe }}
         </div>
@@ -34,36 +61,51 @@
         
         <h5>Total Items in my Shop: <span class="h5_inline">{{ object.product_set.count }}</span></h5>
              
-        <div class="row-fluid">
-            <div class="span10 offset1">
-                <hr>
-            </div>
-        </div>
+
         
-        <h5>I deliver to:</h5>   
-        <ul class="unstyled">
-            {% for delivery in object.delivery_areas.all %}
-                <li>{{ delivery|capfirst }}</li>
-            {% endfor %}
-        </ul>
+
     </div>            
 {% endblock shop_info %}
 
 {% block shop_product_content %}
     
-    {% if object.store_logo %}
-    <div class="hero-unit no_cover_photo text-center">
-
-        <h1 class="store_name">{{ object.name }}</h1>
-        {% if object.tagline %}
-            <p>{{ object.tagline }}</p>
-        {% endif %}
-    </div>
-    {% else %}
-    <div class="hero-unit">
-    {% endif %}
-    </div>  
+    {% if object.cover_photo %}
+        
+        <div class="hero-unit hero_unit_custom" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%;"></div>
     
+    {% else %}
+        
+        <div class="hero-unit no_cover_photo text-center">
+            <h1 class="store_name">{{ object.name }}</h1>
+            {% if object.tagline %}
+                <p>{{ object.tagline }}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+    {% comment %}
+    <div class="row-fluid">
+        <div class="span12 text-center delivery_area_band">
+            {% if object.provide_delivery and object.pick_up %}
+                <span class="orange">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}
+                | <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
+            {% else %}
+            
+            {% if object.provide_delivery %}
+                <span class="orange">Deliver to:</span>
+                {% for area in object.delivery_areas.all %}
+                    {{ area }}
+                {% endfor %}
+            {% endif %}
+            {% if object.pick_up %}
+                <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
+            {% endif %}
+            {% endif %}
+        </div>
+    </div>
+    {% endcomment %}
     <div class="row-fluid">
         <ul class="thumbnails">
         {% for product in object.product_set.all %}
@@ -87,7 +129,7 @@
                     {% endif %} 
                 </small></span>
                 
-                {% if object.items_in_stock %}
+                {% if product.items_in_stock %}
                 <form method="post" action="{% url "imly_add_order" product.slug %}">
                     {% csrf_token %}
                     <input type="hidden" name="quantity" value="1">

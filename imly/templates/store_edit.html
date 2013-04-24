@@ -10,7 +10,7 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-    <h4>Edit Your Store</h4>
+    <h4 class="form_heading">Edit Your Store</h4>
     <br>
         {% comment %}
         <form method="post" action="">
@@ -22,13 +22,14 @@
         <input type="submit" class="btn btn-success" value="Update">
         </form>
         {% endcomment %}
-        
+        <div>
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Update">
         </form>
+        </div>
 
 {% endblock shop_content %}
                 
@@ -44,9 +45,9 @@
         </div>
                 
         <ol class="tips">
-            <li>Choose a memorable name for your store.</li>
+            <li>Choose a <span class="orange">memorable name</span> for your store.</li>
             <li>A tagline can help to reinforce your brand. A catchy phrase is hard to forget.</li>
-            <li>Keep the description short but interesting. Customers only skim through. Make sure they see what is most important.</li>
+            <li>Keep the description short but <span class="orange">interesting</span>. Customers only skim through. Make sure they see what is most important.</li>
         </ol>
     </aside>            
 {% endblock shop_info %}            
