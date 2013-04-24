@@ -403,15 +403,26 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     color:#ccc;
     font-size: 12px;
 }
-.hero-unit {
+
+.hero_unit_custom {
     height:100px;
+    background-position: 50% 50%;
+
 }
 
 .no_cover_photo {
+    height:100px;
     background: url("../img/store_cover_photo_lightest.png");
-    background-position: 50% top;
+    background-position: 50% 50%;
     border:1px solid #e5e5e5;
+
 }
+
+.no_cover_photo > p {
+    color: #f05a28;
+    background: white;
+}
+
 .read-more > a:hover, .read-less > a:hover {
     color:#f05a28;
     text-decoration: none;

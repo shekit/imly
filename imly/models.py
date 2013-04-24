@@ -28,8 +28,17 @@ def get_store_image_path(instance, filename):
     store_name = instance.slug
     return os.path.join("store-logos",store_name, filename)
 
+def get_cover_image_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    store_name = instance.slug
+    return os.path.join("cover-photos",store_name, filename)
+
 def get_store_logo_path(instance, path, specname, extension):
     return os.path.join("logos", path)
+
+def get_store_cover_photo_path(instance, path, specname, extension):
+    return os.path.join("cover-photos", path)
 
 def get_thumbnail_path(instance,path,specname,extension):
     return os.path.join("regular",path)
@@ -101,8 +110,10 @@ class Store(models.Model):
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
-    store_logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
-    store_logo_thumbnail = ImageSpecField(image_field="store_logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
+    logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
+    logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
+    cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
+    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",cache_to=get_store_cover_photo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)

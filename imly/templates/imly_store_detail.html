@@ -5,15 +5,15 @@
 {% block shop_info %}
 
     <div class="well shop_info">
-        {% if object.store_logo %}
-            <p class="text-center"><img class="img-rounded" src="{{ object.store_logo_thumbnail.url }}" alt="{{ object.name }}"></p>
+        {% if object.logo %}
+            <p class="text-center"><img class="img-rounded" src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></p>
         {% endif %}
         <h3>Hi!</h3>
         {% if object.owner.userprofile.avatar %}
         <img class="img-rounded img-polaroid img_avatar pull-left" src="{{ object.owner.userprofile.avatar_thumbnail_mini.url }}">
         {% endif %}
             
-        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store.<br> Find out more about me on my <a class="profile_link" href="#">profile</a>.
+        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. Find out more about me on my <a class="profile_link" href="#">profile</a>.
         
         <div class="row-fluid">
             <div class="span10 offset1">
@@ -51,18 +51,19 @@
 
 {% block shop_product_content %}
     
-    {% if object.store_logo %}
-    <div class="hero-unit no_cover_photo text-center">
-
-        <h1 class="store_name">{{ object.name }}</h1>
-        {% if object.tagline %}
-            <p>{{ object.tagline }}</p>
-        {% endif %}
-    </div>
+    {% if object.cover_photo %}
+        
+        <div class="hero-unit hero_unit_custom" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%;"></div>
+    
     {% else %}
-    <div class="hero-unit">
+        
+        <div class="hero-unit no_cover_photo text-center">
+            <h1 class="store_name">{{ object.name }}</h1>
+            {% if object.tagline %}
+                <p>{{ object.tagline }}</p>
+            {% endif %}
+        </div>
     {% endif %}
-    </div>  
     
     <div class="row-fluid">
         <ul class="thumbnails">
