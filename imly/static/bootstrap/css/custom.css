@@ -408,6 +408,12 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     text-decoration: none;
 }
 
+/* store logo */
+.store_logo {
+    margin-bottom:10px;
+    
+}
+
 /* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
 .margined_product_detail_aside {
 	margin-bottom:4px;

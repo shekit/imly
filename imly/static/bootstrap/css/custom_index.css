@@ -149,15 +149,6 @@ legend {
     padding:60px 0px;
 }
 
-.hero_open_shop {
-    background: url("../img/chef_cover.jpg");
-    background-color: #fcfcfc;
-    border-top: 1px solid #d1d2d4;
-    border-bottom: 1px solid #e5e5e5;
-    color: #301208;
-    text-shadow: none;
-    font-size: 20px;
-}
 
 .greyed {
     color:#999;
@@ -387,6 +378,54 @@ legend {
 	font-weight: normal;
 	text-transform: uppercase;
     }
+    
+/* WHY OPEN YOUR SHOP PAGE*/
+
+.hero_open_shop {
+    background: url("../img/chef_cover.jpg");
+    background-color: #fcfcfc;
+    border-top: 1px solid #d1d2d4;
+    border-bottom: 1px solid #e5e5e5;
+    color: #301208;
+    text-shadow: none;
+    font-size: 20px;
+}
+
+.feature_list {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.feature_list_header {
+    font-weight: 200;
+    color: #f05a28;
+}
+
+.feature_list_para {
+    padding-left:40px;
+    padding-right: 40px;
+
+}
+
+.feature_list_end {
+    font-weight: 200;
+    margin-top:20px;
+}
+
+.feature_list_link {
+    color: #f05a28;
+}
+
+.feature_list_link:hover {
+    color: #f05a28;
+}
+
+.feature_list_border {
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
+    margin-bottom:50px;
+}
 /* RESPONSIVE CSS
     -------------------------------------------------- */
 

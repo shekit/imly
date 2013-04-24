@@ -24,7 +24,7 @@
         {% endcomment %}
         
         {% load crispy_forms_tags %}
-        <form method="post" action="">
+        <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Update">

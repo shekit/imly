@@ -22,6 +22,15 @@ def get_image_path(instance,filename):
     store_name = instance.store.slug
     return os.path.join("images",store_name, filename)
 
+def get_store_image_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    store_name = instance.slug
+    return os.path.join("store-logos",store_name, filename)
+
+def get_store_logo_path(instance, path, specname, extension):
+    return os.path.join("logos", path)
+
 def get_thumbnail_path(instance,path,specname,extension):
     return os.path.join("regular",path)
 
@@ -92,6 +101,8 @@ class Store(models.Model):
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
+    store_logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
+    store_logo_thumbnail = ImageSpecField(image_field="store_logo", format="JPEG", cache_to=get_store_logo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)

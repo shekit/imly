@@ -47,7 +47,7 @@ urlpatterns = patterns('',
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
-    url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
+    url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details/$", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
     url(r"^account/my_profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
@@ -61,10 +61,10 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     
-    url(r"^products/$", ProductList.as_view(), name="imly_product_list"),
+    url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
-    url(r"^(?P<store_slug>[-\w]+)/products/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
+    url(r"^(?P<store_slug>[-\w]+)/food/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
     
     
 )
@@ -72,8 +72,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     
     #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
-    url(r"^categories/(?P<category_slug>[-\w]+)/stores/$", StoreList.as_view(), name="imly_stores_by_category"),
-    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductList.as_view(), name="imly_products_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/chefs/$", StoreList.as_view(), name="imly_stores_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/food/$", ProductList.as_view(), name="imly_products_by_category"),
 )
 
 urlpatterns += patterns('',
