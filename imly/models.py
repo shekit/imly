@@ -102,7 +102,7 @@ class Store(models.Model):
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
     store_logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
-    store_logo_thumbnail = ImageSpecField(image_field="store_logo", format="JPEG", cache_to=get_store_logo_path)
+    store_logo_thumbnail = ImageSpecField(image_field="store_logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)

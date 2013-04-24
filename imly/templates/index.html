@@ -129,9 +129,14 @@
                         
                         <li class="span3">
                             <div class="thumbnail">
-                                {% with store.product_set.all|first as product %}
-                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
-                                {% endwith %}
+                                {% if store.store_logo %}
+                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ store.store_logo_thumbnail.url }}" alt="{{ store.name }}"></a>
+                                {% else %}
+                                    {% with store.product_set.all|first as product %}
+                                        <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ store.name }}"></a>
+                                    {% endwith %}
+                                {% endif %}
+
                                 
                                 <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
                                             {% if store.owner.userprofile.first_name %}
