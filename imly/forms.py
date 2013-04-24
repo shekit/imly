@@ -26,7 +26,7 @@ class StoreForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
-                "",
+                "Shop Details",
                 "name",
                 "logo",
                 "cover_photo",
@@ -35,7 +35,7 @@ class StoreForm(forms.ModelForm):
                 "description"
                 ),
             Fieldset(
-                "",
+                "Delivery/Pick-Up Details",
                 "pick_up",
                 Div(
                     "pick_up_address",
@@ -49,7 +49,7 @@ class StoreForm(forms.ModelForm):
                 )
                 ),
             Fieldset(
-                "",
+                "Social Media Info",
                 "facebook_link",
                 "twitter_link",
             ),
