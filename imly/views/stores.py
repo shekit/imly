@@ -24,28 +24,7 @@ def home_page(request):
 
 def why_open_your_shop(request):
     return render(request, "open_your_shop.html")
-"""
-class StoreList(ListView):
-    
-    model = Store
-    template_name = "store_list.html"
-    paginate_by = 12
-    
-    def get_queryset(self):
-        if not self.request.session.get("place_slug",""):
-            store_list = Store.objects
-        else:
-            location = Location.objects.get(slug = self.request.session["place_slug"])
-            store_list = location.store_set
-        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        stores = store_list.is_approved()
-        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
-    
-    def get_context_data(self, **kwargs):
-        context = super(StoreList, self).get_context_data(**kwargs)
-        context["selected_tags"] = self.tags
-        return context
-"""  
+
 class StoreList(ListView):
     
     model = Store
