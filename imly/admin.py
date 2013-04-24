@@ -1,10 +1,10 @@
 from django.contrib import admin
-
 from imly.models import Category, Tag, Location, Product, Store
-
 from imagekit.admin import AdminThumbnail
+from rollyourown.seo.admin import register_seo_admin
+from seo import ImlyMetadata
 
-
+register_seo_admin(admin.site, ImlyMetadata)
 
 class CategoryAdmin(admin.ModelAdmin):
     
