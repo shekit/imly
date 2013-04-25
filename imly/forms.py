@@ -226,6 +226,19 @@ class GiveUsTipForm(forms.ModelForm):
         model = GiveUsTip
         fields=("name","tip_contact_number","description","your_name","email")
 
+    def clean(self):
+        cleaned_data = super(GiveUsTipForm,self).clean()
+        chef_name = cleaned_data.get("name")
+        contact_number = cleaned_data.get("tip_contact_number")
+        description = cleaned_data.get("description")
+        your_name = cleaned_data.get("your_name")
+        email = cleaned_data.get("email")
+
+        if not chef_name and contact_number and description and your_name and email:
+            raise forms.ValidationError("Fill up all the fields")
+        return cleaned_data
+                   
+
 """    
 class GiveTipForm(forms.ModelForm):
     
