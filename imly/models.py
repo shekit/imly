@@ -22,6 +22,24 @@ def get_image_path(instance,filename):
     store_name = instance.store.slug
     return os.path.join("images",store_name, filename)
 
+def get_store_image_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    store_name = instance.slug
+    return os.path.join("store-logos",store_name, filename)
+
+def get_cover_image_path(instance, filename):
+    ext = filename.split(".")[-1]
+    filename = "%s.%s" % (uuid.uuid4(), ext)
+    store_name = instance.slug
+    return os.path.join("cover-photos",store_name, filename)
+
+def get_store_logo_path(instance, path, specname, extension):
+    return os.path.join("logos", path)
+
+def get_store_cover_photo_path(instance, path, specname, extension):
+    return os.path.join("cover-photos", path)
+
 def get_thumbnail_path(instance,path,specname,extension):
     return os.path.join("regular",path)
 
@@ -92,6 +110,10 @@ class Store(models.Model):
     description = models.TextField()
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
+    logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
+    logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
+    cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
+    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",cache_to=get_store_cover_photo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
@@ -153,11 +175,13 @@ class Product(ProductBase, PriceBase):
     SERVING = 2
     GRAMS = 3
     KILOS = 4
+    DOZEN = 5
     QUANTITY_BY_PRICE = (
         (PIECES,"piece"),
         (SERVING, "serving"),
         (GRAMS, "gram"),
         (KILOS,"kg"),
+        (DOZEN,"dozen"),
     )
     
     name = models.CharField(max_length=100)
@@ -209,7 +233,11 @@ class Product(ProductBase, PriceBase):
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
         PriceBase.handle_order_item(self, orderitem)
-        
+
+    @property
+    def is_approved(self):
+        return self.store.is_approved
+
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created

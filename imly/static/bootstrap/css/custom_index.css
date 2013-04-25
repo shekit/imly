@@ -149,29 +149,23 @@ legend {
     padding:60px 0px;
 }
 
-.hero_open_shop {
-    background: url("../img/chef_cover.jpg");
-    background-color: #fcfcfc;
-    border-top: 1px solid #d1d2d4;
-    border-bottom: 1px solid #e5e5e5;
-    color: #301208;
-    text-shadow: none;
-    font-size: 20px;
-}
 
 .greyed {
     color:#999;
 }
 .hero_carousel1{
-    background: url("../img/car6.jpg") no-repeat; 
+    background: url("../img/car6.jpg") no-repeat;
+    background-position: 50% top;
 }
 
 .hero_carousel2{
-    background: url("../img/car5.jpg") no-repeat; 
+    background: url("../img/car5.jpg") no-repeat;
+    background-position: 50% top;
 }
 
 .hero_carousel3{
-    background: url("../img/car7.jpg") no-repeat; 
+    background: url("../img/car7.jpg") no-repeat;
+    background-position: 50% top;
 }
 
     .carousel-control {
@@ -181,7 +175,7 @@ legend {
       text-shadow: 0 1px 1px rgba(0,0,0,.4);
       background-color: transparent;
       border: 0;
-      z-index: 10;
+      z-index: 40;
     }
 /* centering the thumbnail */
     .thumbnails {
@@ -286,6 +280,7 @@ legend {
     }
     
     .tumblr{
+	height:22px;
 	background: url("../img/tumblr_logo.png") no-repeat;
     }
     
@@ -386,6 +381,54 @@ legend {
 	font-weight: normal;
 	text-transform: uppercase;
     }
+    
+/* WHY OPEN YOUR SHOP PAGE*/
+
+.hero_open_shop {
+    background: url("../img/grey_texture_bg.jpg");
+    background-color: #fcfcfc;
+    border-top: 1px solid #d1d2d4;
+    border-bottom: 1px solid #e5e5e5;
+    color: #301208;
+    text-shadow: none;
+    font-size: 20px;
+}
+
+.feature_list {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.feature_list_header {
+    font-weight: 200;
+    color: #f05a28;
+}
+
+.feature_list_para {
+    padding-left:40px;
+    padding-right: 40px;
+
+}
+
+.feature_list_end {
+    font-weight: 200;
+    margin-top:20px;
+}
+
+.feature_list_link {
+    color: #f05a28;
+}
+
+.feature_list_link:hover {
+    color: #f05a28;
+}
+
+.feature_list_border {
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    padding-top: 20px;
+    margin-bottom:50px;
+}
 /* RESPONSIVE CSS
     -------------------------------------------------- */
 

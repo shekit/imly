@@ -1,14 +1,12 @@
 from django.conf.urls import patterns, include, url
-from django.views.generic import ListView
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-
-from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoresByCategory, StoresByPlace, StoreInfoDetail, OrderList, home_page, why_open_your_shop
-from imly.views.products import ProductReview, ProductList, ProductsByCategory, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
-from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile,UserOrders
+from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop
+from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
+from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
-
+from imly.views.orders import UserOrders, StoreOrders
 from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
@@ -47,24 +45,24 @@ urlpatterns = patterns('',
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
-    url(r"^stores/$", StoreList.as_view(), name="imly_store_list"),
+    url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details/$", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
     url(r"^account/my_profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
     url(r"^account/create_profile/$",login_required(ProfileCreate.as_view()),name='imly_create_profile'),
     url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
-    url(r"^account/user_orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
+    url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
+    url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
     url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
 )
 
 urlpatterns += patterns('',
     
-    url(r"^products/$", ProductList.as_view(), name="imly_product_list"),
+    url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
-    url(r"^(?P<store_slug>[-\w]+)/products/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
+    url(r"^(?P<store_slug>[-\w]+)/food/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
     
     
 )
@@ -72,8 +70,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     
     #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
-    url(r"^categories/(?P<category_slug>[-\w]+)/stores/$", StoresByCategory.as_view(), name="imly_stores_by_category"),
-    url(r"^categories/(?P<category_slug>[-\w]+)/products/$", ProductsByCategory.as_view(), name="imly_products_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/chefs/$", StoreList.as_view(), name="imly_stores_by_category"),
+    url(r"^categories/(?P<category_slug>[-\w]+)/food/$", ProductList.as_view(), name="imly_products_by_category"),
 )
 
 urlpatterns += patterns('',
@@ -88,8 +86,8 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="imly_product_add"),
     url(r"^account/store/products/(?P<pk>\d+)/edit$", login_required(ProductEdit.as_view()), name="imly_product_edit"),
-    url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
-    #url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
+    #url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
+    url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     
 )

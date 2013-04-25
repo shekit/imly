@@ -380,6 +380,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	margin-top: 0px;
 	margin-bottom: 10px;
 	line-height: 20px;
+	font-weight:500;
 }
 
 .shop_info > h4 {
@@ -389,7 +390,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 .shop_info > h5 {
 	color: #F05A28;
-
+	font-weight: 500;
 }
 
 .h5_inline{
@@ -403,11 +404,68 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     font-size: 12px;
 }
 
+.hero_unit_custom {
+    height:100px;
+    background-position: 50% 50%;
+
+}
+
+.bordered_right {
+    border-right:1px solid #e5e5e5;    
+}
+
+.no_cover_photo {
+    height:100px;
+    background: url("../img/store_cover_photo_lightest.png");
+    background-position: 50% 50%;
+    border:1px solid #e5e5e5;
+
+}
+
+.no_cover_photo > p {
+    color: #f05a28;
+    background: white;
+}
+
 .read-more > a:hover, .read-less > a:hover {
     color:#f05a28;
     text-decoration: none;
 }
 
+.delivery_area_info {
+
+    color:#f05a28;
+    font-weight:500;
+}
+
+/* store edit/create form */
+
+.form_heading {
+    background:#efefef;
+    font-size:24px;
+    color: #f05a28;
+    font-weight:400;
+    padding: 10px 5px;
+}
+
+/* store logo */
+.store_logo {
+    margin-bottom:10px;
+    
+}
+
+.img_avatar {
+    padding:2px;
+    margin-right:5px;
+}
+
+.profile_link{
+    color: #F05a28;
+}
+
+.profile_link:hover {
+    color:red;
+}
 /* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
 .margined_product_detail_aside {
 	margin-bottom:4px;

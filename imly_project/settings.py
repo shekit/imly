@@ -1,12 +1,11 @@
 # Django settings for imly_project project.
 
+import os
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
-
-import os
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
-LOGIN_REDIRECT_URL = "/products/"
+LOGIN_REDIRECT_URL = "/food/"
 LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (
@@ -15,29 +14,13 @@ ADMINS = (
     ("Pavan Mishra", "pavanmishra@gmail.com"),
 )
 
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = 'imlyfood@gmail.com'
-EMAIL_HOST_PASSWORD = 'imly@food13'
+EMAIL_HOST = "smtp.mandrillapp.com"
+EMAIL_HOST_USER = 'pavan@imly.in'
+EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-
 
 MANAGERS = ADMINS
-
-if DEBUG == True:
-    DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': os.path.join(PROJECT_DIR, "database_abhi.db"),                      # Or path to database file if using sqlite3.
-        # The following settings are not used with sqlite3:
-        'USER': '',
-        'PASSWORD': '',
-        'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
-        'PORT': '',                      # Set to empty string for default.
-    }
-}  
-else:     
-    DATABASES = {
+DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
             'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
@@ -51,10 +34,7 @@ else:
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-if DEBUG == True:
-    ALLOWED_HOSTS = []  
-else:
-    ALLOWED_HOSTS = ["alpha.imly.in","imly-south.herokuapp.com"]
+ALLOWED_HOSTS = ["alpha.imly.in","imly-south.herokuapp.com"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -66,11 +46,7 @@ TIME_ZONE = 'Asia/Calcutta'
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en-us'
 
-if DEBUG == True:
-    SITE_ID = 1  
-else:
-    SITE_ID = 1
-
+SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -85,7 +61,7 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/var/www/example.com/media/"
-MEDIA_ROOT = os.path.join(PROJECT_DIR, "media")
+MEDIA_ROOT = os.path.join(PROJECT_DIR, "../media")
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
@@ -101,10 +77,7 @@ STATIC_ROOT = os.path.join(PROJECT_DIR, "static")
 # URL prefix for static files.
 # Example: "http://example.com/static/", "http://static.example.com/"
 
-if DEBUG == True:
-    STATIC_URL = '/static/'  
-else:
-    STATIC_URL = 'https://imly.s3.amazonaws.com/'
+STATIC_URL = 'https://imly.s3.amazonaws.com/'
 
 # Additional locations of static files
 STATICFILES_DIRS = (
@@ -208,6 +181,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'reviews',
     'crispy_forms',
+    'rollyourown.seo',
     #'djangoratings',
     #'django_comments',
     # Uncomment the next line to enable admin documentation:
@@ -280,38 +254,25 @@ PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
 #AllAuth settings
 
 ACCOUNT_AUTHENTICATION_METHOD = "username_email"
-
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
-
 ACCOUNT_EMAIL_REQUIRED = True
-
 ACCOUNT_EMAIL_VERIFICATION = "optional"
-
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "Hello from Imly! "
-
 ACCOUNT_USER_MIN_LENGTH = 4
 
-#for s3 storage
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+if not DEBUG:
+    #for s3 storage
+    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    AWS_ACCESS_KEY_ID = "AKIAJLZTSZS7CQ57KK4Q"
+    AWS_SECRET_ACCESS_KEY = "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"
+    AWS_STORAGE_BUCKET_NAME = "imly"
+    # stops IK checking S3 all the time - main reason to use IK v2 for me
+    IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
 
-AWS_ACCESS_KEY_ID = "AKIAJLZTSZS7CQ57KK4Q"
-
-AWS_SECRET_ACCESS_KEY = "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"
-
-AWS_STORAGE_BUCKET_NAME = "imly"
-
-# stops IK checking S3 all the time - main reason to use IK v2 for me
-IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
-
-STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
-#for Heroku
-
-if DEBUG == False:
+if not DEBUG :
     import dj_database_url
     DATABASES['default'] = dj_database_url.config()
-    
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
-#make crispy forms fail loudly in debug mode
-CRISPY_FAIL_SILENTLY = not DEBUG
-
+if DEBUG:
+    from settings_local import *

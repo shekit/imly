@@ -26,14 +26,16 @@ class StoreForm(forms.ModelForm):
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
-                "",
+                "Shop Details",
                 "name",
+                "logo",
+                "cover_photo",
                 "tagline",
                 PrependedText("store_contact_number", "+91", placeholder="Mobile Number"),
                 "description"
                 ),
             Fieldset(
-                "",
+                "Delivery/Pick-Up Details",
                 "pick_up",
                 Div(
                     "pick_up_address",
@@ -47,7 +49,7 @@ class StoreForm(forms.ModelForm):
                 )
                 ),
             Fieldset(
-                "",
+                "Social Media Info",
                 "facebook_link",
                 "twitter_link",
             ),
@@ -103,7 +105,7 @@ class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
         exclude = ["slug","owner","categories", "date_created","date_updated","tags", "is_featured","is_approved"]
-        fields = ("name", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "delivery_areas", "facebook_link", "twitter_link")
+        fields = ("name","logo","cover_photo", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "delivery_areas", "facebook_link", "twitter_link")
         widgets = {
             "delivery_areas": MyCheckboxSelectMultiple(),
         }

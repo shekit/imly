@@ -11,7 +11,7 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-   <h4>Add a Product</h4>
+   <h4 class="form_heading">Add a Product</h4>
    <br>
     
         <div class="row-fluid">
@@ -31,45 +31,24 @@
 
            
 {% endblock shop_content %}
-                
+              
 
 {% block shop_info %}
-    <div class="well shop_info">
+    <aside class="well shop_info">
+        <h4 class="text-center orange">Tips</h4>
 
-        <h4>{{ user.store.name }}</h4>
-        <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
-        
         <div class="row-fluid">
             <div class="span10 offset1">
                 <hr>
             </div>
         </div>
-        
-        <div class="expandable">
-            {{ user.store.description_html|safe }}
-        </div>
-        
-        <h5>Items Offered:</h5>
-        <ul class="unstyled">
-            {% for category in user.store.categories.all %}
-                <li>{{ category.name }}</li>
-            {% endfor %}
-        </ul>
-        
-        <h5>Total Items in Shop: <span class="h5_inline">{{ user.store.product_set.count }}</span></h5>
-             
-        <div class="row-fluid">
-            <div class="span10 offset1">
-                <hr>
-            </div>
-        </div>
-        
-        <h5>Delivery Areas:</h5>   
-        <ul class="unstyled">
-            {% for delivery in user.store.delivery_areas.all %}
-                <li>{{ delivery|capfirst }}</li>
-            {% endfor %}
-        </ul>
-    </div>           
+                
+        <ol class="tips">
+            <li><span class="orange">Pictures are key!</span> A poorly shot picture can make the best dish look unappetizing.</li>
+            <li>Set your capacity based on what you can produce in a single day.</li>
+            <li>Make sure each item in your shop has a unique name.</li>
+            <li><span class="orange">Tag your products well.</span> They become easier to find.</li>
+        </ol>
+    </aside>           
 {% endblock shop_info %}            
 

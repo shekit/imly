@@ -10,14 +10,7 @@ from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm
 
 import plata
-from plata.shop.models import Order, OrderItem
-
-# how to confirm store is owned by person editing it?
-"""
-store_info = {
-    "queryset" : Store.objects.is_approved().all(),
-    "template_name" : "store_list.html"
-}"""
+from plata.shop.models import OrderItem
 
 def home_page(request):
     return render(request,"index.html")
@@ -28,23 +21,27 @@ def why_open_your_shop(request):
 class StoreList(ListView):
     
     model = Store
-    template_name = "store_list.html"
+    template_name = "stores_by_category.html"
     paginate_by = 12
     
     def get_queryset(self):
-        if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.all()
-        else:
-            location = Location.objects.get(slug = self.request.session["place_slug"])
-            store_list = location.store_set.all()
+        stores = Store.objects.is_approved()
+        if self.request.session.get("place_slug",""):
+            location = Location.objects.get(slug = self.request.session.get("place_slug",""))
+            stores = location.store_set.all()
+        self.category=None
+        if "category_slug" in self.kwargs:
+            self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
+            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return store_list.filter(tags__in=self.tags).distinct() if self.tags else store_list
+        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
     
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
+        if self.category:
+            context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
         return context
-    
 
 class StoresByCategory(ListView):
     
@@ -54,33 +51,24 @@ class StoresByCategory(ListView):
     
     def get_queryset(self):
         if not self.request.session.get("place_slug",""):
-            store_list = Store.objects.all()
+            store_list = Store.objects
         else:
             location = Location.objects.get(slug=self.request.session["place_slug"])
-            store_list = location.store_set.all()
+            store_list = location.store_set
         self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
         if self.category.super_category:
             stores_by_category = store_list.filter(categories=self.category)
         else:
             stores_by_category = store_list.filter(categories__in=self.category.sub_categories.all()).distinct()
-        
+        stores = stores_by_category.is_approved()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return stores_by_category.filter(tags__in=self.tags).distinct() if self.tags else stores_by_category
+        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
     
     def get_context_data(self, **kwargs):
         
         context = super(StoresByCategory, self).get_context_data(**kwargs)
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
-
-class StoresByPlace(ListView):
-    
-    model = Store
-    template_name = "stores_by_place.html"
-    
-    def get_queryset(self):
-        place = get_object_or_404(Location, slug=self.kwargs["place_slug"])
-        return Store.objects.filter(delivery_areas=place)
 
 class StoreEdit(UpdateView):
     
@@ -203,12 +191,3 @@ def add_order(request, product_slug):
         form = OrderItemForm()
         
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
-
-class OrderList(ListView):
-    #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
-    model = OrderItem
-    template_name = "imly_store_orders.html"
-    
-    def get_queryset(self):
-        store = self.request.user.store#get_object_or_404(Store, slug=self.kwargs["slug"])
-        return OrderItem.objects.filter(product__in=store.product_set.all())
