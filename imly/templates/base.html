@@ -315,7 +315,7 @@
                                 $('#tip').modal('hide');
                             })
                             .error(function(data){$('#tip_form_body').html(data.responseText);});
-                            
+                            $('#tip_form')[0].reset();
                             return false;
                         });
 
@@ -350,26 +350,7 @@
           tab_inverted: true
         }]);
         </script>-->
-        <div id="tip" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        <h3 id="myModalLabel" style="color:black">Suggest A Homechef</h3>
-    </div>
-    <form id="tip_form">
-        <div class="modal-body">
-            <ul id="tip_form_body">
-                {% csrf_token %}
-                {# form pushed in using context processor #}
-                {{ tip_form.as_ul }}
-            </ul>
-        </div>
-        <div class="modal-footer">
-            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-            <input type="submit" class="btn btn-primary" value="Submit Tip" id="submit_tip"/>
-        </div>
-    </form>
-
-</div>
+        {% include 'tip_form.html' %}
 
         <script type="text/javascript">
 
