@@ -187,36 +187,8 @@
                         <div class="span5">
                             <small><p class="text-right">Know an amazing home chef? We'd love to know.
 
-                            <a class="give_us_a_tip" id="givetip" href="" data-toggle="modal">Give us a Tip</a></p></small>
-                            <div id="tip" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
-                                <div class="modal-header">
-                                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                                    <h3 id="myModalLabel" style="color:black">Suggest A Homechef</h3>
-                                </div>
-                                <form id="tip_form">
-                                <div class="modal-body">
-                                        {% csrf_token %}
-                                        <table>
-                                            <tr><td><label>Name : </label></td></tr>
-                                            <tr><td><input type="text" name="name" /> </td></tr>
-                                            <tr><td><label>Contact No : </label></td></tr>
-                                            <tr><td><input type="text" name="tip_contact_number" /> </td></tr>
-                                            <tr><td><label>Description : </label></td></tr>
-                                            <tr><td><textarea rows="3" name="description"></textarea></td></tr>
-                                            <tr><td><label>Name : </label></td></tr>
-                                            <tr><td><input type="text" name="your_name"></text></td></tr>
-                                            <tr><td><label>Email : </label></td></tr>
-                                            <tr><td><input type="text" name="email" /></td></tr>
-                                            
-                                        </table>
-                                </div>
-                                <div class="modal-footer">
-                                    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-                                    <input type="submit" class="btn btn-primary" value="Submit Tip" id="submit_tip"/>
-                                </div>
-                            </form>
-
-                            </div>                  
+                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Give us a Tip</a></p></small>
+                            
                             <!--<a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>-->
                         </div>
                     </div>
@@ -333,15 +305,17 @@
                         });
                         $("#givetip").click(function(){
                             $("#tip").modal();
+                            $('#tip_form')[0].reset();
                         });
                         $('#tip_form').submit(function(){
                             
                             //alert("Submit");
                             var form_data = $(this).serialize()
-                            $.post('/give_us_tip/', form_data, function(){   
+                            $.post('/give_us_tip/', form_data, function(data){   
                                 $('#tip').modal('hide');
-
-                            });
+                            })
+                            .error(function(data){$('#tip_form_body').html(data.responseText);});
+                            
                             return false;
                         });
 
@@ -376,6 +350,26 @@
           tab_inverted: true
         }]);
         </script>-->
+        <div id="tip" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display:none">
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        <h3 id="myModalLabel" style="color:black">Suggest A Homechef</h3>
+    </div>
+    <form id="tip_form">
+        <div class="modal-body">
+            <ul id="tip_form_body">
+                {% csrf_token %}
+                {# form pushed in using context processor #}
+                {{ tip_form.as_ul }}
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+            <input type="submit" class="btn btn-primary" value="Submit Tip" id="submit_tip"/>
+        </div>
+    </form>
+
+</div>
 
         <script type="text/javascript">
 
