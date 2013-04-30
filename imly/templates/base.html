@@ -69,7 +69,7 @@
                                     {% else %}
                                         <li><a href="{% url "account_login" %}">Sign In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span></a></li>
+                                    <li class="border_right"><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span></a>{% if plata.order %}{{ plata.order.items.count }}{% endif %}</li>
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->
