@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-from imly.views.stores import StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
@@ -46,6 +46,7 @@ urlpatterns = patterns('',
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
+    url(r"^chef-profile/$", chef_profile, name="chef_profile"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details/$", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
     url(r"^account/my_profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
@@ -53,8 +54,9 @@ urlpatterns = patterns('',
     url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
     url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
+    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
     url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
+    
 )
 
 urlpatterns += patterns('',

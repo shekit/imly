@@ -10,6 +10,7 @@ from imly.models import Product, Category, Store, Tag, Location, UserProfile
 from plata.shop.models import Order, OrderItem
 
 
+    
 class ProfileInfo(DetailView):
     model = UserProfile
     template_name = "imly_my_profile.html"
