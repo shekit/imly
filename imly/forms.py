@@ -59,7 +59,7 @@ class StoreForm(forms.ModelForm):
 
     def clean_store_contact_number(self):
         contact = self.cleaned_data['store_contact_number']
-        if len(contact) != 10 and not re.match(r'[0-9]+',contact):
+        if len(contact) != 10 or not re.match('^\d+$',contact):
             raise forms.ValidationError("Mobile number must be 10 digits & number.")
         return contact
     
@@ -223,3 +223,9 @@ class ChefTipForm(forms.ModelForm):
     class Meta:
         model = ChefTip
         fields=("name","tip_contact_number","description","your_name","email")
+
+    def clean_tip_contact_number(self):
+        contact = self.cleaned_data['tip_contact_number']
+        if len(contact) != 10 or not re.match('^\d+$',contact):
+            raise forms.ValidationError("Mobile number must be 10 digits & number.")
+        return contact    

@@ -313,11 +313,13 @@
                             var form_data = $(this).serialize()
                             $.post('/give_us_tip/', form_data, function(data){   
                                 $('#tip').modal('hide');
+                                $('#tip_form').find("input[type=text], textarea").val("");
                             })
                             .error(function(data){$('#tip_form_body').html(data.responseText);});
                             $('#tip_form')[0].reset();
                             return false;
                         });
+                  
 
                         
                                 
