@@ -3,12 +3,12 @@ from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
 from django.shortcuts import get_object_or_404, render, render_to_response
 from django.template import RequestContext, Context
-from imly.forms import UserProfileForm, GiveUsTipForm
+from imly.forms import UserProfileForm, ChefTipForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
 from plata.shop.models import Order, OrderItem
-
+from django.core.exceptions import ValidationError
 
     
 class ProfileInfo(DetailView):
@@ -45,9 +45,10 @@ class EditProfile(UpdateView):
 
 def give_us_tip(request):
     if request.method == 'POST':
-        tip_form = GiveUsTipForm(request.POST)
+        tip_form = ChefTipForm(request.POST)
         if tip_form.is_valid():
             tip_form.save()
-        else:
-            print "Invalid"
-        return HttpResponse("Submitted")
+            return HttpResponse("Submitted")
+        response = render(request,"tip.html",locals())
+        response.status_code = 400 
+        return response

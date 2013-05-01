@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-
+import re
 from plata.contact.models import Contact
 from plata.shop import forms as shop_forms
 from plata.shop.models import Order
@@ -48,6 +48,13 @@ class CheckoutForm(shop_forms.BaseCheckoutForm):
             self.fields['create_account'] = forms.BooleanField(
                 label=_('create account'),
                 required=False, initial=True)
+
+    def clean_billing_phone_number(self):
+        phone_number = self.cleaned_data['billing_phone_number']
+        if len(phone_number) != 10 or not re.match('^\d+$',phone_number):
+            raise forms.ValidationError("Mobile number must be 10 digits & number.")
+        return phone_number
+
 
     def clean(self):
         data = super(CheckoutForm, self).clean()

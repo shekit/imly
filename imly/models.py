@@ -10,11 +10,21 @@ from imagekit.processors import ResizeToFill
 from markdown import markdown
 import uuid
 from imly.managers import StoreManager, ProductManager
-from imly_project.settings import PROJECT_DIR
+from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 
 from django.contrib.contenttypes import generic
 from reviews.models import ReviewedItem
+
+def get_image(instance,filename):
+    if instance.avatar:
+        ext = filename.split('.')[-1]
+        filename = "%s.%s" % (uuid.uuid4(), ext)
+        store_name = instance.user.store.slug
+        return os.path.join("images",store_name, filename)
+    else:
+        return os.path.join(STATIC_ROOT,"/star-rating/image.jpg")
+
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -237,6 +247,9 @@ class Product(ProductBase, PriceBase):
     @property
     def is_approved(self):
         return self.store.is_approved
+    @property
+    def sale(self):
+        return self.capacity_per_day - self.items_in_stock
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
@@ -263,19 +276,15 @@ class UserProfile(models.Model):
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     about_me = models.TextField(blank=True)
-    avatar = models.ImageField(upload_to="avatars", blank=True)
+    avatar = models.ImageField(upload_to=get_image, blank=True)
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
 
     def __unicode__(self):
         return self.first_name
 
-    def get_image(self):
-        if not self.avatar:
-            self.avatar = os.path.join(PROJECT_DIR,"/media/images/image.jpg")
-            return self.avatar
-
-class GiveUsTip(models.Model):
+    
+class ChefTip(models.Model):
     name = models.CharField(max_length = 100, verbose_name = "Cheff Name")
     tip_contact_number = models.CharField(max_length = 10, verbose_name = "Cheff Contact Number")
     description = models.TextField()

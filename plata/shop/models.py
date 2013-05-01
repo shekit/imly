@@ -46,12 +46,12 @@ class BillingShippingAddress(models.Model):
     """
 
     ADDRESS_FIELDS = ['company', 'first_name', 'last_name', 'address',
-        'zip_code', 'city', 'country']
+        'zip_code', 'city', 'country', 'phone_number']
 
     billing_company = models.CharField(_('company'), max_length=100, blank=True)
     billing_first_name = models.CharField(_('first name'), max_length=100)
     billing_last_name = models.CharField(_('last name'), max_length=100)
-    #billing_phone_number = models.CharField(_('contact number'), max_length=10)
+    billing_phone_number = models.CharField(_('contact number'), max_length=10)
     billing_address = models.TextField(_('address'))
     billing_zip_code = models.CharField(_('ZIP code'), max_length=50)
     billing_city = models.CharField(_('city'), max_length=100)
@@ -63,7 +63,7 @@ class BillingShippingAddress(models.Model):
     shipping_company = models.CharField(_('company'), max_length=100, blank=True)
     shipping_first_name = models.CharField(_('first name'), max_length=100, blank=True)
     shipping_last_name = models.CharField(_('last name'), max_length=100, blank=True)
-    #shipping_phone_number = models.CharField(_('contact number'), max_length=10, blank=True)
+    shipping_phone_number = models.CharField(_('contact number'), max_length=10, blank=True)
     shipping_address = models.TextField(_('address'), blank=True)
     shipping_zip_code = models.CharField(_('ZIP code'), max_length=50, blank=True)
     shipping_city = models.CharField(_('city'), max_length=100, blank=True)

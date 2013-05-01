@@ -1,1 +1,2 @@
 1. Changes made @plata/shop models add a method(property) due_date @ line number 474.
+2. Changes made @plata/shop models add field billing_phone_number & shipping_phone_number & phone_number in ADDRESS_FIELDS @ line 54,66 & 48
