@@ -118,6 +118,7 @@ html,body
 	border-right: 1px solid #e5e5e5;
     }
 
+
     /* Offset the responsive button for proper vertical alignment */
     .navbar .btn-navbar {
       margin-top: 10px;
@@ -125,6 +126,15 @@ html,body
 
 .navbar .nav > li > a.white_text {
 	color: #fff;
+}
+
+.items_in_cart{
+    color: #ccc;
+
+}
+
+.items_in_cart:hover {
+    color: #fff;
 }
 
 .btn-custom {
