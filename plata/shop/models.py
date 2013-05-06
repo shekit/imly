@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from decimal import Decimal
 import logging
 import re
@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import get_callable
 from django.db import models
-from django.db.models import F, ObjectDoesNotExist, Sum, Q
+from django.db.models import F, ObjectDoesNotExist, Sum, Q, Max
 from django.utils.translation import ugettext_lazy as _
 
 import plata
@@ -127,6 +127,8 @@ class Order(BillingShippingAddress):
 
     currency = CurrencyField()
 
+    delivery_date = models.DateTimeField(null=True)
+
     items_subtotal = models.DecimalField(_('subtotal'),
         max_digits=18, decimal_places=10, default=Decimal('0.00'))
     items_discount = models.DecimalField(_('items discount'),
@@ -164,14 +166,21 @@ class Order(BillingShippingAddress):
 
     def save(self, *args, **kwargs):
         """Sequential order IDs for completed orders."""
+        
         if not self._order_id and self.status >= self.PAID:
             try:
+                o = Order.objects.get(pk=self.pk)
+                max_lead_time = o.items.aggregate(max=Max('product__lead_time'))['max']
+                #raise Exception (max_lead_time)
+                #print max_lead_time
+                self.delivery_date = o.confirmed + timedelta(days=max_lead_time)
                 order = Order.objects.exclude(_order_id='').order_by('-_order_id')[0]
                 latest = int(re.sub(r'[^0-9]', '', order._order_id))
             except (IndexError, ValueError):
                 latest = 0
 
             self._order_id = 'O-%09d' % (latest + 1)
+
         super(Order, self).save(*args, **kwargs)
 
     @property
