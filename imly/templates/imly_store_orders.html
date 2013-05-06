@@ -10,15 +10,14 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-        <br>
-        <br>
-        <br>
+        
             
         <div class="row-fluid">
 
             {% if object_list.count %}
              <div class="span12">
-                {% if pending %}
+                
+                    
                     {# todays orders #}
                     <h3>Today's Orders</h3>
                     {% with today as orders %}
@@ -30,27 +29,13 @@
                         {% include '_order_table.html' %}
                     {% endwith %}
                     {# newer orders #}
-                    <h3>Newer Orders</h3>
-                    {% with newer as orders %}
-                        {% include '_order_table.html' %}
-                    {% endwith %}
-                {% else %}
-                    {# todays orders #}
-                    <h3>Today's Orders</h3>
-                    {% with today as orders %}
-                        {% include '_order_table.html' %}
-                    {% endwith %}
-                    {# yesterdays orders #}
-                    <h3>Yesterday's Orders</h3>
-                    {% with yesterday as orders %}
-                        {% include '_order_table.html' %}
-                    {% endwith %}
-                    {# older orders #}
-                    <h3>Older Orders</h3>
-                    {% with older as orders %}
-                        {% include '_order_table.html' %}
-                    {% endwith %}
-                {% endif %}
+                    {% for dater, date_orders in newer %}
+                    <h3> {{ dater }}</h3>
+                        {% with date_orders as orders %}
+                            {% include '_order_table.html' %}
+                        {% endwith %}
+                    {% endfor %}
+                                    
             </div>
             
             {% else %}
