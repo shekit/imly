@@ -54,7 +54,7 @@ urlpatterns = patterns('',
     url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
     url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
+    url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
     url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
     
 )
