@@ -18,6 +18,9 @@ def home_page(request):
 def why_open_your_shop(request):
     return render(request, "open_your_shop.html")
 
+def chef_profile(request):
+    return render(request,"chef_profile.html")
+
 class StoreList(ListView):
     
     model = Store
@@ -191,3 +194,12 @@ def add_order(request, product_slug):
         form = OrderItemForm()
         
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
+
+class OrderList(ListView):
+    #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
+    model = OrderItem
+    template_name = "imly_store_orders.html"
+    
+    def get_queryset(self):
+        store = self.request.user.store#get_object_or_404(Store, slug=self.kwargs["slug"])
+        return OrderItem.objects.filter(product__in=store.product_set.all())

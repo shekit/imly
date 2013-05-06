@@ -4,18 +4,21 @@
 
     <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
     <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
-    <li class="active"><a href="#">Order Details</a></li>
+    <li class="active"><a href="#">Pending Orders</a></li>
+    <li ><a href="#">Orders Placed</a></li>
                  
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-        
+        <br>
+        <br>
+        <br>
             
         <div class="row-fluid">
-    
-            {% if object_list.count %}
 
+            {% if object_list.count %}
              <div class="span12">
+                {% if pending %}
                     {# todays orders #}
                     <h3>Today's Orders</h3>
                     {% with today as orders %}
@@ -27,17 +30,34 @@
                         {% include '_order_table.html' %}
                     {% endwith %}
                     {# newer orders #}
-                    {% for dater, date_orders in newer %}
-                    <h3> {{ dater }}</h3>
-                        {% with date_orders as orders %}
-                            {% include '_order_table.html' %}
-                        {% endwith %}
-                    {% endfor %}
+                    <h3>Newer Orders</h3>
+                    {% with newer as orders %}
+                        {% include '_order_table.html' %}
+                    {% endwith %}
+                {% else %}
+                    {# todays orders #}
+                    <h3>Today's Orders</h3>
+                    {% with today as orders %}
+                        {% include '_order_table.html' %}
+                    {% endwith %}
+                    {# yesterdays orders #}
+                    <h3>Yesterday's Orders</h3>
+                    {% with yesterday as orders %}
+                        {% include '_order_table.html' %}
+                    {% endwith %}
+                    {# older orders #}
+                    <h3>Older Orders</h3>
+                    {% with older as orders %}
+                        {% include '_order_table.html' %}
+                    {% endwith %}
+                {% endif %}
             </div>
+            
             {% else %}
                 <h2 class="muted text-center">You haven't received any orders yet.<br>
                 Promote your shop.<br>Start by telling your friends and family.</h2>
             {% endif %}
+        
         </div>
            
 {% endblock shop_content %}
@@ -62,13 +82,11 @@
             <tr>
                 <th>Name</th>
                 <th class="center_aligned_th">Total Orders</th>
-                <th class="center_aligned_th">Total Sales</th>
             </tr>
         {% for product in user.store.product_set.all %}
             <tr>
                 <td>{{ product.name }}</td>
                 <td class="center_aligned_td">{{ product.orderitem_set.count }}</td>
-                <td class="center_aligned_td">{{ product.sale }}</td>
             </tr>
         {% endfor %}
         </table>
