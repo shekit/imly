@@ -10,7 +10,6 @@ from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 from reviews.models import ReviewedItem
 from markdown import markdown
-import positions
 import uuid
 from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
@@ -216,11 +215,9 @@ class Product(ProductBase, PriceBase):
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
-    position = positions.PositionField(collection=('store', 'is_deleted'))
-    
+
     objects = ProductManager() #defaultManager
     everything = models.Manager()
-    positioned = positions.PositionManager(('position'))
     reviews = generic.GenericRelation(ReviewedItem)
     
     class Meta:
