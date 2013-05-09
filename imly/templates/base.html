@@ -221,9 +221,22 @@
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
 
         <script type="text/javascript">
             $(document).ready(function(){
+            defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(18.89330870,72.77590560),
+                new google.maps.LatLng(19.26952240,72.98005230)
+                );
+            input = document.getElementById('id_deliverylocation_set-0-name');
+            option = {
+                bounds:defaultBounds,
+            };
+            autocomplete = new google.maps.places.Autocomplete(input,option);
+        
+
                 $("#sortable").sortable({
                     update:function(event,ui){
                         var serial = $('#sortable').sortable('serialize',{handle:".handle"});

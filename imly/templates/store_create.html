@@ -17,6 +17,13 @@
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
+        <fieldset class="formset">
+            <legend>Delivery Areas</legend>
+            {{ delivery_location_form.management_form }}
+            {% for form in delivery_location_form %}
+                {{form.name}}
+            {% endfor %}
+        </fieldset>
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Submit for Approval">
         </form> 

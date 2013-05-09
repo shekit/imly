@@ -106,8 +106,6 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
-    
-
 
 class Store(models.Model):
     #Store Details
@@ -170,7 +168,14 @@ class Store(models.Model):
     def reset_categories(self):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
-      
+
+class DeliveryLocation(models.Model):
+    name = models.CharField(max_length=100)
+    store = models.ForeignKey(Store,blank=True)
+
+    def __unicode__(self):
+        return self.name
+
 class Product(ProductBase, PriceBase):
     #Product Details
     HOUR = 1
