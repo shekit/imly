@@ -2,6 +2,7 @@ from django.views.generic import ListView, DetailView
 from plata.shop.models import Order, OrderItem
 from datetime import date, timedelta
 from collections import OrderedDict
+from django.db.models import Sum
 
 class UserOrders(ListView):
     model = Order
@@ -21,9 +22,6 @@ class StoreOrders(ListView):
     def get_queryset(self):
         store =  self.request.user.store
         orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
-        #items = OrderItem.objects.filter(product__in=store.product_set.all()).order_by('order')
-        #items = items.filter(order__confirmed__gte=date.today())
-        
         return orders
 
     def get_context_data(self, **kwargs):
@@ -32,10 +30,14 @@ class StoreOrders(ListView):
         qs = self.get_queryset()
         context['today'] = [order for order in qs.all() if order.delivery_date.date() == date.today()]
         context['tomorrow'] = [order for order in qs.all() if order.delivery_date.date()  == date.today() + timedelta(days=1)]
+        # setting the store in order to call order store total in template
+        for order in context['today'] + context['tomorrow']:
+            order.store = self.request.user.store
         newer = [order for order in qs.all() if order.delivery_date.date() > date.today() + timedelta(days=1)]
         dates = []
         context['newer'] = []
         for order in newer:
+            order.store = self.request.user.store # setting the store in order to call order store total in template
             delivery_date = order.delivery_date.date() 
             if delivery_date in dates:
                 context['newer'][dates.index(delivery_date)][1].append(order)

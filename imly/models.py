@@ -215,14 +215,15 @@ class Product(ProductBase, PriceBase):
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
-
+    position = models.PositiveIntegerField(default=0)
+    
     objects = ProductManager() #defaultManager
     everything = models.Manager()
     reviews = generic.GenericRelation(ReviewedItem)
     
     class Meta:
         unique_together =("name","store",)
-        ordering = ["-date_created"]
+        ordering = ["position","-date_created"]
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)

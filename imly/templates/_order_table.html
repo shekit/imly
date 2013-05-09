@@ -20,7 +20,8 @@
                             {% endfor %}</td>
                         <td>{{ object.user }}<br>{{object.billing_phone_number}}</td>
                         <td>{{ object.confirmed|date:"F j, Y" }}</td>
-                        <td>{{ object.items_subtotal}}</td>
+                        <td>{{ object.store_total }}
+                        </td>
                         
                     </tr>
                 {% endfor %}

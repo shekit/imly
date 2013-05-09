@@ -171,8 +171,6 @@ class Order(BillingShippingAddress):
             try:
                 o = Order.objects.get(pk=self.pk)
                 max_lead_time = o.items.aggregate(max=Max('product__lead_time'))['max']
-                #raise Exception (max_lead_time)
-                #print max_lead_time
                 self.delivery_date = o.confirmed + timedelta(days=max_lead_time)
                 order = Order.objects.exclude(_order_id='').order_by('-_order_id')[0]
                 latest = int(re.sub(r'[^0-9]', '', order._order_id))
@@ -217,6 +215,19 @@ class Order(BillingShippingAddress):
         """
         # TODO: What about shipping?
         return sum((item.subtotal for item in self.items.all()), Decimal('0.00')).quantize(Decimal('0.00'))
+
+    # below three properties are set to do store specific calculations
+    @property
+    def store(self):
+        return self.store_instance
+
+    @store.setter
+    def store(self, instance):
+        self.store_instance = instance
+
+    @property
+    def store_total(self):
+        return sum((item.subtotal for item in self.items.filter(product__in=self.store.product_set.all())), Decimal('0.00')).quantize(Decimal('0.00'))
 
     @property
     def discount(self):

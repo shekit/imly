@@ -8,6 +8,8 @@ from reviews.forms import ReviewedItemForm
 from reviews.models import ReviewedItem
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import ModelFormMixin
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -165,3 +167,13 @@ class ProductDetail(DetailView):
     def get(self, request, *args, **kwargs):
         object = self.get_object()
         return  object and super(ProductDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
+
+@csrf_exempt
+@login_required
+def sort_product(request):
+    for index, product_id in enumerate(request.POST.getlist('product[]')):
+        product = get_object_or_404(Product,id=int(str(product_id)), store=request.user.store)
+        product.position = index
+        product.save()
+        print product.position
+    return HttpResponse('Success')
