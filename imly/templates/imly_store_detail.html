@@ -109,6 +109,7 @@
     <div class="row-fluid">
         <ul class="thumbnails">
         {% for product in object.product_set.all %}
+        {% if not product.is_deleted %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail">
@@ -121,6 +122,7 @@
                         
                     </div>
                 </a>
+
                 <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name }}</a></h5> <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
                     {% if product.quantity_per_item == 1 %}
                         /{{ product.get_quantity_by_price_display }}
@@ -143,6 +145,7 @@
         </li>
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        {% endif %}
         {% endfor %}
         </ul>
     </div>

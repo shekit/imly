@@ -137,6 +137,7 @@ class Store(models.Model):
     twitter_link = models.URLField(blank=True, help_text="(optional)")
     
     #status
+    is_open = models.BooleanField(default=True)
     store_notice = models.TextField(blank=True)
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
