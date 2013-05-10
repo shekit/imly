@@ -2,8 +2,8 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile
-from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile,status
+from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
 from imly.views.orders import UserOrders, StoreOrders
@@ -65,6 +65,7 @@ urlpatterns += patterns('',
     url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
+    url(r"^account/store/status/$", "imly.views.stores.status" , name="imly_store_status"),
     url(r"^(?P<store_slug>[-\w]+)/food/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
     
     
@@ -91,6 +92,7 @@ urlpatterns += patterns('',
     url(r"^account/store/products/(?P<pk>\d+)/edit$", login_required(ProductEdit.as_view()), name="imly_product_edit"),
     #url(r"^account/store/products/(?P<product_id>\d+)/delete/$", "imly.views.products.delete_product", name="imly_product_delete"),
     url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
+    url(r"^account/store/products/(?P<product_id>\d+)/activate/$", "imly.views.products.activate_product", name="imly_product_activate"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
     
 )

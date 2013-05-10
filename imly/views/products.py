@@ -131,6 +131,13 @@ class ProductDelete(DeleteView):
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
+@login_required
+def activate_product(request,product_id):
+    product = get_object_or_404(Product,pk=product_id,store=request.user.store)
+    product.is_deleted = False
+    product.save()
+    return HttpResponseRedirect("/account/store/products/")
+
 class ProductsByAccount(ListView):
     
     model = Product
@@ -138,7 +145,7 @@ class ProductsByAccount(ListView):
     
     
     def get_queryset(self):
-        return self.request.user.store.product_set.filter(is_deleted=False)
+        return self.request.user.store.product_set.all()
     
 
     

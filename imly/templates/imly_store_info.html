@@ -34,7 +34,7 @@
             {% if user.store %}
             <div class="row-fluid">
                     <div class="span12">
-                        <p class="text-right"><a href="{% url "imly_store_detail" user.store.slug %}" class="btn">Preview Store</a> <a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
+                        <p class="text-right">{% if user.store.is_open %}<a href="{% url "imly_store_status" %}" class="btn">Shut Store</a>{% else %}<a href="{% url "imly_store_status" %}" class="btn">Open Store</a>{% endif %} <a href="{% url "imly_store_detail" user.store.slug %}" class="btn">Preview Store</a> <a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
                     </div>
             </div>
             <br>

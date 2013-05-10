@@ -172,6 +172,16 @@ class StoreInfoDetail(DetailView):
         except Store.DoesNotExist:
             return render(request, "imly_store_info.html", {"user":request.user})
 
+@login_required
+def status(request):
+    store = request.user.store
+    if store.is_open == False:
+        store.is_open = True
+    else:
+        store.is_open = False
+    store.save()
+    return HttpResponseRedirect("/account/store/details/")
+
 @login_required   
 def store_info_detail(request):
     try:
