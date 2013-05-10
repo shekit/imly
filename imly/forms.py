@@ -212,14 +212,33 @@ class OrderItemForm(forms.Form):
 
 class UserProfileForm(forms.ModelForm):
     
-    def __init_(self,*args,**kwargs):
+    def __init__(self,*args,**kwargs):
         super(UserProfileForm,self).__init__(*args,**kwargs)
         self.fields["avatar"].label = "Profile Image"
+        self.fields["cover_profile_image"].label = "Cover Profile Image"
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                "",
+                "first_name",
+                "last_name",
+                "avatar",
+                "cover_profile_image",
+                Div(
+                    Div(Field("word_one",css_class="input-small"),css_class="span2"),
+                    Div(Field("word_two",css_class="input-small"),css_class="span2"),
+                    Div(Field("word_three",css_class="input-small"),css_class="span2"),
+                    Div(css_class="span6"),
+                    css_class="row-fluid"),
+                "about_me",
+                ),
+            )
 
     class Meta:
         model = UserProfile
-        fields = ("first_name","last_name","about_me","avatar")
-        exclude = ["user","avatar_thumbnail","avatar_thumbnail_mini"]
+        fields = ("first_name","last_name", "avatar", "cover_profile_image", "word_one", "word_two", "word_three", "about_me","avatar")
+        exclude = ["user"]
 
 class ChefTipForm(forms.ModelForm):
     class Meta:
