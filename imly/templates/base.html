@@ -10,11 +10,14 @@
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}star-rating/jquery.rating.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
+        
     </head>
     
     <body>
@@ -217,16 +220,41 @@
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-        
+        <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+        <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
+
 
         <script type="text/javascript">
-            
+            $(document).ready(function(){
+            defaultBounds = new google.maps.LatLngBounds(
+                new google.maps.LatLng(18.89330870,72.77590560),
+                new google.maps.LatLng(19.26952240,72.98005230)
+                );
+            input = document.getElementById('id_deliverylocation_set-0-name');
+            option = {
+                bounds:defaultBounds,
+            };
+            autocomplete = new google.maps.places.Autocomplete(input,option);
+        
+
+                $("#sortable").sortable({
+                    update:function(event,ui){
+                        var serial = $('#sortable').sortable('serialize',{handle:".handle"});
+                        //alert(serial);
+                        $.ajax({url:"/account/store/sort_product/",type:"post",data:serial});
+                    },
+                }).disableSelection();
+            });
             
                 !function ($) {
                     $(function(){
 
                         
                         
+                        //$('#sortable').sortable({items:"> tr"});
+                        //$('#sortable').disableSelection();
+            
+
                         //expanding, contracting stor info
                         $("div.expandable").expander({
                         slicePoint: 140,

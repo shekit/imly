@@ -1,7 +1,8 @@
 from django import forms
+from django.forms.models import inlineformset_factory
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
-from imly.models import Store, Product, Category, UserProfile, ChefTip
+from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
 import os
@@ -110,7 +111,8 @@ class StoreForm(forms.ModelForm):
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
         
-        
+DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, extra=1)
+
 """    def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)
         self.fields["delivery_areas"].help_text = "Where all can you deliver? Select all that apply"

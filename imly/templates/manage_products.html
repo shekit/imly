@@ -24,18 +24,21 @@
             {% if object_list.count %}
             <div class="span12">
                 <table class="table table-striped table-bordered clearfix">
-                    <tr>
-                        <th>Product Image</th>
-                        <th>Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Capacity</th>
-                        <th>Manage</th>
-                    </tr>
+                    <thead>
+                        <tr>
+                            <th>Product Image</th>
+                            <th>Name</th>
+                            <th>Category</th>
+                            <th>Price</th>
+                            <th>Capacity</th>
+                            <th>Manage</th>
+                        </tr>
+                    </thead>
+                <tbody id="sortable">
                 {% for object in object_list %}
-                    
-                    <tr>
-                        <td><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></td>
+            
+                    <tr id="product_{{object.id}}">
+                        <td class="handle"><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></td>
                         <td>
                             {{ object.name }}
                             <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
@@ -50,6 +53,7 @@
                     </tr>
                     
                 {% endfor %}
+                <tbody>
                 </table>
             </div>
             

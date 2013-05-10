@@ -87,7 +87,7 @@ STATICFILES_DIRS = (
     
 )
 
-# List of finder classes that know how to find static files in
+# List of finder classes that know how to find static files internationalization
 # various locations.
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
@@ -184,6 +184,7 @@ INSTALLED_APPS = (
     'reviews',
     'crispy_forms',
     'rollyourown.seo',
+    'positions',
     #'djangoratings',
     #'django_comments',
     # Uncomment the next line to enable admin documentation:

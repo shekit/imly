@@ -2,19 +2,18 @@ import os
 from django.db import models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
+from django.contrib.contenttypes import generic
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
+from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
 from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
-
-from django.contrib.contenttypes import generic
-from reviews.models import ReviewedItem
 
 def get_image(instance,filename):
     if instance.avatar:
@@ -107,8 +106,6 @@ class Location(models.Model):
     
     def __unicode__(self):
         return self.name
-    
-
 
 class Store(models.Model):
     #Store Details
@@ -171,7 +168,14 @@ class Store(models.Model):
     def reset_categories(self):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
-      
+
+class DeliveryLocation(models.Model):
+    name = models.CharField(max_length=100)
+    store = models.ForeignKey(Store,blank=True)
+
+    def __unicode__(self):
+        return self.name
+
 class Product(ProductBase, PriceBase):
     #Product Details
     HOUR = 1
@@ -212,22 +216,19 @@ class Product(ProductBase, PriceBase):
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to=get_thumbnail_large_path)
-    
     date_created = models.DateTimeField(auto_now=True, editable=False)
-    
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
-
     tags = models.ManyToManyField(Tag)
+    position = models.PositiveIntegerField(default=0)
     
     objects = ProductManager() #defaultManager
     everything = models.Manager()
-    
     reviews = generic.GenericRelation(ReviewedItem)
     
     class Meta:
         unique_together =("name","store",)
-        ordering = ["-date_created"]
+        ordering = ["position","-date_created"]
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)

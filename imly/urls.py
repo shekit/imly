@@ -3,7 +3,7 @@ from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile
-from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon
+from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
 from imly.views.places import set_location
 from imly.views.orders import UserOrders, StoreOrders
@@ -54,7 +54,8 @@ urlpatterns = patterns('',
     url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
     url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
-    url(r"^account/store/orders/$", login_required(OrderList.as_view()), name="imly_store_orders"),
+    url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
+    url(r"^account/store/sort_product/$","imly.views.products.sort_product",name="imly_store_sort_product"),
     url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
     
 )

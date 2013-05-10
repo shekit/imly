@@ -1,2 +1,8 @@
 1. Changes made @plata/shop models add a method(property) due_date @ line number 474.
-2. Changes made @plata/shop models add field billing_phone_number & shipping_phone_number & phone_number in ADDRESS_FIELDS @ line 54,66 & 48
+
+2. Changes made @plata/shop models add field billing_phone_number & shipping_phone_number & phone_number in ADDRESS_FIELDS @ line 		54,66 & 48 (it will add billing_phone_number & shipping_phone_number fields in Order & Contact model)
+
+3. Add validate_billing_phone_number method in @plata/contact/forms.py @ line 52 for validate the billing_phone_number in form. 
+4. Add the field delivery_date @plata/shop models in class Order @ line no 130 for set the delivery date for every orders & override the
+   save method for save the delivery date for every order from line 172 to 174
+5. Add three property @plata/shop in Order models from line 220 to 230 for displaying store specific total.

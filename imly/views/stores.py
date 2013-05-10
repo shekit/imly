@@ -1,13 +1,13 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic.edit import UpdateView, CreateView
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden,HttpResponseRedirect
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from imly.models import Category, Store, Product, Location, Tag
-from imly.forms import StoreForm, OrderItemForm
+from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 
 import plata
 from plata.shop.models import OrderItem
@@ -101,15 +101,31 @@ class StoreCreate(CreateView):
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        return super(StoreCreate, self).form_valid(form)    
-    
-    
+        context = self.get_context_data()
+        delivery_location_form = context['delivery_location_form']
+        store = form.save()
+        delivery_location_form.instance = store
+        if delivery_location_form.is_valid():
+            delivery_location_form.save()
+            return HttpResponseRedirect(self.success_url)
+        else:
+            return self.form_invalid(form) 
+#        return super(StoreCreate, self).form_valid(form)    
+        
     def get(self, request, *args, **kwargs):
         try:
             self.request.user.store
             return redirect("imly_store_products")
         except Store.DoesNotExist:
             return super(StoreCreate, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super(StoreCreate, self).get_context_data(**kwargs)
+        if self.request.POST:
+            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST)
+        else:
+            context['delivery_location_form'] = DeliveryLocationFormSet()
+        return context
         
 
 class StoreDetail(DetailView):
