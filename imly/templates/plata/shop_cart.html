@@ -12,7 +12,7 @@
         <h2 class="muted text-center">Your Cart is Empty :(</h2>
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
         {% else %}
-        <h3>{% trans "Cart" %} {{ plata.order.items.count }}</h3>
+        <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items)</h3>
         <div class="alert alert-block">
             <b>Heads up!</b> Please ensure that the stores you order from either deliver to your area or provide pick-up facility before confirming your order.
         </div>
@@ -29,6 +29,9 @@
                 {% endif %}
                 
         {% form_errors orderitemformset %}
+        
+
+        {% comment %}
         <table class="table table-striped table-bordered">
             <tr>
                 <th>{% trans "product"|capfirst %}</th>
@@ -81,7 +84,49 @@
 
                   
 
+        </table>{% endcomment %}
+        
+        {% for store,items in order.items_by_store %}
+        <table class="table table-bordered">
+            <tr style="background: #e9e9e9;">
+                <th colspan="2">Your order from: <a href="{% url "imly_store_detail" store.slug %}">{{ store.name }}</a></th>
+            </tr>
+            
+            <tr>
+            <td>
+                <table class="table table_top_border">
+                    {% for orderitemform in orderitemformset.forms %}
+                        {% for item in items %}
+                            {% ifequal orderitemform.instance item %}
+                            <tr>
+                                <td>
+                                    <table class="table table_border_right">
+                                        <tr>
+                                            <td width="125"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></td>
+                                            <td width="250"><span style="font-size:16px">{{ orderitemform.instance.product.name }}</span>
+                                            <br><br>
+                                            {{ orderitemform.id }}
+                                            <small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small>{% form_item_plain orderitemform.quantity %}
+                                            </td>
+                                            <td width="250"><p class="text-center">
+
+                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</p></td>
+                                            <td><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            {% endifequal %}
+                        {% endfor %}
+                    {% endfor %}
+                </table>
+            </td>
+            <td width="300">Delivery</td>
+            </tr>
+            
         </table>
+        <br><br>
+        {% endfor %}
         
             <p class="text-right">
                 <a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a>

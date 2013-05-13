@@ -229,7 +229,7 @@ class Product(ProductBase, PriceBase):
     
     class Meta:
         unique_together =("name","store",)
-        ordering = ["position","-date_created"]
+        ordering = ["position","store"]
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)

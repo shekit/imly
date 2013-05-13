@@ -137,6 +137,22 @@ html,body
     color: #fff;
 }
 
+.table_border_right {
+    margin-bottom:0px;
+}
+
+.table_border_right td {
+    border-right : 1px solid #e5e5e5;
+}
+
+.table_border_right td:last-child {
+    border-right : none;
+}
+
+.table_top_border td {
+    border-left: none; 
+}
+
 .btn-custom {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
