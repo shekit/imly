@@ -164,7 +164,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'django.contrib.gis',
     'south',
+    'reviews',
     'imly',
     'plata',
     'plata.product.stock',
@@ -181,10 +183,8 @@ INSTALLED_APPS = (
     'allauth.socialaccount.providers.google',
     'storages',
     'widget_tweaks',
-    'reviews',
     'crispy_forms',
     'rollyourown.seo',
-    'positions',
     #'djangoratings',
     #'django_comments',
     # Uncomment the next line to enable admin documentation:
