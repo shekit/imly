@@ -100,9 +100,9 @@
                             {% endwith %}
                         {% endif %}
                     
-                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_store_detail" object.slug %}">{{ object.name|upper }}</a></h5><small class="muted"> by
-                                            {% if object.owner.userprofile.first_name %}
-                                                {{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}
+                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_store_detail" object.slug %}">{{ object.name }}</a></h5><small class="muted"> by
+                                            {% if object.owner.userprofile %}
+                                                <a class="sub_text" href="#"><u>{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}</u></a>
                                             {% else %}
                                                 {{ object.owner.username }}
                                             {% endif %}</small>

@@ -1,10 +1,11 @@
 from django.dispatch import receiver
-from django.db.models.signals import m2m_changed, post_save, post_delete
+from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
 from django.core.mail import send_mail
 from django.db.models import Sum
 from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store
 from django.contrib.sites.models import Site
+from django.contrib.auth.models import User
 
 #@receiver(post_save, sender=Product)
 def set_product_initial_transaction(sender,instance, created,**kwargs):
@@ -95,3 +96,9 @@ def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
 def send_store_mail(sender,instance,created, **kwargs):
     if created and Site.objects.get_current().domain == 'imly.in':
         send_mail("Store added - Awaiting Confirmation @%s" % (Site.objects.get_current(), ),"Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+
+@receiver(pre_save, sender=User)
+def create_first_name_from_email(sender,instance,**kwargs):
+    email = instance.email
+    first_name_from_email = email.split("@")[0]
+    instance.first_name = first_name_from_email

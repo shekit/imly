@@ -280,7 +280,9 @@ class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
+    slug = models.SlugField()
     about_me = models.TextField(blank=True)
+    about_me_html = models.TextField(editable=False, blank=True)
     cover_profile_image = models.ImageField(upload_to=get_image, blank=True)
     cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG", cache_to="cover_profile_regular")
     word_one = models.CharField(max_length=40, blank=True)
@@ -293,6 +295,11 @@ class UserProfile(models.Model):
     def __unicode__(self):
         return self.first_name
 
+    def save(self, *args, **kwargs):
+        if self.about_me:
+            self.about_me_html = markdown(self.about_me)
+        self.slug = "%s-%s" % (self.first_name.lower(), self.last_name.lower())
+        super(UserProfile,self).save(*args, **kwargs)
     
 class ChefTip(models.Model):
     name = models.CharField(max_length = 100, verbose_name = "Cheff Name")

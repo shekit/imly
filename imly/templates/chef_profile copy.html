@@ -1,0 +1,41 @@
+{% extends "index.html" %}
+
+{% block carousel %}
+    <div class="hero-unit hero_chef_profile">
+        <div class="container">
+            <ul class="unstyled text-right">
+                <li><h2 class="chef_profile">Vineeta Singh</h2></li>
+                <li><p class="chef_profile_para pull-right">Mother. Part-Time Blogger. Athlete.</p></li>
+            </ul>
+            
+        </div>
+    </div>
+    
+{% endblock carousel %}
+
+{% block featurette %}
+    <div class="row-fluid">
+        <div class="span9">
+            <h3 class="about_chef">
+                Hi, I am <span class="orange">Vineeta</span> ,donec id elit non mi porta gravida at eget metus. Fusce dapi, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                <br><br>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+            </h3>
+        </div>
+        <div class="span3 well">
+            <h4 class="best_dish text-center orange">My Best Dish</h4>
+    
+            <div class="row-fluid">
+                <div class="span10 offset1">
+                    <hr>
+                </div>
+            </div>
+            
+            <img class="img-rounded" src="{{ STATIC_URL }}bootstrap/img/featured_prod.jpg">
+            <p class="text-center"><small class="muted">SINFUL BROWNIES</small></p>
+        </div>
+    </div>
+{% endblock featurette %}
+
+{% block as_seen_on %}
+    
+{% endblock as_seen_on %}

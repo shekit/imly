@@ -54,7 +54,7 @@
                                         {% if user.userprofile.first_name %}
                                             {{ user.userprofile.first_name }} <span class="caret"></span>
                                         {% else %}
-                                            {{ user.username }} <span class="caret"></span>
+                                            {{ user.first_name }} <span class="caret"></span>
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
@@ -70,9 +70,9 @@
                                             </ul>
                                         </li>
                                     {% else %}
-                                        <li><a href="{% url "account_login" %}">Sign In</a></li>
+                                        <li><a href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> ({% if plata.order %}{{ plata.order.items.count }}{% endif %})</a></li>
+                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->
@@ -83,6 +83,22 @@
             {% endblock navigation %}
         </div> <!-- end of div container -->
     </div>   
+        
+        <div class="container-fluid location_bar_outer">
+            <div class="container location_bar_inner">
+                    <div class="row-fluid">
+                        <div class="span12">
+                           
+                                <ul class="text-center inline">
+                                        <li>I want food in</li>
+                                        <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+                                </ul>
+                         
+                        </div>
+                    </div>
+            </div>
+            
+        </div>
         
         <div id="wrap">
             <br>
@@ -95,14 +111,14 @@
                 <nav class="span3">
                 {% block sidebar_nav %}
                     {% load imly_tags %}
-                    {% get_location_list %}
+                    {% comment %}{% get_location_list %}
                     <select class="location_list">
                         <option value="all">Search by Location (All)</option>
                         {% for location in locations %}
                             <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
                         {% endfor %}
                     </select>
-                    <br>
+                    <br>{% endcomment %}
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
                             <li class="nav-header">Search by Category</li>
@@ -171,6 +187,11 @@
         <div class="container-fluid">
             <br><br><br><br>            
         </div>
+        {% block login %}
+            {% include "modal_signup.html" %}   
+            
+        {% endblock login %}
+        
         
         <footer class="container-fluid bgfull footer">
             <div class="container">
@@ -189,9 +210,9 @@
                         </div>
                         <div class="span5">
                             <small><p class="text-right">Know an amazing home chef? We'd love to know.
-
-                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Give us a Tip</a></p></small>
                             
+                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Give us a Tip</a></p></small>
+                            {% include 'tip_form.html' %}
                             <!--<a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>-->
                         </div>
                     </div>
@@ -225,6 +246,7 @@
 
 
         <script type="text/javascript">
+
             $(document).ready(function(){
             defaultBounds = new google.maps.LatLngBounds(
                 new google.maps.LatLng(18.89330870,72.77590560),
@@ -335,6 +357,7 @@
                             $("#tip").modal();
                             $('#tip_form')[0].reset();
                         });
+                        
                         $('#tip_form').submit(function(){
                             
                             //alert("Submit");
@@ -347,7 +370,26 @@
                             $('#tip_form')[0].reset();
                             return false;
                         });
+                        
+                        $("#login_form").submit(function(){
+                            
+                            var form_data = $(this).serialize();
+                            $.post("/login-x/", form_data, function(data){
+                                window.location.href = data;
+                            })
+                            .error(function(data){$("#login_form").html(data.responseText);});
+                            return false;
+                        });
                   
+                        $("#signup_form").submit(function(){
+                            
+                            var form_data = $(this).serialize();
+                            $.post("/signup-x/", form_data, function(data){
+                                window.location.href = data;  
+                            })
+                            .error(function(data){$("#signup_form").html(data.responseText);});
+                            return false;
+                        });
 
                         
                                 
@@ -357,6 +399,7 @@
 
               
         </script>
+        
         {% block extra_body %}
             
         {% endblock extra_body %}
@@ -380,7 +423,7 @@
           tab_inverted: true
         }]);
         </script>-->
-        {% include 'tip_form.html' %}
+        
 
         <script type="text/javascript">
 

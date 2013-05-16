@@ -14,7 +14,17 @@
                     <br>
                     <div class="well sidebar-nav">
                         <ul class="nav nav-list">
-                            
+                            {% if super_category %}
+                            <li class="nav-header">You are currently here:</li>
+                            <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
+                                <ul>
+                                    {% for sub_category in super_category.sub_categories.all %}
+                                        <li><a {% ifequal sub_category category %}class="sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                
+                            </li>
+                            {% endif %}
                             {% if selected_tags %}
                             <li class="nav-header">You have filtered by:</li>
                             
@@ -26,7 +36,6 @@
                             
                             <br>
                             {% endif %}
-                            
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
                                 <li><a href="{% url "imly_product_list" %}">All</a></li>
@@ -58,13 +67,17 @@
                 {% endblock sidebar_nav %}
 
 {% block shop_or_product %}
+
                     <div class="row-fluid">
                         
                         <div class="span12 centered-pills">
                             <p class="text-center"><small>SEARCH BY</small></p>
                             <ul class="nav nav-pills">
-                                <li><a href="{% url "imly_store_list" %}">Shop</a></li>
-                                <li class="active"><a href="{% url "imly_product_list" %}">Products</a></li>
+                                <li>
+                                    <a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Chef</a>
+
+                                </li>
+                                <li class="active"><a href="#">Food</a></li>
                                 
                             </ul>
                             
@@ -76,7 +89,7 @@
 {% block content %}
 
 {% if object_list %}
-<!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
+<!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% for object in object_list %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
@@ -92,9 +105,8 @@
                     </div>
                 </a>
                 <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
-                
                 <div class="thumbnail_info_wrapper">
-                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
+                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
                         {% if object.quantity_per_item == 1 %}
                             /{{ object.get_quantity_by_price_display }}
                         {% else %}
@@ -111,8 +123,9 @@
                     {% else %}
                         <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
                     {% endif %}
+                
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
             </div>
         </li>
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
@@ -122,6 +135,7 @@
 {% else %}
     <br><br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>
+
     <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
 {% endif %}
     
@@ -129,16 +143,15 @@
         <div class="pagination pagination-centered">
             <ul>
                 {% if page_obj.has_previous %}
-                    <li><a href="{% url "imly_product_list" %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                    <li><a href="{% url "imly_products_by_category" category.slug %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
                 {% endif %}
                     <li class="active"><span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
                 {% if page_obj.has_next %}
-                    <li><a href="{% url "imly_product_list" %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                    <li><a href="{% url "imly_products_by_category" category.slug %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
                 {% endif %}
             </ul>
         </div>
     {% endif %}
-    
 
 
 {% endblock content %}

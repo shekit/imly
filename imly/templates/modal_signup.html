@@ -1,0 +1,181 @@
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+            
+            <!-- Modal -->
+            <div id="myModal" class="modal hide fade login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                
+                <div class="modal-header">
+                    <button type="button" class="close extra_top_margin" data-dismiss="modal" aria-hidden="true">×</button>
+                    <ul class="nav nav-tabs" id="myTab">
+                        <li class="active"><a href="#login" data-toggle="tab"><h4 class="modal_window_header">Login</h4></a></li>
+                        <li><a href="#signup" data-toggle="tab"><h4 class="modal_window_header">Sign Up</h4></a></li>
+                    </ul>
+                </div>
+                
+                <div class="modal-body">
+                
+
+                
+                    <div class="tab-content">
+                        
+                        <div class="tab-pane active" id="login">
+                                
+                                {% if not user.is_authenticated %}
+                                
+                                    {% if socialaccount.providers  %}
+                                        
+                                    <div class="socialaccount_ballot">
+                                    
+                                    <ul class="socialaccount_providers inline text-center">
+                                    {% include "socialaccount/snippets/provider_list.html" %}
+                                    </ul>
+                                    
+                                    <!--<div class="login-or">{% trans 'or' %}</div>-->
+                                    
+                                    </div>
+                            
+                                    {% include "socialaccount/snippets/login_extra.html" %}
+                                    
+                                    {% endif %}
+                                {% endif %}
+                                    
+                                    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+                                    <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
+                                        {% csrf_token %}
+                                        {% load widget_tweaks %}
+                                        {% if login_form.non_field_errors %}
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <span class="text-center">{{ login_form.non_field_errors }}</span>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                    <br>
+                                        <div class="control-group">
+                                            <span class="control-label">{{ login_form.login.label }}</span>
+                                            <div class="controls">
+                                                {{ login_form.login }}
+                                                {{ login_form.login.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <span class="control-label">{{ login_form.password.label }}</span>
+                                            <div class="controls">
+                                                {{ login_form.password }}
+                                                {{ login_form.password.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            
+                                            <div class="controls">
+                                                {{ login_form.remember }} <small>Remember Me</small>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                            <div class="span4 offset4">
+                                                {% if redirect_field_value %}
+                                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                                {% endif %}
+                                                <button class="primaryAction btn btn-primary btn-block" type="submit">{% trans "Login" %}</button>
+                                                <a class="secondaryAction" href="{% url 'account_reset_password' %}"><small>{% trans "Forgot Password?" %}</small></a>
+                                            </div>
+                                        </div>
+                                                
+                        
+                                        
+                                        
+                                    </form>
+                         
+                                {% if user.is_authenticated %}
+                                {% include "account/snippets/already_logged_in.html" %}
+                                {% endif %}
+                        </div> <!-- end tab-pane active id=login -->
+                        
+                        <div class="tab-pane" id="signup">
+                            
+                            {% if not user.is_authenticated %}
+                                
+                                    {% if socialaccount.providers  %}
+                                        
+                                    <div class="socialaccount_ballot">
+                                    
+                                    <ul class="socialaccount_providers inline text-center">
+                                    {% include "socialaccount/snippets/provider_list.html" %}
+                                    </ul>
+                                    
+                                    <!--<div class="login-or">{% trans 'or' %}</div>-->
+                                    
+                                    </div>
+                            
+                                    {% include "socialaccount/snippets/login_extra.html" %}
+                                    
+                                    {% endif %}
+                                {% endif %}
+                            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+                            {% if user.is_authenticated %}
+                                {% include "account/snippets/already_logged_in.html" %}
+                            {% else %}
+                                <form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                                {% csrf_token %}
+                           
+                            {% load widget_tweaks %}
+                            
+                            {% if signup_form.non_field_errors %}
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <span class="text-center">{{ signup_form.non_field_errors }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <br>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.email.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.email }}
+                                    {{ signup_form.email.errors }}
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.password1.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.password1 }}
+                                    {{ signup_form.password1.errors }}
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.password2.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.password2 }}
+                                    {{ signup_form.password2.errors }}
+                                </div>
+                            </div>
+            
+                            <br>
+                            <div class="row-fluid">
+                                <div class="span4 offset4">
+                                {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                {% endif %}
+                                <button class="btn btn-primary btn-block" type="submit">Create Account &raquo;</button>
+                                </div>
+                            </div>
+            
+                            </form>
+                                
+                            {% endif %}
+                        </div> <!-- end div tab-pane id=signup -->
+    
+                    </div> <!-- end div tab-content -->
+                    
+                </div> <!-- end div modal body -->
+
+            
+        
+            
+            </div> <!-- end id = myModal -->

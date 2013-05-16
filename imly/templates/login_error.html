@@ -1,0 +1,48 @@
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+                                    <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
+                                        {% csrf_token %}
+                                        {% load widget_tweaks %}
+                                        <div class="row-fluid">
+                                            <div class="span12">
+                                                <span class="text-center">{{ login_form.non_field_errors }}</span>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="control-group">
+                                            <span class="control-label">{{ login_form.login.label }}</span>
+                                            <div class="controls">
+                                                {{ login_form.login }}
+                                                {{ login_form.login.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            <span class="control-label">{{ login_form.password.label }}</span>
+                                            <div class="controls">
+                                                {{ login_form.password }}
+                                                {{ login_form.password.errors }}
+                                            </div>
+                                        </div>
+                                        <div class="control-group">
+                                            
+                                            <div class="controls">
+                                                {{ login_form.remember }} <small>Remember Me</small>
+                                            </div>
+                                            
+                                        </div>
+                                        
+                                        <div class="row-fluid">
+                                            <div class="span4 offset4">
+                                                {% if redirect_field_value %}
+                                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                                {% endif %}
+                                                <button class="primaryAction btn btn-primary btn-block" type="submit">{% trans "Sign In" %}</button>
+                                                <a class="secondaryAction" href="{% url 'account_reset_password' %}"><small>{% trans "Forgot Password?" %}</small></a>
+                                            </div>
+                                        </div>
+                                                
+                        
+                                        
+                                        
+                                    </form>

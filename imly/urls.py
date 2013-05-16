@@ -4,7 +4,7 @@ from imly.models import Product, Store, Category, Location
 
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile,status
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
-from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile
+from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile
 from imly.views.places import set_location
 from imly.views.orders import UserOrders, StoreOrders
 from plata.contact.models import Contact
@@ -44,19 +44,22 @@ urlpatterns = patterns('',
     url(r"^$", home_page, name="imly_landing_page"),
     url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
-    url(r"^why_open_your_shop/$", why_open_your_shop, name="why_open_your_shop"),
+    url(r"^login-x/$", "imly.views.profile.modal_login", name="imly_modal_login"),
+    url(r"^signup-x/$", "imly.views.profile.modal_signup", name="imly_modal_signup"),
+    url(r"^why-join-imly/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^chef-profile/$", chef_profile, name="chef_profile"),
+    url(r"^profiles/(?P<slug>[-\w]+)/$", ChefProfile.as_view(), name="chef_profile"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details/$", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),
-    url(r"^account/my_profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
-    url(r"^account/create_profile/$",login_required(ProfileCreate.as_view()),name='imly_create_profile'),
-    url(r"^account/edit_profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
+    url(r"^account/my-profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
+    url(r"^account/create-profile/$",login_required(ProfileCreate.as_view()),name='imly_create_profile'),
+    url(r"^account/edit-profile/(?P<pk>\d+)/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
     url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
     url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
-    url(r"^account/store/sort_product/$","imly.views.products.sort_product",name="imly_store_sort_product"),
-    url(r"^coming_soon/$", coming_soon, name="imly_coming_soon"),
+    url(r"^account/store/sort-product/$","imly.views.products.sort_product",name="imly_store_sort_product"),
+    url(r"^coming-soon/$", coming_soon, name="imly_coming_soon"),
     
 )
 
