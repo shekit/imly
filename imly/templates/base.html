@@ -58,7 +58,7 @@
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart ({% if plata.order %}{{ plata.order.items.count }}{% endif %})</a></li>
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
                                                 <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
                                                 {% if user.userprofile %}
                                                     <li><a href="{% url "imly_my_profile" %}"><span class="icon-cog"></span> My Account</a></li>
@@ -211,7 +211,7 @@
                         <div class="span5">
                             <small><p class="text-right">Know an amazing home chef? We'd love to know.
                             
-                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Give us a Tip</a></p></small>
+                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>
                             {% include 'tip_form.html' %}
                             <!--<a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>-->
                         </div>
@@ -222,8 +222,8 @@
                             <ul class="unstyled text-center">
                                 <li>
                                     <ul class="inline">
-                                        <li><a href="http://facebook.com/imly.in"><div class="social_logo twitter"></div></a></li>
-                                        <li><a href="https://twitter.com/imly_in"><div class="social_logo facebook"></div></a></li>
+                                        <li><a href="https://twitter.com/imly_in"><div class="social_logo twitter"></div></a></li>
+                                        <li><a href="https://facebook.com/imly.in"><div class="social_logo facebook"></div></a></li>
                                         <li><a href="http://blog.imly.in/"><div class="social_logo tumblr"></div></a></li>
                                     </ul>
                                 </li>

@@ -22,9 +22,8 @@
         
         <div class="row-fluid">
 
-            {% if object_list.count %}
+            {% if active_items %}
             <div class="span12">
-                <h3>Active Products</h3>
                 <table class="table table-striped table-bordered clearfix">
                     <thead>
                         <tr>
@@ -37,8 +36,8 @@
                         </tr>
                     </thead>
                 <tbody id="sortable">
-                {% for object in object_list %}
-                {% if not object.is_deleted %}
+                {% for object in active_items %}
+                
                     <tr id="product_{{object.id}}">
                         <td class="handle"><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></td>
                         <td>
@@ -53,7 +52,7 @@
                             <a href="{% url "imly_product_delete" object.id %}" class="btn btn-small">Deactivate</a>
                         </td>
                     </tr>
-                {% endif %}
+                
                 {% endfor %}
                 <tbody>
                 </table>
@@ -69,10 +68,11 @@
             {% endif %}
         
         </div>
+        <br>
         <div class="row-fluid">
-            {% if object_list.count %}
+            {% if inactive_items %}
             <div class="span12">
-                <h3>Deactive Products</h3>
+                <h4 class="muted">Inactive Products</h4>
                 <table class="table table-striped table-bordered clearfix">
                         <tr>
                             <th>Product Image</th>
@@ -82,8 +82,8 @@
                             <th>Capacity</th>
                             <th>Manage</th>
                         </tr>
-                {% for object in object_list %}
-                {% if object.is_deleted %}
+                {% for object in inactive_items %}
+                
             
                     <tr>
                         <td><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></td>
@@ -98,7 +98,7 @@
                             <a href="{% url "imly_product_activate" object.id %}" class="btn btn-small">Activate</a>
                         </td>
                     </tr>
-                {% endif %}
+                
                 {% endfor %}
                 
                 </table>

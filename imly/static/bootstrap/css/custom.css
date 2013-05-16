@@ -943,6 +943,11 @@ td.less_padding_inner_td {
     .modal-header .extra_top_margin {
 	margin-top:2px;
     }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
+    }
 }
 
 @media (max-width: 480px) {
@@ -959,6 +964,11 @@ td.less_padding_inner_td {
     
     .form-horizontal .control-group {
     margin-bottom:10px;
+    }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
     }
 }
 

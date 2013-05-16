@@ -13,10 +13,10 @@
                 
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ object.id }}</td>
+                        <td>{{ object.order_id }}</td>
                         <td>{% for product in object.items.all %}
                                 {% ifequal product.product.store request.user.store %}
-                                    {{product.quantity}} {{product.name}}<br>
+                                    {{ product.quantity }} {{product.name}}<br>
                                 {% endifequal %}
                             {% endfor %}</td>
                         <td>{{ object.user }}<br>{{object.billing_phone_number}}</td>

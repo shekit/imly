@@ -17,22 +17,28 @@
 
              <div class="span12">
                     {# todays orders #}
-                    <h3>Today's Orders</h3>
+                    {% if today %}
+                    <h4 class="muted"><span class="orange">TODAY's</span> orders</h4>
                     {% with today as orders %}
                         {% include '_order_table.html' %}
                     {% endwith %}
+                    {% endif %}
                     {# tomorrows orders #}
-                    <h3>Tomorrow's Orders</h3>
+                    {% if tomorrow %}
+                    <h4 class="muted"><span class="orange">TOMORROW's</span> orders</h4>
                     {% with tomorrow as orders %}
                         {% include '_order_table.html' %}
                     {% endwith %}
+                    {% endif %}
                     {# newer orders #}
+                    {% if newer %}
                     {% for dater, date_orders in newer %}
-                    <h3> {{ dater }}</h3>
+                    <h4 class="muted"><span class="orange">{{ dater|date:"F j"|upper }}</span> orders</h4>
                         {% with date_orders as orders %}
                             {% include '_order_table.html' %}
                         {% endwith %}
                     {% endfor %}
+                    {% endif %}
             </div>
             {% else %}
                 <h2 class="muted text-center">You haven't received any orders yet.<br>
