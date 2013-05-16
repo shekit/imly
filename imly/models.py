@@ -319,12 +319,12 @@ class UserProfile(models.Model):
         super(UserProfile,self).save(*args, **kwargs)
     
 class ChefTip(models.Model):
-    name = models.CharField(max_length = 100, verbose_name = "Cheff Name")
-    tip_contact_number = models.CharField(max_length = 10, verbose_name = "Cheff Contact Number")
-    description = models.TextField()
-    your_name = models.CharField(max_length = 100, verbose_name = "Your Name")
-    email = models.EmailField(max_length = 50, verbose_name = "Your Email")
+    name = models.CharField(max_length = 100, verbose_name = "Chef's Name")
+    tip_contact_number = models.CharField(max_length = 10, verbose_name = "Chef's Number")
+    #description = models.CharField(max_length=100, verbose_name="Chef's Speciality")
+    your_name = models.CharField(max_length = 100, verbose_name = "Your Name", blank=True)
+    #email = models.EmailField(max_length = 50, verbose_name = "Your Email")
     create = models.DateTimeField(auto_now_add = True)
 
     def __unicode__(self):
-        return self.your_name
+        return self.name
