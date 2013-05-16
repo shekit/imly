@@ -13,7 +13,7 @@
         <img class="img-rounded img-polaroid img_avatar pull-left" src="{{ object.owner.userprofile.avatar_thumbnail_mini.url }}">
         {% endif %}
             
-        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. Find out more about me on my <a class="profile_link" href="{% url "chef_profile" object.owner.userprofile.slug %}">profile</a>.
+        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. {% if object.owner.userprofile %}Find out more about me on my <a class="profile_link" href="{% url "chef_profile" object.owner.userprofile.slug %}">profile</a>.{% endif %}
         
         <div class="row-fluid">
             <div class="span10 offset1">
