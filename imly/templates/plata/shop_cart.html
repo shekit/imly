@@ -89,13 +89,9 @@
         
         {% for store_id, store_name, store_slug, total,delivery_date in order.data.store_info %}
         <table class="table table-bordered">
-<<<<<<< HEAD
+
             <tr class="shop_cart_header">
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name }}</a></th>
-=======
-            <tr style="background: #e9e9e9;">
-                <th colspan="2">Your order from: <a href="{% url "imly_store_detail" store_slug %}">{{ store_name }}</a></th>
->>>>>>> 80241f729a678c61200332098e022a6d5e28c926
             </tr>
             
             <tr>
