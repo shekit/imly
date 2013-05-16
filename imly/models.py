@@ -255,6 +255,7 @@ class Product(ProductBase, PriceBase):
     @property
     def is_approved(self):
         return self.store.is_approved
+        
     @property
     def sale(self):
         return self.capacity_per_day - self.items_in_stock

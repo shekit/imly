@@ -7,5 +7,6 @@ class ImlyMetadata(seo.Metadata):
     heading     = seo.Tag(name="h1")
 
     class Meta:
-        seo_models = ('imly', )
+    	pass
+#        seo_models = ('imly', )
         #seo_views = ('imly', )

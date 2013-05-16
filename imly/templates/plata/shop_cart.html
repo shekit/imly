@@ -85,19 +85,19 @@
                   
 
         </table>{% endcomment %}
+
         
-        {% for store,items in order.items_by_store %}
+        {% for store_id, store_name, store_slug, total,delivery_date in order.data.store_info %}
         <table class="table table-bordered">
             <tr style="background: #e9e9e9;">
-                <th colspan="2">Your order from: <a href="{% url "imly_store_detail" store.slug %}">{{ store.name }}</a></th>
+                <th colspan="2">Your order from: <a href="{% url "imly_store_detail" store_slug %}">{{ store_name }}</a></th>
             </tr>
             
             <tr>
             <td>
                 <table class="table table_top_border">
                     {% for orderitemform in orderitemformset.forms %}
-                        {% for item in items %}
-                            {% ifequal orderitemform.instance item %}
+                            {% ifequal orderitemform.instance.product.store.pk store_id %}
                             <tr>
                                 <td>
                                     <table class="table table_border_right">
@@ -117,11 +117,14 @@
                                 </td>
                             </tr>
                             {% endifequal %}
-                        {% endfor %}
+                        
                     {% endfor %}
                 </table>
             </td>
-            <td width="300">Delivery</td>
+            <td width="300">Delivery
+                {{total}}
+                {{delivery_date}}
+            </td>
             </tr>
             
         </table>
