@@ -107,8 +107,10 @@ class Migration(SchemaMigration):
         db.create_table(u'imly_deliverylocation', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('store', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['imly.Store'], blank=True)),
-            ('point', self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(72.8258 18.9647)')),
+            ('store', self.gf('django.db.models.fields.related.ForeignKey')(related_name='delivery_locations', blank=True, to=orm['imly.Store'])),
+            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(72.8258 18.9647)', blank=True)),
+            ('bounds', self.gf('django.contrib.gis.db.models.fields.PolygonField')(default=u'POLYGON ((19.2695223999999996 72.9800522999999970, 19.2695223999999996 72.7759056000000015, 18.8933086999999986 72.7759056000000015, 18.8933086999999986 72.9800522999999970, 19.2695223999999996 72.9800522999999970))', blank=True)),
+            ('data', self.gf('plata.fields.JSONField')(default='{}', blank=True)),
         ))
         db.send_create_signal(u'imly', ['DeliveryLocation'])
 
@@ -287,10 +289,12 @@ class Migration(SchemaMigration):
         },
         u'imly.deliverylocation': {
             'Meta': {'object_name': 'DeliveryLocation'},
+            'bounds': ('django.contrib.gis.db.models.fields.PolygonField', [], {'default': "u'POLYGON ((19.2695223999999996 72.9800522999999970, 19.2695223999999996 72.7759056000000015, 18.8933086999999986 72.7759056000000015, 18.8933086999999986 72.9800522999999970, 19.2695223999999996 72.9800522999999970))'", 'blank': 'True'}),
+            'data': ('plata.fields.JSONField', [], {'default': "'{}'", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'", 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'point': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'"}),
-            'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']", 'blank': 'True'})
+            'store': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'delivery_locations'", 'blank': 'True', 'to': u"orm['imly.Store']"})
         },
         u'imly.location': {
             'Meta': {'ordering': "['name']", 'object_name': 'Location'},

@@ -111,17 +111,7 @@ class StoreForm(forms.ModelForm):
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
         
-
-class DeliveryForm(forms.ModelForm):
-    class Meta:
-        model = DeliveryLocation
-        fields=('name', 'data')
-        widgets = {
-            'data': forms.HiddenInput()
-        }
-        
-DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, DeliveryForm, extra=0)
-
+DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, extra=2)
 
 """    def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)
@@ -251,12 +241,18 @@ class UserProfileForm(forms.ModelForm):
         exclude = ["user"]
 
 class ChefTipForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(ChefTipForm,self).__init__(*args, **kwargs)
+        self.fields["your_name"].widget = forms.TextInput(attrs={'placeholder': "To give as a reference (optional)"})
+        
+        
     class Meta:
         model = ChefTip
-        fields=("name","tip_contact_number","description","your_name","email")
+        fields=("your_name","name","tip_contact_number",)
 
     def clean_tip_contact_number(self):
         contact = self.cleaned_data['tip_contact_number']
         if len(contact) != 10 or not re.match('^\d+$',contact):
-            raise forms.ValidationError("Mobile number must be 10 digits & number.")
+            raise forms.ValidationError("Please enter a valid 10 digit phone number")
         return contact    

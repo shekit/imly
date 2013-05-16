@@ -8,23 +8,23 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Store.delivery_points'
-        db.add_column(u'imly_store', 'delivery_points',
-                      self.gf('django.contrib.gis.db.models.fields.MultiPointField')(default='MULTIPOINT(72.8258 18.9647)'),
-                      keep_default=False)
+        # Deleting field 'ChefTip.your_name'
+        db.delete_column(u'imly_cheftip', 'your_name')
 
-        # Adding field 'DeliveryLocation.point'
-        db.add_column(u'imly_deliverylocation', 'point',
-                      self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(72.8258 18.9647)'),
-                      keep_default=False)
+        # Deleting field 'ChefTip.email'
+        db.delete_column(u'imly_cheftip', 'email')
 
 
     def backwards(self, orm):
-        # Deleting field 'Store.delivery_points'
-        db.delete_column(u'imly_store', 'delivery_points')
+        # Adding field 'ChefTip.your_name'
+        db.add_column(u'imly_cheftip', 'your_name',
+                      self.gf('django.db.models.fields.CharField')(default='', max_length=100),
+                      keep_default=False)
 
-        # Deleting field 'DeliveryLocation.point'
-        db.delete_column(u'imly_deliverylocation', 'point')
+        # Adding field 'ChefTip.email'
+        db.add_column(u'imly_cheftip', 'email',
+                      self.gf('django.db.models.fields.EmailField')(default='', max_length=50),
+                      keep_default=False)
 
 
     models = {
@@ -80,18 +80,18 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'ChefTip'},
             'create': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '50'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'tip_contact_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
-            'your_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'tip_contact_number': ('django.db.models.fields.CharField', [], {'max_length': '10'})
         },
         u'imly.deliverylocation': {
             'Meta': {'object_name': 'DeliveryLocation'},
+            'bounds': ('django.contrib.gis.db.models.fields.PolygonField', [], {'default': "u'POLYGON ((19.2695223999999996 72.9800522999999970, 19.2695223999999996 72.7759056000000015, 18.8933086999999986 72.7759056000000015, 18.8933086999999986 72.9800522999999970, 19.2695223999999996 72.9800522999999970))'", 'blank': 'True'}),
+            'data': ('plata.fields.JSONField', [], {'default': "'{}'", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'", 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'point': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'"}),
-            'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']", 'blank': 'True'})
+            'store': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'delivery_locations'", 'blank': 'True', 'to': u"orm['imly.Store']"})
         },
         u'imly.location': {
             'Meta': {'ordering': "['name']", 'object_name': 'Location'},
@@ -171,11 +171,13 @@ class Migration(SchemaMigration):
         u'imly.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
             'about_me': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'about_me_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'cover_profile_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'word_one': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
             'word_three': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),

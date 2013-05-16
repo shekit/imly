@@ -637,6 +637,34 @@ a.give_us_a_tip:hover {
 	background: url("../img/tumblr_logo.png") no-repeat;
     }
     
+/* GIVE A TIP FORM */
+.tip_modal {
+    color: #333;
+    width:300px;
+    margin-left:-150px;
+}
+
+.tip_modal_form {
+    margin: 0px;
+}
+
+.tip_form_ul > li {
+    padding:10px 0px;
+}
+
+.tip_form_ul > li > label {
+    font-weight: 300;
+}
+
+.tip_modal_header {
+    background: #f5f5f5;
+}
+
+.tip_modal_heading {
+    color:#f05a28;
+    text-shadow: 1px 1px #fff;
+}
+
 /* customizing forms */
 ul.form > li {
 	margin-bottom:20px;
@@ -827,7 +855,7 @@ div.store_form > legend {
     margin-left:-225px;
 }
 
-.modal-header {
+.modal_login_header {
     border-bottom:none;
     padding-top:0px;
     padding-bottom:5px;
@@ -915,6 +943,11 @@ td.less_padding_inner_td {
     .modal-header .extra_top_margin {
 	margin-top:2px;
     }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
+    }
 }
 
 @media (max-width: 480px) {
@@ -931,6 +964,11 @@ td.less_padding_inner_td {
     
     .form-horizontal .control-group {
     margin-bottom:10px;
+    }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
     }
 }
 

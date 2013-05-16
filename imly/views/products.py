@@ -144,7 +144,11 @@ class ProductsByAccount(ListView):
     def get_queryset(self):
         return self.request.user.store.product_set.all()
     
-
+    def get_context_data(self, **kwargs):
+        context = super(ProductsByAccount,self).get_context_data(**kwargs)
+        context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False)
+        context["inactive_items"] = self.request.user.store.product_set.filter(is_deleted=True)
+        return context
     
 class ProductDetail(DetailView):
     

@@ -91,6 +91,7 @@
         <table class="table table-bordered">
 
             <tr class="shop_cart_header">
+
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store_slug %}">{{ store.name }}</a></th>
             </tr>
             
@@ -134,7 +135,7 @@
             <td class="cart_delivery_section" >
                 
                 <ul class="unstyled text-center">
-                    <li class="muted"><small>I want my order on {{delivery_date}}</small></li>
+                    <li class="muted"><small>I want my order on {{ delivery_date }}</small></li>
                     <li>
                         <select class="span6">
                             <option>May 1</option>
@@ -168,7 +169,7 @@
                         </label>    
                     </li>
                     <li><br></li>
-                    <li><h3 class="muted">{{total}}</h3></li>
+                    <li><h3 class="muted">Rs. {{ total|floatformat:"0" }}</h3></li>
                 </ul>
                 
             </td>
