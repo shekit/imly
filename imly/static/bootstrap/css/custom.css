@@ -931,6 +931,9 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
+/* STORE ORDER TABLES */
+
+
 /* MEDIA QUERIES */
 
 @media (max-width: 767px) {

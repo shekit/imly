@@ -3,10 +3,10 @@
                     <tr>
                         <th>S.No</th>
                         <th>Order No.</th>
-                        <th>Product Detail</th>
-                        <th>User/Buyer Info</th>
-                        <th>Order Place Date</th>
-                        <th>Sub Total</th>
+                        <th>You have to make</th>
+                        <th>Buyer Info</th>
+                        <th>Order Placed on</th>
+                        <th>Total</th>
                         
                     </tr>
                 {% for object in orders %}
@@ -16,12 +16,16 @@
                         <td>{{ object.order_id }}</td>
                         <td>{% for product in object.items.all %}
                                 {% ifequal product.product.store request.user.store %}
-                                    {{ product.quantity }} {{product.name}}<br>
+                                    {{ product.quantity }} {{ product.product.name }}<br>
                                 {% endifequal %}
                             {% endfor %}</td>
-                        <td>{{ object.user }}<br>{{object.billing_phone_number}}</td>
+                        {% if object.shipping_same_as_billing %}
+                        <td><u>{{ object.billing_first_name|capfirst }} {{ object.billing_last_name|capfirst }}</u><br>{{ object.billing_address }}<br>{{ object.billing_city|slice:"3" }} - {{ object.billing_zip_code }}</td>
+                        {% else %}
+                        <td><u>{{ object.shipping_first_name|capfirst }} {{ object.shipping_last_name|capfirst }}</u><br>{{ object.shipping_address }}<br>{{ object.shipping_city|slice:"3" }} - {{ object.shipping_zip_code }}</td>  
+                        {% endif %}
                         <td>{{ object.confirmed|date:"F j, Y" }}</td>
-                        <td>{{ object.store_total }}
+                        <td>{{ object.store_total|floatformat:"2" }}
                         </td>
                         
                     </tr>
