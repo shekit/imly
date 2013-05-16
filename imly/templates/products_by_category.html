@@ -4,7 +4,7 @@
 
                 {% block sidebar_nav %}
                     {% load imly_tags %}
-                    {% get_location_list %}
+                {% comment %}{% get_location_list %}
                     <select class="location_list">
                         <option value="all">Search by Location (All)</option>
                         {% for location in locations %}
@@ -12,7 +12,12 @@
                         {% endfor %}
                     </select>
                     <br>
+                {% endcomment %}
+
                     <div class="well sidebar-nav">
+                        
+                        
+                        
                         <ul class="nav nav-list">
                             {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
@@ -68,6 +73,7 @@
 
 {% block shop_or_product %}
 
+                    {% comment %}
                     <div class="row-fluid">
                         
                         <div class="span12 centered-pills">
@@ -84,6 +90,7 @@
                         </div>
                     
                     </div>
+                    {% endcomment %}
 {% endblock shop_or_product %}
 
 {% block content %}
@@ -105,24 +112,27 @@
                     </div>
                 </a>
                 <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
-                <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
-                    {% if object.quantity_per_item == 1 %}
-                        /{{ object.get_quantity_by_price_display }}
+                <div class="thumbnail_info_wrapper">
+                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                        {% if object.quantity_per_item == 1 %}
+                            /{{ object.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
+                        {% endif %} 
+                    </small></span>
+                    
+                    {% if object.items_in_stock %}
+                    <form method="post" action="{% url "imly_add_order" object.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                    </form>
                     {% else %}
-                        for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
-                    {% endif %} 
-                </small></span>
+                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                    {% endif %}
                 
-                {% if object.items_in_stock %}
-                <form method="post" action="{% url "imly_add_order" object.slug %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1">
-                    <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
-                </form>
-                {% else %}
-                    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
-                {% endif %}
-                <div class="clearfix"></div>
+                    <div class="clearfix"></div>
+                </div>
             </div>
         </li>
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}

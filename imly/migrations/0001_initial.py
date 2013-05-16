@@ -75,6 +75,7 @@ class Migration(SchemaMigration):
             ('store_notice', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('is_approved', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_featured', self.gf('django.db.models.fields.BooleanField')(default=False)),
+            ('delivery_points', self.gf('django.contrib.gis.db.models.fields.MultiPointField')(default='MULTIPOINT(72.8258 18.9647)')),
         ))
         db.send_create_signal(u'imly', ['Store'])
 
@@ -107,6 +108,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('store', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['imly.Store'], blank=True)),
+            ('point', self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(72.8258 18.9647)')),
         ))
         db.send_create_signal(u'imly', ['DeliveryLocation'])
 
@@ -156,7 +158,9 @@ class Migration(SchemaMigration):
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
             ('first_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
             ('last_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50)),
             ('about_me', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('about_me_html', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('cover_profile_image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
             ('word_one', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
             ('word_two', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
@@ -285,6 +289,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'DeliveryLocation'},
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'point': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'"}),
             'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']", 'blank': 'True'})
         },
         u'imly.location': {
@@ -297,7 +302,7 @@ class Migration(SchemaMigration):
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'})
         },
         u'imly.product': {
-            'Meta': {'ordering': "['position', '-date_created']", 'unique_together': "(('name', 'store'),)", 'object_name': 'Product'},
+            'Meta': {'ordering': "['position', 'store']", 'unique_together': "(('name', 'store'),)", 'object_name': 'Product'},
             '_unit_price': ('django.db.models.fields.DecimalField', [], {'max_digits': '18', 'decimal_places': '0'}),
             'capacity_per_day': ('django.db.models.fields.IntegerField', [], {}),
             'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Category']"}),
@@ -331,6 +336,7 @@ class Migration(SchemaMigration):
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'delivery_areas': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Location']", 'symmetrical': 'False', 'blank': 'True'}),
+            'delivery_points': ('django.contrib.gis.db.models.fields.MultiPointField', [], {'default': "'MULTIPOINT(72.8258 18.9647)'"}),
             'description': ('django.db.models.fields.TextField', [], {}),
             'description_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'facebook_link': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
@@ -364,11 +370,13 @@ class Migration(SchemaMigration):
         u'imly.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
             'about_me': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'about_me_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'cover_profile_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'word_one': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
             'word_three': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),

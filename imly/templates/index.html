@@ -49,7 +49,7 @@
                                               {% if user.userprofile.first_name %}
                                                   {{ user.userprofile.first_name }} <span class="caret"></span>
                                               {% else %}
-                                                  {{ user.username }} <span class="caret"></span>
+                                                  {{ user.first_name }} <span class="caret"></span>
                                               {% endif %}
                                               </a>
                                                     <ul class="dropdown-menu">
@@ -121,43 +121,8 @@
             <div class="row-fluid">
                 <div class="span12">
                     <div class="row-fluid">
-                    <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">Shops</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
-                    {% load imly_tags %}
-                    {% get_featured_store_list %}
-                    <ul class="thumbnails">
-                    {% for store in featured_stores %}
-                        
-                        <li class="span3">
-                            <div class="thumbnail">
-                                {% if store.logo %}
-                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ store.logo_thumbnail.url }}" alt="{{ store.name }}"></a>
-                                {% else %}
-                                    {% with store.product_set.all|first as product %}
-                                        <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ store.name }}"></a>
-                                    {% endwith %}
-                                {% endif %}
-
-                                
-                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
-                                            {% if store.owner.userprofile.first_name %}
-                                                {{ store.owner.userprofile.first_name }} {{ store.owner.userprofile.last_name }}
-                                            {% else %}
-                                                {{ store.owner.username }}
-                                            {% endif %}</small>
-                                <div class="clearfix"></div>
-                            </div>
-                        </li>
-                        
-                    {% endfor %}
-                    </ul>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="row-fluid">
                     <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
+                    {% load imly_tags %}
                     {% get_bestseller_product_list %}
                     <ul class="thumbnails">
                     {% for product in bestselling_products %}
@@ -172,6 +137,44 @@
                     </div>
                 </div>
             </div>
+        <br>
+            <br>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="row-fluid">
+                    <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">chefs</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
+                    
+                    {% get_featured_store_list %}
+                    <ul class="thumbnails">
+                    {% for store in featured_stores %}
+                        
+                        <li class="span3">
+                            <div class="thumbnail">
+                                {% if store.logo %}
+                                    <a href="{% url "imly_store_detail" store.slug %}"><img class="bottom_border" src="{{ store.logo_thumbnail.url }}" alt="{{ store.name }}"></a>
+                                {% else %}
+                                    {% with store.product_set.all|first as product %}
+                                        <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ store.name }}"></a>
+                                    {% endwith %}
+                                {% endif %}
+
+                                
+                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
+                                            {% if store.owner.userprofile %}
+                                                <a class="sub_text" href="#"><u>{{ store.owner.userprofile.first_name }} {{ store.owner.userprofile.last_name }}</u></a>
+                                            {% else %}
+                                                {{ store.owner.username }}
+                                            {% endif %}</small>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                        
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+
             <br>
             <br>
             <br>

@@ -140,6 +140,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'allauth.socialaccount.context_processors.socialaccount',
     'plata.context_processors.plata_context',
     'imly.context_processors.chef_tip',
+    'imly.context_processors.modal_signup',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -256,12 +257,12 @@ PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
 
 #AllAuth settings
 
-ACCOUNT_AUTHENTICATION_METHOD = "username_email"
+ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_EMAIL_CONFIRMATION_EXPIRE_DAYS = 5
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = "optional"
 ACCOUNT_EMAIL_SUBJECT_PREFIX = "Hello from Imly! "
-ACCOUNT_USER_MIN_LENGTH = 4
+ACCOUNT_USERNAME_REQUIRED = False
 
 if not DEBUG:
     #for s3 storage

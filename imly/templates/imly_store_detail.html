@@ -13,7 +13,7 @@
         <img class="img-rounded img-polaroid img_avatar pull-left" src="{{ object.owner.userprofile.avatar_thumbnail_mini.url }}">
         {% endif %}
             
-        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. Find out more about me on my <a class="profile_link" href="{% url "chef_profile" %}">profile</a>.
+        I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. {% if object.owner.userprofile %}Find out more about me on my <a class="profile_link" href="{% url "chef_profile" object.owner.userprofile.slug %}">profile</a>.{% endif %}
         
         <div class="row-fluid">
             <div class="span10 offset1">
@@ -123,24 +123,28 @@
                     </div>
                 </a>
 
-                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name }}</a></h5> <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted ultra_small">
-                    {% if product.quantity_per_item == 1 %}
-                        /{{ product.get_quantity_by_price_display }}
+                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name }}</a></h5>
+                <div class="thumbnail_info_wrapper">
+                    <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                        {% if product.quantity_per_item == 1 %}
+                            /{{ product.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
+                        {% endif %} 
+                    </small></span>
+                    
+                    
+                    {% if product.items_in_stock %}
+                    <form method="post" action="{% url "imly_add_order" product.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                    </form>
                     {% else %}
-                        for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
-                    {% endif %} 
-                </small></span>
-                
-                {% if product.items_in_stock %}
-                <form method="post" action="{% url "imly_add_order" product.slug %}">
-                    {% csrf_token %}
-                    <input type="hidden" name="quantity" value="1">
-                    <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
-                </form>
-                {% else %}
-                    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
-                {% endif %}
-                <div class="clearfix"></div>
+                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
             </div>
         </li>
         {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}

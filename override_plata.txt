@@ -1,3 +1,5 @@
+// MANISH //
+
 1. Changes made @plata/shop models add a method(property) due_date @ line number 474.
 
 2. Changes made @plata/shop models add field billing_phone_number & shipping_phone_number & phone_number in ADDRESS_FIELDS @ line 		54,66 & 48 (it will add billing_phone_number & shipping_phone_number fields in Order & Contact model)
@@ -6,3 +8,11 @@
 4. Add the field delivery_date @plata/shop models in class Order @ line no 130 for set the delivery date for every orders & override the
    save method for save the delivery date for every order from line 172 to 174
 5. Add three property @plata/shop in Order models from line 220 to 230 for displaying store specific total.
+
+// ABHISHEK //
+
+1. plata.shop.views.py - Line 347: Changed redirect from plata_shop_discounts to plata_shop_confirmation ** done to avoid extra discount page checkout
+2. plata.shop.views.py - Line 95 : Changed base_template variable from base.html to base_cart.html **will be used as base template for all checkout templates
+3. plata.shop.views.py - Line 132-134: Commented out discount URL
+4. plata.shop.models.py - line 107, 115 : Added IMLY=60 and (IMLY,_("Imly has confirmed the order")) **will use it as a hook to send an email to users only when we have confirmed the order
+5. plata.shop.models.py - Line 433, Line 645 - changed decimal place from 10 to 0 **form was getting populated with too many zeroes

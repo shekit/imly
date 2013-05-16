@@ -38,6 +38,14 @@
                 </div>
                 <div class="control-group">
                     
+                    <span class="control-label">{{ form.email.label }}</span>
+                    <div class="controls">
+                        {{ form.email }}
+                        {{ form.email.errors }}
+                    </div>
+                </div>
+                <div class="control-group">
+                    
                     <span class="control-label">{{ form.password1.label }}</span>
                     <div class="controls">
                         {{ form.password1 }}
@@ -52,14 +60,7 @@
                         {{ form.password2.errors }}
                     </div>
                 </div>
-                <div class="control-group">
-                    
-                    <span class="control-label">{{ form.email.label }}</span>
-                    <div class="controls">
-                        {{ form.email }}
-                        {{ form.email.errors }}
-                    </div>
-                </div>
+
                 <br>
                 <div class="row-fluid">
                     <div class="span4 offset4">

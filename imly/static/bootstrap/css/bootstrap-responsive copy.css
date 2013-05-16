@@ -935,7 +935,6 @@
     margin-right: 0;
     margin-left: 0;
   }
-
   .modal {
     top: 10px;
     right: 10px;
@@ -950,7 +949,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 979px) {
   body {
     padding-top: 0;
   }

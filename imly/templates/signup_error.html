@@ -1,0 +1,52 @@
+{% load i18n %}
+{% load account %}
+{% load url from future %}
+<form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
+                                {% csrf_token %}
+                           
+                            {% load widget_tweaks %}
+                            
+                            {% if signup_form.non_field_errors %}
+                            <div class="row-fluid">
+                                <div class="span12">
+                                    <span class="text-center">{{ signup_form.non_field_errors }}</span>
+                                </div>
+                            </div>
+                            {% endif %}
+                            <br>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.email.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.email }}
+                                    {{ signup_form.email.errors }}
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.password1.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.password1 }}
+                                    {{ signup_form.password1.errors }}
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                
+                                <span class="control-label">{{ signup_form.password2.label }}</span>
+                                <div class="controls">
+                                    {{ signup_form.password2 }}
+                                    {{ signup_form.password2.errors }}
+                                </div>
+                            </div>
+            
+                            <br>
+                            <div class="row-fluid">
+                                <div class="span4 offset4">
+                                {% if redirect_field_value %}
+                                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+                                {% endif %}
+                                <button class="btn btn-primary btn-block" type="submit">Create Account &raquo;</button>
+                                </div>
+                            </div>
+            
+                            </form>

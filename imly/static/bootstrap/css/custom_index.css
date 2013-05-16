@@ -7,6 +7,9 @@ html,body
     height:100%;
 }
 
+body {
+    font-size: 13px;
+}
 
 .index_view_more {
     color:#f37f58;
@@ -185,6 +188,29 @@ legend {
 	background: #fff;
     }
     
+    .thumbnail {
+
+padding: 0px;
+-webkit-border-radius: 0px 0px 5px 5px;
+-moz-border-radius: 0px 0px 5px 5px;
+border-radius: 0px 0px 5px 5px;
+-webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+-webkit-transition: all 0.2s ease-in-out;
+-moz-transition: all 0.2s ease-in-out;
+-o-transition: all 0.2s ease-in-out;
+transition: all 0.2s ease-in-out;
+}
+
+img.bottom_border {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.thumbnail:hover {
+    border: 1px solid #bbb;
+}
+    
     .top_text {
 	color: #301208;
     }
@@ -205,7 +231,7 @@ legend {
     }
     
     h5 {
-	font-size: 16px;
+    
 	font-weight: 500;
     }
     
@@ -433,7 +459,7 @@ legend {
 /* CHEF PROFILE PAGE */
 
 .hero_chef_profile {
-    background: url("../img/chef_cover.jpg");
+
     background-color: #fcfcfc;
     border-top: 1px solid #d1d2d4;
     border-bottom: 1px solid #e5e5e5;    
@@ -446,7 +472,8 @@ legend {
 .chef_profile_para{
     color: white;
     background: rgba(240,90,45,0.9);
-    width: 300px;
+    padding-left:30px;
+    padding-right:30px;
     text-align: center;
     text-shadow: none;
 }

@@ -1,11 +1,19 @@
 {% extends "index.html" %}
 
 {% block carousel %}
+    {% if object.cover_profile_image %}
+    <div class="hero-unit hero_chef_profile" style="background:url({{ object.cover_profile_image_thumbnail.url }}) no-repeat;background-position: top 50%;">
+        
+    {% else %}
+    
     <div class="hero-unit hero_chef_profile">
+    
+{% endif %}
+
         <div class="container">
-            <ul class="unstyled text-right">
-                <li><h2 class="chef_profile">Vineeta Singh</h2></li>
-                <li><p class="chef_profile_para pull-right">Mother. Part-Time Blogger. Athlete.</p></li>
+            <ul class="unstyled text-center pull-right">
+                <li><h2 class="chef_profile">{{ object.first_name }} {{ object.last_name }}</h2></li>
+                <li><p class="chef_profile_para">{{ object.word_one }}. {{ object.word_two }}. {{ object.word_three }}.</p></li>
             </ul>
             
         </div>
@@ -17,8 +25,7 @@
     <div class="row-fluid">
         <div class="span9">
             <h3 class="about_chef">
-                Hi, I am <span class="orange">Vineeta</span> ,donec id elit non mi porta gravida at eget metus. Fusce dapi, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
-                <br><br>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.
+                {{ object.about_me_html|safe }}
             </h3>
         </div>
         <div class="span3 well">
@@ -29,9 +36,10 @@
                     <hr>
                 </div>
             </div>
-            
-            <img class="img-rounded" src="{{ STATIC_URL }}bootstrap/img/featured_prod.jpg">
-            <p class="text-center"><small class="muted">SINFUL BROWNIES</small></p>
+            {% with object.user.store.product_set.all|first as product %}
+            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img class="img-rounded" src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+            <p class="text-center"><small class="muted">{{ product.name }}</small></p>
+            {% endwith %}
         </div>
     </div>
 {% endblock featurette %}

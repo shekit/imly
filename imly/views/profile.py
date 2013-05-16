@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.core.urlresolvers import reverse_lazy
-from django.shortcuts import get_object_or_404, render, render_to_response
+from django.shortcuts import get_object_or_404, render, render_to_response, redirect
 from django.template import RequestContext, Context
 from imly.forms import UserProfileForm, ChefTipForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
@@ -9,7 +9,7 @@ from django.contrib.auth.models import User
 from imly.models import Product, Category, Store, Tag, Location, UserProfile
 from plata.shop.models import Order, OrderItem
 from django.core.exceptions import ValidationError
-
+from allauth.account.forms import LoginForm, SignupForm
     
 class ProfileInfo(DetailView):
     model = UserProfile
@@ -25,6 +25,11 @@ class ProfileInfo(DetailView):
         except UserProfile.DoesNotExist:
             return render(request,"imly_my_profile.html",{"user":request.user})
 
+class ChefProfile(DetailView):
+    model = UserProfile
+    template_name = "chef_profile.html"
+    
+    
 
 class ProfileCreate(CreateView):
     form_class = UserProfileForm
@@ -51,4 +56,28 @@ def give_us_tip(request):
             return HttpResponse("Submitted")
         response = render(request,"tip.html",locals())
         response.status_code = 400 
+        return response
+    
+def modal_login(request, **kwargs):
+    
+   # redirect_field_name = kwargs.pop("next")
+    
+    if request.method == "POST":
+        login_form = LoginForm(request.POST)
+        if login_form.is_valid():
+            login_form.login(request, redirect_url="/food/")
+            return HttpResponse(request.META["HTTP_REFERER"])
+        response = render(request,"login_error.html",locals())
+        response.status_code = 400 
+        return response
+    
+def modal_signup(request, **kwargs):
+    
+    if request.method == "POST":
+        signup_form = SignupForm(request.POST)
+        if signup_form.is_valid():
+            user = signup_form.save(request)
+            return HttpResponse(request.META["HTTP_REFERER"])
+        response = render(request, "signup_error.html", locals())
+        response.status_code = 400
         return response

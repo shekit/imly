@@ -89,8 +89,9 @@
         
         {% for store_id, store_name, store_slug, total,delivery_date in order.data.store_info %}
         <table class="table table-bordered">
-            <tr style="background: #e9e9e9;">
-                <th colspan="2">Your order from: <a href="{% url "imly_store_detail" store_slug %}">{{ store_name }}</a></th>
+
+            <tr class="shop_cart_header">
+                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name }}</a></th>
             </tr>
             
             <tr>
@@ -99,19 +100,28 @@
                     {% for orderitemform in orderitemformset.forms %}
                             {% ifequal orderitemform.instance.product.store.pk store_id %}
                             <tr>
-                                <td>
+                                <td class="less_padding">
                                     <table class="table table_border_right">
                                         <tr>
-                                            <td width="125"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></td>
-                                            <td width="250"><span style="font-size:16px">{{ orderitemform.instance.product.name }}</span>
-                                            <br><br>
-                                            {{ orderitemform.id }}
-                                            <small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small>{% form_item_plain orderitemform.quantity %}
+                                            <td class="less_padding_inner_td">
+                                                <ul class="inline">
+                                                    <li class="pull-left"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></li>
+                                                    <li>
+                                                        <ul class="unstyled">
+                                                            <li><span style="font-size:16px;">{{ orderitemform.instance.product.name }}</span></li>
+                                                            
+                                                            <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
+                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}</li>
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                
+                                            
                                             </td>
-                                            <td width="250"><p class="text-center">
+                                            <td width="200"  class="less_padding_inner_td"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</p></td>
-                                            <td><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
+                                            <td class="less_padding_inner_td"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -121,9 +131,46 @@
                     {% endfor %}
                 </table>
             </td>
-            <td width="300">Delivery
-                {{total}}
-                {{delivery_date}}
+            <td class="cart_delivery_section" >
+                
+                <ul class="unstyled text-center">
+                    <li class="muted"><small>I want my order on {{delivery_date}}</small></li>
+                    <li>
+                        <select class="span6">
+                            <option>May 1</option>
+                            <option>May 2</option>
+                            <option>May 3</option>
+                            <option>May 4</option>
+                            <option>May 5</option>
+                            <option>May 1</option>
+                            <option>May 2</option>
+                            <option>May 3</option>
+                            <option>May 4</option>
+                            <option>May 5</option>
+                            <option>May 1</option>
+                            <option>May 2</option>
+                            <option>May 3</option>
+                            <option>May 4</option>
+                            <option>May 5</option>
+                        </select>
+                    </li>
+
+                    <li>
+                        <label class="radio inline">
+                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
+                        Pick Up
+                        </label>
+                    </li>
+                    <li>
+                        <label class="radio inline">
+                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
+                        Delivery
+                        </label>    
+                    </li>
+                    <li><br></li>
+                    <li><h3 class="muted">{{total}}</h3></li>
+                </ul>
+                
             </td>
             </tr>
             
