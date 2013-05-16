@@ -241,6 +241,7 @@
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+        <script src="{{ STATIC_URL }}js/json2.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
@@ -275,7 +276,7 @@
                     $(function(){
                         //$('#sortable').sortable({items:"> tr"});
                         //$('#sortable').disableSelection();
-					
+					   
 						
         				$('#location_autocompleter').keydown(function(event){
         					if(event.keyCode==13){
@@ -294,11 +295,11 @@
 						};
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_autocompleter'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(event){
-							var place = autocomplete.getPlace();
+							place = autocomplete.getPlace();
 							if(!place.geometry){
 								alert('whats that?')
 							}else{
-								var count = $('.delivery_locations').children().length;
+                            	var count = $('.delivery_locations').children().length;
 								var markup = $('#delivery_location_template').html()
 								var compiled = _.template(markup, {id: count, place: JSON.stringify(place), name: place.formatted_address});
 								$('div.delivery_locations').append(compiled);
