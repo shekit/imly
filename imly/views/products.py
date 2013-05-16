@@ -106,9 +106,6 @@ class ProductCreate(CreateView):
         form.instance.store = self.request.user.store
         return form
 
-    def form_valid(self,form):
-        return super(ProductCreate,self).form_valid(form)
-
     
 class ProductEdit(UpdateView):
     form_class = ProductForm

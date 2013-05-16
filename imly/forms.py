@@ -111,7 +111,17 @@ class StoreForm(forms.ModelForm):
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
         
-DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, extra=2)
+
+class DeliveryForm(forms.ModelForm):
+    class Meta:
+        model = DeliveryLocation
+        fields=('name', 'data')
+        widgets = {
+            'data': forms.HiddenInput()
+        }
+        
+DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, DeliveryForm, extra=0)
+
 
 """    def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)

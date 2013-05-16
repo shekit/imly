@@ -17,15 +17,32 @@
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
-        <fieldset class="formset">
+        <fieldset class="formset" id="delivery_location_formset">
             <legend>Delivery Areas</legend>
             {{ delivery_location_form.management_form }}
+			<div class="delivery_locations">
             {% for form in delivery_location_form %}
-                {{form.name}}
+				<div class="delivery_location">
+			    {{form}}
+				</div>
             {% endfor %}
+			</div>
+
         </fieldset>
+		<input type="text" name="location_autocompleter" id="location_autocompleter">
+		<script type="text/html" id="delivery_location_template">
+			<div class="delivery_location">
+				<label for="id_delivery_locations-<%= id %>-name">Name:</label>
+				<input id="id_delivery_locations-<%= id %>-name" type="text" name="delivery_locations-<%= id %>-name" maxlength="100" value="<%= name %>">
+				<label for="id_delivery_locations-<%= id %>-DELETE">Delete:</label>
+				<input id="id_delivery_locations-<%= id %>-DELETE" type="checkbox" name="delivery_locations-<%= id %>-DELETE">
+				<input id="id_delivery_locations-<%= id %>-data" type="hidden" name="delivery_locations-<%= id %>-data" value='<%= place %>'>
+				<input id="id_delivery_locations-<%= id %>-id" type="hidden" name="delivery_locations-<%= id %>-id">
+				<input id="id_delivery_locations-<%= id %>-store" type="hidden" name="delivery_locations-<%= id %>-store">
+			</div>
+		</script>
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
-        <input type="submit" class="btn btn-success" value="Submit for Approval">
+         <input type="submit" class="btn btn-success" value="Submit for Approval">
         </form> 
 {% endblock shop_content %}
                 

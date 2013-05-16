@@ -1,11 +1,31 @@
 from django.dispatch import receiver
+
+import decimal
+from datetime import timedelta
+from django.db.models import Max
+>>>>>>> 80241f729a678c61200332098e022a6d5e28c926
 from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
 from django.core.mail import send_mail
 from django.db.models import Sum
+from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store
 from django.contrib.sites.models import Site
 from django.contrib.auth.models import User
+
+@receiver(pre_save,sender=Order)
+def set_store_info(sender,instance,**kwargs):
+	stores = {item.product.store for item in instance.items.all()}
+	instance.data['store_info'] = []
+	for store in stores:
+		instance.data['store_info'].append((
+			store.id,
+			store.name,
+			store.slug,
+			sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all()))),
+			instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max=Max('product__lead_time'))['max'])
+			))
+		print instance.data
 
 #@receiver(post_save, sender=Product)
 def set_product_initial_transaction(sender,instance, created,**kwargs):

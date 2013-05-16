@@ -101,7 +101,7 @@ class StoreCreate(CreateView):
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
-        context = self.get_context_data()
+        '''context = self.get_context_data()
         delivery_location_form = context['delivery_location_form']
         store = form.save()
         delivery_location_form.instance = store
@@ -109,8 +109,8 @@ class StoreCreate(CreateView):
             delivery_location_form.save()
             return HttpResponseRedirect(self.success_url)
         else:
-            return self.form_invalid(form) 
-#        return super(StoreCreate, self).form_valid(form)    
+            return self.form_invalid(form)'''
+        return super(StoreCreate, self).form_valid(form)    
         
     def get(self, request, *args, **kwargs):
         try:
@@ -119,13 +119,13 @@ class StoreCreate(CreateView):
         except Store.DoesNotExist:
             return super(StoreCreate, self).get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
+    '''def get_context_data(self, **kwargs):
         context = super(StoreCreate, self).get_context_data(**kwargs)
         if self.request.POST:
             context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST)
         else:
             context['delivery_location_form'] = DeliveryLocationFormSet()
-        return context
+        return context'''
         
 
 class StoreDetail(DetailView):
