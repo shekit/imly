@@ -3,7 +3,6 @@ from django.dispatch import receiver
 import decimal
 from datetime import timedelta
 from django.db.models import Max
->>>>>>> 80241f729a678c61200332098e022a6d5e28c926
 from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
 from django.core.mail import send_mail
 from django.db.models import Sum
