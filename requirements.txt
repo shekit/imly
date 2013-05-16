@@ -11,7 +11,6 @@ django-appconf==0.6
 django-contrib-comments==1.5
 django-crispy-forms==1.2.4
 django-imagekit==2.0.3
-django-positions==0.4.4
 django-ratings==0.3.7
 django-reviews==0.1.0
 django-social-auth==0.7.20

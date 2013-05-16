@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from django.contrib.gis.db import models as geo_models
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib.contenttypes import generic
@@ -107,7 +108,7 @@ class Location(models.Model):
     def __unicode__(self):
         return self.name
 
-class Store(models.Model):
+class Store(geo_models.Model):
     #Store Details
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
@@ -143,7 +144,9 @@ class Store(models.Model):
     is_featured = models.BooleanField(default=False)
     
     tags = models.ManyToManyField(Tag, blank=True)
+    delivery_points = geo_models.MultiPointField(default="MULTIPOINT(72.8258 18.9647)")
     
+    geo_objects = geo_models.GeoManager()
     objects = StoreManager()  # default manager
     everything = models.Manager()
     
@@ -170,9 +173,12 @@ class Store(models.Model):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
 
-class DeliveryLocation(models.Model):
-    name = models.CharField(max_length=100)
-    store = models.ForeignKey(Store,blank=True)
+class DeliveryLocation(geo_models.Model):
+    name = geo_models.CharField(max_length=100)
+    store = geo_models.ForeignKey(Store,blank=True)
+    point = geo_models.PointField(default="POINT(72.8258 18.9647)")    
+    
+    objects = geo_models.GeoManager()
 
     def __unicode__(self):
         return self.name

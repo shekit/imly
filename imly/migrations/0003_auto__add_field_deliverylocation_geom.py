@@ -8,23 +8,15 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Deleting field 'Product.is_active'
-        db.delete_column(u'imly_product', 'is_active')
-
-        # Adding field 'Product.is_deleted'
-        db.add_column(u'imly_product', 'is_deleted',
-                      self.gf('django.db.models.fields.BooleanField')(default=False),
+        # Adding field 'DeliveryLocation.geom'
+        db.add_column(u'imly_deliverylocation', 'geom',
+                      self.gf('django.contrib.gis.db.models.fields.MultiPointField')(default='MULTIPOINT(0 0)', blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
-        # Adding field 'Product.is_active'
-        db.add_column(u'imly_product', 'is_active',
-                      self.gf('django.db.models.fields.BooleanField')(default=True),
-                      keep_default=False)
-
-        # Deleting field 'Product.is_deleted'
-        db.delete_column(u'imly_product', 'is_deleted')
+        # Deleting field 'DeliveryLocation.geom'
+        db.delete_column(u'imly_deliverylocation', 'geom')
 
 
     models = {
@@ -76,6 +68,23 @@ class Migration(SchemaMigration):
             'super_category': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'sub_categories'", 'null': 'True', 'to': u"orm['imly.Category']"}),
             'tags': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Tag']", 'symmetrical': 'False', 'blank': 'True'})
         },
+        u'imly.cheftip': {
+            'Meta': {'object_name': 'ChefTip'},
+            'create': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
+            'description': ('django.db.models.fields.TextField', [], {}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '50'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'tip_contact_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'your_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'imly.deliverylocation': {
+            'Meta': {'object_name': 'DeliveryLocation'},
+            'geom': ('django.contrib.gis.db.models.fields.MultiPointField', [], {'blank': 'True'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']", 'blank': 'True'})
+        },
         u'imly.location': {
             'Meta': {'ordering': "['name']", 'object_name': 'Location'},
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -86,9 +95,9 @@ class Migration(SchemaMigration):
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'})
         },
         u'imly.product': {
-            'Meta': {'ordering': "['-date_created']", 'unique_together': "(('name', 'store'),)", 'object_name': 'Product'},
+            'Meta': {'ordering': "['position', 'store']", 'unique_together': "(('name', 'store'),)", 'object_name': 'Product'},
             '_unit_price': ('django.db.models.fields.DecimalField', [], {'max_digits': '18', 'decimal_places': '0'}),
-            'capacity_per_month': ('django.db.models.fields.IntegerField', [], {}),
+            'capacity_per_day': ('django.db.models.fields.IntegerField', [], {}),
             'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Category']"}),
             'currency': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
@@ -96,7 +105,6 @@ class Migration(SchemaMigration):
             'description_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100'}),
-            'initial_cpm': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'is_bestseller': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_deleted': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -104,6 +112,8 @@ class Migration(SchemaMigration):
             'lead_time': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'lead_time_unit': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'position': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
+            'previous_cpd': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'quantity_by_price': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'quantity_per_item': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
@@ -115,15 +125,19 @@ class Migration(SchemaMigration):
         u'imly.store': {
             'Meta': {'ordering': "['-date_created']", 'object_name': 'Store'},
             'categories': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Category']", 'symmetrical': 'False', 'blank': 'True'}),
+            'cover_photo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'delivery_areas': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Location']", 'symmetrical': 'False', 'blank': 'True'}),
+            'delivery_points': ('django.contrib.gis.db.models.fields.MultiPointField', [], {}),
             'description': ('django.db.models.fields.TextField', [], {}),
             'description_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'facebook_link': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'is_approved': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'is_featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'is_open': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'owner': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'pick_up': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -150,10 +164,14 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'UserProfile'},
             'about_me': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
+            'cover_profile_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
-            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
+            'word_one': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
+            'word_three': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
+            'word_two': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'})
         },
         u'reviews.revieweditem': {
             'Meta': {'ordering': "('date_added',)", 'object_name': 'ReviewedItem'},
