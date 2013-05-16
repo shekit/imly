@@ -221,20 +221,12 @@
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-
-
         <script type="text/javascript">
+
             $(document).ready(function(){
-            defaultBounds = new google.maps.LatLngBounds(
-                new google.maps.LatLng(18.89330870,72.77590560),
-                new google.maps.LatLng(19.26952240,72.98005230)
-                );
-            input = document.getElementById('id_deliverylocation_set-0-name');
-            option = {
-                bounds:defaultBounds,
-            };
-            autocomplete = new google.maps.places.Autocomplete(input,option);
+            
             $("#sortable").sortable({
                 update:function(event,ui){
                     var serial = $('#sortable').sortable('serialize',{handle:".handle"});
@@ -244,16 +236,57 @@
                 }).disableSelection();
             });
             
-                !function ($) {
-                    $(function(){
 
-                        
-                        
+		
+		/*		
+                $("#sortable").sortable({
+                    update:function(event,ui){
+                        var serial = $('#sortable').sortable('serialize',{handle:".handle"});
+                        //alert(serial);
+                        $.ajax({url:"/account/store/sort_product/",type:"post",data:serial});
+                    },
+                	}).disableSelection();
+				});
+  */          
+
+                !function ($) {
+					
+                    $(function(){
                         //$('#sortable').sortable({items:"> tr"});
                         //$('#sortable').disableSelection();
-            
-
-                        //expanding, contracting stor info
+					
+						
+        				$('#location_autocompleter').keydown(function(event){
+        					if(event.keyCode==13){
+								alert('now I reach here')
+        						event.preventDefault();
+								return false;
+        					}
+        				});
+						var default_bounds = new google.maps.LatLngBounds(
+								new google.maps.LatLng(19.26, 72.98),
+								new google.maps.LatLng(18.89, 72.775)); 
+						var google_map_api_options = {
+							bounds: default_bounds,
+				//			types: ['(regions)'], 
+							componentRestrictions: {country: 'in'}
+						};
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_autocompleter'), google_map_api_options);
+						google.maps.event.addListener(autocomplete, 'place_changed', function(event){
+							var place = autocomplete.getPlace();
+							if(!place.geometry){
+								alert('whats that?')
+							}else{
+								var count = $('.delivery_locations').children().length;
+								var markup = $('#delivery_location_template').html()
+								var compiled = _.template(markup, {id: count, place: JSON.stringify(place), name: place.formatted_address});
+								$('div.delivery_locations').append(compiled);
+								$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
+							}
+						});
+						
+						
+						//expanding, contracting stor info
                         $("div.expandable").expander({
                         slicePoint: 140,
                         expandEffect: 'slideDown',

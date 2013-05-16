@@ -1,9 +1,11 @@
 import os
 from django.db import models
 from django.contrib.gis.db import models as geo_models
+from django.contrib.gis.geos import Point, Polygon
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib.contenttypes import generic
+from plata.fields import JSONField
 from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
@@ -163,7 +165,7 @@ class Store(geo_models.Model):
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
         self.slug = slugify(self.name)
-        super(Store, self).save(*args, **kwargs)
+        return super(Store, self).save(*args, **kwargs)
 
     def reset_tags(self):
       self.tags.clear()
@@ -175,14 +177,21 @@ class Store(geo_models.Model):
 
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
-    store = geo_models.ForeignKey(Store,blank=True)
-    point = geo_models.PointField(default="POINT(72.8258 18.9647)")    
+    store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')
+    location = geo_models.PointField(default="POINT(72.8258 18.9647)", blank=True)    
+    bounds = geo_models.PolygonField(default=Polygon.from_bbox((19.26952240, 72.98005230, 18.89330870, 72.77590560)).wkt, blank=True)
+    data = JSONField(blank=True, help_text="JSON encoded data collected from google", default="{}")
     
     objects = geo_models.GeoManager()
 
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        if not self.data:
+            self.data="{}" 
+        return super(DeliveryLocation, self).save(*args, **kwargs)
+        
 class Product(ProductBase, PriceBase):
     #Product Details
     HOUR = 1
