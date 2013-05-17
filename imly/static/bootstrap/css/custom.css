@@ -934,7 +934,36 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
-/* STORE ORDER TABLES */
+/* CHEF PROFILE PAGE */
+
+.hero_chef_profile {
+
+    background-color: #fcfcfc;
+    border-top: 1px solid #d1d2d4;
+    border-bottom: 1px solid #e5e5e5;    
+}
+
+.chef_profile {
+    padding-right:15px;
+}
+
+.chef_profile_para{
+    color: white;
+    background: rgba(240,90,45,0.9);
+    padding-left:30px;
+    padding-right:30px;
+    text-align: center;
+    text-shadow: none;
+}
+
+.about_chef {
+    font-weight: 200;
+}
+
+.best_dish {
+    margin:0px;
+    padding:0px;
+}
 
 
 /* MEDIA QUERIES */
