@@ -122,6 +122,9 @@ body {
 	border-right: 1px solid #e5e5e5;
     }
 
+    .hand_pointer {
+	cursor: pointer;
+    }
 
     /* Offset the responsive button for proper vertical alignment */
     .navbar .btn-navbar {
@@ -374,7 +377,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	text-align:center;
 }
 
-.thumbnail {
+.thumbnail_custom {
 
 padding: 0px;
 -webkit-border-radius: 0px 0px 5px 5px;
@@ -389,7 +392,7 @@ box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
 transition: all 0.2s ease-in-out;
 }
 
-.thumbnail:hover {
+.thumbnail_custom:hover {
     border: 1px solid #bbb;
 }
 

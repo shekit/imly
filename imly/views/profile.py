@@ -10,6 +10,7 @@ from imly.models import Product, Category, Store, Tag, Location, UserProfile
 from plata.shop.models import Order, OrderItem
 from django.core.exceptions import ValidationError
 from allauth.account.forms import LoginForm, SignupForm
+from allauth.account.utils import complete_signup
     
 class ProfileInfo(DetailView):
     model = UserProfile
@@ -30,12 +31,16 @@ class ChefProfile(DetailView):
     template_name = "chef_profile.html"
     
     
+class ProfileList(ListView):
+    model = UserProfile
+    template_name = "imly_profiles.html"
+    paginate_by = 12
 
 class ProfileCreate(CreateView):
     form_class = UserProfileForm
     model = UserProfile
     template_name = "imly_create_profile.html"
-    success_url = "/account/my_profile/"
+    success_url = "/account/my-profile/"
     
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -46,7 +51,7 @@ class EditProfile(UpdateView):
     form_class = UserProfileForm
     model = UserProfile
     template_name = "imly_edit_profile.html"
-    success_url = "/account/my_profile/"
+    success_url = "/account/my-profile/"
 
 def give_us_tip(request):
     if request.method == 'POST':
@@ -61,12 +66,12 @@ def give_us_tip(request):
 def modal_login(request, **kwargs):
     
    # redirect_field_name = kwargs.pop("next")
-    
     if request.method == "POST":
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
-            login_form.login(request, redirect_url="/food/")
-            return HttpResponse(request.META["HTTP_REFERER"])
+            next = request.POST["next"]
+            login_form.login(request, redirect_url=next)
+            return HttpResponse(next)
         response = render(request,"login_error.html",locals())
         response.status_code = 400 
         return response
@@ -77,7 +82,9 @@ def modal_signup(request, **kwargs):
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
             user = signup_form.save(request)
-            return HttpResponse(request.META["HTTP_REFERER"])
+            next = request.POST["next"]
+            complete_signup(request, user, "/food/")
+            return HttpResponse(next)
         response = render(request, "signup_error.html", locals())
         response.status_code = 400
         return response

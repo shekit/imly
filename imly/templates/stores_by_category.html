@@ -91,7 +91,7 @@
         {% for object in object_list %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
                 <li class="span4">
-                    <div class="thumbnail">
+                    <div class="thumbnail thumbnail_custom">
                         {% if object.logo %}
                             <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></a>
                         {% else %}
