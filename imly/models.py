@@ -1,4 +1,6 @@
+from plata.shop.models import Order
 import os
+from datetime import date
 from django.db import models
 from django.contrib.gis.db import models as geo_models
 from django.contrib.gis.geos import Point, Polygon
@@ -144,7 +146,7 @@ class Store(geo_models.Model):
     store_notice = models.TextField(blank=True)
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
-    
+    orders = models.ManyToManyField(Order, through='StoreOrder')
     tags = models.ManyToManyField(Tag, blank=True)
     delivery_points = geo_models.MultiPointField(default="MULTIPOINT(72.8258 18.9647)")
     
@@ -286,6 +288,18 @@ class Product(ProductBase, PriceBase):
         if change:  # continued managing stock for the product
             self.stock_transactions.create(period=Period.objects.current(), type=transaction_type, change=change)
             self.stock_transactions.items_in_stock(self, update=True)
+
+class StoreOrder(models.Model):
+    store = models.ForeignKey(Store)
+    order = models.ForeignKey(Order)
+    delivered_on = models.DateTimeField(default=date.today())
+    store_total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
+    created = models.DateTimeField(auto_now = True)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.store.name
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)

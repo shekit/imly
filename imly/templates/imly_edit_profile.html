@@ -1,13 +1,17 @@
-{% extends "base_account_manage.html" %}
+{% extends "base_store_manage.html" %}
 
-{% block manage_account_navigation %}
-		<li class="active"><a href="#">Profile</a></li>
-		<li><a href="#">My Orders</a></li>
-		<li><a href="#">Past Orders</a></li>
-		
-{% endblock manage_account_navigation %}
+{% block manage_store_navigation %}
 
-{% block account_content %}
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    <li class="active"><a href="">Profile</a></li>
+                  
+{% endblock manage_store_navigation %}
+
+
+
+{% block shop_content %}
    <h4>Edit Profile</h4>
    <br>
     
@@ -24,4 +28,4 @@
 	</div>
 
 
-{% endblock account_content %}
+{% endblock shop_content %}

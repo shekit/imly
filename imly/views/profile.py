@@ -35,7 +35,7 @@ class ProfileCreate(CreateView):
     form_class = UserProfileForm
     model = UserProfile
     template_name = "imly_create_profile.html"
-    success_url = "/account/my_profile/"
+    success_url = "/account/my-profile/"
     
     def form_valid(self,form):
         form.instance.user = self.request.user
@@ -46,7 +46,7 @@ class EditProfile(UpdateView):
     form_class = UserProfileForm
     model = UserProfile
     template_name = "imly_edit_profile.html"
-    success_url = "/account/my_profile/"
+    success_url = "/account/my-profile/"
 
 def give_us_tip(request):
     if request.method == 'POST':
