@@ -60,7 +60,7 @@
                                                     </ul>
                                               </li>
                                           {% else %}
-                                              <li><a class="border_right" href="{% url "account_login" %}">Sign In</a></li>
+                                              <li><a href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
                                           {% endif %}
       
                     </ul>
@@ -122,7 +122,7 @@
                     <ul class="thumbnails">
                     {% for product in bestselling_products %}
                     <li class="span3">
-                        <div class="thumbnail">
+                        <div class="thumbnail thumbnail_custom">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
                             <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
                         </div>
@@ -144,7 +144,7 @@
                     {% for store in featured_stores %}
                         
                         <li class="span3">
-                            <div class="thumbnail">
+                            <div class="thumbnail thumbnail_custom">
                                 {% if store.logo %}
                                     <a href="{% url "imly_store_detail" store.slug %}"><img class="bottom_border" src="{{ store.logo_thumbnail.url }}" alt="{{ store.name }}"></a>
                                 {% else %}
@@ -179,7 +179,6 @@
                 <div class="span2"></div>
                 <div class="span8 as_seen_on">
                         <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on.png" alt="As seen in the press"></span>
-
                 </div>
                 <div class="span2"></div>
             </div>
@@ -190,6 +189,10 @@
             <br><br><br>            
         </div>
     
+            {% block login %}
+            {% include "modal_signup.html" %}   
+            
+        {% endblock login %}
     
     <footer class="container-fluid bgfull footer">
             <div class="container">
@@ -202,13 +205,14 @@
                                 <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
                                 <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
                                 <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
+                                <li><a href="http://blog.imly.in/" target="blank">Blog</a></li>
                                 <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
                             </ul></small>
                         </div>
                         <div class="span5">
                             <small><p class="text-right">Know an amazing home chef? We'd love to know.
-                            <a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>                    
+                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>
+                            {% include 'tip_form.html' %}
                         </div>
                     </div>
                     <br>
@@ -217,9 +221,9 @@
                             <ul class="unstyled text-center">
                                 <li>
                                     <ul class="inline">
-                                        <li><a href="https://twitter.com/imly_in"><div class="social_logo twitter"></div></a></li>
-                                        <li><a href="https://facebook.com/imly.in"><div class="social_logo facebook"></div></a></li>
-                                        <li><a href="http://blog.imly.in/"><div class="social_logo tumblr"></div></a></li>
+                                        <li><a href="https://twitter.com/imly_in"  target="blank"><div class="social_logo twitter"></div></a></li>
+                                        <li><a href="https://facebook.com/imly.in"  target="blank"><div class="social_logo facebook"></div></a></li>
+                                        <li><a href="http://blog.imly.in/" target="blank"><div class="social_logo tumblr"></div></a></li>
                                     </ul>
                                 </li>
                                 <li><small>Cooked with <span class="icon-heart icon-white"></span> by Imly</li>
@@ -240,7 +244,52 @@
           // carousel demo
           $('#myCarousel').carousel({
                 interval: 4000
-          })
+          });
+          
+          $("#givetip").click(function(){
+                            $("#tip").modal();
+                            $('#tip_form')[0].reset();
+                        });
+                        
+                        $('#tip_form').submit(function(){
+                            
+                            //alert("Submit");
+                            var form_data = $(this).serialize()
+                            $.post('/give_us_tip/', form_data, function(data){   
+                                $('#tip').modal('hide');
+                                $('#tip_form').find("input[type=text], textarea").val("");
+                            })
+                            .error(function(data){$('#tip_form_body').html(data.responseText);});
+                            $('#tip_form')[0].reset();
+                            return false;
+                        });
+                        
+                        $("#login_form").submit(function(){
+                            
+                            var form_data = $(this).serialize();
+                            $.post("/login-x/", form_data, function(data){
+                                window.location.href = data;
+                            })
+                            .error(function(data){$("#login_form").html(data.responseText);});
+                            return false;
+                        });
+                  
+                        $("#signup_form").submit(function(){
+                            
+                            var form_data = $(this).serialize();
+                            $.post("/signup-x/", form_data, function(data){
+                                window.location.href = data;  
+                            })
+                            .error(function(data){$("#signup_form").html(data.responseText);});
+                            return false;
+                        });
+                        
+                        $(".open_your_shop").on("click",function(){
+                            $(".redirect_path").attr("value","{% url "imly_store_info" %}");
+                            $("#myModal").modal();
+
+                        });
+                        
         })
       }(window.jQuery)
     </script>

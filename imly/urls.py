@@ -4,7 +4,7 @@ from imly.models import Product, Store, Category, Location
 
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile,status
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
-from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile
+from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location
 from imly.views.orders import UserOrders, StoreOrders
 from plata.contact.models import Contact
@@ -49,6 +49,7 @@ urlpatterns = patterns('',
     url(r"^why-join-imly/$", why_open_your_shop, name="why_open_your_shop"),
     url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
     url(r"^chef-profile/$", chef_profile, name="chef_profile"),
+    url(r"^profiles/$", ProfileList.as_view(), name="imly_profiles"),
     url(r"^profiles/(?P<slug>[-\w]+)/$", ChefProfile.as_view(), name="chef_profile"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),
     url(r"^account/store/details/$", login_required(StoreInfoDetail.as_view()), name ="imly_store_info"),

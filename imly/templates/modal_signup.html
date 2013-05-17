@@ -44,6 +44,7 @@
                                     <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
                                         {% csrf_token %}
                                         {% load widget_tweaks %}
+                                        <input class="redirect_path" type="hidden" name="next" value="{{ request.path }}">
                                         {% if login_form.non_field_errors %}
                                         <div class="row-fluid">
                                             <div class="span12">
@@ -120,7 +121,7 @@
                             {% else %}
                                 <form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
                                 {% csrf_token %}
-                           
+                           <input class="redirect_path" type="hidden" name="next" value="{{ request.path }}">
                             {% load widget_tweaks %}
                             
                             {% if signup_form.non_field_errors %}

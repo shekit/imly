@@ -26,8 +26,8 @@ def get_image(instance,filename):
         filename = "%s.%s" % (uuid.uuid4(), ext)
         store_name = instance.user.store.slug
         return os.path.join("images",store_name, filename)
-    else:
-        return os.path.join(STATIC_ROOT,"/star-rating/image.jpg")
+    #else:
+     #   return os.path.join(STATIC_ROOT,"/star-rating/image.jpg")
 
 
 def get_image_path(instance,filename):

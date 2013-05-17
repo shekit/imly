@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Products{% endblock title %}
+{% block title %}Chef Profiles{% endblock title %}
 
                 {% block sidebar_nav %}
                     {% load imly_tags %}
@@ -99,49 +99,31 @@
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% for object in object_list %}
-        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-        <li class="span4">
+        {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
+        <li class="span6">
             <div class="thumbnail thumbnail_custom">
-                <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
+                <a href="{% url "chef_profile" object.slug %}">
                     <div class="sold_out">
-                        <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
-                        {% if not object.items_in_stock %}
+                        <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
+                        {% if object.is_featured %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         
                     </div>
                 </a>
-                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
-                <div class="thumbnail_info_wrapper">
-                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
-                        {% if object.quantity_per_item == 1 %}
-                            /{{ object.get_quantity_by_price_display }}
-                        {% else %}
-                            for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
-                        {% endif %} 
-                    </small></span>
-                    {% if object.store.is_open %}
-                        {% if object.items_in_stock %}
-                            <form method="post" action="{% url "imly_add_order" object.slug %}">
-                            {% csrf_token %}
-                                <input type="hidden" name="quantity" value="1">
-                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
-                            </form>
-                        {% else %}
-                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
-                        {% endif %}
-                    {% else %}
-                        <small class="ultra_small muted pull-right">Chef on Leave</small>
-                    {% endif %}
+                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "chef_profile" object.slug %}">{{ object.first_name }} {{ object.last_name }}</a></h5>
+                <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.user.store.get_absolute_url }}">{{ object.user.store.name|upper }}</a></small></p>
+                
+                    
                 
                     <div class="clearfix"></div>
-                </div>
             </div>
         </li>
-        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
     </ul>
+
 {% else %}
     <br><br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>

@@ -46,7 +46,7 @@
                                             <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                         {% endif %}
                                     {% else %}
-                                        <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                        <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
                                     {% endif %}
                                     
                                     {% if user.is_authenticated %}
@@ -65,7 +65,8 @@
                                             </ul>
                                         </li>
                                     {% else %}
-                                        <li><a href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
+                                        
+                                        <li>{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
                                     {% endif %}
                                     <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
                                     
@@ -199,7 +200,7 @@
                                 <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
                                 <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
                                 <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
+                                <li><a href="http://blog.imly.in/" target="blank">Blog</a></li>
                                 <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
                             </ul></small>
                         </div>
@@ -208,7 +209,6 @@
                             
                             <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>
                             {% include 'tip_form.html' %}
-                            <!--<a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>-->
                         </div>
                     </div>
                     <br>
@@ -217,9 +217,9 @@
                             <ul class="unstyled text-center">
                                 <li>
                                     <ul class="inline">
-                                        <li><a href="https://twitter.com/imly_in"><div class="social_logo twitter"></div></a></li>
-                                        <li><a href="https://facebook.com/imly.in"><div class="social_logo facebook"></div></a></li>
-                                        <li><a href="http://blog.imly.in/"><div class="social_logo tumblr"></div></a></li>
+                                        <li><a href="https://twitter.com/imly_in" target="blank"><div class="social_logo twitter"></div></a></li>
+                                        <li><a href="https://facebook.com/imly.in" target="blank"><div class="social_logo facebook"></div></a></li>
+                                        <li><a href="http://blog.imly.in/" target="blank"><div class="social_logo tumblr"></div></a></li>
                                     </ul>
                                 </li>
                                 <li><small>Cooked with <span class="icon-heart icon-white"></span> by Imly</li>
@@ -401,6 +401,7 @@
                             var form_data = $(this).serialize();
                             $.post("/login-x/", form_data, function(data){
                                 window.location.href = data;
+                                //alert('Howdy')
                             })
                             .error(function(data){$("#login_form").html(data.responseText);});
                             return false;
@@ -416,6 +417,16 @@
                             return false;
                         });
 
+                        $("#open_your_shop").on("click",function(){
+                            $(".redirect_path").attr("value","{% url "imly_store_info" %}");
+                            $("#myModal").modal();
+
+                        });
+                        
+                        $("#from_logout").on("click", function(){
+                            $(".redirect_path").attr("value","{% url "imly_product_list" %}");
+                            $("#myModal").modal();
+                        });
                         
                                 
                     })

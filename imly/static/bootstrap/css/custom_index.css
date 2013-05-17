@@ -188,26 +188,26 @@ legend {
 	background: #fff;
     }
     
-    .thumbnail {
+    .thumbnail_custom {
 
-padding: 0px;
--webkit-border-radius: 0px 0px 5px 5px;
--moz-border-radius: 0px 0px 5px 5px;
-border-radius: 0px 0px 5px 5px;
--webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
--moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
--webkit-transition: all 0.2s ease-in-out;
--moz-transition: all 0.2s ease-in-out;
--o-transition: all 0.2s ease-in-out;
-transition: all 0.2s ease-in-out;
-}
+	padding: 0px;
+	-webkit-border-radius: 0px 0px 5px 5px;
+	-moz-border-radius: 0px 0px 5px 5px;
+	border-radius: 0px 0px 5px 5px;
+	-webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+	-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+	box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+	-webkit-transition: all 0.2s ease-in-out;
+	-moz-transition: all 0.2s ease-in-out;
+	-o-transition: all 0.2s ease-in-out;
+	transition: all 0.2s ease-in-out;
+	}
 
 img.bottom_border {
     border-bottom: 1px solid #e5e5e5;
 }
 
-.thumbnail:hover {
+.thumbnail_custom:hover {
     border: 1px solid #bbb;
 }
     
@@ -455,6 +455,94 @@ img.bottom_border {
     padding-top: 20px;
     margin-bottom:50px;
 }
+
+.hand_pointer {
+    cursor: pointer;    
+}
+
+/* MODAL SIGNUP WINDOW */
+.login_modal {
+    width:450px;
+    margin-left:-225px;
+}
+
+.modal_login_header {
+    border-bottom:none;
+    padding-top:0px;
+    padding-bottom:5px;
+    padding-left:0px;
+    padding-right:10px;
+}
+
+.modal_window_header {
+    margin: 5px 0px;
+}
+
+.modal-header .extra_top_margin {
+    margin-top:10px;
+}
+
+.form-horizontal .control-group {
+    margin-bottom:15px;
+}
+
+.modal-header a{
+    color:#bbb;
+}
+
+.modal-header a:hover {
+    color:#666;
+}
+
+
+.nav-tabs > .active > a,
+.nav-tabs > .active > a:hover,
+.nav-tabs > .active > a:focus{
+	color: #F05A28;    
+}
+
+/* GIVE A TIP FORM */
+.tip_modal {
+    color: #333;
+    width:300px;
+    margin-left:-150px;
+}
+
+.tip_modal_form {
+    margin: 0px;
+}
+
+.tip_form_ul > li {
+    padding:10px 0px;
+}
+
+.tip_form_ul > li > label {
+    font-weight: 300;
+}
+
+.tip_modal_header {
+    background: #f5f5f5;
+}
+
+.tip_modal_heading {
+    color:#f05a28;
+    text-shadow: 1px 1px #fff;
+}
+
+ul.errorlist {
+	list-style: none;
+	margin:5px 0px;
+	padding:0px;
+}
+
+ul.errorlist > li {
+	color:#ff7752;
+	margin-left: 0px;
+	font-style: italic;
+	
+
+}
+
 
 /* CHEF PROFILE PAGE */
 

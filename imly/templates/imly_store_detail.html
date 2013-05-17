@@ -112,7 +112,7 @@
         {% if not product.is_deleted %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
-            <div class="thumbnail">
+            <div class="thumbnail thumbnail_custom">
                 <a href="{% url "imly_product_detail" object.slug product.slug %}">
                     <div class="sold_out">
                         <img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}">

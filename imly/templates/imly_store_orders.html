@@ -30,6 +30,7 @@
                     {% endif %}
                     {# tomorrows orders #}
                     {% if tomorrow %}
+                    <br>
                     <h4 class="muted"><span class="orange">TOMORROW's</span> orders</h4>
                     {% with tomorrow as orders %}
                         {% include '_order_table.html' %}
@@ -37,7 +38,9 @@
                     {% endif %}
                     {# newer orders #}
                     {% if newer %}
+                    
                     {% for dater, date_orders in newer %}
+                        <br>
                     <h4 class="muted"><span class="orange">{{ dater|date:"F j"|upper }}</span> orders</h4>
                         {% with date_orders as orders %}
                             {% include '_order_table.html' %}
