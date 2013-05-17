@@ -186,11 +186,6 @@ class DeliveryLocation(geo_models.Model):
 
     def __unicode__(self):
         return self.name
-
-    def save(self, *args, **kwargs):
-        if not self.data:
-            self.data="{}" 
-        return super(DeliveryLocation, self).save(*args, **kwargs)
         
 class Product(ProductBase, PriceBase):
     #Product Details

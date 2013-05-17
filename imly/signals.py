@@ -1,5 +1,4 @@
 from django.dispatch import receiver
-
 import decimal
 from datetime import timedelta
 from django.db.models import Max
@@ -8,9 +7,15 @@ from django.core.mail import send_mail
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
-from imly.models import Product, Store
+from imly.models import Product, Store,DeliveryLocation
 from django.contrib.sites.models import Site
-from django.contrib.auth.models import User
+from django.contrib.gis.geos import Point
+
+@receiver(pre_save,sender=DeliveryLocation)
+def set_locattion_point(sender,instance,**kwargs):
+	point = Point(instance.data['geometry']['location']['kb'], instance.data['geometry']['location']['jb'])
+	if instance.location.x != point.x and instance.location.y != point.y:
+		instance.location.x, instance.location.y = point.x, point.y
 
 @receiver(pre_save,sender=Order)
 def set_store_info(sender,instance,**kwargs):
@@ -115,9 +120,3 @@ def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
 def send_store_mail(sender,instance,created, **kwargs):
     if created and Site.objects.get_current().domain == 'imly.in':
         send_mail("Store added - Awaiting Confirmation @%s" % (Site.objects.get_current(), ),"Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
-
-@receiver(pre_save, sender=User)
-def create_first_name_from_email(sender,instance,**kwargs):
-    email = instance.email
-    first_name_from_email = email.split("@")[0]
-    instance.first_name = first_name_from_email

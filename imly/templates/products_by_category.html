@@ -120,15 +120,18 @@
                             for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
                         {% endif %} 
                     </small></span>
-                    
-                    {% if object.items_in_stock %}
-                    <form method="post" action="{% url "imly_add_order" object.slug %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="quantity" value="1">
-                        <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
-                    </form>
+                    {% if object.store.is_open %}
+                        {% if object.items_in_stock %}
+                            <form method="post" action="{% url "imly_add_order" object.slug %}">
+                            {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                            </form>
+                        {% else %}
+                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        {% endif %}
                     {% else %}
-                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        <small class="ultra_small muted pull-right">Chef on Leave</small>
                     {% endif %}
                 
                     <div class="clearfix"></div>

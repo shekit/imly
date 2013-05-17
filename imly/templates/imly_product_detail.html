@@ -93,24 +93,27 @@
             {% else %}
                 <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> for {{object.quantity_per_item}} {{ object.get_quantity_by_price_display }}s</small></h4>
             {% endif %}
-            
-            {% if object.items_in_stock %}
-                {% if messages %}
-                    <ul class="messages unstyled">
-                        {% for message in messages %}
-                            {% if "error" in message.tags %}
-                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+            {% if object.store.is_open %}
+                {% if object.items_in_stock %}
+                    {% if messages %}
+                        <ul class="messages unstyled">
+                            {% for message in messages %}
+                                {% if "error" in message.tags %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                <form method="post" action="{% url "imly_add_order" object.slug %}">
+                {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" class="btn btn-success" value="Add to Cart">
+                </form>
+                {% else %}
+                    <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
                 {% endif %}
-            <form method="post" action="{% url "imly_add_order" object.slug %}">
-            {% csrf_token %}
-                {{ form.as_p }}
-             <input type="submit" class="btn btn-success" value="Add to Cart">
-            </form>
             {% else %}
-                <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
+                <h4 class="muted all_out">Cheff is out-off Station. He/She shut the store.<br><br>Come back <span class="orange">when store open.</span></h4>
             {% endif %}
         </div>
     </div>

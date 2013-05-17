@@ -133,15 +133,18 @@
                         {% endif %} 
                     </small></span>
                     
-                    
-                    {% if product.items_in_stock %}
-                    <form method="post" action="{% url "imly_add_order" product.slug %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="quantity" value="1">
-                        <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
-                    </form>
+                    {% if product.store.is_open %}
+                        {% if product.items_in_stock %}
+                            <form method="post" action="{% url "imly_add_order" product.slug %}">
+                            {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                            </form>
+                        {% else %}
+                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        {% endif %}
                     {% else %}
-                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        <small class="ultra_small muted pull-right">Cheff on Leave</small>
                     {% endif %}
                     <div class="clearfix"></div>
                 </div>
