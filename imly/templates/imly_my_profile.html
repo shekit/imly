@@ -1,17 +1,17 @@
-{% extends "base_account_manage.html" %}
+{% extends "base_store_manage.html" %}
 
-{% block manage_account_navigation %}
-		<li class="active"><a href="#">Profile</a></li>
-		{% if user.orders %}
-            <li><a href="{% url "imly_user_orders" user.id %}">My Orders</a></li>
-        {% else %}
-            <li><a href="#">My Orders</a></li>
-        {% endif %}
-		<li><a href="#">Past Orders</a></li>
-		
-{% endblock manage_account_navigation %}
+{% block manage_store_navigation %}
 
-{% block account_content %}
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    <li class="active"><a href="">Profile</a></li>
+                  
+{% endblock manage_store_navigation %}
+
+
+
+{% block shop_content %}
 <!--<h5>Profile</h5>
 Owner : {{owner|capfirst}}<br/>-->
 
@@ -49,6 +49,6 @@ Owner : {{owner|capfirst}}<br/>-->
                 </div>
         </div>
             	
-{% endblock account_content %}
+{% endblock shop_content %}
                
 <!-- should show product thumbnail -->

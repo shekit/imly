@@ -3,7 +3,7 @@ from decimal import Decimal
 import logging
 import re
 from datetime import timedelta
-
+from django.core.mail import send_mail,mail_admins
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import get_callable
@@ -173,13 +173,17 @@ class Order(BillingShippingAddress):
             try:
                 o = Order.objects.get(pk=self.pk)
                 max_lead_time = o.items.aggregate(max=Max('product__lead_time'))['max']
-                self.delivery_date = o.confirmed + timedelta(days=max_lead_time)
+                self.delivery_date = o.created + timedelta(days=max_lead_time)
                 order = Order.objects.exclude(_order_id='').order_by('-_order_id')[0]
                 latest = int(re.sub(r'[^0-9]', '', order._order_id))
             except (IndexError, ValueError):
                 latest = 0
 
             self._order_id = 'O-%09d' % (latest + 1)
+            '''if self.confirmed:
+                mail_admins("Ordre Confirmed.","Your order has confimed successfully and you Order id is %s" %self._order_id,fail_silently=False)'''
+                
+                #send_mail("Ordre Confirmed.","Your order has confimed successfully and you Order id is %s" %self._order_id,)
 
         super(Order, self).save(*args, **kwargs)
 

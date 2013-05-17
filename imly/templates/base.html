@@ -60,12 +60,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
                                                 <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
-                                                {% if user.userprofile %}
-                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% else %}
-                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% endif %}
-                                                <li class="divider"></li>
+                                                
                                                 <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
                                             </ul>
                                         </li>
@@ -241,7 +236,6 @@
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-        <script src="{{ STATIC_URL }}js/json2.js"></script>
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
@@ -253,7 +247,7 @@
                 update:function(event,ui){
                     var serial = $('#sortable').sortable('serialize',{handle:".handle"});
                         //alert(serial);
-                    $.ajax({url:"/account/store/sort_product/",type:"post",data:serial});
+                    $.ajax({url:"/account/store/sort-product/",type:"post",data:serial});
                 },
                 }).disableSelection();
             });

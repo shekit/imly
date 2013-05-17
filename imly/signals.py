@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
-from imly.models import Product, Store,DeliveryLocation
+from imly.models import Product, Store,DeliveryLocation,StoreOrder
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point
 
@@ -16,6 +16,16 @@ def set_locattion_point(sender,instance,**kwargs):
 	point = Point(instance.data['geometry']['location']['kb'], instance.data['geometry']['location']['jb'])
 	if instance.location.x != point.x and instance.location.y != point.y:
 		instance.location.x, instance.location.y = point.x, point.y
+
+@receiver(post_save,sender=Order)
+def set_store_order(sender,instance,**kwargs):
+	stores = {item.product.store for item in instance.items.all()}
+	for store in stores:
+		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
+		store_order.delivered_on = instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max=Max('product__lead_time'))['max'])
+		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
+		store_order.save()
+
 
 @receiver(pre_save,sender=Order)
 def set_store_info(sender,instance,**kwargs):
