@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Imly {% block title %}{% endblock title %}</title>
+        <title>{% block title %}Imly{% endblock title %}</title>
         {% load seo %}
         {% get_metadata %}
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -427,7 +427,6 @@
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                        
                                 
                     })
                 }(window.jQuery)

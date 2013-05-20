@@ -591,25 +591,7 @@ transition: all 0.2s ease-in-out;
 .profile_link:hover {
     color:red;
 }
-/* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
-.margined_product_detail_aside {
-	margin-bottom:4px;
-}
 
-/* customizing the This Item is: Tags in the product_detail page */
-.tags_for_product > li {
-	background: #F05A28;
-	border: 1px solid white;
-	border-radius: 5px;
-	color:white;
-}
-
-.tags_for_store_inverted > li {
-	background:#e6e6e6 ;
-	border: 1px solid white;
-	border-radius: 5px;
-	color:#F05A28;
-}
 /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
 .checkbox {
 	padding-left: 0;
@@ -877,6 +859,42 @@ select.location_list {
 
 }
 
+/* PRODUCT DETAIL PAGE */
+
+.product_detail_header {
+    font-weight: 300;
+    color: #999;
+}
+
+.product_detail_header_dark {
+    font-weight: 500;
+}
+
+.bordered_left_right {
+    border-left: 1px solid #e5e5e5;
+    border-right : 1px solid #e5e5e5;
+}
+
+/* properly spacing mini-thumbnails in product_detail aside section(other products sold by the store) */
+.margined_product_detail_aside {
+	margin-bottom:4px;
+}
+
+/* customizing the This Item is: Tags in the product_detail page */
+.tags_for_product > li {
+	border: 1px solid #e5e5e5;
+	background: #f9f9f9;
+	border-radius: 4px;
+	color:#f05a28;
+}
+
+.tags_for_store_inverted > li {
+	background:#e6e6e6 ;
+	border: 1px solid white;
+	border-radius: 5px;
+	color:#F05A28;
+}
+
 /* customizing star-rating on product detail page */
 ul.imly_star_rating > li{
     padding-left:0px;
@@ -884,7 +902,7 @@ ul.imly_star_rating > li{
 }
 
 .reviewer{
-    color: #ccc;
+    color: #999;
     font-style: italic;
 }
 
