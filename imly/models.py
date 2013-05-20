@@ -303,7 +303,7 @@ class StoreOrder(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
-        return self.store.name
+        return self.store.slug
 
 
 class UserProfile(models.Model):
