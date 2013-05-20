@@ -270,8 +270,11 @@ class Product(ProductBase, PriceBase):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
         if not self.pk:
-            product_count = Product.objects.filter(is_deleted = False)
-            self.position = product_count + 1
+            product_count = Product.objects.filter(is_deleted = False).count()
+            if product_count:
+                self.position = product_count + 1
+            else:
+                self.position = 0
             print self.position
         transaction_type = change = None
         if self.capacity_per_day != self.previous_cpd:  # managing the stock for current product
