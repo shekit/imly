@@ -123,15 +123,26 @@ class ProductDelete(DeleteView):
     success_url = "/account/store/products/"
     
     def delete(self, request, *args, **kwargs):
+        store = self.request.user.store
         self.object = self.get_object()
         self.object.is_deleted = True
+        if store.product_set.filter(is_deleted = True).count():
+            count = store.product_set.filter(is_deleted = True).count()
+            self.object.position = count + 1
+        else:
+            count = store.product_set.filter(is_deleted = False).count()
+            self.object.position = count + 100
+        print self.object.position
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
 @login_required
 def activate_product(request,product_id):
+    store = request.user.store
     product = get_object_or_404(Product,pk=product_id,store=request.user.store)
     product.is_deleted = False
+    count = store.product_set.filter(is_deleted = False).count()
+    product.position = count +1
     product.save()
     return HttpResponseRedirect("/account/store/products/")
 

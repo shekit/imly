@@ -25,6 +25,10 @@ def set_store_order(sender,instance,**kwargs):
 		store_order.delivered_on = instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max=Max('product__lead_time'))['max'])
 		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
 		store_order.save()
+		print "Store",store_order.store
+		print "Order",store_order.order
+		print "Delivered On", store_order.delivered_on
+		print "Store Total",store_order.store_total
 
 
 @receiver(pre_save,sender=Order)
