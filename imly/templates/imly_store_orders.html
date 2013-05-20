@@ -17,12 +17,14 @@
         
             
         <div class="row-fluid">
-    
+        
             {% if object_list.count %}
 
              <div class="span12">
                     {# todays orders #}
+                    
                     {% if today %}
+
                     <h4 class="muted"><span class="orange">TODAY's</span> orders</h4>
                     {% with today as orders %}
                         {% include '_order_table.html' %}
@@ -39,7 +41,7 @@
                     {# newer orders #}
                     {% if newer %}
                     
-                    {% for dater, date_orders in newer %}
+                    {% for dater, date_orders in newer reversed %}
                         <br>
                     <h4 class="muted"><span class="orange">{{ dater|date:"F j"|upper }}</span> orders</h4>
                         {% with date_orders as orders %}

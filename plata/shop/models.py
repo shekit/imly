@@ -171,9 +171,6 @@ class Order(BillingShippingAddress):
         
         if not self._order_id and self.status >= self.PAID:
             try:
-                o = Order.objects.get(pk=self.pk)
-                max_lead_time = o.items.aggregate(max=Max('product__lead_time'))['max']
-                self.delivery_date = o.created + timedelta(days=max_lead_time)
                 order = Order.objects.exclude(_order_id='').order_by('-_order_id')[0]
                 latest = int(re.sub(r'[^0-9]', '', order._order_id))
             except (IndexError, ValueError):
