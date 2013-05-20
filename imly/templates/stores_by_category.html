@@ -4,6 +4,8 @@
 
                 {% block sidebar_nav %}
                     {% load imly_tags %}
+                    
+                    {% comment %}
                     {% get_location_list %}
                     <select class="location_list">
                         <option value="all">Search by Location (All)</option>
@@ -12,7 +14,17 @@
                         {% endfor %}
                     </select>
                     <br>
+                    {% endcomment %}
+                
                     <div class="well sidebar-nav">
+                        <div class="span12">
+                            <ul class="inline text-center food_chef">
+                                <li><a href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url "imly_product_list" %}{% endif %}" class="food food_chef_inactive">Food</a></li>
+                                <li><a href="#" class="chef food_chef_active">Chef</a></li>
+                                <hr class="hr_less_margin">
+                            </ul>
+                        </div>
+                        
                         <ul class="nav nav-list">
                             {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
@@ -68,7 +80,7 @@
                 {% endblock sidebar_nav %}
 
 {% block shop_or_product %}
-
+                {% comment %}
                     <div class="row-fluid">
                         
                         <div class="span12 centered-pills">
@@ -82,6 +94,7 @@
                         </div>
                     
                     </div>
+                {% endcomment %}
 {% endblock shop_or_product %}
 
 {% block content %}
@@ -102,7 +115,7 @@
                     
                         <h5 class="store_list_name"><a class="top_text" href="{% url "imly_store_detail" object.slug %}">{{ object.name }}</a></h5><small class="muted"> by
                                             {% if object.owner.userprofile %}
-                                                <a class="sub_text" href="#"><u>{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}</u></a>
+                                                <a class="sub_text" href="{% url "chef_profile" object.owner.userprofile.slug %}"><u>{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}</u></a>
                                             {% else %}
                                                 {{ object.owner.username }}
                                             {% endif %}</small>

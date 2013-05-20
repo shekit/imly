@@ -197,11 +197,6 @@ body {
 	margin-top:-40px;
 }
 
-/* customizing the sidebar navigation */
-.well {
-	background: none;
-}
-
 /* overriding 1px white text shadow on all nav-list links, not needed because bg is white, distorts links on hover */
 .nav-list > li > a, .nav-list .nav-header {   
 	text-shadow: none;
@@ -229,6 +224,67 @@ input.large_location_search {
 
 .location_search {
     text-align: center;
+}
+
+
+/* customizing the sidebar navigation */
+.well {
+	background: none;
+}
+
+.food_chef{
+    padding:0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.hr_less_margin {
+    margin: 13px 0px;
+}
+
+ul.food_chef > li {
+    padding: 0px;
+}
+
+
+.food {
+
+    padding: 5px 20px;
+    border-radius: 4px 0px 0px 4px;
+}
+
+.chef {
+    padding: 5px 20px;
+    border-radius: 0px 4px 4px 0px;
+}
+
+.food_chef_active {
+    background: #ff7752;
+    color:#fff;
+    text-shadow: 1px 1px #f05a28;
+    -moz-box-shadow: inset 0px 0px 5px #f05a28;
+    -webkit-box-shadow: inset 0px 0px 5px #f05a28;
+    box-shadow: inset 0px 0px 5px #f05a28;
+}
+
+.food_chef_active:hover {
+    color: #fff;
+    text-decoration: none;
+    cursor: default;
+}
+
+.food_chef_inactive {
+    background: #f1f1f1;
+    color:#999;
+    text-shadow: 1px 1px #fafafa;
+}
+
+.food_chef_inactive:hover {
+    color:#f05a28;
+    text-decoration: none;
+    -moz-box-shadow: inset 0px 0px 5px #e2e2e2;
+    -webkit-box-shadow: inset 0px 0px 5px #e2e2e2;
+    box-shadow: inset 0px 0px 5px #e2e2e2;
 }
 
 
@@ -262,16 +318,16 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 .tags_for_product_home > li > a {
 	background: #e6e6e6;
-	border: 1px solid white;
-	border-radius: 5px;
+	
+	border-radius: 4px;
 	color:#F05A28;
 	padding: 2px 5px;
 }
 
 .tags_for_product_home > li > a:hover {
 	background: #F05A28;
-	border: 1px solid white;
-	border-radius: 5px;
+	
+	border-radius: 4px;
 	color:white;
 	text-decoration: none;
 }
@@ -279,16 +335,14 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 .tags_for_product_home_inverted > li > a {
 
 	background: #F05A28;
-	border: 1px solid white;
-	border-radius: 5px;
+	border-radius: 4px;
 	color:white;
 	padding: 2px 5px;
 }
 
 .tags_for_product_home_inverted > li > a:hover {
 	background: #e6e6e6;
-	border: 1px solid white;
-	border-radius: 5px;
+	border-radius: 4px;
 	color:#F05A28;
 	text-decoration: none;
 	
