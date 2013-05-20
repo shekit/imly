@@ -223,7 +223,7 @@ class Order(BillingShippingAddress):
         return sum((item.subtotal for item in self.items.all()), Decimal('0.00')).quantize(Decimal('0.00'))
 
     # below three properties are set to do store specific calculations
-    @property
+    """@property
     def store(self):
         return self.store_instance
 
@@ -235,7 +235,7 @@ class Order(BillingShippingAddress):
     def store_total(self):
         return sum((item.subtotal for item in self.items.filter(product__in=self.store.product_set.all())), Decimal('0.00')).quantize(Decimal('0.00'))
 
-        
+    """    
     @property
     def stores(self):
         return {item.product.store for item in self.items.all()}

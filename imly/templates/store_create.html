@@ -6,6 +6,11 @@
     <li class="disabled"><a href="#">Product Details</a></li>
 
     <li class="disabled"><a href="#">Order Details</a></li>
+    {% if request.user.userprofile %}
+        <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+    {% else %}
+        <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+    {% endif %}
 
     
                 

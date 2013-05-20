@@ -31,7 +31,7 @@ class ChefProfile(DetailView):
     template_name = "chef_profile.html"
     
     def get_queryset(self):
-        chef_profiles = UserProfile.objects.filter(user__in=Store.objects.filter(owner__in=User.objects.all()))
+        chef_profiles = UserProfile.objects.filter(user__in=Store.objects.is_approved().filter(owner__in=User.objects.all()))
         return chef_profiles
             
     
@@ -42,7 +42,7 @@ class ProfileList(ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        chef_profiles = UserProfile.objects.filter(user__in=Store.objects.filter(owner__in=User.objects.all()))
+        chef_profiles = UserProfile.objects.filter(user__in=Store.objects.is_approved().filter(owner__in=User.objects.all()))
         return chef_profiles
             
 

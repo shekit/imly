@@ -1,6 +1,7 @@
 from plata.shop.models import Order
 import os
 from datetime import date
+from django.db.models import Sum
 from django.db import models
 from django.contrib.gis.db import models as geo_models
 from django.contrib.gis.geos import Point, Polygon
@@ -264,7 +265,7 @@ class Product(ProductBase, PriceBase):
         
     @property
     def sale(self):
-        return self.capacity_per_day - self.items_in_stock
+        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).aggregate(sale_sum=Sum('change'))['sale_sum'])
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
