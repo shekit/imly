@@ -21,24 +21,25 @@ class StoreOrders(ListView):
 
     def get_queryset(self):
         store =  self.request.user.store
-        orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
-        return orders
+#        orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
+        return store.storeorder_set.all()
+        
 
     def get_context_data(self, **kwargs):
         context = super(StoreOrders, self).get_context_data(**kwargs)
         # simple approach to grouping, improve this later
         qs = self.get_queryset()
-        context['today'] = [order for order in qs.all() if order.delivery_date.date() == date.today()]
-        context['tomorrow'] = [order for order in qs.all() if order.delivery_date.date()  == date.today() + timedelta(days=1)]
+        context['today'] = [order for order in qs if (order.delivered_on.date() == date.today() and order.order.status == 60 )]
+        context['tomorrow'] = [order for order in qs if (order.delivered_on.date()  == date.today() + timedelta(days=1) and order.order.status == 60)]
         # setting the store in order to call order store total in template
-        for order in context['today'] + context['tomorrow']:
-            order.store = self.request.user.store
-        newer = [order for order in qs.all() if order.delivery_date.date() > date.today() + timedelta(days=1)]
+        '''for order in context['today'] + context['tomorrow']:
+            order.store = self.request.user.store'''
+        newer = [order for order in qs if (order.delivered_on.date() > date.today() + timedelta(days=1) and order.order.status == 60 )]
         dates = []
         context['newer'] = []
         for order in newer:
-            order.store = self.request.user.store # setting the store in order to call order store total in template
-            delivery_date = order.delivery_date.date() 
+            #order.store = self.request.user.store # setting the store in order to call order store total in template
+            delivery_date = order.delivered_on.date() 
             if delivery_date in dates:
                 context['newer'][dates.index(delivery_date)][1].append(order)
             else:

@@ -22,7 +22,7 @@ def set_store_order(sender,instance,**kwargs):
 	stores = {item.product.store for item in instance.items.all()}
 	for store in stores:
 		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
-		store_order.delivered_on = instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max=Max('product__lead_time'))['max'])
+		store_order.delivered_on = instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
 		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
 		store_order.save()
 		print "Store",store_order.store
@@ -31,7 +31,7 @@ def set_store_order(sender,instance,**kwargs):
 		print "Store Total",store_order.store_total
 
 
-@receiver(pre_save,sender=Order)
+#@receiver(pre_save,sender=Order)
 def set_store_info(sender,instance,**kwargs):
 	stores = {item.product.store for item in instance.items.all()}
 	instance.data['store_info'] = []
