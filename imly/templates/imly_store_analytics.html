@@ -1,0 +1,26 @@
+{% extends "base_store_manage.html" %}
+
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    {% if request.user.userprofile %}
+    <li><a href="{% url "imly_my_profile" %}">Profile</a></li>
+    {% else %}
+    <li><a href="{% url "imly_create_profile" %}">Create Profile</a></li>
+    {% endif %}
+                 
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+        
+            
+        
+           
+{% endblock shop_content %}
+                
+
+{% block shop_info %}
+    
+{% endblock shop_info %}    

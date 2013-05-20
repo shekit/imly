@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render,render_to_response
 from django.views.generic.edit import UpdateView, CreateView
-from django.http import HttpResponseForbidden,HttpResponseRedirect
+from django.http import HttpResponseForbidden,HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
@@ -20,6 +20,8 @@ def why_open_your_shop(request):
 
 def chef_profile(request):
     return render(request,"chef_profile.html")
+
+
 
 class StoreList(ListView):
     
