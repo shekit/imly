@@ -42,7 +42,6 @@ location_info = {
 urlpatterns = patterns('',
     
     url(r"^$", home_page, name="imly_landing_page"),
-    url(r"^index/$", home_page, name="imly_landing_page_index"), #same as above, sent this link to iq bootcamp, therefore dont remove for now
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^login-x/$", "imly.views.profile.modal_login", name="imly_modal_login"),
     url(r"^signup-x/$", "imly.views.profile.modal_signup", name="imly_modal_signup"),

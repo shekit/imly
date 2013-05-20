@@ -8,7 +8,6 @@
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% for object in object_list %}
-            {% if object.user.store %}
                 {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
                 <li class="span6">
                     <div class="thumbnail thumbnail_custom">
@@ -31,7 +30,6 @@
                 </li>
                 {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
                 {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
-            {% endif %}
         {% endfor %}
     </ul>
 
