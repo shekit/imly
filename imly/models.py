@@ -321,6 +321,8 @@ class UserProfile(models.Model):
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
 
+    is_featured = models.BooleanField(default=False)
+    
     def __unicode__(self):
         return self.first_name
 
