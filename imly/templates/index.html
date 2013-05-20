@@ -18,8 +18,10 @@
     
     
 <body>
+    
     <div class="container-fluid lower_border">   
         <div class="container">
+            {% block navigation %}
             <div class="navbar">
                 <div class="navbar-inner">
                   <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
@@ -42,7 +44,7 @@
                         {% else %}
                             <li><a href="{% url "why_open_your_shop" %}">Open Your Shop</a></li>
                         {% endif %}
-      
+                        <li><a href="{% url "imly_profiles" %}">Meet Our Chefs</a></li>
                                           {% if user.is_authenticated %}
                                               
                                               <li class="dropdown"><a class="dropdown-toggle border_right" data-toggle="dropdown" href="#">
@@ -66,9 +68,11 @@
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div><!-- /.navbar-inner -->
-            </div><!-- /.navbar -->            
+            </div><!-- /.navbar -->
+            {% endblock navigation %}
         </div> <!-- end of div container -->
     </div>
+    
     {% block carousel %}
     <div class="hero-unit hero-unit-float">
                     <div class="row-fluid">
@@ -282,6 +286,17 @@
                             })
                             .error(function(data){$("#signup_form").html(data.responseText);});
                             return false;
+                        });
+                        
+                        $("#open_your_shop").on("click",function(){
+                            $(".redirect_path").attr("value","{% url "imly_store_info" %}");
+                            $("#myModal").modal();
+
+                        });
+                        
+                        $("#from_logout").on("click", function(){
+                            $(".redirect_path").attr("value","{% url "imly_product_list" %}");
+                            $("#myModal").modal();
                         });
                         
                         $(".open_your_shop").on("click",function(){

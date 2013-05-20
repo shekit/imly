@@ -103,6 +103,25 @@ legend {
       color: #fff;
       background: #f05a28;
     }
+    
+        .navbar .nav > li > a.no_border {
+	border-left: none;
+    }
+    
+    .navbar .nav > li > a.no_border:hover {
+      color: #f05a28;
+      background: #fff;
+    }
+    
+    .navbar .nav > li > a.no_border_orange {
+	border-left: none;
+	color: #f05a28;
+    }
+    
+    .navbar .nav > li > a.no_border_orange:hover {
+	color:#ff3600;
+	background:  #fff;
+    }
 
     .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
 	color: #ffffff;

@@ -325,7 +325,7 @@ class UserProfile(models.Model):
         if self.about_me:
             self.about_me_html = markdown(self.about_me)
         if self.first_name:
-            self.slug = "%s-%s" % (self.first_name.lower(), self.last_name.lower())
+            self.slug = "%s-%s" % (slugify(self.first_name).lower(), slugify(self.last_name).lower())
         super(UserProfile,self).save(*args, **kwargs)
     
 class ChefTip(models.Model):
