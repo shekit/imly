@@ -245,17 +245,8 @@
         <script type="text/javascript">
 
             $(document).ready(function(){
-            var sDate = $('.del_date').text();
-            var months = ['Jan','Feb','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            var m = /(\w+) (\d+), (\d+)/.exec(sDate);
-            var date = new Date(+m[3], months.indexOf(m[1])+1, +m[2]);
-
-            var minDate = (date.getFullYear(),date.getMonth());
-            var maxDate = (date.getFullYear(),date.getMonth() +0, +15);
-
-            $("#datepicker").datepicker({minDate:minDate,maxDate:maxDate,dateFormat:"DD MM dd"});
-            $("#datepicker").datepicker("setDate",date);
             
+
             $("#sortable").sortable({
                 update:function(event,ui){
                     var serial = $('#sortable').sortable('serialize',{handle:".handle"});
@@ -441,7 +432,19 @@
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                                
+                        
+                        var sDate = $('.del_date').text();
+                        var months = ['Jan','Feb','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+                        var m = /(\w+) (\d+), (\d+)/.exec(sDate);
+                        var date = new Date(+m[3], months.indexOf(m[1])+1, +m[2]);
+
+                        var minDate = (date.getFullYear(),date.getMonth());
+                        var maxDate = (date.getFullYear(),date.getMonth() +0, +15);
+
+                        $("#datepicker").datepicker({minDate:minDate,maxDate:maxDate,dateFormat:"DD MM dd"});
+                        $("#datepicker").datepicker("setDate",date);
+                        
+
                     })
                 }(window.jQuery)
                 
