@@ -1086,3 +1086,8 @@ td.less_padding_inner_td {
     }
 
 }
+.ui-datepicker {
+    height: 250px ;
+    padding: 0.2em 0.2em 0;
+    width: 200px;
+}

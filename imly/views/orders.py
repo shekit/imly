@@ -27,7 +27,6 @@ class StoreOrders(ListView):
 
     def get_context_data(self, **kwargs):
         context = super(StoreOrders, self).get_context_data(**kwargs)
-        # simple approach to grouping, improve this later
         qs = self.get_queryset()
         context['today'] = [order for order in qs if (order.delivered_on.date() == date.today() and order.order.status == 60 )]
         context['tomorrow'] = [order for order in qs if (order.delivered_on.date()  == date.today() + timedelta(days=1) and order.order.status == 60)]
