@@ -18,7 +18,7 @@
             
         <div class="row-fluid">
         
-            {% if object_list.count %}
+            {% if today or tomorrow or newer %}
 
              <div class="span12">
                     {# todays orders #}
@@ -51,7 +51,7 @@
                     {% endif %}
             </div>
             {% else %}
-                <h2 class="muted text-center">You haven't received any orders yet.<br>
+                <h2 class="muted text-center">You have no pending orders.<br>
                 Promote your shop.<br>Start by telling your friends and family.</h2>
             {% endif %}
         </div>
