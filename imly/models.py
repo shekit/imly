@@ -299,6 +299,7 @@ class StoreOrder(models.Model):
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
     store_total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
+    store_items = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now = True)
     updated = models.DateTimeField(auto_now_add=True)
 

@@ -1,5 +1,9 @@
 from django.contrib import admin
+<<<<<<< HEAD
 from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder
+=======
+from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile,StoreOrder
+>>>>>>> 34a4a8f43c64e71c129d888c8bb57126b8208e61
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
@@ -59,10 +63,12 @@ class ChefTipAdmin(admin.ModelAdmin):
 class UserProfileAdmin(admin.ModelAdmin):
     
     list_display = ["user","first_name","last_name"]
-    
+
+
 class StoreOrderAdmin(admin.ModelAdmin):
-    
-    list_display = ["order","store","delivered_on","store_total"]
+
+    list_display = ["order","store","delivered_on","store_total","store_items"]
+
  
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)

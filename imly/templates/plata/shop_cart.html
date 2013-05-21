@@ -88,7 +88,11 @@
 
         
         {% for store in order.storeorder_set.all %}
+<<<<<<< HEAD
             
+=======
+        {% if store.store_items %}
+>>>>>>> 34a4a8f43c64e71c129d888c8bb57126b8208e61
         <table class="table table-bordered">
 
             <tr class="shop_cart_header">
@@ -136,25 +140,9 @@
             <td class="cart_delivery_section" >
                 
                 <ul class="unstyled text-center">
-                    <li class="muted"><small>I want my order on {{ store.delivered_on }}</small></li>
+                    <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on.date }}</span></small></li>
                     <li>
-                        <select class="span6">
-                            <option>May 1</option>
-                            <option>May 2</option>
-                            <option>May 3</option>
-                            <option>May 4</option>
-                            <option>May 5</option>
-                            <option>May 1</option>
-                            <option>May 2</option>
-                            <option>May 3</option>
-                            <option>May 4</option>
-                            <option>May 5</option>
-                            <option>May 1</option>
-                            <option>May 2</option>
-                            <option>May 3</option>
-                            <option>May 4</option>
-                            <option>May 5</option>
-                        </select>
+                        <strong>Date : </strong><input type="text" id="datepicker" readonly />
                     </li>
 
                     <li>
@@ -178,7 +166,11 @@
             
         </table>
         <br><br>
+<<<<<<< HEAD
        
+=======
+        {% endif %}
+>>>>>>> 34a4a8f43c64e71c129d888c8bb57126b8208e61
         {% endfor %}
         
             <p class="text-right">
