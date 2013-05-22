@@ -431,16 +431,19 @@
                         });
                         
                         var sDate = $('.del_date').text();
-                        var months = ['Jan','Feb','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-                        var m = /(\w+) (\d+), (\d+)/.exec(sDate);
-                        var date = new Date(+m[3], months.indexOf(m[1])+1, +m[2]);
-
-                        var minDate = (date.getFullYear(),date.getMonth());
-                        var maxDate = (date.getFullYear(),date.getMonth() +0, +15);
-
-                        $("#datepicker").datepicker({minDate:minDate,maxDate:maxDate,dateFormat:"DD MM dd"});
-                        $("#datepicker").datepicker("setDate",date);
                         
+                        var date = new Date(sDate);
+                        var day = date.getDate();
+                        var month = date.getMonth();
+                        var year = date.getFullYear();
+
+                        var newDate = new Date(year,month,day)
+                                       
+                        var maxDate = new Date(year,month,newDate.getDate() + 15)
+
+                        $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
+                        
+                        $("#datepicker").datepicker("setDate",newDate);
 
                     })
                 }(window.jQuery)
