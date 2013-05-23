@@ -93,6 +93,7 @@
                                 <ul class="text-center inline">
                                         <li>I want food in</li>
                                         <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+										<li><input id="local" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
                                 </ul>
                          
                         </div>
@@ -277,8 +278,37 @@
                         //$('#sortable').sortable({items:"> tr"});
                         //$('#sortable').disableSelection();
 					   
-						
-        				$('#location_autocompleter').keydown(function(event){
+						$("#local").autocomplete({
+						            source: function (request, response) {
+						                $.ajax({
+						                    url: "http://dev.virtualearth.net/REST/v1/Locations/",
+						                    dataType: "jsonp",
+						                    data: {
+						                        key: "AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn",
+						                        q: request.term,
+												inclnb: 1,
+						                    },
+						                    jsonp: "jsonp",
+						                    success: function (data) {
+						                        var result = data.resourceSets[0];
+						                        if (result) {
+						                            if (result.estimatedTotal > 0) {
+						                                response($.map(result.resources, function (item) {
+						                                    return {
+						                                        data: item,
+						                                        label: item.name + ' (' + JSON.stringify(item.point) + ')',
+						                                        value: item.name
+						                                    }
+						                                }));
+						                            }
+						                        }
+						                    }
+						                });
+						            },
+						            minLength: 1
+						        });
+								
+        				$('#loc').keydown(function(event){
         					if(event.keyCode==13){
 								alert('now I reach here')
         						event.preventDefault();
@@ -293,7 +323,7 @@
 				//			types: ['(regions)'], 
 							componentRestrictions: {country: 'in'}
 						};
-						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('location_autocompleter'), google_map_api_options);
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(event){
 							place = autocomplete.getPlace();
 							if(!place.geometry){
