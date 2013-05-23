@@ -19,7 +19,20 @@ def set_locattion_point(sender,instance,**kwargs):
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):
-	print "Post Save"
+	
+	if instance.status == 60:
+		stores = [stores for stores in instance.store_set.all()]
+		for store in stores:
+			print "Store Name", store
+			for storeorder in store.storeorder_set.filter(order=instance):
+				for detail in storeorder.order.items.all():
+					if detail.product.store == store:
+						#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(storeorder.order.order_id),"orders@imly.in",store.owner.email,fail_silently=False)
+						print "Store Order detail",store,storeorder.order.order_id,detail,detail.quantity,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
+		buyer_email = instance.user.email
+		print "Buyer Email",buyer_email
+		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance_id),"orders@imly.in",buyer_email,fail_silently=False)
+
 	stores = {item.product.store for item in instance.items.all()}
 	for store in stores:
 		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
@@ -27,11 +40,11 @@ def set_store_order(sender,instance,**kwargs):
 		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
 		store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
 		store_order.save()
-		print "Store",store_order.store
+		'''print "Store",store_order.store
 		print "Order",store_order.order
 		print "Delivered On", store_order.delivered_on
 		print "Store Items", store_order.store_items
-		print "Store Total",store_order.store_total
+		print "Store Total",store_order.store_total'''
 
 
 #@receiver(pre_save,sender=Order)

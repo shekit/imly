@@ -255,6 +255,8 @@ class Shop(object):
 
         if request.method == 'POST':
             formset = OrderItemFormset(request.POST, instance=order)
+            val = request.POST.get('del_date')
+            print "Post:",val
 
             if formset.is_valid():
                 changed = False
