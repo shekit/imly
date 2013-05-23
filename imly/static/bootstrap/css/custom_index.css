@@ -128,6 +128,10 @@ legend {
 	background: #FF7752;
     }
 
+    .index_sign_in {
+	border-right: 1px solid #e5e5e5;
+    }
+    
     /* Offset the responsive button for proper vertical alignment */
     .navbar .btn-navbar {
       margin-top: 10px;
@@ -154,7 +158,7 @@ legend {
     -webkit-border-radius:0px;
     -moz-border-radius:0px;
     border-radius:0px;
-    text-shadow: 0px 0px 4px #333;
+    
 }
 
 .hero-unit-float {
@@ -566,10 +570,10 @@ ul.errorlist > li {
 /* CHEF PROFILE PAGE */
 
 .hero_chef_profile {
-
     background-color: #fcfcfc;
     border-top: 1px solid #d1d2d4;
-    border-bottom: 1px solid #e5e5e5;    
+    border-bottom: 1px solid #e5e5e5;
+    text-shadow: 0px 0px 4px #333;
 }
 
 .chef_profile {
@@ -578,6 +582,7 @@ ul.errorlist > li {
 
 .chef_profile_para{
     color: white;
+    background: #f05a28;
     background: rgba(240,90,45,0.9);
     padding-left:30px;
     padding-right:30px;
@@ -587,32 +592,217 @@ ul.errorlist > li {
 
 .about_chef {
     font-weight: 200;
+    
 }
 
 .best_dish {
     margin:0px;
-    padding:0px;
+    margin-bottom: 15px;
+    padding-top:10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #e1e1e1;
+    border-bottom: 1px solid #e1e1e1;
 }
+
+    .sub_text {
+	color: #999999;
+    }
+    
+    .sub_text:hover {
+	color: #f05a28;
+	text-decoration: none;
+    }
+    
+    .store_list_name {
+	font-weight: 500;
+	margin-bottom:0px;
+    
+    }
+    
+.chef_social_links {
+  
+    margin:6px 0 6px;
+    font-weight: bold;
+}
+
+/* CONTACT PAGE */
+
+.hero_unit_contact {
+    height: 450px;
+    background: url("../img/choc_brownie.jpg");
+    text-shadow: 0px 0px 4px #333;
+}
+
+.contact_wrapper {
+    width:400px;
+    background: #f05a28;
+    background: rgba(240,90,40,0.8);
+    padding: 10px 30px;
+    
+}
+
+.contact_header {
+    font-weight: 500;
+}
+
+.contact_add {
+    margin-left:35px;
+}
+
+.contact_divider {
+    border-top:none;    
+}
+
+/* FAQ PAGE */
+
+.accordion-heading a {
+    color: #ff7752;
+}
+
+.accordion-heading a:hover {
+    text-decoration: none;
+    color: #f05a28;
+}
+
+.accordion-heading:hover {
+    background: #f5f5f5;
+}
+
+.faq_plus {
+    color: #999;
+}
+
+.faq_header {
+    font-weight: 300;
+    color: #999;
+}
+
+/* WHAT IS IMLY PAGE */
+
+.hero_less_height {
+    height: 150px;
+}
+
+.hero_what {
+    background: url("../img/store_cover_photo_lightest.png");
+}
+
+.what_container {
+    margin-top: 40px;
+}
+
+.what {
+    text-shadow: none;
+    color: #333;
+    font-weight: 300;
+    margin-top: 55px;
+}
+
+.imly_logo_what {
+    text-align: right;
+}
+
 /* RESPONSIVE CSS
     -------------------------------------------------- */
 
-    @media (max-width: 979px) {
+@media (max-width: 979px) {
 
-      .container.navbar-wrapper {
+    .container.navbar-wrapper {
         margin-bottom: 0;
         width: auto;
-      }
-      
-      .navbar .nav > li > a {
-
-      border-left: none;
-
-      }
-      
-        .border_right {
-	border-right: none;
-     }
     }
+      
+    .navbar .nav > li > a {
+	border-left: none;
 
+    }
+      
+    .border_right {
+	border-right: none;
+    }
+}
+
+@media (max-width: 767px) {
+    
+    .nav-collapse.collapse ul li {
+	border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .login_modal {
+	width:450px;
+	margin-left:auto;
+	margin-right:auto;
+    }
+    
+    .modal-header .extra_top_margin {
+	margin-top:2px;
+    }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
+    }
+    
+    .mobile_footer {
+	text-align: center;
+    }
+    
+    .footer {
+	margin-top: -180px; /* negative value of footer height */
+	height: 180px;
+    }
+    
+    
+    .index_sign_in {
+	border-right: none;
+    }
+    
+    .imly_logo_what {
+	text-align: center;
+    }
+    
+    .what {
+	text-align: center;
+	margin-top:auto;
+    }
+    
+    .what_container {
+    margin-top: auto;
+    }
+}
+
+
+@media (max-width: 480px) {
+
+    .login_modal {
+	width:300px;
+	margin-left:auto;
+	margin-right:auto;
+    }
+    
+    .modal-header .extra_top_margin {
+	margin-top:2px;
+    }
+    
+    .form-horizontal .control-group {
+    margin-bottom:10px;
+    }
+    
+    .tip_modal {
+	margin-left: auto;
+	margin-right: auto;
+    }
+    
+    .mobile_footer {
+	text-align: center;
+    }
+    
+    .footer {
+	margin-top: -180px; /* negative value of footer height */
+	height: 180px;
+    }
+    
+
+}
 
       

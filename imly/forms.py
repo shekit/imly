@@ -9,9 +9,13 @@ import os
 import re
 
 from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Layout, Fieldset, Field, Submit, Div
+from crispy_forms.layout import Layout, Fieldset, Field, Submit, Div, HTML
 from crispy_forms.bootstrap import PrependedText
+from crispy_forms.layout import Field
 
+class FileField(Field):
+    template = "bootstrap/layout/file_field.html"
+    
 class MyCheckboxSelectMultiple(CheckboxSelectMultiple):
     def render(self, name, value, attrs=None, choices=()):
         html = super(MyCheckboxSelectMultiple, self).render(name, value, attrs, choices)

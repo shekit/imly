@@ -1,5 +1,6 @@
 {% extends "base_store_manage.html" %}
 
+{% block title %}Imly | Create Shop{% endblock title %}
 {% block manage_store_navigation %}
 
     <li class="active"><a href="{% url "imly_store_info" %}">Shop Details</a></li>
@@ -17,7 +18,7 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
-    <h4 class="form_heading">Create Your Store</h4>
+    <h4 class="form_heading">Create Your Shop</h4>
     <br>
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">

@@ -36,17 +36,29 @@
                                 </ul>
                                 
                             </li>
+                                {% if not selected_tags and super_category %}
+                                    <hr>
+                                {% endif %}
+                            
                             {% endif %}
                             {% if selected_tags %}
                             <li class="nav-header">You have filtered by:</li>
                             
                                 <ul class="inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
-                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }}</a></li>
+                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endfor %}
                                 </ul>
                             
-                            <br>
+                            
+                                {% if not super_category and selected_tags %}
+                                    <hr>
+                                {% endif %}
+                                
+                            {% endif %}
+                            
+                            {% if super_category and selected_tags %}
+                                <hr>
                             {% endif %}
                             
                             <li class="nav-header">Search by Category</li>

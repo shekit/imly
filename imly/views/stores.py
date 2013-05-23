@@ -18,8 +18,14 @@ def home_page(request):
 def why_open_your_shop(request):
     return render(request, "open_your_shop.html")
 
-def chef_profile(request):
-    return render(request,"chef_profile.html")
+def contact_us(request):
+    return render(request,"contact.html")
+
+def faqs(request):
+    return render(request, "faqs.html")
+
+def what_is_imly(request):
+    return render(request, "what_is_imly.html")
 
 
 

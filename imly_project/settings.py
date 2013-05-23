@@ -245,7 +245,7 @@ CURRENCIES = ('INR',)
 PLATA_PAYMENT_MODULES = (
     'plata.payment.modules.cod.PaymentProcessor',
     #'plata.payment.modules.postfinance.PaymentProcessor',
-    'plata.payment.modules.ogone.PaymentProcessor',
+    #'plata.payment.modules.ogone.PaymentProcessor',
     #'plata.payment.modules.paypal.PaymentProcessor',
     )
 

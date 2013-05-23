@@ -1,0 +1,33 @@
+{% extends "index.html" %}
+
+{% block title %}What is Imly?{% endblock title %}
+
+{% block navigation %}
+    {% include "top_nav.html" %}
+{% endblock navigation %}
+
+{% block carousel %}
+    <div class="hero-unit hero_chef_profile">
+        <div class="container what_container">
+            <div class="row-fluid">
+                <div class="span6">
+                    <p class="imly_logo_what"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" width="200"></p>
+                </div>
+                
+                <div class="span6">
+                    <h2 class="what"><span class="what_all">is different.</span></h2>
+                </div>
+            </div>
+          
+        </div>
+        
+    </div>
+{% endblock carousel %}
+
+{% block featurette %}
+
+{% endblock featurette %}
+
+{% block as_seen_on %}
+    
+{% endblock as_seen_on %}

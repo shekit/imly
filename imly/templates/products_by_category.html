@@ -27,7 +27,7 @@
                         </div>
                         
                         <ul class="nav nav-list">
-                        {% if super_category and selected_tags %}
+                        
                             {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
                             <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
@@ -38,30 +38,9 @@
                                 </ul>
                                 
                             </li>
-                            {% endif %}
-                            {% if selected_tags %}
-                            <li class="nav-header">You have filtered by:</li>
-                            
-                                <ul class="inline tags_for_product_home_inverted">
-                                    {% for tag in selected_tags %}
-                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="close">&times;</span></a></li>
-                                    {% endfor %}
-                                </ul>
-                            
-                            <hr>
-                            {% endif %}   
-                        {% else %}
-                            {% if super_category %}
-                            <li class="nav-header">You are currently here:</li>
-                            <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
-                                <ul>
-                                    {% for sub_category in super_category.sub_categories.all %}
-                                        <li><a {% ifequal sub_category category %}class="sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                                
-                            </li>
-                            <hr>
+                                {% if not selected_tags and super_category %}
+                                        <hr>
+                                {% endif %}
                             {% endif %}
                             {% if selected_tags %}
                             <li class="nav-header">You have filtered by:</li>
@@ -72,9 +51,15 @@
                                     {% endfor %}
                                 </ul>
                             
-                            <hr>
+                                {% if not super_category and selected_tags %}
+                                    <hr>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
+                            
+                            {% if super_category and selected_tags %}
+                                <hr>
+                            {% endif %}
+                        
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
                                 <li><a href="{% url "imly_product_list" %}">All</a></li>
@@ -156,6 +141,7 @@
                         {% endif %} 
                     </small></span>
                     
+                {% if object.store.is_open %}
                     {% if object.items_in_stock %}
                     <form method="post" action="{% url "imly_add_order" object.slug %}">
                         {% csrf_token %}
@@ -165,7 +151,9 @@
                     {% else %}
                         <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
                     {% endif %}
-                
+                {% else %}
+                    <small class="ultra_small muted pull-right">Chef on vacation</small>
+                {% endif %}
                     <div class="clearfix"></div>
                 </div>
             </div>

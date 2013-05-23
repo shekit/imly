@@ -1,6 +1,6 @@
 {% extends "base_profile.html" %}
 
-{% block title %}Chef Profiles{% endblock title %}
+{% block title %}Imly | Chef Profiles{% endblock title %}
 
 {% block profile_content %}
 
@@ -13,7 +13,14 @@
                     <div class="thumbnail thumbnail_custom">
                         <a href="{% url "chef_profile" object.slug %}">
                             <div class="sold_out">
+                                {% if object.cover_profile_image %}
                                 <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
+                                {% else %}
+                                    <div style="background: #f5f5f5;">
+                                        <img src="{{ object.avatar_thumbnail.url }}" alt="{{ object.first_name }}">
+                                    </div>
+                                    
+                                {% endif %}
                                 {% if object.is_featured %}
                                     <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                                 {% endif %}

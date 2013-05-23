@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, chef_profile,status
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, status
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location
@@ -46,8 +46,10 @@ urlpatterns = patterns('',
     url(r"^login-x/$", "imly.views.profile.modal_login", name="imly_modal_login"),
     url(r"^signup-x/$", "imly.views.profile.modal_signup", name="imly_modal_signup"),
     url(r"^why-join-imly/$", why_open_your_shop, name="why_open_your_shop"),
+    url(r"^contact-us/$", contact_us, name="imly_contact_us"),
+    url(r"^faqs/$", faqs, name="imly_faqs"),
+    url(r"^what-is-imly/$", what_is_imly, name="what_is_imly"),
     url(r"^chefs/$", StoreList.as_view(), name="imly_store_list"),
-    #url(r"^chef-profile/$", chef_profile, name="chef_profile"),
     url(r"^profiles/$", ProfileList.as_view(), name="imly_profiles"),
     url(r"^profiles/(?P<slug>[-\w]+)/$", ChefProfile.as_view(), name="chef_profile"),
     url(r"^account/store/create/$", login_required(StoreCreate.as_view()), name ="imly_store_create"),

@@ -1,0 +1,51 @@
+<nav class="navbar">
+                    <div class="navbar-inner">
+
+                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </a>
+                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_xsmall1.png" alt="Imly Logo"></a>
+                            <div class="nav-collapse collapse">
+                                
+                                <ul class="nav pull-right">
+                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Home</a></li>
+                                    <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
+                                    {% if user.is_authenticated %}
+                                        {% if user.store %}
+                                            <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
+                                        {% else %}
+                                            <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                                        {% endif %}
+                                    {% else %}
+                                        <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
+                                    {% endif %}
+                                    
+                                    {% if user.is_authenticated %}
+                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        {% if user.userprofile.first_name %}
+                                            {{ user.userprofile.first_name }} <span class="caret"></span>
+                                        {% else %}
+                                            {{ user.first_name }} <span class="caret"></span>
+                                        {% endif %}
+                                        </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
+                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        
+                                        <li>{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
+                                    {% endif %}
+                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
+                                    
+                                </ul>
+                            </div> <!-- end of nav-collapse div -->
+
+                    </div> <!-- end of navbar-inner --> 
+
+                </nav> <!-- end of navbar -->

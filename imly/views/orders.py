@@ -3,6 +3,7 @@ from plata.shop.models import Order, OrderItem
 from datetime import date, timedelta
 from collections import OrderedDict
 from django.db.models import Sum
+from imly.models import StoreOrder
 
 class UserOrders(ListView):
     model = Order
@@ -16,7 +17,7 @@ class UserOrder(DetailView):
     template_name = 'imly_user_order.html'
 
 class StoreOrders(ListView):
-    model = Order
+    model = StoreOrder
     template_name = 'imly_store_orders.html'
 
     def get_queryset(self):
