@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 
@@ -45,7 +46,10 @@ class StoreList(ListView):
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return stores.filter(tags=self.tags).distinct() if self.tags else stores
+        q = Q()
+        for tag in self.tags:
+            q &= Q(tags=tag)
+        return stores.filter(q)
     
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
