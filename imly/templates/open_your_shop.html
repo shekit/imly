@@ -7,7 +7,11 @@
                 <li><h2>Imly is a marketplace unlike any other.</h2></li>
                 <p class="text-right orange">Open your store now. Its Fast, Easy and Free!</p>
                 <li><br><br></li>
-                <li><a class="action_button action_button3 pull-right hand_pointer open_your_shop">Open your Shop</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a class="action_button action_button3 pull-right hand_pointer open_your_shop">Open your Shop</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 pull-right">Open your Shop</a></li>
+                {% endif %}
             </ul>
             
         </div>
@@ -80,7 +84,11 @@
         <div class="span3"></div>
         <div class="span6 feature_list_border">
             <ul class="inline text-center">
-                <li><a class="action_button action_button3 hand_pointer open_your_shop">Open your Shop</a></li>
+                {% if not user.is_authenticated %}
+                    <li><a class="action_button action_button3 hand_pointer open_your_shop">Open your Shop</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 pull-right">Open your Shop</a></li>
+                {% endif %}
                 <li><h4 class="feature_list_end">Join the Imly marketplace or <a class="feature_list_link" href="{% url "imly_product_list" %}">start shopping</a> for great home food</h4></li>
             </ul>
             
