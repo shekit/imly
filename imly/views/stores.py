@@ -73,10 +73,11 @@ class StoresByCategory(ListView):
             stores_by_category = store_list.filter(categories__in=self.category.sub_categories.all()).distinct()
         stores = stores_by_category.is_approved()
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return stores.filter(tags__in=self.tags).distinct() if self.tags else stores
+        for tag in self.tags:
+            stores.filter(tags=tag)
+        return stores.distinct()
     
     def get_context_data(self, **kwargs):
-        
         context = super(StoresByCategory, self).get_context_data(**kwargs)
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
