@@ -309,19 +309,16 @@ class StoreOrder(models.Model):
 
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
-    first_name = models.CharField(max_length=100, blank=True)
-    last_name = models.CharField(max_length=100, blank=True)
+    first_name = models.CharField(max_length=100)
+    last_name = models.CharField(max_length=100)
     slug = models.SlugField()
-    about_me = models.TextField(blank=True)
+    about_me = models.TextField()
     about_me_html = models.TextField(editable=False, blank=True)
     cover_profile_image = models.ImageField(upload_to=get_image, blank=True)
     cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
-    word_one = models.CharField(max_length=40, blank=True)
-    word_two = models.CharField(max_length=40, blank=True)
-    word_three = models.CharField(max_length=40, blank=True)
-    avatar = models.ImageField(upload_to=get_image, blank=True)
-    avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
-    avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
+    word_one = models.CharField(max_length=40)
+    word_two = models.CharField(max_length=40)
+    word_three = models.CharField(max_length=40)
 
     is_featured = models.BooleanField(default=False)
     
@@ -338,9 +335,7 @@ class UserProfile(models.Model):
 class ChefTip(models.Model):
     name = models.CharField(max_length = 100, verbose_name = "Chef's Name")
     tip_contact_number = models.CharField(max_length = 10, verbose_name = "Chef's Number")
-    #description = models.CharField(max_length=100, verbose_name="Chef's Speciality")
     your_name = models.CharField(max_length = 100, verbose_name = "Your Name", blank=True)
-    #email = models.EmailField(max_length = 50, verbose_name = "Your Email")
     create = models.DateTimeField(auto_now_add = True)
 
     def __unicode__(self):

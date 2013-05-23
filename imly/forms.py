@@ -218,16 +218,20 @@ class UserProfileForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super(UserProfileForm,self).__init__(*args,**kwargs)
-        self.fields["avatar"].label = "Profile Image"
-        self.fields["cover_profile_image"].label = "Cover Profile Image"
+        self.fields["cover_profile_image"].label = "Profile Image <a href='#' class='example' rel='tooltip' title='Hello'>[?]</a>"
+        self.fields["word_one"].label = "Three words that best describe you"
+        self.fields["word_two"].label = "<br><br>"
+        self.fields["word_three"].label = "<br><br>"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 "",
-                "first_name",
-                "last_name",
-                "avatar",
+                Div(
+                    Div(Field("first_name"),css_class="span4"),
+                    Div(Field("last_name"),css_class="span4"),
+                    Div(css_class="span4"),
+                    css_class="row-fluid"),
                 "cover_profile_image",
                 Div(
                     Div(Field("word_one",css_class="input-small"),css_class="span2"),
@@ -241,7 +245,7 @@ class UserProfileForm(forms.ModelForm):
 
     class Meta:
         model = UserProfile
-        fields = ("first_name","last_name", "avatar", "cover_profile_image", "word_one", "word_two", "word_three", "about_me","avatar")
+        fields = ("first_name","last_name", "cover_profile_image", "word_one", "word_two", "word_three", "about_me")
         exclude = ["user"]
 
 class ChefTipForm(forms.ModelForm):
