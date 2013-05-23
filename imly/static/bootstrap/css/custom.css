@@ -48,9 +48,7 @@ body {
 	height: 70px;
     }
     
-    .navbar .brand{
-	padding:10px 20px 10px;
-    }
+
     /* Remove border and change up box shadow for more contrast */
     .navbar .navbar-inner {
       border: 0;
@@ -144,7 +142,7 @@ body {
     color: #fff;
 }
 
-
+/* CUSTOM BUTTON */
 
 .btn-custom {
   color: #ffffff;
@@ -304,6 +302,15 @@ ul.food_chef > li {
 	background: #F05A28;
 }
 
+.sub_category_link {
+    color: #ff7752;
+}
+
+.sub_category_link:hover {
+    color:#f05a28;
+    text-decoration: none;
+}
+
 /* class added to search by taste links to make them look like inline tags */
 .tags_for_product_home {
 	margin-top:5px;
@@ -322,6 +329,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	border-radius: 4px;
 	color:#F05A28;
 	padding: 2px 5px;
+	-webkit-transition: background 200ms;
+	-moz-transition: background 200ms;
+	-o-transition: background 2500ms;
+	transition: background 250ms;
 }
 
 .tags_for_product_home > li > a:hover {
@@ -338,6 +349,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	border-radius: 4px;
 	color:white;
 	padding: 2px 5px;
+	-webkit-transition: background 200ms;
+	-moz-transition: background 200ms;
+	-o-transition: background 200ms;
+	transition: background 200ms;
 }
 
 .tags_for_product_home_inverted > li > a:hover {
@@ -530,7 +545,7 @@ transition: all 0.2s ease-in-out;
 }
 
 .hero_unit_custom {
-    height:100px;
+    height:190px;
     background-position: 50% 50%;
 
 }
@@ -540,7 +555,7 @@ transition: all 0.2s ease-in-out;
 }
 
 .no_cover_photo {
-    height:100px;
+    height:70px;
     background: url("../img/store_cover_photo_lightest.png");
     background-position: 50% 50%;
     border:1px solid #e5e5e5;
@@ -550,6 +565,11 @@ transition: all 0.2s ease-in-out;
 .no_cover_photo > p {
     color: #f05a28;
     background: white;
+}
+
+h1.store_name {
+    font-size: 45px;
+    margin-top:5px;
 }
 
 .read-more > a:hover, .read-less > a:hover {
@@ -815,7 +835,7 @@ input[type="file"] {
 	height: 20px;
 	line-height: 0px;
 	margin-top:5px;
-	margin-bottom:5px;
+	margin-bottom:10px;
 }
 
 input[type="checkbox"] {
@@ -1006,41 +1026,49 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
-/* CHEF PROFILE PAGE */
 
-.hero_chef_profile {
 
-    background-color: #fcfcfc;
-    border-top: 1px solid #d1d2d4;
-    border-bottom: 1px solid #e5e5e5;    
-}
+/* DATE PICKER IN CART */
 
-.chef_profile {
-    padding-right:15px;
-}
-
-.chef_profile_para{
-    color: white;
-    background: rgba(240,90,45,0.9);
-    padding-left:30px;
-    padding-right:30px;
-    text-align: center;
-    text-shadow: none;
-}
-
-.about_chef {
-    font-weight: 200;
-}
-
-.best_dish {
-    margin:0px;
-    padding:0px;
+.ui-datepicker {
+    height: 250px ;
+    padding: 0.2em 0.2em 0;
+    width: 200px;
 }
 
 
 /* MEDIA QUERIES */
 
+@media (max-width:979px) {
+
+    .container.navbar-wrapper {
+        margin-bottom: 0;
+        width: auto;
+    }
+      
+    .navbar .nav > li > a {
+
+      border-left: none;
+
+    }
+      
+    .border_right {
+	border-right: none;
+    }
+
+}
+
 @media (max-width: 767px) {
+    
+    .nav-collapse, .nav-collapse.collapse {
+	background: #fff;
+	z-index: 1300;
+    }
+    
+    .nav-collapse.collapse ul li {
+	border-bottom: 1px solid #e5e5e5;
+    }
+    
     .login_modal {
 	width:450px;
 	margin-left:auto;
@@ -1055,6 +1083,20 @@ td.less_padding_inner_td {
 	margin-left: auto;
 	margin-right: auto;
     }
+    
+    .mobile_footer {
+	text-align: center;
+    }
+    
+    .footer {
+	margin-top: -180px; /* negative value of footer height */
+	height: 180px;
+    }
+    
+    .thumbnail {
+	margin-bottom: 10px;
+    }
+    
 }
 
 @media (max-width: 480px) {
@@ -1077,17 +1119,14 @@ td.less_padding_inner_td {
 	margin-left: auto;
 	margin-right: auto;
     }
-}
-
-@media (max-width:979px) {
     
-    .nav-collapse, .nav-collapse.collapse {
-	background: #f5f5f5;
+    .mobile_footer {
+	text-align: center;
     }
-
-}
-.ui-datepicker {
-    height: 250px ;
-    padding: 0.2em 0.2em 0;
-    width: 200px;
+    
+    .footer {
+	margin-top: -180px; /* negative value of footer height */
+	height: 180px;
+    }
+    
 }

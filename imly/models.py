@@ -126,7 +126,7 @@ class Store(geo_models.Model):
     logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
     logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
-    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",cache_to=get_store_cover_photo_path)
+    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG", processors = [ResizeToFill(900,200)], cache_to=get_store_cover_photo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)

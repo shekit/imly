@@ -1,0 +1,31 @@
+<div class="row-fluid">
+                        <div class="span6">
+                            <small><ul class="inline footer_nav mobile_footer">
+                                <li><a href="{% url "what_is_imly" %}">What is Imly</a></li>
+                                <li><a href="{% url "why_open_your_shop" %}">Why join Imly</a></li>
+                                <li><a href="{% url "imly_faqs" %}">FAQ</a></li>
+                                <li><a href="http://blog.imly.in/" target="blank">Blog</a></li>
+                                <li><a href="{% url "imly_contact_us" %}">Contact Us</a></li>
+                            </ul></small>
+                        </div>
+                        <div class="span6">
+                            <small><p class="text-right mobile_footer">Know an amazing home chef? We'd love to know.
+                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>
+                            {% include 'tip_form.html' %}
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <ul class="unstyled text-center">
+                                <li>
+                                    <ul class="inline">
+                                        <li><a href="https://twitter.com/imly_in" target="blank"><div class="social_logo twitter"></div></a></li>
+                                        <li><a href="https://facebook.com/imly.in" target="blank"><div class="social_logo facebook"></div></a></li>
+                                        <li><a href="http://blog.imly.in/" target="blank"><div class="social_logo tumblr"></div></a></li>
+                                    </ul>
+                                </li>
+                                <li><small>Cooked with <span class="icon-heart icon-white"></span> by Imly</li>
+                            </ul>
+                        </div>
+                    </div>

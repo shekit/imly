@@ -1,5 +1,7 @@
 {% extends "base_store_manage.html" %}
 
+
+{% block title %}Imly | Manage Products{% endblock title %}
 {% block manage_store_navigation %}
 
     <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
@@ -29,7 +31,9 @@
         <div class="row-fluid">
 
             {% if active_items %}
+                
             <div class="span12">
+                <p class="muted text-right"><small>Drag and drop rows to rearrange products</small></p>
                 <table class="table table-striped table-bordered clearfix">
                     <thead>
                         <tr>

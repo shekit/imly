@@ -1,66 +1,14 @@
 {% extends "index.html" %}
 
+{% block title %}Imly | {{ object.first_name }} {{ object.last_name }}{% endblock title %}
+
 {% block navigation %}
-    <nav class="navbar">
-                    <div class="navbar-inner">
-
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>
-                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_xsmall1.png" alt="Imly Logo"></a>
-                            <div class="nav-collapse collapse">
-                                
-                                <ul class="nav pull-right">
-                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Home</a></li>
-                                    <li><a class="no_border"  href="{% url "imly_coming_soon" %}">What is Imly</a></li>
-                                    {% if user.is_authenticated %}
-                                        {% if user.store %}
-                                            <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
-                                        {% else %}
-                                            <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
-                                        {% endif %}
-                                    {% else %}
-                                        <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
-                                    {% endif %}
-                                    
-                                    {% if user.is_authenticated %}
-                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        {% if user.userprofile.first_name %}
-                                            {{ user.userprofile.first_name }} <span class="caret"></span>
-                                        {% else %}
-                                            {{ user.first_name }} <span class="caret"></span>
-                                        {% endif %}
-                                        </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
-                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
-                                                {% if user.userprofile %}
-                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% else %}
-                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% endif %}
-                                                <li class="divider"></li>
-                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        
-                                        <li>{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
-                                    {% endif %}
-                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
-                                    
-                                </ul>
-                            </div> <!-- end of nav-collapse div -->
-
-                    </div> <!-- end of navbar-inner --> 
-
-                </nav> <!-- end of navbar -->
+    {% include "top_nav.html" %}
 {% endblock navigation %}
 
 {% block carousel %}
     {% if object.cover_profile_image %}
+        
     <div class="hero-unit hero_chef_profile" style="background:url({{ object.cover_profile_image_thumbnail.url }}) no-repeat;background-position: top 50%;">
         
     {% else %}
@@ -101,9 +49,21 @@
                     </div>
                 </li>
             </ul>
-            
-            
             {% endwith %}
+            <br>
+                
+            {% if object.user.store.facebook_link or object.user.store.twitter_link %}
+            <div style="border-top:1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
+            <p class="text-center chef_social_links orange">Connect with me:
+                {% if object.user.store.facebook_link %}
+                    <a href="{{ object.user.store.facebook_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/facebook_chef.png" width="32" height="32"></a>
+                {% endif %}
+                {% if object.user.store.twitter_link %}
+                    <a href="{{ object.user.store.twitter_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/twitter_chef.png" width="32" height="32"></a>
+                {% endif %}
+            </p>
+            </div>
+            {% endif %}
         </div>
     </div>
 {% endblock featurette %}
