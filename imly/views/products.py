@@ -55,7 +55,7 @@ class ProductList(ListView):
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist('tags', []))
-        return products.filter(tags__in=self.tags).distinct() if self.tags else products
+        return products.filter(tags=self.tags).distinct() if self.tags else products
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
