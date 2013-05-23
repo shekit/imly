@@ -383,8 +383,7 @@
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                        $("#id_terms_and_conditions").attr("checked",true);
-                        $("#id_payment_method")[0].selectedIndex = 1;
+                        
                         var sDate = $('.del_date').text();
                         
                         var date = new Date(sDate);
@@ -399,6 +398,8 @@
                         $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
                         
                         $("#datepicker").datepicker("setDate",newDate);
+                        $("#id_terms_and_conditions").attr("checked",true);
+                        $("#id_payment_method")[0].selectedIndex = 1;
 
                     })
                 }(window.jQuery)
