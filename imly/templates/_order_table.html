@@ -13,18 +13,18 @@
                 
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ object.order_id }}</td>
-                        <td>{% for product in object.items.all %}
+                        <td>{{ object.order.order_id }}</td>
+                        <td>{% for product in object.order.items.all %}
                                 {% ifequal product.product.store request.user.store %}
                                     {{ product.quantity }} {{ product.product.name }} <small class="muted"><i>({{ product.product.quantity_per_item }} {{ product.product.get_quantity_by_price_display }})</i></small><br>
                                 {% endifequal %}
                             {% endfor %}</td>
-                        {% if object.shipping_same_as_billing %}
-                        <td><u>{{ object.billing_first_name|capfirst }} {{ object.billing_last_name|capfirst }}</u><br>{{ object.billing_address }}<br>{{ object.billing_city|slice:"3" }} - {{ object.billing_zip_code }}</td>
+                        {% if object.order.shipping_same_as_billing %}
+                        <td><u>{{ object.order.billing_first_name|capfirst }} {{ object.order.billing_last_name|capfirst }}</u><br>{{ object.order.billing_address }}<br>{{ object.order.billing_city|slice:"3" }} - {{ object.order.billing_zip_code }}</td>
                         {% else %}
-                        <td><u>{{ object.shipping_first_name|capfirst }} {{ object.shipping_last_name|capfirst }}</u><br>{{ object.shipping_address }}<br>{{ object.shipping_city|slice:"3" }} - {{ object.shipping_zip_code }}</td>  
+                        <td><u>{{ object.order.shipping_first_name|capfirst }} {{ object.order.shipping_last_name|capfirst }}</u><br>{{ object.order.shipping_address }}<br>{{ object.order.shipping_city|slice:"3" }} - {{ object.order.shipping_zip_code }}</td>  
                         {% endif %}
-                        <td>{{ object.confirmed|date:"F j, Y" }}</td>
+                        <td>{{ object.order.confirmed|date:"F j, Y" }}</td>
                         <td>{{ object.store_total|floatformat:"2" }}
                         </td>
                         

@@ -1,4 +1,7 @@
+from plata.shop.models import Order
 import os
+from datetime import date
+from django.db.models import Sum
 from django.db import models
 from django.contrib.gis.db import models as geo_models
 from django.contrib.gis.geos import Point, Polygon
@@ -10,7 +13,7 @@ from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill
+from imagekit.processors import ResizeToFill,SmartResize
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
@@ -123,7 +126,7 @@ class Store(geo_models.Model):
     logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
     logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
-    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",cache_to=get_store_cover_photo_path)
+    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG", processors = [ResizeToFill(900,200)], cache_to=get_store_cover_photo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
@@ -144,7 +147,7 @@ class Store(geo_models.Model):
     store_notice = models.TextField(blank=True)
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
-    
+    orders = models.ManyToManyField(Order, through='StoreOrder')
     tags = models.ManyToManyField(Tag, blank=True)
     delivery_points = geo_models.MultiPointField(default="MULTIPOINT(72.8258 18.9647)")
     
@@ -262,14 +265,18 @@ class Product(ProductBase, PriceBase):
         
     @property
     def sale(self):
-        return self.capacity_per_day - self.items_in_stock
+        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).aggregate(sale_sum=Sum('change'))['sale_sum'])
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
         if not self.pk:
-            product_count = Product.objects.count()
-            self.position = product_count + 1
+            product_count = Product.objects.filter(is_deleted = False).count()
+            if product_count:
+                self.position = product_count + 1
+            else:
+                self.position = 0
+            print self.position
         transaction_type = change = None
         if self.capacity_per_day != self.previous_cpd:  # managing the stock for current product
             # if new capacity is less than sales than adjust items in stock to make it zero
@@ -287,6 +294,19 @@ class Product(ProductBase, PriceBase):
             self.stock_transactions.create(period=Period.objects.current(), type=transaction_type, change=change)
             self.stock_transactions.items_in_stock(self, update=True)
 
+class StoreOrder(models.Model):
+    store = models.ForeignKey(Store)
+    order = models.ForeignKey(Order)
+    delivered_on = models.DateTimeField(default=date.today())
+    store_total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
+    store_items = models.IntegerField(default=0)
+    created = models.DateTimeField(auto_now = True)
+    updated = models.DateTimeField(auto_now_add=True)
+
+    def __unicode__(self):
+        return self.store.slug
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100, blank=True)
@@ -295,7 +315,7 @@ class UserProfile(models.Model):
     about_me = models.TextField(blank=True)
     about_me_html = models.TextField(editable=False, blank=True)
     cover_profile_image = models.ImageField(upload_to=get_image, blank=True)
-    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG", cache_to="cover_profile_regular")
+    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
     word_one = models.CharField(max_length=40, blank=True)
     word_two = models.CharField(max_length=40, blank=True)
     word_three = models.CharField(max_length=40, blank=True)
@@ -303,6 +323,8 @@ class UserProfile(models.Model):
     avatar_thumbnail = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(150,150)], options={"quality":70}, cache_to="avatar_regular")
     avatar_thumbnail_mini = ImageSpecField(image_field="avatar", format="JPEG", processors = [ResizeToFill(50,50)], options={"quality":60}, cache_to="avatar_mini")
 
+    is_featured = models.BooleanField(default=False)
+    
     def __unicode__(self):
         return self.first_name
 
@@ -310,7 +332,7 @@ class UserProfile(models.Model):
         if self.about_me:
             self.about_me_html = markdown(self.about_me)
         if self.first_name:
-            self.slug = "%s-%s" % (self.first_name.lower(), self.last_name.lower())
+            self.slug = "%s-%s" % (slugify(self.first_name).lower(), slugify(self.last_name).lower())
         super(UserProfile,self).save(*args, **kwargs)
     
 class ChefTip(models.Model):

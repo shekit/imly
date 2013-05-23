@@ -30,11 +30,21 @@ class ChefProfile(DetailView):
     model = UserProfile
     template_name = "chef_profile.html"
     
+    def get_queryset(self):
+        return UserProfile.objects.filter(user__in=Store.objects.is_approved().filter(owner__in=User.objects.all()))
+
+            
+    
     
 class ProfileList(ListView):
     model = UserProfile
     template_name = "imly_profiles.html"
     paginate_by = 12
+    
+    def get_queryset(self):
+        return UserProfile.objects.filter(user__in=Store.objects.is_approved().filter(owner__in=User.objects.all()))
+
+            
 
 class ProfileCreate(CreateView):
     form_class = UserProfileForm

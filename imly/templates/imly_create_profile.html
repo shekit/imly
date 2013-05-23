@@ -1,30 +1,50 @@
-{% extends "base_account_manage.html" %}
+{% extends "base_store_manage.html" %}
 
-{% block manage_account_navigation %}
-		<li class="active"><a href="#">Profile</a></li>
-		<li><a href="#">My Orders</a></li>
-		<li><a href="#">Paast Orders</a></li>
-		
-{% endblock manage_account_navigation %}
+{% block title %}Imly | Create Profile{% endblock title %}
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    <li class="active"><a href="">My Profile</a></li>
+                  
+{% endblock manage_store_navigation %}
 
 
-{% block account_content %}
 
-   <h4>Create Profile</h4>
+{% block shop_content %}
+
+   <h4 class="form_heading">Create Profile</h4>
    <br>
     
         <div class="row-fluid">
             
 		<div class="span12">
+			{% load crispy_forms_tags %}
 			<form enctype="multipart/form-data" method="post" action="">
-			{% csrf_token %}
-			<ul class="unstyled form">
-			{{ form.as_ul }}
-			</ul>
+			{% crispy form %}
 			<a href="{% url "imly_my_profile" %}" class="btn">Cancel</a>
 			<input type="submit" class="btn btn-success" value="Create">
 			</form>
 		</div>
 	</div>
 	
-{% endblock account_content %}
+{% endblock shop_content %}
+
+{% block shop_info %}
+    <aside class="well shop_info">
+        <h4 class="text-center orange">Tips</h4>
+
+        <div class="row-fluid">
+            <div class="span10 offset1">
+                <hr>
+            </div>
+        </div>
+                
+        <ol class="tips">
+            <li>Choose <span class="orange">3 words</span> that best describe you, not necessarily food related.</li>
+            <li>Click a picture of yourself in your <span class="orange">kitchen</span>, it improves customer confidence.</li>
+            <li>Keep the "about me" section short but <span class="orange">interesting</span>. Write about why you started cooking, your inspirations, your hobbies. Get creative!</li>
+        </ol>
+    </aside>                     
+{% endblock shop_info %} 

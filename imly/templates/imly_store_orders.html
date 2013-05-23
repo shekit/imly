@@ -1,10 +1,17 @@
 {% extends "base_store_manage.html" %}
 
+{% block title %}Imly | Manage Orders{% endblock title %}
+
 {% block manage_store_navigation %}
 
     <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
     <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
     <li class="active"><a href="#">Order Details</a></li>
+    {% if request.user.userprofile %}
+    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+    {% else %}
+    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+    {% endif %}
                  
 {% endblock manage_store_navigation %}
 
@@ -12,12 +19,14 @@
         
             
         <div class="row-fluid">
-    
-            {% if object_list.count %}
+        
+            {% if today or tomorrow or newer %}
 
              <div class="span12">
                     {# todays orders #}
+                    
                     {% if today %}
+
                     <h4 class="muted"><span class="orange">TODAY's</span> orders</h4>
                     {% with today as orders %}
                         {% include '_order_table.html' %}
@@ -34,7 +43,7 @@
                     {# newer orders #}
                     {% if newer %}
                     
-                    {% for dater, date_orders in newer %}
+                    {% for dater, date_orders in newer reversed %}
                         <br>
                     <h4 class="muted"><span class="orange">{{ dater|date:"F j"|upper }}</span> orders</h4>
                         {% with date_orders as orders %}
@@ -44,7 +53,7 @@
                     {% endif %}
             </div>
             {% else %}
-                <h2 class="muted text-center">You haven't received any orders yet.<br>
+                <h2 class="muted text-center">You have no pending orders.<br>
                 Promote your shop.<br>Start by telling your friends and family.</h2>
             {% endif %}
         </div>

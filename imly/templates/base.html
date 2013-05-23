@@ -3,14 +3,16 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Imly {% block title %}{% endblock title %}</title>
+        <title>{% block title %}Imly{% endblock title %}</title>
         {% load seo %}
         {% get_metadata %}
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+        <!--<link href="{{ STATIC_URL }}bootstrap/css/jasny-bootstrap.css" rel="stylesheet" type="text/css">-->
         <link href="{{ STATIC_URL }}star-rating/jquery.rating.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+        <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
+        
         
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
@@ -25,62 +27,8 @@
         <div class="container">
             {% block navigation %}
                 
-                <nav class="navbar">
-                    <div class="navbar-inner">
-
-                            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </a>
-                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_xsmall1.png" alt="Imly Logo"></a>
-                            <div class="nav-collapse collapse">
-                                
-                                <ul class="nav pull-right">
-                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Home</a></li>
-                                    <li><a class="no_border"  href="{% url "imly_coming_soon" %}">What is Imly</a></li>
-                                    {% if user.is_authenticated %}
-                                        {% if user.store %}
-                                            <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
-                                        {% else %}
-                                            <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
-                                        {% endif %}
-                                    {% else %}
-                                        <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
-                                    {% endif %}
-                                    
-                                    {% if user.is_authenticated %}
-                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        {% if user.userprofile.first_name %}
-                                            {{ user.userprofile.first_name }} <span class="caret"></span>
-                                        {% else %}
-                                            {{ user.first_name }} <span class="caret"></span>
-                                        {% endif %}
-                                        </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
-                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
-                                                {% if user.userprofile %}
-                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% else %}
-                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-cog"></span> My Account</a></li>
-                                                {% endif %}
-                                                <li class="divider"></li>
-                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        
-                                        <li>{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
-                                    {% endif %}
-                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
-                                    
-                                </ul>
-                            </div> <!-- end of nav-collapse div -->
-
-                    </div> <!-- end of navbar-inner --> 
-
-                </nav> <!-- end of navbar -->               
+                {% include "top_nav.html" %}
+                
             {% endblock navigation %}
         </div> <!-- end of div container -->
     </div>   
@@ -199,39 +147,7 @@
             <div class="container">
                 <br>
                 {% block footer %}
-                    <div class="row-fluid">
-                        <div class="span7">
-                            <small><ul class="inline footer_nav">
-                                <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
-                                <li><a href="http://blog.imly.in/" target="blank">Blog</a></li>
-                                <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
-                            </ul></small>
-                        </div>
-                        <div class="span5">
-                            <small><p class="text-right">Know an amazing home chef? We'd love to know.
-                            
-                            <a class="give_us_a_tip" id="givetip" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>
-                            {% include 'tip_form.html' %}
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <ul class="unstyled text-center">
-                                <li>
-                                    <ul class="inline">
-                                        <li><a href="https://twitter.com/imly_in" target="blank"><div class="social_logo twitter"></div></a></li>
-                                        <li><a href="https://facebook.com/imly.in" target="blank"><div class="social_logo facebook"></div></a></li>
-                                        <li><a href="http://blog.imly.in/" target="blank"><div class="social_logo tumblr"></div></a></li>
-                                    </ul>
-                                </li>
-                                <li><small>Cooked with <span class="icon-heart icon-white"></span> by Imly</li>
-                            </ul>
-                        </div>
-                    </div>
+                    {% include "footer.html" %}
                 {% endblock footer %}
             </div>
         </footer>
@@ -242,7 +158,7 @@
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-        <script src="{{ STATIC_URL }}js/json2.js"></script>
+        <!--<script src="{{ STATIC_URL }}bootstrap/js/jasny-bootstrap.js"></script>-->
         <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 		<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
@@ -250,11 +166,14 @@
 
             $(document).ready(function(){
             
+            $("#id_terms_and_conditions").attr("checked",true);
+            $("#id_payment_method")[0].selectedIndex = 1;
+
             $("#sortable").sortable({
                 update:function(event,ui){
                     var serial = $('#sortable').sortable('serialize',{handle:".handle"});
                         //alert(serial);
-                    $.ajax({url:"/account/store/sort_product/",type:"post",data:serial});
+                    $.ajax({url:"/account/store/sort-product/",type:"post",data:serial});
                 },
                 }).disableSelection();
             });
@@ -346,6 +265,7 @@
     
                         });
                         
+                        //$('.fileupload').fileupload();
                         
                         //filtering by tags - adding the tags
                         $("a.tag").click(function() {
@@ -464,7 +384,21 @@
                             $("#myModal").modal();
                         });
                         
-                                
+                        var sDate = $('.del_date').text();
+                        
+                        var date = new Date(sDate);
+                        var day = date.getDate();
+                        var month = date.getMonth();
+                        var year = date.getFullYear();
+
+                        var newDate = new Date(year,month,day)
+                                       
+                        var maxDate = new Date(year,month,newDate.getDate() + 15)
+
+                        $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
+                        
+                        $("#datepicker").datepicker("setDate",newDate);
+
                     })
                 }(window.jQuery)
                 

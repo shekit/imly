@@ -1,126 +1,42 @@
-{% extends "base.html" %}
+{% extends "base_profile.html" %}
 
-{% block title %}Chef Profiles{% endblock title %}
+{% block title %}Imly | Chef Profiles{% endblock title %}
 
-                {% block sidebar_nav %}
-                    {% load imly_tags %}
-                {% comment %}{% get_location_list %}
-                    <select class="location_list">
-                        <option value="all">Search by Location (All)</option>
-                        {% for location in locations %}
-                            <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                {% endcomment %}
-
-                    <div class="well sidebar-nav">
-                        
-                        
-                        
-                        <ul class="nav nav-list">
-                            {% if super_category %}
-                            <li class="nav-header">You are currently here:</li>
-                            <li><a href="{% url "imly_products_by_category" super_category.slug %}">{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
-                                <ul>
-                                    {% for sub_category in super_category.sub_categories.all %}
-                                        <li><a {% ifequal sub_category category %}class="sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                                
-                            </li>
-                            {% endif %}
-                            {% if selected_tags %}
-                            <li class="nav-header">You have filtered by:</li>
-                            
-                                <ul class="inline tags_for_product_home_inverted">
-                                    {% for tag in selected_tags %}
-                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                            
-                            <br>
-                            {% endif %}
-                            <li class="nav-header">Search by Category</li>
-                            {% get_category_list %}
-                                <li><a href="{% url "imly_product_list" %}">All</a></li>
-                                {% for category in categories %}
-                                    
-                                        {% if category.sub_categories.count %}
-                                            <li class="dropdown-submenu"><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a>
-                                                <ul class="dropdown-menu">
-                                                    {% for sub_category in category.sub_categories.all %}
-                                                        <li><a href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
-                                        {% else %}
-                                            <li><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
-                                        {% endif %}
-                                    
-                                {% endfor %}
-                                
-                            <li class="nav-header">Filter by Taste</li>
-                                <ul class="inline tags_for_product_home">
-                                    {% get_tag_list %}
-                                    {% for tag in tags %}
-                                        <li><a href="" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                        </ul> <!-- end of ul nav-list -->
-                    </div> <!-- end of well sidebar-nav -->
-                {% endblock sidebar_nav %}
-
-{% block shop_or_product %}
-
-                    {% comment %}
-                    <div class="row-fluid">
-                        
-                        <div class="span12 centered-pills">
-                            <p class="text-center"><small>SEARCH BY</small></p>
-                            <ul class="nav nav-pills">
-                                <li>
-                                    <a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Chef</a>
-
-                                </li>
-                                <li class="active"><a href="#">Food</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    
-                    </div>
-                    {% endcomment %}
-{% endblock shop_or_product %}
-
-{% block content %}
+{% block profile_content %}
 
 {% if object_list %}
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% for object in object_list %}
-        {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
-        <li class="span6">
-            <div class="thumbnail thumbnail_custom">
-                <a href="{% url "chef_profile" object.slug %}">
-                    <div class="sold_out">
-                        <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
-                        {% if object.is_featured %}
-                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
-                        {% endif %}
+                {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
+                <li class="span6">
+                    <div class="thumbnail thumbnail_custom">
+                        <a href="{% url "chef_profile" object.slug %}">
+                            <div class="sold_out">
+                                {% if object.cover_profile_image %}
+                                <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
+                                {% else %}
+                                    <div style="background: #f5f5f5;">
+                                        <img src="{{ object.avatar_thumbnail.url }}" alt="{{ object.first_name }}">
+                                    </div>
+                                    
+                                {% endif %}
+                                {% if object.is_featured %}
+                                    <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                                {% endif %}
+                                
+                            </div>
+                        </a>
+                        <h5 class="less_bottom_margin"><a class="top_text" href="{% url "chef_profile" object.slug %}">{{ object.first_name }} {{ object.last_name }}</a></h5>
+                        <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.user.store.get_absolute_url }}">{{ object.user.store.name|upper }}</a></small></p>
                         
+                            
+                        
+                            <div class="clearfix"></div>
                     </div>
-                </a>
-                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "chef_profile" object.slug %}">{{ object.first_name }} {{ object.last_name }}</a></h5>
-                <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.user.store.get_absolute_url }}">{{ object.user.store.name|upper }}</a></small></p>
-                
-                    
-                
-                    <div class="clearfix"></div>
-            </div>
-        </li>
-        {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
-        {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
+                </li>
+                {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
+                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
     </ul>
 
@@ -146,5 +62,5 @@
     {% endif %}
 
 
-{% endblock content %}
+{% endblock profile_content %}
 

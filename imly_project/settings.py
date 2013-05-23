@@ -17,7 +17,7 @@ ADMINS = (
 EMAIL_HOST = "smtp.mandrillapp.com"
 EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
-EMAIL_PORT = 587
+EMAIL_PORT = 1025
 
 MANAGERS = ADMINS
 DATABASES = {
@@ -245,7 +245,7 @@ CURRENCIES = ('INR',)
 PLATA_PAYMENT_MODULES = (
     'plata.payment.modules.cod.PaymentProcessor',
     #'plata.payment.modules.postfinance.PaymentProcessor',
-    'plata.payment.modules.ogone.PaymentProcessor',
+    #'plata.payment.modules.ogone.PaymentProcessor',
     #'plata.payment.modules.paypal.PaymentProcessor',
     )
 

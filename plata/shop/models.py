@@ -3,7 +3,7 @@ from decimal import Decimal
 import logging
 import re
 from datetime import timedelta
-
+from django.core.mail import send_mail,mail_admins
 from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from django.core.urlresolvers import get_callable
@@ -171,15 +171,16 @@ class Order(BillingShippingAddress):
         
         if not self._order_id and self.status >= self.PAID:
             try:
-                o = Order.objects.get(pk=self.pk)
-                max_lead_time = o.items.aggregate(max=Max('product__lead_time'))['max']
-                self.delivery_date = o.confirmed + timedelta(days=max_lead_time)
                 order = Order.objects.exclude(_order_id='').order_by('-_order_id')[0]
                 latest = int(re.sub(r'[^0-9]', '', order._order_id))
             except (IndexError, ValueError):
                 latest = 0
 
             self._order_id = 'O-%09d' % (latest + 1)
+            '''if self.confirmed:
+                mail_admins("Ordre Confirmed.","Your order has confimed successfully and you Order id is %s" %self._order_id,fail_silently=False)'''
+                
+                #send_mail("Ordre Confirmed.","Your order has confimed successfully and you Order id is %s" %self._order_id,)
 
         super(Order, self).save(*args, **kwargs)
 
@@ -219,7 +220,7 @@ class Order(BillingShippingAddress):
         return sum((item.subtotal for item in self.items.all()), Decimal('0.00')).quantize(Decimal('0.00'))
 
     # below three properties are set to do store specific calculations
-    @property
+    """@property
     def store(self):
         return self.store_instance
 
@@ -231,7 +232,7 @@ class Order(BillingShippingAddress):
     def store_total(self):
         return sum((item.subtotal for item in self.items.filter(product__in=self.store.product_set.all())), Decimal('0.00')).quantize(Decimal('0.00'))
 
-        
+    """    
     @property
     def stores(self):
         return {item.product.store for item in self.items.all()}

@@ -1,5 +1,7 @@
 {% extends "base_store_manage.html" %}
 
+{% block title %}Imly | Manage Shop{% endblock title %}
+
 {% block manage_store_navigation %}
 
         {% if user.store %}
@@ -7,6 +9,11 @@
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li><a href="{% url "imly_store_products" %}">Product Details</a></li>
                 <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+                {% if user.userprofile %}
+                    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+                {% endif %}
                 
 
         {% else %}
@@ -14,6 +21,11 @@
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
                 <li class="disabled"><a href="#">Order Details</a></li>
+                {% if user.userprofile %}
+                    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+                {% endif %}
                 
 
         {% endif %}
@@ -30,11 +42,20 @@
                         Your shop is <strong>pending approval</strong>. Once approved you can start taking orders!
                     </div>
                 {% endif %}
+                
+                {% if not user.store.is_open %}
+                <br>
+                    <div class="alert">
+                        <button type="button" class="close" data-dismiss="alert">&times;</button>
+                        You have <strong>temporarily shut your shop</strong>. You will not receive any orders until you click reopen. Enjoy your break!
+                    </div>
+                {% endif %}
+                
             {% endif %}
             {% if user.store %}
             <div class="row-fluid">
                     <div class="span12">
-                        <p class="text-right">{% if user.store.is_open %}<a href="{% url "imly_store_status" %}" class="btn">Shut Store</a>{% else %}<a href="{% url "imly_store_status" %}" class="btn">Open Store</a>{% endif %} <a href="{% url "imly_store_detail" user.store.slug %}" class="btn">Preview Store</a> <a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
+                        <p class="text-right"><a href="{% url "imly_store_detail" user.store.slug %}" class="btn">Preview Store</a> <a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a></p>
                     </div>
             </div>
             <br>
@@ -106,7 +127,7 @@
                 <div class="span12 well">
                         {% if object.tags.count %}
                         <h4 class="store_info">Tags:</h4>
-                            <ul class="inline tags_for_store_inverted">
+                            <ul class="inline tags_for_product">
                                 {% for tag in object.tags.all %}
                                     <li>{{ tag }}</li>
                                 {% endfor %}
@@ -116,6 +137,19 @@
                     
                 </div>
             </div>
+            
+            <div class="row-fluid">
+                <div class="span12">
+                        <p class="text-center">
+                                {% if user.store.is_open %}
+                                        <a href="{% url "imly_store_status" %}" class="btn btn-danger">Temporarily Shut Shop</a>
+                                {% else %}
+                                        <a href="{% url "imly_store_status" %}" class="btn btn-success">Reopen Shop</a>
+                                {% endif %}    
+                        </p>
+                </div>
+            </div>
+            
             
             {% else %}
                 <br><br><br>

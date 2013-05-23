@@ -2,7 +2,7 @@
 
 {% load i18n plata_tags %}
 
-{% block title %}{% trans "Order successful" %} - {{ block.super }}{% endblock %}
+{% block title %}Imly | {% trans "Order successful" %} - {{ block.super }}{% endblock %}
 
 {% block cart_content %}
 {% if not order.balance_remaining %}
@@ -10,7 +10,7 @@
     {# TODO this isn't correct for cash on delivery #}
     <p>Please do not click the back button. Click on continue to proceed.</p>
     
-    <button type="button" class="btn btn-large btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
+    <button type="button" class="btn btn-large btn-success" onclick="window.location.href='{% url "imly_product_list" %}'">{% trans "Continue" %}</button>
 {% else %}
     {% if order.paid %}
         <h2>{% trans "Order has been partially paid." %}</h2>
@@ -25,5 +25,5 @@
 
 {% include "plata/_order_overview.html" %}
 
-<button type="button" class="btn btn-success" onclick="window.location.href='{% url "plata_order_new" %}'">{% trans "Continue" %}</button>
+<button type="button" class="btn btn-success" onclick="window.location.href='{% url "imly_product_list" %}'">{% trans "Continue" %}</button>
 {% endblock cart_content %}
