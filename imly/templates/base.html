@@ -166,8 +166,7 @@
 
             $(document).ready(function(){
             
-            $("#id_terms_and_conditions").attr("checked",true);
-            $("#id_payment_method")[0].selectedIndex = 1;
+
 
             $("#sortable").sortable({
                 update:function(event,ui){
@@ -379,6 +378,7 @@
 
                         });
                         
+                        
                         $("#from_logout").on("click", function(){
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
@@ -398,6 +398,8 @@
                         $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
                         
                         $("#datepicker").datepicker("setDate",newDate);
+                        $("#id_terms_and_conditions").attr("checked",true);
+                        $("#id_payment_method")[0].selectedIndex = 1;
 
                     })
                 }(window.jQuery)
