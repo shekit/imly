@@ -18,8 +18,8 @@ def set_locattion_point(sender,instance,**kwargs):
 		instance.location.x, instance.location.y = point.x, point.y
 
 @receiver(post_save,sender=Order)
-def set_store_order(sender,instance,**kwargs):
-	
+def set_store_order(sender,instance,**kwargs):	
+    '''
 	if instance.status == 60:
 		stores = [stores for stores in instance.store_set.all()]
 		for store in stores:
@@ -32,9 +32,10 @@ def set_store_order(sender,instance,**kwargs):
 		buyer_email = instance.user.email
 		print "Buyer Email",buyer_email
 		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance_id),"orders@imly.in",buyer_email,fail_silently=False)
-
-	stores = {item.product.store for item in instance.items.all()}
-	for store in stores:
+    '''
+    stores = {item.product.store for item in instance.items.all()}
+    StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
+    for store in stores:
 		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
 		store_order.delivered_on = instance.created.date() + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
 		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
