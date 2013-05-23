@@ -104,7 +104,7 @@ class Order(BillingShippingAddress):
     #: Order has been completed. Plata itself never sets this state,
     #: it is only meant for use by the shop owners.
     COMPLETED = 50
-    IMLY = 60
+    IMLY_CONFIRMED = 60
 
     STATUS_CHOICES = (
         (CART, _('Is a cart')),
@@ -112,7 +112,7 @@ class Order(BillingShippingAddress):
         (CONFIRMED, _('Order has been confirmed')),
         (PAID, _('Order has been paid')),
         (COMPLETED, _('Order has been completed')),
-        (IMLY, _("Imly has confirmed the order")),
+        (IMLY_CONFIRMED, _("Imly has confirmed the order")),
         )
 
     created = models.DateTimeField(_('created'), default=datetime.now)
