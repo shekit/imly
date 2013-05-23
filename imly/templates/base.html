@@ -244,8 +244,7 @@
 
             $(document).ready(function(){
             
-            $("#id_terms_and_conditions").attr("checked",true);
-            $("#id_payment_method")[0].selectedIndex = 1;
+
 
             $("#sortable").sortable({
                 update:function(event,ui){
@@ -427,11 +426,13 @@
 
                         });
                         
+                        
                         $("#from_logout").on("click", function(){
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                        
+                        $("#id_terms_and_conditions").attr("checked",true);
+                        $("#id_payment_method")[0].selectedIndex = 1;
                         var sDate = $('.del_date').text();
                         
                         var date = new Date(sDate);
