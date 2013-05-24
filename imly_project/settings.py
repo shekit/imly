@@ -14,10 +14,11 @@ ADMINS = (
     ("Pavan Mishra", "pavanmishra@gmail.com"),
 )
 
+EMAIL_USE_TLS = True
 EMAIL_HOST = "smtp.mandrillapp.com"
 EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
-EMAIL_PORT = 1025
+EMAIL_PORT = 587
 
 MANAGERS = ADMINS
 DATABASES = {
