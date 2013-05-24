@@ -10,12 +10,19 @@ from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store,DeliveryLocation,StoreOrder
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point
+from omgeo.places import PlaceQuery
+from omgeo.services import Bing
+        
+bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
 
 @receiver(pre_save,sender=DeliveryLocation)
 def set_locattion_point(sender,instance,**kwargs):
-	point = Point(instance.data['geometry']['location']['kb'], instance.data['geometry']['location']['jb'])
-	if instance.location.x != point.x and instance.location.y != point.y:
-		instance.location.x, instance.location.y = point.x, point.y
+    pq = PlaceQuery(instance.name)
+    result = bingeo.geocode(pq)
+    geo = result[0][0]
+    point = Point(geo.x, geo.y)
+    if instance.location.x != point.x and instance.location.y != point.y:
+        instance.location.x, instance.location.y = point.x, point.y
 
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail(sender,instance,**kwargs):
