@@ -36,13 +36,13 @@
 
         </fieldset>
 		<input type="text" name="location_autocompleter" id="delivery_locator">
-		
 		<script type="text/html" id="delivery_location_template">
 			<div class="delivery_location">
 				<label for="id_delivery_locations-<%= id %>-name">Name:</label>
 				<input id="id_delivery_locations-<%= id %>-name" type="text" name="delivery_locations-<%= id %>-name" maxlength="100" value="<%= name %>">
 				<label for="id_delivery_locations-<%= id %>-DELETE">Delete:</label>
 				<input id="id_delivery_locations-<%= id %>-DELETE" type="checkbox" name="delivery_locations-<%= id %>-DELETE">
+				
 				<input id="id_delivery_locations-<%= id %>-id" type="hidden" name="delivery_locations-<%= id %>-id">
 				<input id="id_delivery_locations-<%= id %>-store" type="hidden" name="delivery_locations-<%= id %>-store">
 			</div>
