@@ -25,9 +25,64 @@
 {% endblock carousel %}
 
 {% block featurette %}
+    <div class="row-fluid text-center">
+        <div class="row-fluid">
+            <div class="span12">
+                <h1 class="what_heading best_dish">For the <span class="orange">chefs</span> amongst us</h1>
+                <p class="what_para">Sell your unique delicacies to Imly's vibrant and ever-growing foodie community.<br> See <a class="what_link" href="{% url "why_open_your_shop" %}">why you should join</a> Imly and how you can begin selling in no time.</p>
+            </div>
+        </div>
+        <br>
+        <br>
+        <div class="row-fluid what_chef_foodie">
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/list.png">
+                <h3>List</h3>
+            </div>
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/cook.png">
+                <h3>Cook</h3>
+            </div>
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/sell.png">
+                <h3>Sell</h3>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+        <div class="row-fluid text-center">
+        <div class="row-fluid">
+            <div class="span12">
+                <h1 class="what_heading best_dish">For the <span class="orange">foodie</span> in all of us</h1>
+                <p class="what_para">Discover and buy great food served fresh and made to order from kitchens and homes around your city.<br><a class="what_link" href="{% url "imly_product_list" %}">Start shopping</a> today for food you won't find anywhere else.</p>
+            </div>
+        </div>
 
+        <br>
+        <br>
+
+        <div class="row-fluid what_chef_foodie">
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/buy.png">
+                <h3>Buy</h3>
+            </div>
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/eat.png">
+                <h3>Eat</h3>
+            </div>
+            <div class="span4">
+                <img src="{{ STATIC_URL }}bootstrap/img/review.png">
+                <h3>Review</h2>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 {% endblock featurette %}
-
-{% block as_seen_on %}
-    
-{% endblock as_seen_on %}
