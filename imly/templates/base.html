@@ -228,7 +228,7 @@
 						});
 						var autocomplete_delivery = $('#delivery_locator');
 						if($('#delivery_locator')){
-						 autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);	
+						 autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
 						 google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
 							 var count = $('.delivery_locations').children().length;
 							 var markup = $('#delivery_location_template').html()
