@@ -9,18 +9,15 @@
     <ul class="thumbnails">
         {% for object in object_list %}
                 {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
+                {% if object.cover_profile_image %}
                 <li class="span6">
                     <div class="thumbnail thumbnail_custom">
                         <a href="{% url "chef_profile" object.slug %}">
                             <div class="sold_out">
-                                {% if object.cover_profile_image %}
+                                
                                 <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
-                                {% else %}
-                                    <div style="background: #f5f5f5;">
-                                        <img src="{{ object.avatar_thumbnail.url }}" alt="{{ object.first_name }}">
-                                    </div>
-                                    
-                                {% endif %}
+
+                                
                                 {% if object.is_featured %}
                                     <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                                 {% endif %}
@@ -35,6 +32,7 @@
                             <div class="clearfix"></div>
                     </div>
                 </li>
+                {% endif %}
                 {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
                 {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}

@@ -10,6 +10,7 @@ django-allauth==0.9.0
 django-appconf==0.6
 django-contrib-comments==1.5
 django-crispy-forms==1.2.4
+django-extensions==1.1.1
 django-imagekit==2.0.3
 django-ratings==0.3.7
 django-reviews==0.1.0
@@ -21,9 +22,12 @@ httplib2==0.7.7
 ipython==0.13.1
 oauth2==1.5.211
 psycopg2==2.4.6
+python-omgeo==1.5.5
 python-openid==2.2.5
+pytz==2013b
 readline==6.2.4.1
 requests==1.1.0
 simplejson==3.1.0
 six==1.2.0
+suds==0.4
 wsgiref==0.1.2

@@ -5,7 +5,9 @@ from omgeo.services import Bing
 
 def set_location(request):
     place_slug = request.GET.get('location', 'all')
+    display_place_slug = place_slug.split(",")[0]
     request.session["place_slug"] = place_slug
+    request.session["display_place_slug"] = display_place_slug
     if place_slug in ['all', '']:
         request.session['bingeo'] = None
     else:

@@ -873,6 +873,17 @@ ul.no_left_padding > li {
     padding-left: 0px;
 }
 
+/* Tooltips links*/
+
+.form-tips {
+    color:#ff7752;
+}
+
+.form-tips:hover {
+    color:#f05a28;
+    text-decoration: underline;
+}
+
 /* customizing location select box */
 select.location_list {
 	width:100%;
