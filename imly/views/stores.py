@@ -38,9 +38,10 @@ class StoreList(ListView):
     
     def get_queryset(self):
         stores = Store.objects.is_approved()
+        '''
         if self.request.session.get("place_slug",""):
             location = Location.objects.get(slug = self.request.session.get("place_slug",""))
-            stores = location.store_set.all()
+            stores = location.store_set.all() '''
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
