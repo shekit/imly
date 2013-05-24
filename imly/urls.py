@@ -67,6 +67,15 @@ urlpatterns = patterns('',
 
 urlpatterns += patterns('',
     
+    url(r"^set_location$", set_location, name="imly_filter_by_place"),
+    #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
+    #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
+    #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
+    
+)
+
+urlpatterns += patterns('',
+    
     url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
@@ -83,14 +92,6 @@ urlpatterns += patterns('',
     url(r"^categories/(?P<category_slug>[-\w]+)/food/$", ProductList.as_view(), name="imly_products_by_category"),
 )
 
-urlpatterns += patterns('',
-    
-    url(r"^set_location/(?P<place_slug>[-\w]+)$", set_location, name="imly_filter_by_place"),
-    #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
-    #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
-    #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
-    
-)
 
 urlpatterns += patterns('',
     url(r"^account/store/products/add/$", login_required(ProductCreate.as_view()), name="imly_product_add"),

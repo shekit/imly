@@ -49,17 +49,18 @@ class ProductList(ListView):
 
     def get_queryset(self):
         products = Product.objects.is_approved().filter(is_deleted=False)
-        if self.request.session.get('place_slug', ''):
-            products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
+        #if self.request.session.get('place_slug', ''):
+        #    products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist('tags', [])) 
-        q = Q()
-        for tag in self.tags:
-            q &= Q(tags=tag)
-        return products.filter(q)
+        if self.tags:
+            for tag in self.tags:
+                products &= tag.product_set.all()
+#        raise Exception(self.request.session.get('place_slug', 'not set'))
+        return products
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)

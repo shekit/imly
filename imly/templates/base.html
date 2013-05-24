@@ -40,7 +40,7 @@
                                 <ul class="text-center inline">
                                         <li>I want food in</li>
                                         <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
-										<li><input id="local" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+			
                                 </ul>
                          
                         </div>
@@ -61,6 +61,7 @@
                 {% block sidebar_nav %}
                     {% load imly_tags %}
                     {% comment %}{% get_location_list %}
+
                     <select class="location_list">
                         <option value="all">Search by Location (All)</option>
                         {% for location in locations %}
@@ -193,7 +194,8 @@
                 !function ($) {
 					
                     $(function(){
-                        //$('#sortable').sortable({items:"> tr"});
+						/*
+					    //$('#sortable').sortable({items:"> tr"});
                         //$('#sortable').disableSelection();
 					   
 						$("#local").autocomplete({
@@ -225,36 +227,29 @@
 						            },
 						            minLength: 1
 						        });
-								
-        				$('#loc').keydown(function(event){
-        					if(event.keyCode==13){
-								alert('now I reach here')
-        						event.preventDefault();
-								return false;
-        					}
-        				});
+						*/		
 						var default_bounds = new google.maps.LatLngBounds(
 								new google.maps.LatLng(19.26, 72.98),
 								new google.maps.LatLng(18.89, 72.775)); 
 						var google_map_api_options = {
 							bounds: default_bounds,
-				//			types: ['(regions)'], 
 							componentRestrictions: {country: 'in'}
 						};
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
-						google.maps.event.addListener(autocomplete, 'place_changed', function(event){
-							place = autocomplete.getPlace();
-							if(!place.geometry){
-								alert('whats that?')
-							}else{
-                            	var count = $('.delivery_locations').children().length;
-								var markup = $('#delivery_location_template').html()
-								var compiled = _.template(markup, {id: count, place: JSON.stringify(place), name: place.formatted_address});
-								$('div.delivery_locations').append(compiled);
-								$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
-							}
+						google.maps.event.addListener(autocomplete, 'place_changed', function(){
+							window.location.href = '/set_location?location=' + $('#loc').val();
 						});
-						
+						var autocomplete_delivery = $('#delivery_locator');
+						if($('#delivery_locator')){
+						 autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);	
+						 google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
+							 var count = $('.delivery_locations').children().length;
+							 var markup = $('#delivery_location_template').html()
+							 var compiled = _.template(markup, {id: count, name: $('#delivery_locator').val()});
+							 $('div.delivery_locations').append(compiled);
+							 $('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
+						 });
+						}
 						
 						//expanding, contracting stor info
                         $("div.expandable").expander({
@@ -401,8 +396,7 @@
                         
                         $("#datepicker").datepicker("setDate",newDate);
                         $("#id_terms_and_conditions").attr("checked",true);
-                        $("#id_payment_method")[0].selectedIndex = 1;
-
+                        
                     })
                 }(window.jQuery)
                 

@@ -16,4 +16,4 @@ ALLOWED_HOSTS = []
 STATIC_URL = '/static/'
 #make crispy forms fail loudly in debug mode
 CRISPY_FAIL_SILENTLY = not DEBUG
-EMAIL_BACKEND = 'django.core.mail.backends.dummy.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
