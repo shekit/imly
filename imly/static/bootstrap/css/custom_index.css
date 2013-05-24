@@ -679,10 +679,6 @@ ul.errorlist > li {
 
 /* WHAT IS IMLY PAGE */
 
-.hero_less_height {
-    height: 150px;
-}
-
 .hero_what {
     background: url("../img/store_cover_photo_lightest.png");
 }
@@ -702,6 +698,27 @@ ul.errorlist > li {
     text-align: right;
 }
 
+.what_para {
+    font-size: 16px;
+    font-weight: 300;
+}
+
+.what_heading {
+    color: #999;
+    font-weight:300;
+}
+
+.what_chef_foodie h3 {
+    font-weight: 300;
+}
+
+.what_link {
+    color:#ff7752;
+}
+
+.what_link:hover {
+    color:#f05a28;
+}
 /* RESPONSIVE CSS
     -------------------------------------------------- */
 
