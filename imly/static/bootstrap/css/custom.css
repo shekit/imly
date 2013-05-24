@@ -302,13 +302,33 @@ ul.food_chef > li {
 	background: #F05A28;
 }
 
-.sub_category_link {
+.sidebar-nav .nav > li > a.selected_super_category {
+    color:#ff7752;
+    cursor: default;
+}
+
+.sidebar-nav .nav > li > a.selected_super_category:hover {
+    color:#ff7752;
+    background: #fff;
+}
+
+.selected_sub_category_link {
     color: #ff7752;
 }
 
-.sub_category_link:hover {
-    color:#f05a28;
-    text-decoration: underline;
+.selected_sub_category_link:hover {
+    color:#ff7752;
+    cursor: default;
+    text-decoration: none;
+}
+
+.unselected_sub_category_link {
+    color:#999;
+}
+
+.unselected_sub_category_link:hover {
+    color:#666;
+    text-decoration: none;
 }
 
 /* class added to search by taste links to make them look like inline tags */
