@@ -27,7 +27,7 @@
                             
                                 <ul class="inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
-                                        <li><a href="" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
+                                        <li><a href="{% url "remove_tag" tag.slug %}" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endfor %}
                                 </ul>
                             
@@ -63,7 +63,7 @@
                                 <ul class="inline tags_for_product_home">
                                     {% get_tag_list %}
                                     {% for tag in tags %}
-                                        <li><a href="" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
+                                        <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
                         </ul> <!-- end of ul nav-list -->

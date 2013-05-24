@@ -55,7 +55,10 @@ class ProductList(ListView):
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all())
-        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist('tags', [])) 
+        try:
+            self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[])) 
+        except:
+            self.tags = []
         if self.tags:
             for tag in self.tags:
                 products &= tag.product_set.all()

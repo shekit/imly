@@ -35,9 +35,10 @@ def do_tag_list(parser, token):
 class TagListNode(template.Node):
     
     def render(self,context):
-        selected_tags = context.get("selected_tags",[])
+        #selected_tags = context.get("selected_tags",[])
+        selected_tags = context['request'].session.get("tags",[])
         if selected_tags:
-            context["tags"] = Tag.objects.exclude(pk__in=selected_tags)
+            context["tags"] = Tag.objects.exclude(slug__in=selected_tags)
         else:
             context["tags"] = Tag.objects.all()
         return ""

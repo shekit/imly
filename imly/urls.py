@@ -7,6 +7,7 @@ from imly.views.products import ProductReview, ProductList, ProductCreate, Produ
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location
 from imly.views.orders import UserOrders, StoreOrders
+from imly.views.tags import add_tag, remove_tag
 from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
@@ -69,6 +70,8 @@ urlpatterns += patterns('',
     
     url(r"^set_location/$", set_location, name="imly_filter_by_place"),
     url(r"^unset_location/$", unset_location, name="unset_location"),
+    url(r"^add-tag/(?P<slug>[-\w]+)/$", add_tag, name="add_tag"),
+    url(r"^remove-tag/(?P<slug>[-\w]+)/$", remove_tag, name="remove_tag"),
     #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
     #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
     #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
