@@ -46,10 +46,10 @@ class StoreList(ListView):
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all())
         self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        q = Q()
-        for tag in self.tags:
-            q &= Q(tags=tag)
-        return stores.filter(q)
+        if self.tags:
+            for tag in self.tags:
+                stores &= tag.store_set.all()
+        return stores
     
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
