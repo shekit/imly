@@ -69,6 +69,7 @@ class ProductList(ListView):
         context["selected_tags"] = self.tags
         return context
 
+# Not being used now
 class ProductsByCategory(ListView):
     
     model = Product

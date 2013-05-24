@@ -31,23 +31,23 @@
             {% endblock navigation %}
         </div> <!-- end of div container -->
     </div>   
-        
-        <div class="container-fluid location_bar_outer">
-            <div class="container location_bar_inner">
-                    <div class="row-fluid">
-                        <div class="span12">
-                           
-                                <ul class="text-center inline">
-                                        <li>I want food in</li>
-                                        <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
-			
-                                </ul>
-                         
-                        </div>
-                    </div>
-            </div>
-            
-        </div>
+        {% block location_search_bar %}
+            {% if not request.session.place_slug %}
+                <div class="container-fluid location_bar_outer">
+                    <div class="container location_bar_inner">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                   
+                                        <ul class="text-center inline">
+                                                <li>I want food in</li>
+                                                <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+                                        </ul>
+                                </div>
+                            </div>
+                    </div><!-- end of location_bar_inner -->
+                </div><!-- end of div container-fluid location_bar_outer -->
+            {% endif %}
+        {% endblock location_search_bar %}
         
         <div id="wrap">
             <br>
@@ -56,48 +56,35 @@
                 <div class="span12">
 
             {% block main_body %}
+                {% if request.session.place_slug %}
+                <br> <!-- for presentation purposes, otherwise sticks too close to the top -->
+                <br>
+                {% endif %}
             <div class="row-fluid">
                 <nav class="span3">
                 {% block sidebar_nav %}
                     {% load imly_tags %}
-                    {% comment %}{% get_location_list %}
-
+                {% comment %}{% get_location_list %}
                     <select class="location_list">
                         <option value="all">Search by Location (All)</option>
                         {% for location in locations %}
                             <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
                         {% endfor %}
                     </select>
-                    <br>{% endcomment %}
+                    <br>
+                {% endcomment %}
+                    
                     <div class="well sidebar-nav">
-                        <ul class="nav nav-list">
-                            <li class="nav-header">Search by Category</li>
-                            {% get_category_list %}
-                                <li><a href="#">All</a></li>
-                                {% for category in categories %}
-                                    
-                                        {% if category.sub_categories.count %}
-                                            <li class="dropdown-submenu"><a href="#">{{ category.name|capfirst }}</a>
-                                                <ul class="dropdown-menu">
-                                                    {% for sub_category in category.sub_categories.all %}
-                                                        <li><a href="">{{ sub_category.name|capfirst }}</a></li>
-                                                    {% endfor %}
-                                                </ul>
-                                            </li>
-                                        {% else %}
-                                            <li><a href="#">{{ category.name|capfirst }}</a></li>
-                                        {% endif %}
-                                    
-                                {% endfor %}
-                                
-                            <li class="nav-header">Filter by Taste</li>
-                                <ul class="inline tags_for_product_home">
-                                    {% get_tag_list %}
-                                    {% for tag in tags %}
-                                        <li><a href="" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
-                                    {% endfor %}
-                                </ul>
-                        </ul> <!-- end of ul nav-list -->
+                        
+                        <div class="span12">
+                            <ul class="inline text-center food_chef">
+                                <li><a href="#" class="food food_chef_active">Food</a></li>
+                                <li><a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}" class="chef food_chef_inactive">Chef</a></li>
+                                <hr class="hr_less_margin">
+                            </ul>
+                        </div>
+                        
+                        {% include "sidebar_nav.html" %}
                     </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
                 </nav> <!-- end of nav span3 -->

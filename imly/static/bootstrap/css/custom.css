@@ -308,7 +308,7 @@ ul.food_chef > li {
 
 .sub_category_link:hover {
     color:#f05a28;
-    text-decoration: none;
+    text-decoration: underline;
 }
 
 /* class added to search by taste links to make them look like inline tags */
