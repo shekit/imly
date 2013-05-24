@@ -145,9 +145,11 @@ class ProductForm(forms.ModelForm):
         self.fields["_unit_price"].label = "Price"
         self.fields["quantity_per_item"].label = "Quantity"
         self.fields["quantity_by_price"].label = "Unit"
-        self.fields["lead_time"].label = "Delivery Time"
-        self.fields["lead_time_unit"].label = "Unit"
+        self.fields["capacity_per_day"].label = "Capacity per day <a href='#' class='form-tips' title='How many units of this item(as defined above) can you make in a single day.'>[?]</a>"
+        self.fields["lead_time"].label = "Notice Period <a href='#' class='form-tips' title='The advance notice period you need to prepare the dish and have it ready for delivery/pick-up'>[?]</a>"
+        self.fields["lead_time_unit"].label = "<br>"
         self.fields["image"].label = "Product Image"
+        self.fields["tags"].label = "Tags <a href='#' class='form-tips' title='Check all that apply so buyers can better search for your dish.'>[?]</a>"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -218,7 +220,7 @@ class UserProfileForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super(UserProfileForm,self).__init__(*args,**kwargs)
-        self.fields["cover_profile_image"].label = "Profile Image <a href='#' class='example' rel='tooltip' title='Hello'>[?]</a>"
+        self.fields["cover_profile_image"].label = "Profile Image"
         self.fields["word_one"].label = "Three words that best describe you"
         self.fields["word_two"].label = "<br><br>"
         self.fields["word_three"].label = "<br><br>"

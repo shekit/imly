@@ -118,6 +118,7 @@
                 <form method="post" action="{% url "imly_add_order" object.slug %}">
                 {% csrf_token %}
                     {{ form.as_p }}
+                    <br>
                     <input type="submit" class="btn btn-success btn-custom btn-large" value="Order Now">
                 </form>
                 {% else %}
@@ -153,7 +154,7 @@
         
         <div class="span4 bordered_left_right">
             <ul class="unstyled text-center">
-                <li><h4 class="product_detail_header">Prep Time</h4></li>
+                <li><h4 class="product_detail_header">Preparation Time <a href='#' class='form-tips' title='Time in which the chef will have your dish ready for delivery/pick-up'>[?]</a></h4></li>
                 <li>
                     <b>
                     {% if object.lead_time == 1 %}

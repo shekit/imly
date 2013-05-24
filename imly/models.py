@@ -13,7 +13,7 @@ from plata.product.models import ProductBase
 from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
-from imagekit.processors import ResizeToFill,SmartResize
+from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
@@ -227,9 +227,9 @@ class Product(ProductBase, PriceBase):
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
     image = models.ImageField(upload_to=get_image_path, help_text="Minimum image size - 600 X 340 pixels")
-    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], options={"quality":80}, cache_to=get_thumbnail_path)
-    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], options={"quality":60}, cache_to=get_thumbnail_mini_path)
-    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(575,315)], options={"quality":80}, cache_to=get_thumbnail_large_path)
+    image_thumbnail = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
+    image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
+    image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG", processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
     date_created = models.DateTimeField(auto_now=True, editable=False)
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
