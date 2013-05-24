@@ -466,6 +466,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	text-align:center;
 }
 
+.thumbnail {
+    padding:2px;
+}
+
 .thumbnail_custom {
 
 padding: 0px;
@@ -515,11 +519,12 @@ transition: all 0.2s ease-in-out;
 }
 
     .top_text {
-	color: #301208;
+	color: #333;
+	font-weight: 500;
     }
 
     .top_text:hover {
-	color:#301208;
+	color:#333;
     	text-decoration: underline;
     }
 
