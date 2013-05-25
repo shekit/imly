@@ -36,7 +36,13 @@
 
             <tr class="shop_cart_header">
 
-                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a></th>
+                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
+                <span class="pull-right">
+                    {% if request.session.place_slug %}
+                        <span class="icon-map-marker"></span> <small>5.8 kms</small>
+                    {% endif %}
+                </span>
+                </th>
             </tr>
             
             <tr>

@@ -58,13 +58,15 @@
                                         {% endif %}
                                     
                                 {% endfor %}
-                                
+                            {% get_tag_list %}
+                            {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
                                 <ul class="inline tags_for_product_home">
-                                    {% get_tag_list %}
+                                    
                                     {% for tag in tags %}
                                         <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
+                            {% endif %}
                         </ul> <!-- end of ul nav-list -->
                     

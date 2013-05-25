@@ -493,6 +493,10 @@ transition: all 0.2s ease-in-out;
     padding:3px;
 }
 
+.location_distance {
+    margin:0px;
+}
+
 .sold_out {
     position:relative;
 }
@@ -1166,3 +1170,4 @@ td.less_padding_inner_td {
     }
     
 }
+

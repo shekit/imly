@@ -28,7 +28,8 @@ def faqs(request):
 def what_is_imly(request):
     return render(request, "what_is_imly.html")
 
-
+def wrong_location(request):
+    return render(request, "no_location.html")
 
 class StoreList(ListView):
     
