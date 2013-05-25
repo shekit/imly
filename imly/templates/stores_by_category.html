@@ -25,7 +25,79 @@
                             </ul>
                         </div>
                         
-                        {% include "sidebar_nav.html" %}
+                        {% load imly_tags %}
+
+                        <ul class="nav nav-list">
+                            {% if request.session.place_slug %}
+                            <li class="nav-header">Your location: </li>
+                                <ul class="inline tags_for_product_home_inverted">
+                                    <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug }} <span class="small">&times;</span></a></li>
+                                </ul>
+                            <p></p>                                
+                            {% endif %}
+                            {% if super_category %}
+                            <li class="nav-header">You are currently here:</li>
+                            <li><a href="{% url "imly_stores_by_category" super_category.slug %}" {% ifequal super_category category %}class="selected_super_category"{% endifequal %}>{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
+                                <ul>
+                                    {% for sub_category in super_category.sub_categories.all %}
+                                        <li><a {% ifequal sub_category category %}class="selected_sub_category_link"{% else %}class="unselected_sub_category_link"{% endifequal %} href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                                
+                            </li>
+                                {% if not selected_tags and super_category %}
+                                        <hr>
+                                {% endif %}
+                            {% endif %}
+                            {% if selected_tags %}
+                            <li class="nav-header">You have filtered by:</li>
+                            
+                                <ul class="inline tags_for_product_home_inverted">
+                                    {% for tag in selected_tags %}
+                                        <li><a href="{% url "remove_tag" tag.slug %}" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
+                                    {% endfor %}
+                                </ul>
+                            
+                                {% if not super_category and selected_tags %}
+                                    <hr>
+                                {% endif %}
+                            {% endif %}
+                            
+                            {% if super_category and selected_tags %}
+                                <hr>
+                            {% endif %}
+                        
+                            <li class="nav-header">Search by Category</li>
+                            {% get_category_list %}
+                                <li><a href="{% url "imly_product_list" %}">All</a></li>
+                                {% for category in categories %}
+                                    
+                                        {% if category.sub_categories.count %}
+                                            <li class="dropdown-submenu"><a href="{% url "imly_stores_by_category" category.slug %}">{{ category.name|capfirst }}</a>
+                                                <ul class="dropdown-menu">
+                                                    {% for sub_category in category.sub_categories.all %}
+                                                        <li><a href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                        {% else %}
+                                            <li><a href="{% url "imly_stores_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
+                                        {% endif %}
+                                    
+                                {% endfor %}
+                                
+                            {% get_tag_list %}
+                            {% if tags %}
+                            <li class="nav-header">Filter by Taste</li>
+                                <ul class="inline tags_for_product_home">
+                                    
+                                    {% for tag in tags %}
+                                        <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
+                                    {% endfor %}
+                                </ul>
+                            {% endif %}
+                        </ul> <!-- end of ul nav-list -->
+                    
                     </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
 
@@ -56,7 +128,7 @@
                 <li class="span4">
                     <div class="thumbnail thumbnail_custom">
                     {% if request.session.place_slug %}
-                        <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">5.8 kms</small></p>
+                        <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms</small></p>
                     {% endif %}
                         {% if object.logo %}
                             <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></a>
@@ -81,7 +153,7 @@
 {% else %}
     <br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
-    <h3 class="muted text-center">Oops, we don't have any chefs matching your search criteria.<br>Help us by <a class="give_us_a_tip action_button action_button3 open_your_shop" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p></small>suggesting a chef.</h3>
+    <h3 class="muted text-center">Oops, we don't have any chefs matching your search criteria.<br>Help us! <a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></h3>
 {% endif %}
     
     {% if is_paginated %}

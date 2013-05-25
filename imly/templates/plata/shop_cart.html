@@ -39,7 +39,7 @@
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
                 <span class="pull-right">
                     {% if request.session.place_slug %}
-                        <span class="icon-map-marker"></span> <small>5.8 kms</small>
+                        <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} kms</small>
                     {% endif %}
                 </span>
                 </th>

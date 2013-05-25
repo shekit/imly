@@ -6,7 +6,7 @@
                                 <ul class="inline tags_for_product_home_inverted">
                                     <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug }} <span class="small">&times;</span></a></li>
                                 </ul>
-                            <br>                                
+                            <p></p>                               
                             {% endif %}
                             {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
@@ -58,6 +58,7 @@
                                         {% endif %}
                                     
                                 {% endfor %}
+                                
                             {% get_tag_list %}
                             {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
