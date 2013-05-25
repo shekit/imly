@@ -2,9 +2,14 @@
 
 {% block title %}Imly | Chef Profiles{% endblock title %}
 
+{% block location_search_bar %}
+    
+{% endblock location_search_bar%}
+
 {% block profile_content %}
 
 {% if object_list %}
+    <br><br>
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% for object in object_list %}

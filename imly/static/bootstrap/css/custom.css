@@ -303,21 +303,23 @@ ul.food_chef > li {
 }
 
 .sidebar-nav .nav > li > a.selected_super_category {
-    color:#ff7752;
+    color:#f05a28;
     cursor: default;
+    
 }
 
 .sidebar-nav .nav > li > a.selected_super_category:hover {
-    color:#ff7752;
+    color:#f05a28;
     background: #fff;
 }
 
 .selected_sub_category_link {
-    color: #ff7752;
+    color: #f05a28;
+    
 }
 
 .selected_sub_category_link:hover {
-    color:#ff7752;
+    color:#f05a28;
     cursor: default;
     text-decoration: none;
 }
@@ -466,6 +468,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	text-align:center;
 }
 
+.thumbnail {
+    padding:2px;
+}
+
 .thumbnail_custom {
 
 padding: 0px;
@@ -487,6 +493,10 @@ transition: all 0.2s ease-in-out;
 
 .thumbnail_info_wrapper {
     padding:3px;
+}
+
+.location_distance {
+    margin:0px;
 }
 
 .sold_out {
@@ -515,11 +525,12 @@ transition: all 0.2s ease-in-out;
 }
 
     .top_text {
-	color: #301208;
+	color: #333;
+	font-weight: 500;
     }
 
     .top_text:hover {
-	color:#301208;
+	color:#333;
     	text-decoration: underline;
     }
 
@@ -632,6 +643,15 @@ h1.store_name {
     color:red;
 }
 
+.login_to_review {
+    color:#ff7752;
+}
+
+.login_to_review:hover {
+    color: #f05a28;
+    text-decoration: none;
+}
+
 /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
 .checkbox {
 	padding-left: 0;
@@ -676,7 +696,7 @@ ul.footer_nav > li > a:hover {
 	text-decoration: underline;
 }
 
-a.give_us_a_tip {
+a.give_us_a_tip{
 	background: #FF7752;
 	border: 1px solid #F05A28;
 	border-radius: 5px;
@@ -690,6 +710,15 @@ a.give_us_a_tip:hover {
 	border-radius: 5px;
 	color:#F05A28;
 	text-decoration: none;
+}
+
+a.give_us_a_tip2 {
+	background: #f05a28;
+}
+
+a.give_us_a_tip2:hover {
+    background: #ff7752;
+    color: #fff;
 }
 
 .social_logo{
@@ -1057,7 +1086,16 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
+/* SIGN OUT PAGE */
 
+.signout_bye {
+    font-weight:400;
+    color: #f05a28;
+}
+
+.signout_bye_para {
+    font-weight:300;
+}
 
 /* DATE PICKER IN CART */
 
@@ -1161,3 +1199,4 @@ td.less_padding_inner_td {
     }
     
 }
+

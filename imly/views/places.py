@@ -20,7 +20,7 @@ def set_location(request):
         except IndexError:
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
-            return redirect("/coming-soon/")
+            return redirect("/no-such-place/")
     return redirect(request.GET.get("next", request.META["HTTP_REFERER"]))
 
 def unset_location(request):

@@ -286,9 +286,24 @@ class Product(ProductBase, PriceBase):
             self.stock_transactions.items_in_stock(self, update=True)
 
 class StoreOrder(models.Model):
+    
+    TIME_CHOICES = (
+        (1, ('Anytime')),
+        (2, ('10am - 11am')),
+        (3, ('11am - 12pm')),
+        (4, ('12pm - 1pm')),
+        (5, ('1pm - 2pm')),
+        (6, ('2pm - 3pm')),
+        (7, ('3pm - 4pm')),
+        (8, ('4pm - 5pm')),
+        (9, ('5pm - 6pm')),
+        (10, ('6pm - 7pm')),
+        )
+    
     store = models.ForeignKey(Store)
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
+    order_time = models.IntegerField(choices= TIME_CHOICES, default=1)
     store_total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
     store_items = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now = True)

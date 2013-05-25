@@ -60,6 +60,9 @@
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail thumbnail_custom">
+                {% if request.session.place_slug %}
+                    <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">5.8 kms</small></p>
+                {% endif %}
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
                     <div class="sold_out">
                         <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
@@ -101,10 +104,10 @@
         {% endfor %}
     </ul>
 {% else %}
-    <br><br>
-    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>
+    <br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
 
-    <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
+    <h3 class="muted text-center">Oops, we don't have any food matching your search criteria.<br>Help us! <a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></h3>
 {% endif %}
     
     {% if is_paginated %}

@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from django.db.models import Q
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
+from django.contrib.gis.geos import Point
 
 import plata
 from plata.shop.models import OrderItem
@@ -28,7 +29,8 @@ def faqs(request):
 def what_is_imly(request):
     return render(request, "what_is_imly.html")
 
-
+def wrong_location(request):
+    return render(request, "no_location.html")
 
 class StoreList(ListView):
     
@@ -37,11 +39,9 @@ class StoreList(ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        stores = Store.objects.is_approved()
-        '''
-        if self.request.session.get("place_slug",""):
-            location = Location.objects.get(slug = self.request.session.get("place_slug",""))
-            stores = location.store_set.all() '''
+        
+        stores = Store.geo_objects.filter(is_approved=True)
+
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
@@ -53,6 +53,10 @@ class StoreList(ListView):
         if self.tags:
             for tag in self.tags:
                 stores &= tag.store_set.all()
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get('bingeo')
+            user_point = Point(*user_point)
+            stores = stores.distance(user_point).order_by('distance')
         return stores
     
     def get_context_data(self, **kwargs):
