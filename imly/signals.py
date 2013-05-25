@@ -23,6 +23,11 @@ def set_locattion_point(sender,instance,**kwargs):
     point = Point(geo.x, geo.y)
     if instance.location.x != point.x and instance.location.y != point.y:
         instance.location.x, instance.location.y = point.x, point.y
+        
+#@receiver(post_save, sender=DeliveryLocation)
+def append_location_store(sender, instance, **kwargs):
+    instance.store.delivery_points.append(instance.location)
+    instance.store.save()
 
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail(sender,instance,**kwargs):
@@ -41,7 +46,7 @@ def imly_confirmed_send_mail(sender,instance,**kwargs):
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
-    stores = {item.product.store for item in instance.items.all()}
+    stores = set((item.product.store for item in instance.items.all()))
     StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
     for store in stores:
 		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
@@ -49,16 +54,10 @@ def set_store_order(sender,instance,**kwargs):
 		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
 		store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
 		store_order.save()
-		'''print "Store",store_order.store
-		print "Order",store_order.order
-		print "Delivered On", store_order.delivered_on
-		print "Store Items", store_order.store_items
-		print "Store Total",store_order.store_total'''
-
 
 #@receiver(pre_save,sender=Order)
 def set_store_info(sender,instance,**kwargs):
-	stores = {item.product.store for item in instance.items.all()}
+	stores = set((item.product.store for item in instance.items.all()))
 	instance.data['store_info'] = []
 	for store in stores:
 		instance.data['store_info'].append((
