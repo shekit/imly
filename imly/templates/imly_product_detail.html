@@ -6,7 +6,14 @@
     <div class="well shop_info">
         
         <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
+        <small class="muted"> by
+                                            {% if object.store.owner.userprofile %}
+                                                <a class="sub_text" href="{% url "chef_profile" object.store.owner.userprofile.slug %}"><u>{{ object.store.owner.userprofile.first_name }} {{ object.store.owner.userprofile.last_name }}</u></a>
+                                            {% else %}
+                                                {{ object.store.owner.username }}
+                                            {% endif %}</small>
         
+        <br><br>
         <div class="expandable">
             {{ object.store.description_html|safe }}
         </div>

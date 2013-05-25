@@ -21,15 +21,6 @@ from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 
-def get_image(instance,filename):
-    if instance.avatar:
-        ext = filename.split('.')[-1]
-        filename = "%s.%s" % (uuid.uuid4(), ext)
-        store_name = instance.user.store.slug
-        return os.path.join("images",store_name, filename)
-    #else:
-     #   return os.path.join(STATIC_ROOT,"/star-rating/image.jpg")
-
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -314,7 +305,7 @@ class UserProfile(models.Model):
     slug = models.SlugField()
     about_me = models.TextField()
     about_me_html = models.TextField(editable=False, blank=True)
-    cover_profile_image = models.ImageField(upload_to=get_image, blank=True)
+    cover_profile_image = models.ImageField(upload_to=get_cover_image_path, blank=True)
     cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
     word_one = models.CharField(max_length=40)
     word_two = models.CharField(max_length=40)
