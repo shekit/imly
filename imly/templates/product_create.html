@@ -7,6 +7,11 @@
     <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
     <li class="active"><a href="{% url "imly_store_products" %}">Product Details</a></li>
     <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    {% if request.user.userprofile %}
+        <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+    {% else %}
+        <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+    {% endif %}
                 
 {% endblock manage_store_navigation %}
 
