@@ -31,7 +31,7 @@
                             {% if request.session.place_slug %}
                             <li class="nav-header">Your location: </li>
                                 <ul class="inline tags_for_product_home_inverted">
-                                    <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug }} <span class="small">&times;</span></a></li>
+                                    <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug|capfirst }} <span class="small">&times;</span></a></li>
                                 </ul>
                             <p></p>                                
                             {% endif %}

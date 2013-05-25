@@ -91,19 +91,7 @@
                 
                 <section class="span9">
                     {% block shop_or_product %}
-                    <div class="row-fluid">
-                        
-                        <div class="span12 centered-pills">
-                            <p class="text-center"><small>SEARCH BY</small></p>
-                            <ul class="nav nav-pills">
-                                <li><a href="{% url "imly_store_list" %}">Chef</a></li>
-                                <li><a href="{% url "imly_product_list" %}">Food</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    
-                    </div> <!-- end of row fluid for search by products/ shop -->
+
                   
                     {% endblock shop_or_product %}
                     
@@ -120,16 +108,16 @@
             </div>
         </div> <!-- end of container div -->
         </div> <!-- end of wrap div -->
-        
+
         <div class="container-fluid">
+        
             <br><br><br><br>            
         </div>
         {% block login %}
             {% include "modal_signup.html" %}   
             
         {% endblock login %}
-        
-        
+
         <footer class="container-fluid bgfull footer">
             <div class="container">
                 <br>

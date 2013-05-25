@@ -1086,7 +1086,16 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
+/* SIGN OUT PAGE */
 
+.signout_bye {
+    font-weight:400;
+    color: #f05a28;
+}
+
+.signout_bye_para {
+    font-weight:300;
+}
 
 /* DATE PICKER IN CART */
 

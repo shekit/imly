@@ -5,12 +5,15 @@
 {% block head_title %}{% trans "Signed Out" %}{% endblock %}
 
 {% block content %}
+<br><br>
 <div class="row-fluid">
     <div class="span6 offset3">
         <div class="well">
-<h3 class="text-center">{% trans "Signed Out" %}</h3>
+<p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_happy.png" alt="see you soon"></p>     
 
-<p class="text-center">{% trans "You have signed out. See you again soon." %}</p>
+<h2 class="text-center signout_bye">{% trans "Bye!" %}</h2>
+
+<h4 class="text-center signout_bye_para">{% trans "See you again soon." %}</h4>
         </div>
     </div>
 </div>
