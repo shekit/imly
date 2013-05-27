@@ -145,7 +145,6 @@ class Store(geo_models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     delivery_points = geo_models.MultiPointField(blank=True, null=True)
     
-    geo_objects = geo_models.GeoManager()
     objects = StoreManager()  # default manager
     everything = models.Manager()
     
@@ -188,7 +187,7 @@ class DeliveryLocation(geo_models.Model):
     def __unicode__(self):
         return self.name
 
-class Product(ProductBase, PriceBase):
+class Product(ProductBase, PriceBase, geo_models.Model):
     #Product Details
     HOUR = 1
     DAY = 2
@@ -233,6 +232,8 @@ class Product(ProductBase, PriceBase):
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
     position = models.PositiveIntegerField(default=0)
+    pick_up_point = geo_models.PointField(null=True, blank=True)
+    delivery_points = geo_models.MultiPointField(null=True, blank=True)
     
     objects = ProductManager() #defaultManager
     everything = models.Manager()

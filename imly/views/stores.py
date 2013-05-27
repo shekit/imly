@@ -40,7 +40,7 @@ class StoreList(ListView):
     
     def get_queryset(self):
         
-        stores = Store.geo_objects.filter(is_approved=True)
+        stores = Store.objects.filter(is_approved=True)
 
         self.category=None
         if "category_slug" in self.kwargs:
@@ -65,7 +65,7 @@ class StoreList(ListView):
         if self.category:
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
-        context['delivery_stores'] = self.request.session.get('place_slug', '') and Store.geo_objects.filter(delivery_points__distance_lte=(Point(*self.request.session['bingeo']), D(km=5)))
+        context['delivery_stores'] = self.request.session.get('place_slug', '') and Store.objects.filter(delivery_points__distance_lte=(Point(*self.request.session['bingeo']), D(km=3)))
         return context
 
 class StoresByCategory(ListView):

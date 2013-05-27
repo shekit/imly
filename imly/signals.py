@@ -121,26 +121,6 @@ def set_product_initial_transaction(sender,instance, created,**kwargs):
 		else:
 			print "Same"
 
-		'''if instance.capacity_per_month != initial_transaction.change:
-			if not instance.stock_transactions.filter(type=StockTransaction.CORRECTION):
-
-			sale_transaction = instance.stock_transactions.filter(type=StockTransaction.SALE).aggregate(Sum('change'))
-		print 'Capacity per month', instance.capacity_per_month
-		print 'Item in staock', instance.items_in_stock
-		print 'StockTransaction.objects.items_in_stock(instance)',StockTransaction.objects.items_in_stock(instance)
-		instance.stock_transactions.create(period=period,type=StockTransaction.CORRECTION,change=(instance.capacity_per_month - StockTransaction.objects.items_in_stock(instance)) + sale_transaction['change__sum'])'''
-		'''if instance.capacity_per_month != initial_transaction.change:
-			initial_transaction = instance.stock_transactions.filter(type=StockTransaction.INITIAL)[0]
-			sale_transaction = instance.stock_transactions.filter(type=StockTransaction.SALE).aggregate(Sum('change'))
-			if instance.capacity_per_month > initial_transaction.change:
-
-				print 'Item in Stock :',(initial_transaction.change + (instance.capacity_per_month - initial_transaction.change)) + sale_transaction['change__sum']
-				print 'capacity_per_month:',initial_transaction.change + (instance.capacity_per_month - initial_transaction.change)
-			period = Period.objects.current()
-		print 'After Update:',instance.capacity_per_month, instance.items_in_stock
-		instance.stock_transactions.create(period=period,type=StockTransaction.CORRECTION,change=instance.capacity_per_month - instance.items_in_stock)'''
-
-		
 
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):
@@ -154,7 +134,17 @@ def update_store_categories_from_product(sender, instance, **kwargs):
 @receiver(post_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_tags()
-    instance.store.reset_categories()
+    instance.store.reset_categories()        
+        
+@receiver(post_save, sender=Store)
+def update_product_geography(sender, instance, **kwargs):
+    post_save.disconnect(sender=Product)
+    for product in instance.product_set.all():
+        product.pick_up_point = instance.pick_up_point
+        product.delivery_points = instance.delivery_points
+        product.save()
+    post_save.connect(update_store_categories_from_product, sender=Product)
+    
 
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
