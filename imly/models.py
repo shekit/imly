@@ -124,6 +124,7 @@ class Store(geo_models.Model):
     pick_up = models.BooleanField(default=False)
     pick_up_address = models.TextField(blank=True)
     pick_up_location = models.CharField(max_length=50,blank=True)
+    pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)
     delivery_areas = models.ManyToManyField(Location, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -140,7 +141,7 @@ class Store(geo_models.Model):
     is_featured = models.BooleanField(default=False)
     orders = models.ManyToManyField(Order, through='StoreOrder')
     tags = models.ManyToManyField(Tag, blank=True)
-    delivery_points = geo_models.MultiPointField(default="MULTIPOINT(72.8258 18.9647)")
+    delivery_points = geo_models.MultiPointField(blank=True, null=True)
     
     geo_objects = geo_models.GeoManager()
     objects = StoreManager()  # default manager
