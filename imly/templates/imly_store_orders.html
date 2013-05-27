@@ -85,7 +85,7 @@
         {% for product in user.store.product_set.all %}
             <tr>
                 <td>{{ product.name }}</td>
-                <td class="center_aligned_td">{{ product.orderitem_set.count }}</td>
+                <td class="center_aligned_td">{{ product.store_order_count }}</td>
                 <td class="center_aligned_td">{{ product.sale }}</td>
             </tr>
         {% endfor %}

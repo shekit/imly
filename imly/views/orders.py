@@ -22,7 +22,7 @@ class StoreOrders(ListView):
     def get_queryset(self):
         store =  self.request.user.store
 #        orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
-        return store.storeorder_set.all()
+        return store.storeorder_set.filter(order__status = Order.IMLY_CONFIRMED)
         
 
     def get_context_data(self, **kwargs):

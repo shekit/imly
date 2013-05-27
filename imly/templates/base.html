@@ -367,21 +367,6 @@
                             $("#myModal").modal();
                         });
                         
-                        var sDate = $('.del_date').text();
-                        
-                        var date = new Date(sDate);
-                        var day = date.getDate();
-                        var month = date.getMonth();
-                        var year = date.getFullYear();
-
-                        var newDate = new Date(year,month,day)
-                                       
-                        var maxDate = new Date(year,month,newDate.getDate() + 15)
-
-                        $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
-                        
-                        $("#datepicker").datepicker("setDate",newDate);
-                        $("#id_terms_and_conditions").attr("checked",true);
                         
                     })
                 }(window.jQuery)

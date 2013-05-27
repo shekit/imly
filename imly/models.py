@@ -256,7 +256,11 @@ class Product(ProductBase, PriceBase):
         
     @property
     def sale(self):
-        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).aggregate(sale_sum=Sum('change'))['sale_sum'])
+        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).filter(order__status=Order.IMLY_CONFIRMED).aggregate(sale_sum=Sum('change'))['sale_sum'])
+
+    @property
+    def store_order_count(self):
+        return self.orderitem_set.filter(order__status = Order.IMLY_CONFIRMED).count()
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
