@@ -1203,5 +1203,9 @@ td.less_padding_inner_td {
 	height: 180px;
     }
     
+    .location_bar_outer {
+	height: 70px;
+    }
+    
 }
 
