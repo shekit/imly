@@ -226,7 +226,7 @@
 							componentRestrictions: {country: 'in'}
 						};
                                                 
-                                                var set_location_button = function() {
+                                               var set_location_button = function() {
                                                     window.location.href = '/set_location?location=' + $('#loc').val();
                                                 }
                                                 
@@ -236,18 +236,6 @@
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							window.location.href = '/set_location?location=' + $('#loc').val();
 						});
-						var autocomplete_delivery = $('#delivery_locator');
-						if($('#delivery_locator')){
-						 autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
-						 google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
-							 var count = $('.delivery_locations').children().length;
-							 var markup = $('#delivery_location_template').html()
-							 var compiled = _.template(markup, {id: count, name: $('#delivery_locator').val()});
-							 $('div.delivery_locations').append(compiled);
-							 $('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
-						 });
-						}
-						
 						//expanding, contracting stor info
                         $("div.expandable").expander({
                         slicePoint: 140,
@@ -257,38 +245,7 @@
                         });
                         
                         $('.form-tips').tooltip({placement:"right"});
-                        
-                        //$('.fileupload').fileupload();
-                        /*
-                        //filtering by tags - adding the tags
-                        $("a.tag").click(function() {
-                           var id = $(this).attr("id");
-                           if (window.location.search == "") {
-                                window.location.search = "tags=" + id;
-                           }
-                           else {
-                                window.location.search += "&tags=" + id
-                           }
-                           return false;
-                        });
-                        
-                        //filtering by tags - removing the tags
-                        $("a.tag_selected").click(function(){
-                            var id = $(this).attr("id");
-                            var query = window.location.search.slice(1);
-        
-                                var tag_list = query.split("&");
-                                var remaining_tags = []
-                                for(i=0;i<tag_list.length;i++) {
-                                    if(tag_list[i] != "tags="+id){
-                                        remaining_tags.push(tag_list[i])
-                                    }
-                                }
-                                
-                                window.location.search=remaining_tags.join("&");
-                                return false;
-                        });
-                        */
+
                         //filtering by location
                         $("select.location_list").on("change", function(){
                             var query = window.location.href
@@ -378,21 +335,6 @@
                             $("#myModal").modal();
                         });
                         
-                        var sDate = $('.del_date').text();
-                        
-                        var date = new Date(sDate);
-                        var day = date.getDate();
-                        var month = date.getMonth();
-                        var year = date.getFullYear();
-
-                        var newDate = new Date(year,month,day)
-                                       
-                        var maxDate = new Date(year,month,newDate.getDate() + 15)
-
-                        $("#datepicker").datepicker({minDate:newDate,maxDate:maxDate,dateFormat:"DD MM dd"});
-                        
-                        $("#datepicker").datepicker("setDate",newDate);
-                        $("#id_terms_and_conditions").attr("checked",true);
                         
                     })
                 }(window.jQuery)

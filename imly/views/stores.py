@@ -10,7 +10,7 @@ from django.db.models import Q
 from imly.models import Category, Store, Product, Location, Tag
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
-
+from django.contrib.gis.measure import D
 import plata
 from plata.shop.models import OrderItem
 
@@ -40,7 +40,7 @@ class StoreList(ListView):
     
     def get_queryset(self):
         
-        stores = Store.geo_objects.filter(is_approved=True)
+        stores = Store.objects.filter(is_approved=True)
 
         self.category=None
         if "category_slug" in self.kwargs:
@@ -61,9 +61,11 @@ class StoreList(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
+        
         if self.category:
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
+        context['delivery_stores'] = self.request.session.get('place_slug', '') and Store.objects.filter(delivery_points__distance_lte=(Point(*self.request.session['bingeo']), D(km=3)))
         return context
 
 class StoresByCategory(ListView):

@@ -62,7 +62,6 @@ class ProductList(ListView):
         if self.tags:
             for tag in self.tags:
                 products &= tag.product_set.all()
-#        raise Exception(self.request.session.get('place_slug', 'not set'))
         return products
 
     def get_context_data(self, **kwargs):

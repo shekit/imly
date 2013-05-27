@@ -23,3 +23,12 @@
 </table>
 </form>
 {% endblock cart_content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#id_payment_method')[0].selectedIndex=1;
+	$("#id_terms_and_conditions").attr("checked",true);
+});
+</script>
+{% endblock extra_javascript %}

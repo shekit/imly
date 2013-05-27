@@ -1,6 +1,5 @@
-from django.db import models
-
-class StoreManager(models.Manager):
+from django.contrib.gis.db import models
+class StoreManager(models.GeoManager):
     
     def is_approved(self):
         return self.filter(is_approved=True)
@@ -9,7 +8,7 @@ class StoreManager(models.Manager):
         return self.is_approved().filter(is_featured=True)
     
 
-class ProductManager(models.Manager):
+class ProductManager(models.GeoManager):
 
     def is_approved(self):
         from imly.models import Store

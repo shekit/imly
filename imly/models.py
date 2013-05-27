@@ -4,7 +4,7 @@ from datetime import date
 from django.db.models import Sum
 from django.db import models
 from django.contrib.gis.db import models as geo_models
-from django.contrib.gis.geos import Point, Polygon
+from django.contrib.gis.geos import Point, Polygon, MultiPoint
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 from django.contrib.contenttypes import generic
@@ -14,6 +14,8 @@ from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
+from omgeo.places import PlaceQuery
+from omgeo.services import Bing
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
@@ -124,6 +126,7 @@ class Store(geo_models.Model):
     pick_up = models.BooleanField(default=False)
     pick_up_address = models.TextField(blank=True)
     pick_up_location = models.CharField(max_length=50,blank=True)
+    pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)
     delivery_areas = models.ManyToManyField(Location, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
@@ -140,9 +143,8 @@ class Store(geo_models.Model):
     is_featured = models.BooleanField(default=False)
     orders = models.ManyToManyField(Order, through='StoreOrder')
     tags = models.ManyToManyField(Tag, blank=True)
-    delivery_points = geo_models.MultiPointField(default="MULTIPOINT(72.8258 18.9647)")
+    delivery_points = geo_models.MultiPointField(blank=True, null=True)
     
-    geo_objects = geo_models.GeoManager()
     objects = StoreManager()  # default manager
     everything = models.Manager()
     
@@ -159,6 +161,13 @@ class Store(geo_models.Model):
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
         self.slug = slugify(self.name)
+        if self.pick_up_location:
+            bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
+            pq = PlaceQuery(self.pick_up_location)
+            geo_data = bingeo.geocode(pq)
+            if geo_data[0]: self.pick_up_point = Point(geo_data[0][0].x, geo_data[0][0].y) 
+        if self.delivery_locations.count() > 0 and not self.delivery_points: # counts on approval to store locations
+            self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)
 
     def reset_tags(self):
@@ -172,16 +181,13 @@ class Store(geo_models.Model):
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
     store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')
-    location = geo_models.PointField(default="POINT(72.8258 18.9647)", blank=True)    
-    bounds = geo_models.PolygonField(default=Polygon.from_bbox((19.26952240, 72.98005230, 18.89330870, 72.77590560)).wkt, blank=True)
-    data = JSONField(blank=True, help_text="JSON encoded data collected from google", default="{}")
-    
+    location = geo_models.PointField(null=True, blank=True)    
     objects = geo_models.GeoManager()
 
     def __unicode__(self):
         return self.name
-        
-class Product(ProductBase, PriceBase):
+
+class Product(ProductBase, PriceBase, geo_models.Model):
     #Product Details
     HOUR = 1
     DAY = 2
@@ -226,6 +232,8 @@ class Product(ProductBase, PriceBase):
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
     position = models.PositiveIntegerField(default=0)
+    pick_up_point = geo_models.PointField(null=True, blank=True)
+    delivery_points = geo_models.MultiPointField(null=True, blank=True)
     
     objects = ProductManager() #defaultManager
     everything = models.Manager()
@@ -256,7 +264,11 @@ class Product(ProductBase, PriceBase):
         
     @property
     def sale(self):
-        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).aggregate(sale_sum=Sum('change'))['sale_sum'])
+        return abs(self.stock_transactions.filter(type=StockTransaction.SALE).filter(order__status=Order.IMLY_CONFIRMED).aggregate(sale_sum=Sum('change'))['sale_sum'])
+
+    @property
+    def store_order_count(self):
+        return self.orderitem_set.filter(order__status = Order.IMLY_CONFIRMED).count()
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
@@ -304,7 +316,7 @@ class StoreOrder(models.Model):
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
     order_time = models.IntegerField(choices= TIME_CHOICES, default=1)
-    store_total = models.DecimalField(max_digits=10,decimal_places=2,default=0.0)
+    store_total = models.FloatField(default=0.0)
     store_items = models.IntegerField(default=0)
     created = models.DateTimeField(auto_now = True)
     updated = models.DateTimeField(auto_now_add=True)
