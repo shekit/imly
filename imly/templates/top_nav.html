@@ -11,8 +11,8 @@
                             <div class="nav-collapse collapse">
                                 
                                 <ul class="nav pull-right">
-                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Home</a></li>
-                                    <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
+                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Discover Great Food</a></li>
+                                    
                                     {% if user.is_authenticated %}
                                         {% if user.store %}
                                             <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
@@ -22,7 +22,7 @@
                                     {% else %}
                                         <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
                                     {% endif %}
-                                    
+                                    <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
                                     {% if user.is_authenticated %}
                                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         {% if user.userprofile.first_name %}
