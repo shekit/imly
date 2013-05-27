@@ -187,6 +187,7 @@ INSTALLED_APPS = (
     'widget_tweaks',
     'crispy_forms',
     'rollyourown.seo',
+    'django_comments',
     #'djangoratings',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
