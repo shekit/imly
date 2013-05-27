@@ -56,7 +56,7 @@
         <div id="wrap">
             <br>
         <div id="main" class="container clear-top">
-            <div class="row">
+            <div class="row-fluid">
                 <div class="span12">
 
             {% block main_body %}
@@ -107,15 +107,26 @@
                     </div>
                 </section> <!-- end of section span9 -->
             </div> <!-- end of row-fluid -->
-            {% endblock main_body %}
+        {% endblock main_body %}
+        
+                </div>    
+            </div> <!-- end of row-fluid -->
+        {% block picture_line %}
+            <div class="row-fluid">
+                <div class="span3"></div>
+                <div class="span9">
+                    <p class="text-center muted"><small>All pictures are of the actual items, clicked either by Imly or by the chefs themselves.</small></p>
                 </div>
             </div>
+        {% endblock picture_line %}
+            
         </div> <!-- end of container div -->
         </div> <!-- end of wrap div -->
-
+             
         <div class="container-fluid">
         
-            <br><br><br><br>            
+            <br><br>
+            <br>            
         </div>
         {% block login %}
             {% include "modal_signup.html" %}   

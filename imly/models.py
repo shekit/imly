@@ -213,7 +213,7 @@ class Product(ProductBase, PriceBase):
     is_deleted = models.BooleanField(default = False)
     description = models.TextField(blank=True,help_text="(optional)")
     description_html = models.TextField(editable=False, blank=True)
-    lead_time = models.IntegerField(default=1,help_text="(in days)")
+    lead_time = models.IntegerField(default=1,help_text="(in days or hours)")
     lead_time_unit = models.IntegerField(choices=LEAD_TIME_CHOICES, default=DAY)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)

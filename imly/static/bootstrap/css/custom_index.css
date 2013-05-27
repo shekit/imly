@@ -180,17 +180,17 @@ legend {
     color:#999;
 }
 .hero_carousel1{
-    background: url("../img/car6.jpg") no-repeat;
+    background: url("../img/car8.jpg") no-repeat;
     background-position: 50% top;
 }
 
 .hero_carousel2{
-    background: url("../img/car5.jpg") no-repeat;
+    background: url("../img/car9.jpg") no-repeat;
     background-position: 50% top;
 }
 
 .hero_carousel3{
-    background: url("../img/car7.jpg") no-repeat;
+    background: url("../img/car10.jpg") no-repeat;
     background-position: 50% top;
 }
 
@@ -203,6 +203,8 @@ legend {
       border: 0;
       z-index: 40;
     }
+    
+    
 /* centering the thumbnail */
     .thumbnails {
 	text-align:center;
