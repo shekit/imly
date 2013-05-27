@@ -203,21 +203,26 @@ body {
 /* LOCATION BAR */
 
 .location_bar_outer {
-    background: #f5f5f5;
+    background: #f9f9f9;
     border-bottom: 1px solid #e5e5e5;
     color: #666;
     font-size:22px;
     font-family: "Georgia";
-    height:60px;
-    padding-top:10px;
+    height:40px;
+    padding-top:7px;
+    padding-bottom:9px;
     margin-bottom:20px;
     text-shadow: 1px 1px #fff;
 }
 
 input.large_location_search {
     padding:10px 5px;
-    margin-top:6px;
     font-size:16px;
+}
+
+.go_location_button {
+    padding-top:10px;
+    padding-bottom: 10px;
 }
 
 .location_search {
@@ -303,21 +308,23 @@ ul.food_chef > li {
 }
 
 .sidebar-nav .nav > li > a.selected_super_category {
-    color:#ff7752;
+    color:#f05a28;
     cursor: default;
+    
 }
 
 .sidebar-nav .nav > li > a.selected_super_category:hover {
-    color:#ff7752;
+    color:#f05a28;
     background: #fff;
 }
 
 .selected_sub_category_link {
-    color: #ff7752;
+    color: #f05a28;
+    
 }
 
 .selected_sub_category_link:hover {
-    color:#ff7752;
+    color:#f05a28;
     cursor: default;
     text-decoration: none;
 }
@@ -493,6 +500,10 @@ transition: all 0.2s ease-in-out;
     padding:3px;
 }
 
+.location_distance {
+    margin:0px;
+}
+
 .sold_out {
     position:relative;
 }
@@ -637,6 +648,15 @@ h1.store_name {
     color:red;
 }
 
+.login_to_review {
+    color:#ff7752;
+}
+
+.login_to_review:hover {
+    color: #f05a28;
+    text-decoration: none;
+}
+
 /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
 .checkbox {
 	padding-left: 0;
@@ -681,7 +701,7 @@ ul.footer_nav > li > a:hover {
 	text-decoration: underline;
 }
 
-a.give_us_a_tip {
+a.give_us_a_tip{
 	background: #FF7752;
 	border: 1px solid #F05A28;
 	border-radius: 5px;
@@ -695,6 +715,15 @@ a.give_us_a_tip:hover {
 	border-radius: 5px;
 	color:#F05A28;
 	text-decoration: none;
+}
+
+a.give_us_a_tip2 {
+	background: #f05a28;
+}
+
+a.give_us_a_tip2:hover {
+    background: #ff7752;
+    color: #fff;
 }
 
 .social_logo{
@@ -1062,7 +1091,16 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
+/* SIGN OUT PAGE */
 
+.signout_bye {
+    font-weight:400;
+    color: #f05a28;
+}
+
+.signout_bye_para {
+    font-weight:300;
+}
 
 /* DATE PICKER IN CART */
 
@@ -1165,4 +1203,9 @@ td.less_padding_inner_td {
 	height: 180px;
     }
     
+    .location_bar_outer {
+	height: 70px;
+    }
+    
 }
+

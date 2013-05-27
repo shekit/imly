@@ -39,8 +39,12 @@
                                 <div class="span12">
                                    
                                         <ul class="text-center inline">
-                                                <li>I want food in</li>
-                                                <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+                                                <li><p>I want food in</p></li>
+                                                <li><div class="input-append">
+                                                    <input id="loc" type="text" class="large_location_search" placeholder="e.g. Breach Candy">
+                                                    <button class="btn btn-custom go_location_button" type="button">Go</button>
+                                                  </div>
+                                                </li>
                                         </ul>
                                 </div>
                             </div>
@@ -91,19 +95,7 @@
                 
                 <section class="span9">
                     {% block shop_or_product %}
-                    <div class="row-fluid">
-                        
-                        <div class="span12 centered-pills">
-                            <p class="text-center"><small>SEARCH BY</small></p>
-                            <ul class="nav nav-pills">
-                                <li><a href="{% url "imly_store_list" %}">Chef</a></li>
-                                <li><a href="{% url "imly_product_list" %}">Food</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    
-                    </div> <!-- end of row fluid for search by products/ shop -->
+
                   
                     {% endblock shop_or_product %}
                     
@@ -120,16 +112,16 @@
             </div>
         </div> <!-- end of container div -->
         </div> <!-- end of wrap div -->
-        
+
         <div class="container-fluid">
+        
             <br><br><br><br>            
         </div>
         {% block login %}
             {% include "modal_signup.html" %}   
             
         {% endblock login %}
-        
-        
+
         <footer class="container-fluid bgfull footer">
             <div class="container">
                 <br>
@@ -222,6 +214,13 @@
 							bounds: default_bounds,
 							componentRestrictions: {country: 'in'}
 						};
+                                                
+                                                var set_location_button = function() {
+                                                    window.location.href = '/set_location?location=' + $('#loc').val();
+                                                }
+                                                
+                                                $(".go_location_button").on("click",set_location_button);
+                                                
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							window.location.href = '/set_location?location=' + $('#loc').val();
@@ -317,7 +316,7 @@
                                 $(".delivery_areas").slideUp();
         
                         });
-                        $("#givetip").click(function(){
+                        $(".give_us_a_tip").click(function(){
                             $("#tip").modal();
                             $('#tip_form')[0].reset();
                         });

@@ -18,6 +18,7 @@
             </div>
         </div>
         <ul class="unstyled">
+            <p><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms from you</small></p>
             {% if object.provide_delivery and object.pick_up %}
                 <li><span class="delivery_area_info">Deliver to:</span>
                 {% for area in object.delivery_areas.all %}

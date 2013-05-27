@@ -14,13 +14,17 @@ def set_location(request):
         bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
         pq = PlaceQuery(place_slug)
         result = bingeo.geocode(pq)
+        print request.META["HTTP_REFERER"]
         try:
             geo = result[0][0]
             request.session['bingeo'] = (geo.x, geo.y)
+            if "/no-such-place/" in request.META["HTTP_REFERER"]:
+                print "here"
+                return redirect("/food/")
         except IndexError:
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
-            return redirect("/coming-soon/")
+            return redirect("/no-such-place/")
     return redirect(request.GET.get("next", request.META["HTTP_REFERER"]))
 
 def unset_location(request):

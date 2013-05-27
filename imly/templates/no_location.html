@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+
+{% block title %}Imly{% endblock title %}
+
+{% block location_search_bar %}
+            {% if not request.session.place_slug %}
+                <div class="container-fluid location_bar_outer">
+                    <div class="container location_bar_inner">
+                            <div class="row-fluid">
+                                <div class="span12">
+                
+                                        <ul class="text-center inline">
+                                            <li>I want food in</li>
+                                            <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+                                            <li><input type="hidden" name="next" value="/food/"></li>
+                                        </ul>
+                                </div>
+                            </div>
+                    </div><!-- end of location_bar_inner -->
+                </div><!-- end of div container-fluid location_bar_outer -->
+            {% endif %}
+{% endblock location_search_bar %}
+
+{% block shop_or_product %}
+    
+{% endblock shop_or_product %}
+
+{% block content %}
+    <div class="span12">
+        <br>
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_joke.png" alt="Non-existent location"></p><br>
+        <h2 class="muted text-center">Haha, our food is only available in real places...</h2>
+    </div>
+{% endblock content %}

@@ -4,9 +4,9 @@
                             {% if request.session.place_slug %}
                             <li class="nav-header">Your location: </li>
                                 <ul class="inline tags_for_product_home_inverted">
-                                    <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug }} <span class="small">&times;</span></a></li>
+                                    <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug|capfirst }} <span class="small">&times;</span></a></li>
                                 </ul>
-                            <br>                                
+                            <p></p>                               
                             {% endif %}
                             {% if super_category %}
                             <li class="nav-header">You are currently here:</li>
@@ -59,12 +59,15 @@
                                     
                                 {% endfor %}
                                 
+                            {% get_tag_list %}
+                            {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
                                 <ul class="inline tags_for_product_home">
-                                    {% get_tag_list %}
+                                    
                                     {% for tag in tags %}
                                         <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endfor %}
                                 </ul>
+                            {% endif %}
                         </ul> <!-- end of ul nav-list -->
                     

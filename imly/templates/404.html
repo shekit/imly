@@ -1,16 +1,13 @@
-{% extends "product_list.html" %}
+{% extends "base.html" %}
 
-{% block title %}Page not Found{% endblock title %}
+{% block title %}Imly | Page not Found{% endblock title %}
 
-{% block shop_or_product %}
-    
-{% endblock shop_or_product %}
 
 {% block content %}
     <div class="span12">
         <br><br><br>
-        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/404.png" alt="404 error"></p>
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_embarassed.png" alt="404 error"></p>
         <br>
-        <h2 class="muted text-center">Oops! This link is broken.<br>Try another link on the left.</h2>
+        <h2 class="muted text-center">Oops! This is embarassing.<br>This link seems to be broken.<br>Try another link on the left while we fix this.</h2>
     </div>
 {% endblock content %}
