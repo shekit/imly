@@ -13,16 +13,6 @@
 <legend class="orange">{% trans "Payment and order confirmation" %}</legend>
 {% form_errors form %}
 
-<div class="alert alert-block">
-  <h4>This is a test transaction!</h4>
-  Don't worry, you will <span style="text-decoration: underline;">not be charged</span>. When redirected for payment please enter:
-  <ul class="unstyled">
-        <li>Credit Card No. : 4111 1111 1111 1111 (Four and one 15 times)</li>
-        <li>Expiry Date: Any date in the future</li>
-        <li>CVV : 123</li>
-  </ul>
-</div>
-
 <table>
 {% form_item form.terms_and_conditions %}
 {% form_item form.payment_method %}

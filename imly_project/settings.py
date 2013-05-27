@@ -188,7 +188,6 @@ INSTALLED_APPS = (
     'crispy_forms',
     'rollyourown.seo',
     #'djangoratings',
-    #'django_comments',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )

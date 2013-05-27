@@ -12,8 +12,14 @@ from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point
 from omgeo.places import PlaceQuery
 from omgeo.services import Bing
+from django.contrib.auth.models import User
         
 bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
+
+@receiver(pre_save, sender=User)
+def save_first_name(sender, instance, **kwargs):
+    first_name = instance.email.split("@")[0]
+    instance.first_name = first_name
 
 @receiver(pre_save,sender=DeliveryLocation)
 def set_locattion_point(sender,instance,**kwargs):
@@ -51,11 +57,11 @@ def set_store_order(sender,instance,**kwargs):
     stores = set((item.product.store for item in instance.items.all()))
     StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
     for store in stores:
-		store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
-		store_order.delivered_on = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
-		store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
-		store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
-		store_order.save()
+        store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
+        store_order.delivered_on = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
+        store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
+        store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
+        store_order.save()
 
 #@receiver(pre_save,sender=Order)
 def set_store_info(sender,instance,**kwargs):
@@ -144,8 +150,8 @@ def set_product_initial_transaction(sender,instance, created,**kwargs):
 
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):
-  if action == 'post_add':
-    instance.store.reset_tags()
+    if action == 'post_add':
+        instance.store.reset_tags()
 
 @receiver(post_save, sender=Product)
 def update_store_categories_from_product(sender, instance, **kwargs):
@@ -153,8 +159,8 @@ def update_store_categories_from_product(sender, instance, **kwargs):
 
 @receiver(post_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
-  instance.store.reset_tags()
-  instance.store.reset_categories()
+    instance.store.reset_tags()
+    instance.store.reset_categories()
 
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):

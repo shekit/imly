@@ -434,13 +434,18 @@ img.bottom_border {
 /* WHY OPEN YOUR SHOP PAGE*/
 
 .hero_open_shop {
-    background: url("../img/grey_texture_bg.jpg");
+    background: url("../img/chef_cover.jpg") top no-repeat;
     background-color: #fcfcfc;
     border-top: 1px solid #d1d2d4;
     border-bottom: 1px solid #e5e5e5;
     color: #301208;
     text-shadow: none;
     font-size: 20px;
+}
+
+.open_shop_para {
+    text-shadow: 0px 0px 3px #000;
+    color: #fff;
 }
 
 .feature_list {

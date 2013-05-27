@@ -1,7 +1,6 @@
 from django.views.generic import ListView, DetailView
 from plata.shop.models import Order, OrderItem
 from datetime import date, timedelta
-from collections import OrderedDict
 from django.db.models import Sum
 from imly.models import StoreOrder
 

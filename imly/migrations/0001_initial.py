@@ -154,20 +154,34 @@ class Migration(SchemaMigration):
         ))
         db.create_unique(u'imly_product_tags', ['product_id', 'tag_id'])
 
+        # Adding model 'StoreOrder'
+        db.create_table(u'imly_storeorder', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('store', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['imly.Store'])),
+            ('order', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['shop.Order'])),
+            ('delivered_on', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 5, 25, 0, 0))),
+            ('order_time', self.gf('django.db.models.fields.IntegerField')(default=1)),
+            ('store_total', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
+            ('store_items', self.gf('django.db.models.fields.IntegerField')(default=0)),
+            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
+            ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
+        ))
+        db.send_create_signal(u'imly', ['StoreOrder'])
+
         # Adding model 'UserProfile'
         db.create_table(u'imly_userprofile', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
-            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
-            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
+            ('first_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
+            ('last_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('slug', self.gf('django.db.models.fields.SlugField')(max_length=50)),
-            ('about_me', self.gf('django.db.models.fields.TextField')(blank=True)),
+            ('about_me', self.gf('django.db.models.fields.TextField')()),
             ('about_me_html', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('cover_profile_image', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
-            ('word_one', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
-            ('word_two', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
-            ('word_three', self.gf('django.db.models.fields.CharField')(max_length=40, blank=True)),
-            ('avatar', self.gf('django.db.models.fields.files.ImageField')(max_length=100, blank=True)),
+            ('word_one', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('word_two', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('word_three', self.gf('django.db.models.fields.CharField')(max_length=40)),
+            ('is_featured', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal(u'imly', ['UserProfile'])
 
@@ -176,9 +190,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('tip_contact_number', self.gf('django.db.models.fields.CharField')(max_length=10)),
-            ('description', self.gf('django.db.models.fields.TextField')()),
-            ('your_name', self.gf('django.db.models.fields.CharField')(max_length=100)),
-            ('email', self.gf('django.db.models.fields.EmailField')(max_length=50)),
+            ('your_name', self.gf('django.db.models.fields.CharField')(max_length=100, blank=True)),
             ('create', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
         ))
         db.send_create_signal(u'imly', ['ChefTip'])
@@ -220,6 +232,9 @@ class Migration(SchemaMigration):
 
         # Removing M2M table for field tags on 'Product'
         db.delete_table('imly_product_tags')
+
+        # Deleting model 'StoreOrder'
+        db.delete_table(u'imly_storeorder')
 
         # Deleting model 'UserProfile'
         db.delete_table(u'imly_userprofile')
@@ -280,12 +295,10 @@ class Migration(SchemaMigration):
         u'imly.cheftip': {
             'Meta': {'object_name': 'ChefTip'},
             'create': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
-            'description': ('django.db.models.fields.TextField', [], {}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '50'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'tip_contact_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
-            'your_name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+            'your_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'})
         },
         u'imly.deliverylocation': {
             'Meta': {'object_name': 'DeliveryLocation'},
@@ -350,6 +363,7 @@ class Migration(SchemaMigration):
             'is_open': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'orders': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['shop.Order']", 'through': u"orm['imly.StoreOrder']", 'symmetrical': 'False'}),
             'owner': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
             'pick_up': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pick_up_address': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
@@ -362,6 +376,18 @@ class Migration(SchemaMigration):
             'tags': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Tag']", 'symmetrical': 'False', 'blank': 'True'}),
             'twitter_link': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'})
         },
+        u'imly.storeorder': {
+            'Meta': {'object_name': 'StoreOrder'},
+            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'delivered_on': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 5, 25, 0, 0)'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'order': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['shop.Order']"}),
+            'order_time': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
+            'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']"}),
+            'store_items': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
+            'store_total': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
+            'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
+        },
         u'imly.tag': {
             'Meta': {'ordering': "['name']", 'object_name': 'Tag'},
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
@@ -373,18 +399,18 @@ class Migration(SchemaMigration):
         },
         u'imly.userprofile': {
             'Meta': {'object_name': 'UserProfile'},
-            'about_me': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'about_me': ('django.db.models.fields.TextField', [], {}),
             'about_me_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
             'cover_profile_image': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'is_featured': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
+            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'}),
             'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
-            'word_one': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
-            'word_three': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'}),
-            'word_two': ('django.db.models.fields.CharField', [], {'max_length': '40', 'blank': 'True'})
+            'word_one': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'word_three': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            'word_two': ('django.db.models.fields.CharField', [], {'max_length': '40'})
         },
         u'reviews.revieweditem': {
             'Meta': {'ordering': "('date_added',)", 'object_name': 'ReviewedItem'},
@@ -396,6 +422,47 @@ class Migration(SchemaMigration):
             'object_id': ('django.db.models.fields.PositiveIntegerField', [], {}),
             'score': ('django.db.models.fields.IntegerField', [], {}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'reviews'", 'to': u"orm['auth.User']"})
+        },
+        u'shop.order': {
+            'Meta': {'object_name': 'Order'},
+            '_order_id': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'billing_address': ('django.db.models.fields.TextField', [], {}),
+            'billing_city': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'billing_company': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'billing_country': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'billing_first_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'billing_last_name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'billing_phone_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
+            'billing_zip_code': ('django.db.models.fields.CharField', [], {'max_length': '50'}),
+            'confirmed': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
+            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
+            'currency': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
+            'data': ('plata.fields.JSONField', [], {'blank': 'True'}),
+            'delivery_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True'}),
+            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'items_discount': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'items_subtotal': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'items_tax': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'language_code': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '10', 'blank': 'True'}),
+            'notes': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'paid': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'shipping_address': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
+            'shipping_city': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'shipping_company': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'shipping_cost': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '18', 'decimal_places': '10', 'blank': 'True'}),
+            'shipping_country': ('django.db.models.fields.CharField', [], {'max_length': '20', 'blank': 'True'}),
+            'shipping_discount': ('django.db.models.fields.DecimalField', [], {'null': 'True', 'max_digits': '18', 'decimal_places': '10', 'blank': 'True'}),
+            'shipping_first_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'shipping_last_name': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'shipping_method': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
+            'shipping_phone_number': ('django.db.models.fields.CharField', [], {'max_length': '10', 'blank': 'True'}),
+            'shipping_same_as_billing': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
+            'shipping_tax': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'shipping_zip_code': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            'status': ('django.db.models.fields.PositiveIntegerField', [], {'default': '10'}),
+            'total': ('django.db.models.fields.DecimalField', [], {'default': "'0.00'", 'max_digits': '18', 'decimal_places': '10'}),
+            'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'orders'", 'null': 'True', 'to': u"orm['auth.User']"})
         },
         u'shop.taxclass': {
             'Meta': {'ordering': "['-priority']", 'object_name': 'TaxClass'},

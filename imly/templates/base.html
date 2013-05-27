@@ -39,8 +39,12 @@
                                 <div class="span12">
                                    
                                         <ul class="text-center inline">
-                                                <li>I want food in</li>
-                                                <li><input id="loc" type="text" class="large_location_search" placeholder="Location e.g. Bandra"></li>
+                                                <li><p>I want food in</p></li>
+                                                <li><div class="input-append">
+                                                    <input id="loc" type="text" class="large_location_search" placeholder="e.g. Breach Candy">
+                                                    <button class="btn btn-custom go_location_button" type="button">Go</button>
+                                                  </div>
+                                                </li>
                                         </ul>
                                 </div>
                             </div>
@@ -210,6 +214,13 @@
 							bounds: default_bounds,
 							componentRestrictions: {country: 'in'}
 						};
+                                                
+                                                var set_location_button = function() {
+                                                    window.location.href = '/set_location?location=' + $('#loc').val();
+                                                }
+                                                
+                                                $(".go_location_button").on("click",set_location_button);
+                                                
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							window.location.href = '/set_location?location=' + $('#loc').val();
@@ -379,14 +390,14 @@
               
         </script>
         
-        {% block extra_body %}
+        {% block extra_javascript %}
             
-        {% endblock extra_body %}
+        {% endblock extra_javascript %}
         
-        <!-- UserVoice JavaScript SDK (only needed once on a page) 
-        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>-->
+        <!-- UserVoice JavaScript SDK (only needed once on a page) -->
+        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
         
-        <!-- A tab to launch the Classic Widget 
+        <!-- A tab to launch the Classic Widget -->
         <script>
         UserVoice = window.UserVoice || [];
         UserVoice.push(['showTab', 'classic_widget', {
@@ -401,21 +412,18 @@
           tab_position: 'middle-right',
           tab_inverted: true
         }]);
-        </script>-->
+        </script>
         
-
-        <script type="text/javascript">
-
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-39358285-1']);
-            _gaq.push(['_trackPageview']);
-          
-            (function() {
-              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-          
+        <!-- GOOGLE ANALYTICS CODE -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        
+          ga('create', 'UA-41246832-1', 'imly.in');
+          ga('send', 'pageview');
+        
         </script>
         
     </body>
