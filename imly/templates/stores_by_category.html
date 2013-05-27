@@ -121,6 +121,12 @@
 
 {% block content %}
 <!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
+{% if delivery_stores %}
+<h3> Delivering Stores </h3>
+	{% for store in delivery_stores %}
+	{{ store.name }}
+	{% endfor %}
+{% endif %}
 {% if object_list %}
     <ul class="thumbnails">
         {% for object in object_list %}

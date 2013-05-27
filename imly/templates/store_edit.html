@@ -57,3 +57,15 @@
         </ol>
     </aside>            
 {% endblock shop_info %}            
+{% block extra_javascript %}
+<script>
+var default_bounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(19.26, 72.98),
+		new google.maps.LatLng(18.89, 72.775)); 
+var google_map_api_options = {
+	bounds: default_bounds,
+	componentRestrictions: {country: 'in'}
+};
+var pickup = new google.maps.places.Autocomplete(document.getElementById('id_pick_up_location'));
+</script>
+{% endblock extra_javascript %}

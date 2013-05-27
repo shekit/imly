@@ -70,3 +70,23 @@
         </ol>
     </aside>                     
 {% endblock shop_info %} 
+{% block extra_javascript %}
+<script>
+	var default_bounds = new google.maps.LatLngBounds(
+		new google.maps.LatLng(19.26, 72.98),
+		new google.maps.LatLng(18.89, 72.775)); 
+	var google_map_api_options = {
+		bounds: default_bounds,
+		componentRestrictions: {country: 'in'}
+	};
+	var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
+
+	google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
+		var count = $('.delivery_locations').children().length;
+		var markup = $('#delivery_location_template').html()
+		var compiled = _.template(markup, {id: count, name: $('#delivery_locator').val()});
+		$('div.delivery_locations').append(compiled);
+		$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
+	});
+</script>
+{% endblock extra_javascript %}
