@@ -219,34 +219,6 @@ class Order(BillingShippingAddress):
         # TODO: What about shipping?
         return sum((item.subtotal for item in self.items.all()), Decimal('0.00')).quantize(Decimal('0.00'))
 
-    # below three properties are set to do store specific calculations
-    """@property
-    def store(self):
-        return self.store_instance
-
-    @store.setter
-    def store(self, instance):
-        self.store_instance = instance
-        
-    @property
-    def store_total(self):
-        return sum((item.subtotal for item in self.items.filter(product__in=self.store.product_set.all())), Decimal('0.00')).quantize(Decimal('0.00'))
-
-    """    
-    @property
-    def stores(self):
-        return {item.product.store for item in self.items.all()}
-    
-    @property
-    def items_by_store(self):
-        store_items = []
-        for store in self.stores:
-            store_items.append(
-                (store, self.items.filter(product__store=store))
-            )
-        return store_items
-    
-
     @property
     def discount(self):
         """
