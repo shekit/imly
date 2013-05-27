@@ -66,6 +66,7 @@ class Migration(SchemaMigration):
             ('pick_up', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('pick_up_address', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('pick_up_location', self.gf('django.db.models.fields.CharField')(max_length=50, blank=True)),
+            ('pick_up_point', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
             ('provide_delivery', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('date_created', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('date_updated', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
@@ -75,7 +76,7 @@ class Migration(SchemaMigration):
             ('store_notice', self.gf('django.db.models.fields.TextField')(blank=True)),
             ('is_approved', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_featured', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('delivery_points', self.gf('django.contrib.gis.db.models.fields.MultiPointField')(default='MULTIPOINT(72.8258 18.9647)')),
+            ('delivery_points', self.gf('django.contrib.gis.db.models.fields.MultiPointField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'imly', ['Store'])
 
@@ -108,9 +109,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=100)),
             ('store', self.gf('django.db.models.fields.related.ForeignKey')(related_name='delivery_locations', blank=True, to=orm['imly.Store'])),
-            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(default='POINT(72.8258 18.9647)', blank=True)),
-            ('bounds', self.gf('django.contrib.gis.db.models.fields.PolygonField')(default=u'POLYGON ((19.2695223999999996 72.9800522999999970, 19.2695223999999996 72.7759056000000015, 18.8933086999999986 72.7759056000000015, 18.8933086999999986 72.9800522999999970, 19.2695223999999996 72.9800522999999970))', blank=True)),
-            ('data', self.gf('plata.fields.JSONField')(default='{}', blank=True)),
+            ('location', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'imly', ['DeliveryLocation'])
 
@@ -140,6 +139,8 @@ class Migration(SchemaMigration):
             ('is_featured', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('is_bestseller', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('position', self.gf('django.db.models.fields.PositiveIntegerField')(default=0)),
+            ('pick_up_point', self.gf('django.contrib.gis.db.models.fields.PointField')(null=True, blank=True)),
+            ('delivery_points', self.gf('django.contrib.gis.db.models.fields.MultiPointField')(null=True, blank=True)),
         ))
         db.send_create_signal(u'imly', ['Product'])
 
@@ -159,9 +160,9 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('store', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['imly.Store'])),
             ('order', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['shop.Order'])),
-            ('delivered_on', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 5, 25, 0, 0))),
+            ('delivered_on', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 5, 27, 0, 0))),
             ('order_time', self.gf('django.db.models.fields.IntegerField')(default=1)),
-            ('store_total', self.gf('django.db.models.fields.DecimalField')(default=0.0, max_digits=10, decimal_places=2)),
+            ('store_total', self.gf('django.db.models.fields.FloatField')(default=0.0)),
             ('store_items', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
             ('updated', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
@@ -302,10 +303,8 @@ class Migration(SchemaMigration):
         },
         u'imly.deliverylocation': {
             'Meta': {'object_name': 'DeliveryLocation'},
-            'bounds': ('django.contrib.gis.db.models.fields.PolygonField', [], {'default': "u'POLYGON ((19.2695223999999996 72.9800522999999970, 19.2695223999999996 72.7759056000000015, 18.8933086999999986 72.7759056000000015, 18.8933086999999986 72.9800522999999970, 19.2695223999999996 72.9800522999999970))'", 'blank': 'True'}),
-            'data': ('plata.fields.JSONField', [], {'default': "'{}'", 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'default': "'POINT(72.8258 18.9647)'", 'blank': 'True'}),
+            'location': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'store': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'delivery_locations'", 'blank': 'True', 'to': u"orm['imly.Store']"})
         },
@@ -325,6 +324,7 @@ class Migration(SchemaMigration):
             'category': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Category']"}),
             'currency': ('django.db.models.fields.CharField', [], {'max_length': '3'}),
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
+            'delivery_points': ('django.contrib.gis.db.models.fields.MultiPointField', [], {'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'description_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -336,6 +336,7 @@ class Migration(SchemaMigration):
             'lead_time': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'lead_time_unit': ('django.db.models.fields.IntegerField', [], {'default': '2'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
+            'pick_up_point': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'position': ('django.db.models.fields.PositiveIntegerField', [], {'default': '0'}),
             'previous_cpd': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'quantity_by_price': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
@@ -353,7 +354,7 @@ class Migration(SchemaMigration):
             'date_created': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'date_updated': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
             'delivery_areas': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['imly.Location']", 'symmetrical': 'False', 'blank': 'True'}),
-            'delivery_points': ('django.contrib.gis.db.models.fields.MultiPointField', [], {'default': "'MULTIPOINT(72.8258 18.9647)'"}),
+            'delivery_points': ('django.contrib.gis.db.models.fields.MultiPointField', [], {'null': 'True', 'blank': 'True'}),
             'description': ('django.db.models.fields.TextField', [], {}),
             'description_html': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'facebook_link': ('django.db.models.fields.URLField', [], {'max_length': '200', 'blank': 'True'}),
@@ -368,6 +369,7 @@ class Migration(SchemaMigration):
             'pick_up': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'pick_up_address': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
             'pick_up_location': ('django.db.models.fields.CharField', [], {'max_length': '50', 'blank': 'True'}),
+            'pick_up_point': ('django.contrib.gis.db.models.fields.PointField', [], {'null': 'True', 'blank': 'True'}),
             'provide_delivery': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '50'}),
             'store_contact_number': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
@@ -379,13 +381,13 @@ class Migration(SchemaMigration):
         u'imly.storeorder': {
             'Meta': {'object_name': 'StoreOrder'},
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'delivered_on': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 5, 25, 0, 0)'}),
+            'delivered_on': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 5, 27, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'order': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['shop.Order']"}),
             'order_time': ('django.db.models.fields.IntegerField', [], {'default': '1'}),
             'store': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['imly.Store']"}),
             'store_items': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'store_total': ('django.db.models.fields.DecimalField', [], {'default': '0.0', 'max_digits': '10', 'decimal_places': '2'}),
+            'store_total': ('django.db.models.fields.FloatField', [], {'default': '0.0'}),
             'updated': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'})
         },
         u'imly.tag': {
