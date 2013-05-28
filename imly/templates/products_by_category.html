@@ -61,7 +61,13 @@
         <li class="span4">
             <div class="thumbnail thumbnail_custom">
                 {% if request.session.place_slug %}
-                    <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">5.8 kms</small></p>
+                    <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                    {% if object.distance.km < 1 %}
+                        &lt; 1 km 
+                    {% else %}
+                        {{ object.distance.km|floatformat:"1" }} kms
+                    {% endif %}
+                    </small></p>
                 {% endif %}
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
                     <div class="sold_out">

@@ -4,6 +4,10 @@
 
 {% block title %}Imly | {% trans "Order successful" %} - {{ block.super }}{% endblock %}
 
+{% block location_search_bar %}
+    
+{% endblock location_search_bar %}
+
 {% block cart_content %}
 {% if not order.balance_remaining %}
     <h2>{% trans "Thank you for shopping with us!" %}</h2>

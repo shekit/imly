@@ -11,6 +11,8 @@ from django.core.urlresolvers import reverse
 from django.views.generic.edit import ModelFormMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -62,6 +64,10 @@ class ProductList(ListView):
         if self.tags:
             for tag in self.tags:
                 products &= tag.product_set.all()
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get("bingeo")
+            user_point = Point(*user_point)
+            products = products.distance(user_point).order_by("distance")
         return products
 
     def get_context_data(self, **kwargs):
@@ -69,6 +75,7 @@ class ProductList(ListView):
         if self.category:
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
+        context["delivery_products"] = self.request.session.get("place_slug","") and Product.objects.filter(delivery_points__distance_lte=(Point(*self.request.session["bingeo"]),D(km=3)))
         return context
 
 # Not being used now
@@ -178,6 +185,15 @@ class ProductDetail(DetailView):
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
         context["review_form"] = ReviewedItemForm()
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get("bingeo")
+            
+            user_point = Point(*user_point)
+            print user_point
+            store_point = self.get_object().store.pick_up_point
+            print store_point
+            context["distance"] = user_point.distance(store_point)
+            print user_point.distance(store_point)
         return context
     
     def get_queryset(self):
@@ -193,6 +209,7 @@ class ProductDetail(DetailView):
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()
+
         return  object and super(ProductDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
 
 @csrf_exempt
