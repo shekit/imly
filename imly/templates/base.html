@@ -261,9 +261,11 @@
                         }
                         if($("#id_provide_delivery").is(":checked")){
                             $(".delivery_areas").css({"display":"block"})
+                            $(".delivery_location_form").css({"display":"block"})
                         }
                         else{
                             $(".delivery_areas").css({"display":"none"})
+                            $(".delivery_location_form").css({"display":"none"})
                         }
                 
                         //script to hide/reveal fields in store edit/create if checkbox is checked/unchecked
@@ -279,9 +281,11 @@
                         $("#id_provide_delivery").change(function (){
                             if($(this).is(":checked")){
                                 $(".delivery_areas").slideDown();
+                                $(".delivery_location_form").slideDown();
                                 return;
                             }
                                 $(".delivery_areas").slideUp();
+                                $(".delivery_location_form").slideUp();
         
                         });
                         $(".give_us_a_tip").click(function(){
