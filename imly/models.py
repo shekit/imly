@@ -14,15 +14,15 @@ from plata.shop.models import PriceBase, Order, TaxClass
 from plata.product.stock.models import Period, StockTransaction
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
-from omgeo.places import PlaceQuery
-from omgeo.services import Bing
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
+from geopy import geocoders
 from imly.managers import StoreManager, ProductManager
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 
+bingo = geocoders.Bing('AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn')
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -162,10 +162,8 @@ class Store(geo_models.Model):
         self.description_html = markdown(self.description)
         self.slug = slugify(self.name)
         if self.pick_up_location:
-            bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
-            pq = PlaceQuery(self.pick_up_location)
-            geo_data = bingeo.geocode(pq)
-            if geo_data[0]: self.pick_up_point = Point(geo_data[0][0].x, geo_data[0][0].y) 
+            geo_data = bingo.geocode(self.pick_up_location)
+            self.pick_up_point = Point(geo_data[1][1], geo_data[1][0]) 
         if self.delivery_locations.count() > 0 and not self.delivery_points: # counts on approval to store locations
             self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)

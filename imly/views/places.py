@@ -1,7 +1,8 @@
 from imly.models import Location
 from django.shortcuts import get_object_or_404, redirect, render
-from omgeo.places import PlaceQuery
-from omgeo.services import Bing
+from geopy import geocoders
+
+bingo = geocoders.Bing('AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn')
 
 def set_location(request):
     place_slug = request.GET.get('location', 'all')
@@ -11,15 +12,12 @@ def set_location(request):
     if place_slug in ['all', '']:
         request.session['bingeo'] = None
     else:
-        bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
-        pq = PlaceQuery(place_slug)
-        result = bingeo.geocode(pq)
-        print request.META["HTTP_REFERER"]
+        
         try:
-            geo = result[0][0]
-            request.session['bingeo'] = (geo.x, geo.y)
+            result = bingo.geocode(place_slug)
+            y, x = result[1]
+            request.session['bingeo'] = (x, y)
             if "/no-such-place/" in request.META["HTTP_REFERER"]:
-                print "here"
                 return redirect("/food/")
         except IndexError:
             request.session.pop("place_slug")

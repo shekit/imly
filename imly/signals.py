@@ -10,11 +10,10 @@ from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store,DeliveryLocation,StoreOrder
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
-from omgeo.places import PlaceQuery
-from omgeo.services import Bing
 from django.contrib.auth.models import User
+from geopy import geocoders
         
-bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
+bingo = geocoders.Bing('AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn')
 
 @receiver(pre_save, sender=User)
 def save_first_name(sender, instance, **kwargs):
@@ -23,10 +22,9 @@ def save_first_name(sender, instance, **kwargs):
 
 @receiver(pre_save,sender=DeliveryLocation)
 def set_location_point(sender,instance,**kwargs):
-    pq = PlaceQuery(instance.name)
-    result = bingeo.geocode(pq)
-    geo = result[0][0]
-    point = Point(geo.x, geo.y)
+    result = bingo.geocode(instance.name)
+    geo = result[1]
+    point = Point(geo[1], geo[0])
     instance.location = point
     
 @receiver(post_save,sender=Order)
