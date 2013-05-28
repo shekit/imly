@@ -104,8 +104,8 @@
             
             <div class="hero-unit hero_carousel3 item"></div>
         </div>
-    <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-    <a class="carousel-control right" href="#myCarousel" data-slide="prev">&rsaquo;</a>
+        <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+        <a class="carousel-control right" href="#myCarousel" data-slide="prev">&rsaquo;</a>
     </div>
     <div class="row-fluid">
         <div class="span3"></div>
@@ -191,7 +191,17 @@
                 </div>
                 <div class="span2"></div>
             </div>
-            {% endblock as_seen_on %}
+        {% endblock as_seen_on %}
+        
+                {% block picture_line %}
+            <br>
+            <br>
+            <div class="row-fluid">
+                <div class="span12">
+                    <p class="text-center muted"><small>All pictures on Imly are of the actual products, clicked either by Imly or by the chefs themselves.</small></p>
+                </div>
+            </div>
+        {% endblock picture_line %}
         </div> <!-- end of container div -->
     </div> <!-- end of wrap div -->
         <div class="container-fluid">

@@ -42,6 +42,9 @@ class TagListNode(template.Node):
         else:
             context["tags"] = Tag.objects.all()
         return ""
+
+
+            
     
 def do_location_list(parser,token):
     return LocationListNode()

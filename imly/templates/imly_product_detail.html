@@ -97,7 +97,15 @@
                     <li class="span12">
                         <div class="thumbnail">
                             {% if request.session.place_slug %}
-                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">5.8 kms</small></p>
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                {% if distance < 1 %}
+                                    &lt; 1 km 
+                                {% else %}
+                                    {{ distance|floatformat:"1" }} kms
+                                {% endif %}
+                                
+                                </small></p>
                             {% endif %}
                             <img src="{{ object.image_thumbnail_large.url }}" alt="{{ object.name }}">
                             {% if not object.items_in_stock %}
