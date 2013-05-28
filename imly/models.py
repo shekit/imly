@@ -176,6 +176,14 @@ class Store(geo_models.Model):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
 
+    @property
+    def delivers(self):
+        return self._delivers
+        
+    @delivers.setter
+    def delivers(self, value):
+        self._delivers = value
+        
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
     store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')

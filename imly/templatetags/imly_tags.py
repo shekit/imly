@@ -1,6 +1,7 @@
 from django import template
+from django.contrib.gis.geos import Point
 from imly.models import Category, Tag, Location, Store, Product
-
+from django.contrib.gis.measure import D
 def do_featured_store_list(parser, token):
     return FeaturedStoreNode()
 
@@ -67,3 +68,54 @@ register.tag("get_featured_store_list", do_featured_store_list)
 register.tag("get_bestseller_product_list", do_bestseller_product_list)
 register.filter("loop_int", loop_int)
 
+# pick up distance tag
+class PickupDistanceNode(template.Node):
+    
+    def __init__(self, store):
+        self.store = template.Variable(store)
+        
+    def render(self, context):
+        try:
+            user_geo = context['request'].session['bingeo']
+            user_point = Point(*user_geo)
+            store = self.store.resolve(context)
+            return Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km
+        except:
+            raise template.TemplateSyntaxError('no adequate information for distance calculation')
+    
+def do_pick_up_distance(parser, token):
+    try:
+        tag_name, store = token.split_contents()
+        isinstance(store, Store)
+    except ValueError:
+        raise template.TemplateSyntaxError('pick_up_distance requires store to calculate the distance')
+    return PickupDistanceNode(store)
+    
+register.tag('pick_up_distance', do_pick_up_distance)
+
+# store delivers
+class StoreDeliversNode(template.Node):
+    
+    def __init__(self, store):
+        self.store = template.Variable(store)
+        
+    def render(self, context):
+        try:
+            user_geo=context['request'].session['bingeo']
+            user_point = Point(*user_geo)
+            store = self.store.resolve(context)
+            distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
+            store.delivers = distance < D(km=3)
+            return store.delivers and 'Delivers to You' or 'Not Yet.'
+        except:
+            raise template.TemplateSyntaxError('Not enough data for generating this information')
+
+def do_store_delivers(parser, token):
+    try:
+        tag_name, store = token.split_contents()
+        isinstance(store, Store)
+    except ValueError:
+        raise template.TemplateSyntaxError('store_delivers requires store')
+    return StoreDeliversNode(store)
+    
+register.tag('store_delivers', do_store_delivers)

@@ -1,7 +1,7 @@
 {% extends "base_cart2.html" %}
 
 {% load i18n plata_tags %}
-
+{% load imly_tags %}
 {% block title %}Imly | {% trans "Cart" %}{% endblock %}
 
 
@@ -37,9 +37,11 @@
             <tr class="shop_cart_header">
 
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
+					{% store_delivers store.store %}
                 <span class="pull-right">
+					{{ store.store.delivers }}
                     {% if request.session.place_slug %}
-                        <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} kms</small>
+                        <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} {% pick_up_distance store.store %} kms</small>
                     {% endif %}
                 </span>
                 </th>
