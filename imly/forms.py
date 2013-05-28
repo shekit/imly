@@ -40,6 +40,11 @@ class StoreForm(forms.ModelForm):
                 "description"
                 ),
             Fieldset(
+                "Social Media Info",
+                "facebook_link",
+                "twitter_link",
+            ),
+            Fieldset(
                 "Delivery/Pick-Up Details",
                 "pick_up",
                 Div(
@@ -53,11 +58,6 @@ class StoreForm(forms.ModelForm):
                     css_class="delivery_areas"
                 )
                 ),
-            Fieldset(
-                "Social Media Info",
-                "facebook_link",
-                "twitter_link",
-            ),
         )
 
         self.fields["delivery_areas"].help_text = "Where all can you deliver? Select all that apply"
