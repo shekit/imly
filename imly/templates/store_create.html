@@ -7,12 +7,7 @@
     <li class="disabled"><a href="#">Product Details</a></li>
 
     <li class="disabled"><a href="#">Order Details</a></li>
-    {% if request.user.userprofile %}
-        <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
-    {% else %}
-        <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
-    {% endif %}
-
+    <li class="disabled"><a href="#">My Profile</a></li>
     
                 
 {% endblock manage_store_navigation %}
@@ -23,21 +18,29 @@
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
+        
+        
         <div style="display:none;" id="delivery_location_form" class="delivery_location_form">
-        <fieldset class="formset" id="delivery_location_formset">
-            
-            {{ delivery_location_form.management_form }}
-			<div class="delivery_locations">
-            {% for form in delivery_location_form %}
-				<div class="delivery_location">
-			    {{form}}
-				</div>
-            {% endfor %}
-			</div>
-
-        </fieldset>
-		<input type="text" name="location_autocompleter" id="delivery_locator"></br>
-    </div>
+            <div>
+                <ul class="selected_locations inline">
+                    
+                </ul>
+            </div>
+            <label for="delivery_location_formset"><span style="font-weight: 500">Delivery Areas</span></label>
+            <fieldset class="formset" id="delivery_location_formset">
+                
+                {{ delivery_location_form.management_form }}
+                            <div class="delivery_locations">
+                {% for form in delivery_location_form %}
+                                    <div class="delivery_location">
+                                        {{form}}
+                                    </div>
+                {% endfor %}
+                            </div>
+    
+            </fieldset>
+	    <input type="text" name="location_autocompleter" id="delivery_locator"></br>
+        </div>
 		<script type="text/html" id="delivery_location_template">
 			<div class="delivery_location">
 				<label for="id_delivery_locations-<%= id %>-name">Name:</label>
@@ -49,6 +52,7 @@
 				<input id="id_delivery_locations-<%= id %>-store" type="hidden" name="delivery_locations-<%= id %>-store">
 			</div>
 		</script>
+            <br>
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
          <input type="submit" class="btn btn-success" value="Submit for Approval">
         </form>
@@ -81,6 +85,9 @@
 		bounds: default_bounds,
 		componentRestrictions: {country: 'in'}
 	};
+        
+        $('#delivery_locator').keypress(function() { return event.keyCode != 13; });
+        
 	var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
 
 	google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
@@ -89,6 +96,12 @@
 		var compiled = _.template(markup, {id: count, name: $('#delivery_locator').val()});
 		$('div.delivery_locations').append(compiled);
 		$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
+                
+                var location_name = $('#id_delivery_locations-TOTAL_FORMS').val();
+                $(".selected_locations").append("<li>"+ location_name +"</li>");
+                $(".delivery_location").hide();
+                
+                
 	});
 </script>
 {% endblock extra_javascript %}

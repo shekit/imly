@@ -37,7 +37,7 @@ class StoreForm(forms.ModelForm):
                 "cover_photo",
                 "tagline",
                 PrependedText("store_contact_number", "+91", placeholder="Mobile Number"),
-                "description"
+                Field("description",rows="5"),
                 ),
             Fieldset(
                 "Social Media Info",
@@ -48,19 +48,16 @@ class StoreForm(forms.ModelForm):
                 "Delivery/Pick-Up Details",
                 "pick_up",
                 Div(
-                    "pick_up_address",
+                    Field("pick_up_address",rows="4"),
                     Field("pick_up_location",placeholder="e.g Breach Candy etc"),
                     css_class="pick_up"
                 ),
                 "provide_delivery",
-                Div(
-                    "delivery_areas",
-                    css_class="delivery_areas"
-                )
+
                 ),
         )
 
-        self.fields["delivery_areas"].help_text = "Where all can you deliver? Select all that apply"
+        #self.fields["delivery_areas"].help_text = "Where all can you deliver? Select all that apply"
 
     def clean_store_contact_number(self):
         contact = self.cleaned_data['store_contact_number']
@@ -76,7 +73,7 @@ class StoreForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super(StoreForm, self).clean()
         pick_up_address = cleaned_data.get("pick_up_address")
-        delivery_areas = cleaned_data.get("delivery_areas")
+        #delivery_areas = cleaned_data.get("delivery_areas")
         pick_up_checkbox = cleaned_data.get("pick_up")
         delivery_checkbox = cleaned_data.get("provide_delivery")
         pick_up_location = cleaned_data.get("pick_up_location")
@@ -90,27 +87,27 @@ class StoreForm(forms.ModelForm):
             msg = u"You have entered pick up details. Please check this box or remove the details"
             self._errors["pick_up"] = self.error_class([msg])
             
-        elif delivery_checkbox and not delivery_areas:
-            msg = u"Please select your areas of delivery"
-            self._errors["provide_delivery"] = self.error_class([msg])
+        #elif delivery_checkbox and not delivery_areas:
+         #   msg = u"Please select your areas of delivery"
+          #  self._errors["provide_delivery"] = self.error_class([msg])
         
-        elif delivery_areas and not delivery_checkbox:
-            msg = u"You have entered delivery details.Please check this box or uncheck the locations"
-            self._errors["provide_delivery"] = self.error_class([msg])
+        #elif delivery_areas and not delivery_checkbox:
+         #   msg = u"You have entered delivery details.Please check this box or uncheck the locations"
+          #  self._errors["provide_delivery"] = self.error_class([msg])
             
-        elif not pick_up_address and not delivery_areas:
+        elif not pick_up_address and not delivery_checkbox:
             msg=u"You must either define a pick up point or a delivery area(s)"
             self._errors["pick_up"] = self.error_class([msg])
             
             del cleaned_data["pick_up_address"]
-            del cleaned_data["delivery_areas"]
+            #del cleaned_data["delivery_areas"]
             
         return cleaned_data
         
     class Meta:
         model = Store
         exclude = ["slug","owner","categories", "date_created","date_updated","tags", "is_featured","is_approved"]
-        fields = ("name","logo","cover_photo", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "delivery_areas", "facebook_link", "twitter_link")
+        fields = ("name","logo","cover_photo", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "facebook_link", "twitter_link")
         widgets = {
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
@@ -175,7 +172,7 @@ class ProductForm(forms.ModelForm):
                         css_class="span6"),
                     css_class="row-fluid inline_form_field"),
                 "capacity_per_day",
-                "description",
+                Field("description", rows="5"),
                 Div(
                     Div(
                         Field("lead_time",css_class="input-small"),
@@ -225,7 +222,7 @@ class UserProfileForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super(UserProfileForm,self).__init__(*args,**kwargs)
-        self.fields["cover_profile_image"].label = "Profile Image"
+        self.fields["cover_profile_image"].label = "Profile Image <a href='#' class='form-tips' title='Choose a large image. Atleast 1600px wide for best results. Take inspiration from our chef profiles.'>[?]</a>"
         self.fields["word_one"].label = "Three words that best describe you"
         self.fields["word_two"].label = "<br><br>"
         self.fields["word_three"].label = "<br><br>"
@@ -246,7 +243,7 @@ class UserProfileForm(forms.ModelForm):
                     Div(Field("word_three",css_class="input-small"),css_class="span2"),
                     Div(css_class="span6"),
                     css_class="row-fluid"),
-                "about_me",
+                Field("about_me", rows="5"),
                 ),
             )
 

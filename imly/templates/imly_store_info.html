@@ -21,13 +21,8 @@
                 <li class="active"><a href="#">Shop Details</a></li>
                 <li class="disabled"><a href="#">Product Details</a></li> <!-- have removed link so user cant access page, will be autodirected there after creating store -->
                 <li class="disabled"><a href="#">Order Details</a></li>
-                {% if user.userprofile %}
-                    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
-                {% else %}
-                    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
-                {% endif %}
+                <li class="disabled"><a href="#">My Profile</a></li>
                 
-
         {% endif %}
                 
 {% endblock manage_store_navigation %}
