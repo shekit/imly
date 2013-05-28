@@ -67,6 +67,7 @@
                     {% else %}
                         {{ object.distance.km|floatformat:"1" }} kms
                     {% endif %}
+                    <span class="pull-right">Delivers to you&nbsp</span>
                     </small></p>
                 {% endif %}
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
@@ -113,7 +114,7 @@
     <br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
 
-    <h3 class="muted text-center">Oops, we don't have any food<br> matching your search criteria. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
+    <h3 class="muted text-center">Oops, we don't have any food<br> matching your search criteria yet. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
 {% endif %}
     
     {% if is_paginated %}

@@ -944,6 +944,23 @@ select.location_list {
 
 }
 
+/* STORE EDIT n CREATE FORM */
+
+.each_location {
+    background: #f05a28;
+    color: #fff;
+    text-decoration: none;
+    cursor: pointer;
+    padding:3px 5px;
+    border-radius: 4px;
+}
+
+.each_location:hover {
+    background: #ff7752;
+    color: #fff;
+    text-decoration: none;
+}
+
 /* PRODUCT DETAIL PAGE */
 
 .product_detail_header {

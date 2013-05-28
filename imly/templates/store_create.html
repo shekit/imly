@@ -30,7 +30,7 @@
             <fieldset class="formset" id="delivery_location_formset">
                 
                 {{ delivery_location_form.management_form }}
-                            <div class="delivery_locations">
+                            <div class="delivery_locations" style="display: none;">
                 {% for form in delivery_location_form %}
                                     <div class="delivery_location">
                                         {{form}}
@@ -75,9 +75,11 @@
             <li>Keep the description short but <span class="orange">interesting</span>. Customers only skim through. Make sure they see what is most important.</li>
         </ol>
     </aside>                     
-{% endblock shop_info %} 
+{% endblock shop_info %}
+
 {% block extra_javascript %}
 <script>
+    
 	var default_bounds = new google.maps.LatLngBounds(
 		new google.maps.LatLng(19.26, 72.98),
 		new google.maps.LatLng(18.89, 72.775)); 
@@ -87,21 +89,43 @@
 	};
         
         $('#delivery_locator').keypress(function() { return event.keyCode != 13; });
-        
+
 	var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
 
 	google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
 		var count = $('.delivery_locations').children().length;
 		var markup = $('#delivery_location_template').html()
-		var compiled = _.template(markup, {id: count, name: $('#delivery_locator').val()});
+                var name = $('#delivery_locator').val();
+                var short_name = name.split(",").slice(0,1)
+		var compiled = _.template(markup, {id: count, name: name});
 		$('div.delivery_locations').append(compiled);
 		$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
                 
-                var location_name = $('#id_delivery_locations-TOTAL_FORMS').val();
-                $(".selected_locations").append("<li>"+ location_name +"</li>");
-                $(".delivery_location").hide();
-                
+                $(".selected_locations").append("<li><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
+                //$(".delivery_location").hide();
+                $("#delivery_locator").val("");
                 
 	});
+        
+                
+        function mark_to_delete(dl_id){
+            var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
+            $("#"+formfield_id).prop("checked",true);
+            $("#selected_location_"+ dl_id).hide();
+            return false;
+        }
+        
+        $(".delivery_location input[type=text]").each(function(index,input){
+           var count = $(input).attr("id").split("-")[1];
+           var short_name = $(input).attr("value").split(",")[0];
+           var input_id = $(input).attr("id").split("-");
+           var checkbox_id = input_id[0] + "-" + input_id[1] + "-DELETE";
+           if(!$("#"+checkbox_id).attr("checked")){
+                $(".selected_locations").append("<li id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
+           }
+        });
+        
+        
 </script>
+
 {% endblock extra_javascript %}
