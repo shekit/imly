@@ -213,8 +213,8 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         (DOZEN,"dozen"),
     )
     
-    name = models.CharField(max_length=100)
-    slug = models.SlugField()
+    name = models.CharField(max_length=255)
+    slug = models.SlugField(max_length=255)
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
