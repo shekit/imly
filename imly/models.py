@@ -17,6 +17,7 @@ from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
+from autoslug import AutoSlugField
 from imly.managers import StoreManager, ProductManager
 from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
@@ -214,7 +215,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     )
     
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'])
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
@@ -293,7 +294,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
             transaction_type = self.pk and StockTransaction.CORRECTION or StockTransaction.INITIAL
         if self.description:
             self.description_html = markdown(self.description)
-        self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
+        #self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)
