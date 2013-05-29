@@ -75,13 +75,12 @@ class PickupDistanceNode(template.Node):
         self.store = template.Variable(store)
         
     def render(self, context):
-        try:
-            user_geo = context['request'].session['bingeo']
+        store = self.store.resolve(context)
+        session = context['request'].session
+        if session.get('bingeo', None):
+            user_geo = session['bingeo']
             user_point = Point(*user_geo)
-            store = self.store.resolve(context)
             return Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km
-        except:
-            raise template.TemplateSyntaxError('no adequate information for distance calculation')
     
 def do_pick_up_distance(parser, token):
     try:
@@ -100,15 +99,18 @@ class StoreDeliversNode(template.Node):
         self.store = template.Variable(store)
         
     def render(self, context):
-        try:
-            user_geo=context['request'].session['bingeo']
+        store = self.store.resolve(context)
+        session=context['request'].session
+        if session.get('bingeo', None):
+            user_geo=session['bingeo']
             user_point = Point(*user_geo)
-            store = self.store.resolve(context)
+
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
             store.delivers = distance < D(km=3)
             return store.delivers and 'Delivers to You' or 'Not Yet.'
-        except:
-            raise template.TemplateSyntaxError('Not enough data for generating this information')
+        else :
+            store.delivers = False
+            #raise template.TemplateSyntaxError('Not enough data for generating this information')
 
 def do_store_delivers(parser, token):
     try:
