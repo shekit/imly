@@ -87,16 +87,23 @@
             <td class="cart_delivery_section" >
                 
                 <ul class="unstyled text-center">
-                    <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on }}</span></small></li>
-
+                    <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on.date }}</span></small></li>
+					<li>
+						{% delivery_lead_options store %}
+							<select>
+							{% order_time_options store %}
+						</select>
+					</li>
                     <li>
                         <label class="radio inline">
+							{% pick_up_choice store %}
                         <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
                         Pick Up
                         </label>
                     </li>
                     <li>
                         <label class="radio inline">
+							{% delivery_choice store %}
                         <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
                         Delivery
                         </label>    
