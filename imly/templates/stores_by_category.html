@@ -121,12 +121,7 @@
 
 {% block content %}
 <!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
-{% if delivery_stores %}
-<h3> Delivering Stores </h3>
-	{% for store in delivery_stores %}
-	{{ store.name }}
-	{% endfor %}
-{% endif %}
+
 {% if object_list %}
     <ul class="thumbnails">
         {% for object in object_list %}
@@ -165,7 +160,7 @@
 {% else %}
     <br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
-    <h3 class="muted text-center">Oops, we don't have any chefs<br> matching your search criteria. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
+    <h3 class="muted text-center">Oops, we don't have any chefs<br> matching your search criteria yet. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
 {% endif %}
     
     {% if is_paginated %}

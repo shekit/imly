@@ -19,15 +19,16 @@ EMAIL_HOST = "smtp.mandrillapp.com"
 EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
 EMAIL_PORT = 587
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 MANAGERS = ADMINS
 DATABASES = {
         'default': {
-            'ENGINE': 'django.db.backends.postgresql_psycopg2', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-            'NAME': os.path.join(PROJECT_DIR, "database.db"),                      # Or path to database file if using sqlite3.
+            'ENGINE': 'django.contrib.gis.db.backends.postgis', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+            'NAME': 'igeo',                      # Or path to database file if using sqlite3.
             # The following settings are not used with sqlite3:
-            'USER': 'manish',
-            'PASSWORD': 'manish',
+            'USER': 'igeo',
+            'PASSWORD': 'imly@food13',
             'HOST': '',                      # Empty for localhost through domain sockets or '127.0.0.1' for localhost through TCP.
             'PORT': '',                      # Set to empty string for default.
         }
@@ -35,7 +36,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["alpha.imly.in","imly-south.herokuapp.com"]
+ALLOWED_HOSTS = ["imly.in","ec2-50-19-23-242.compute-1.amazonaws.com"]
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -267,17 +268,13 @@ ACCOUNT_USERNAME_REQUIRED = False
 
 if not DEBUG:
     #for s3 storage
-    DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
+    STATICFILES_STORAGE = DEFAULT_FILE_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
     AWS_ACCESS_KEY_ID = "AKIAJLZTSZS7CQ57KK4Q"
     AWS_SECRET_ACCESS_KEY = "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"
     AWS_STORAGE_BUCKET_NAME = "imly"
     # stops IK checking S3 all the time - main reason to use IK v2 for me
     IMAGEKIT_DEFAULT_IMAGE_CACHE_BACKEND = 'imagekit.imagecache.NonValidatingImageCacheBackend'
 
-if not DEBUG :
-    import dj_database_url
-    DATABASES['default'] = dj_database_url.config()
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 if DEBUG:
     from settings_local import *

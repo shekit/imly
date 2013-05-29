@@ -10,11 +10,8 @@ from plata.product.stock.models import Period, StockTransaction
 from imly.models import Product, Store,DeliveryLocation,StoreOrder
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
-from omgeo.places import PlaceQuery
-from omgeo.services import Bing
 from django.contrib.auth.models import User
-        
-bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
+from imly.utils import geocode
 
 @receiver(pre_save, sender=User)
 def save_first_name(sender, instance, **kwargs):
@@ -23,11 +20,10 @@ def save_first_name(sender, instance, **kwargs):
 
 @receiver(pre_save,sender=DeliveryLocation)
 def set_location_point(sender,instance,**kwargs):
-    pq = PlaceQuery(instance.name)
-    result = bingeo.geocode(pq)
-    geo = result[0][0]
-    point = Point(geo.x, geo.y)
-    instance.location = point
+    result = geocode(instance.name)
+    if result:
+        point = Point(*result[1])
+        instance.location = point
     
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail(sender,instance,**kwargs):

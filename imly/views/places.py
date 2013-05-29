@@ -1,30 +1,21 @@
 from imly.models import Location
 from django.shortcuts import get_object_or_404, redirect, render
-from omgeo.places import PlaceQuery
-from omgeo.services import Bing
+from imly.utils import geocode
 
 def set_location(request):
     place_slug = request.GET.get('location', 'all')
     display_place_slug = place_slug.split(",")[0]
     request.session["place_slug"] = place_slug
     request.session["display_place_slug"] = display_place_slug
-    if place_slug in ['all', '']:
-        request.session['bingeo'] = None
-    else:
-        bingeo = Bing(settings={'api_key': 'AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn'})
-        pq = PlaceQuery(place_slug)
-        result = bingeo.geocode(pq)
-        print request.META["HTTP_REFERER"]
-        try:
-            geo = result[0][0]
-            request.session['bingeo'] = (geo.x, geo.y)
-            if "/no-such-place/" in request.META["HTTP_REFERER"]:
-                print "here"
-                return redirect("/food/")
-        except IndexError:
-            request.session.pop("place_slug")
-            request.session.pop("display_place_slug")
-            return redirect("/no-such-place/")
+    try:
+        result = geocode(place_slug)
+        if result: request.session['bingeo'] = result[1]
+        if "/no-such-place/" in request.META["HTTP_REFERER"]:
+            return redirect("/food/")
+    except IndexError:
+        request.session.pop("place_slug")
+        request.session.pop("display_place_slug")
+        return redirect("/no-such-place/")
     return redirect(request.GET.get("next", request.META["HTTP_REFERER"]))
 
 def unset_location(request):

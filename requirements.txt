@@ -17,12 +17,12 @@ django-reviews==0.1.0
 django-social-auth==0.7.20
 django-storages==1.1.6
 django-widget-tweaks==1.1.2
+geopy==0.95.1
 gunicorn==0.17.2
 httplib2==0.7.7
 ipython==0.13.1
 oauth2==1.5.211
 psycopg2==2.4.6
-python-omgeo==1.5.5
 python-openid==2.2.5
 pytz==2013b
 readline==6.2.4.1
