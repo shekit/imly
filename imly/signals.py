@@ -3,7 +3,7 @@ import decimal
 from datetime import timedelta
 from django.db.models import Max
 from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
-from django.core.mail import send_mail
+from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
@@ -12,6 +12,9 @@ from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
 from django.contrib.auth.models import User
 from imly.utils import geocode
+from django.template.loader import get_template
+from django.template import Context
+
 
 @receiver(pre_save, sender=User)
 def save_first_name(sender, instance, **kwargs):
@@ -35,12 +38,14 @@ def imly_confirmed_send_mail(sender,instance,**kwargs):
 				product_detail = []
 				for detail in storeorder.order.items.all():
 					if detail.product.store == store:
-						product_detail.append((detail,detail.quantity))
-						#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(storeorder.order.order_id),"orders@imly.in",store.owner.email,fail_silently=False)
+						product_detail.append(detail)
+			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
+			msg.content_subtype = "html"
+			msg.send()
 			print "Store Order detail",store,storeorder.order.order_id,product_detail,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
 		buyer_email = instance.user.email
 		print "Buyer Email",buyer_email
-		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance_id),"orders@imly.in",buyer_email,fail_silently=False)
+		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance._order_id),"orders@imly.in",buyer_email,fail_silently=False)
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
