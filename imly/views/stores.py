@@ -113,6 +113,16 @@ class StoreEdit(UpdateView):
         
     def get_object(self):
         return get_object_or_404(Store, owner=self.request.user)
+
+    def get_context_data(self, **kwargs):
+        context = super(StoreEdit, self).get_context_data(**kwargs)
+        store = self.get_object()
+        if self.request.POST:
+            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all())
+        else:
+            context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all())
+        
+        return context
     
 class StoreCreate(CreateView):
     
