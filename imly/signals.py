@@ -11,9 +11,7 @@ from imly.models import Product, Store,DeliveryLocation,StoreOrder
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
 from django.contrib.auth.models import User
-from geopy import geocoders
-        
-bingo = geocoders.Bing('AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn')
+from imly.utils import geocode
 
 @receiver(pre_save, sender=User)
 def save_first_name(sender, instance, **kwargs):
@@ -22,10 +20,10 @@ def save_first_name(sender, instance, **kwargs):
 
 @receiver(pre_save,sender=DeliveryLocation)
 def set_location_point(sender,instance,**kwargs):
-    result = bingo.geocode(instance.name)
-    geo = result[1]
-    point = Point(geo[1], geo[0])
-    instance.location = point
+    result = geocode(instance.name)
+    if result:
+        point = Point(*result[1])
+        instance.location = point
     
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail(sender,instance,**kwargs):

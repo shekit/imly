@@ -17,12 +17,10 @@ from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
-from geopy import geocoders
 from imly.managers import StoreManager, ProductManager
+from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
-
-bingo = geocoders.Bing('AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn')
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -162,8 +160,8 @@ class Store(geo_models.Model):
         self.description_html = markdown(self.description)
         self.slug = slugify(self.name)
         if self.pick_up_location:
-            geo_data = bingo.geocode(self.pick_up_location)
-            self.pick_up_point = Point(geo_data[1][1], geo_data[1][0]) 
+            result = geocode(self.pick_up_location)
+            if result: self.pick_up_point = Point(*result[1]) 
         if self.delivery_locations.count() > 0 and not self.delivery_points: # counts on approval to store locations
             self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)
@@ -176,6 +174,14 @@ class Store(geo_models.Model):
       self.categories.clear()
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
 
+    @property
+    def delivers(self):
+        return self._delivers
+        
+    @delivers.setter
+    def delivers(self, value):
+        self._delivers = value
+        
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
     store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')
