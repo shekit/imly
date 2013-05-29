@@ -1,5 +1,5 @@
 from django.contrib import admin
-from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder
+from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
@@ -24,10 +24,16 @@ class LocationAdmin(admin.ModelAdmin):
     list_display = ["name", "is_active"]
     prepopulated_fields = {"slug":("name",)}
 
+class DeliveryLocationInline(admin.TabularInline):
+    model = DeliveryLocation
+    fields=("name",)
+
+
 class StoreAdmin(admin.ModelAdmin):
     
     list_display = ["name","owner", "is_approved", "is_featured"]
     list_filter = ["is_approved", "is_featured"]
+    inlines = [DeliveryLocationInline,]
     prepopulated_fields = {"slug":("name",)}
 
     def queryset(self,request):
@@ -64,6 +70,7 @@ class UserProfileAdmin(admin.ModelAdmin):
 class StoreOrderAdmin(admin.ModelAdmin):
 
     list_display = ["order","store","delivered_on","store_total","store_items"]
+
 
  
 admin.site.register(Category, CategoryAdmin)

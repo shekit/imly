@@ -32,6 +32,19 @@
         {% load crispy_forms_tags %}
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
+            <fieldset class="formset" id="delivery_location_formset">
+            {{ delivery_location_form }}
+            {{ delivery_location_form.management_form }}
+            <div class="delivery_locations">
+            {% for form in delivery_location_form %}
+                <div class="delivery_location">
+                {{form}}
+                </div>
+            {% endfor %}
+            </div>
+
+        </fieldset>
+        <input type="text" name="location_autocompleter" id="delivery_locator"></br>
         <a href="{% url "imly_store_info" %}" class="btn">Cancel</a>
         <input type="submit" class="btn btn-success" value="Update">
         </form>
