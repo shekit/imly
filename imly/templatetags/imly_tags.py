@@ -107,7 +107,7 @@ class StoreDeliversNode(template.Node):
 
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
             store.delivers = distance < D(km=3)
-            return store.delivers and 'Delivers to You' or 'Not Yet.'
+            return ""
         else :
             store.delivers = False
             #raise template.TemplateSyntaxError('Not enough data for generating this information')
