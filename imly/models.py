@@ -123,7 +123,7 @@ class Store(geo_models.Model):
     categories = models.ManyToManyField(Category, blank=True)
     pick_up = models.BooleanField(default=False)
     pick_up_address = models.TextField(blank=True)
-    pick_up_location = models.CharField(max_length=50,blank=True)
+    pick_up_location = models.CharField(max_length=255,blank=True)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)
     delivery_areas = models.ManyToManyField(Location, blank=True)
