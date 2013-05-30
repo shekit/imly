@@ -106,7 +106,7 @@ class StoreDeliversNode(template.Node):
             user_point = Point(*user_geo)
 
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
-            store.delivers = distance.km < D(km=3)
+            self.store.delivers = distance.km < D(km=3)
             return ''
 
         else :
