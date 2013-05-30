@@ -90,9 +90,7 @@
                     <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on.date }}</span></small></li>
 					<li>
 						{% delivery_lead_options store %}
-							<select>
-							{% order_time_options store %}
-						</select>
+						{% order_time_options %}
 					</li>
                     <li>
                         <label class="radio inline">

@@ -1,3 +1,5 @@
 <select>
-	
+	{% for delivery_lead in delivery_leads %}
+	<option value="{{ forloop.counter }}">{{ delivery_lead }}</option>
+	{% endfor %}
 </select>

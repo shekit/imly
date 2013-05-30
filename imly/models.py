@@ -304,7 +304,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
 
 class StoreOrder(models.Model):
     
-    TIME_CHOICES = (
+    TimeChoices = (
         (1, ('Anytime')),
         (2, ('10am - 11am')),
         (3, ('11am - 12pm')),
@@ -321,7 +321,7 @@ class StoreOrder(models.Model):
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
     delivered_on_lead = models.IntegerField(default=0) 
-    order_time = models.IntegerField(choices= TIME_CHOICES, default=1)
+    order_time = models.IntegerField(choices= TimeChoices, default=1)
     pick_up = models.BooleanField(default=True)
     store_total = models.FloatField(default=0.0)
     store_items = models.IntegerField(default=0)

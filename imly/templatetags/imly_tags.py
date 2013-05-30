@@ -1,7 +1,9 @@
 from django import template
 from django.contrib.gis.geos import Point
-from imly.models import Category, Tag, Location, Store, Product
+from imly.models import Category, Tag, Location, Store, Product, StoreOrder
 from django.contrib.gis.measure import D
+import datetime
+
 def do_featured_store_list(parser, token):
     return FeaturedStoreNode()
 
@@ -106,7 +108,7 @@ class StoreDeliversNode(template.Node):
             user_point = Point(*user_geo)
 
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
-            store.delivers = distance.km < D(km=3)
+            distance.km < D(km=3)
             return ''
         else :
             store.delivers = False
@@ -133,17 +135,17 @@ register.tag('delivery_lead_options', do_delivery_lead_options)
 
 @register.inclusion_tag('imly/delivery_lead_options.html')
 def delivery_lead_options(store):
-    return {'choices': ((1, "Hi ya"), (2, "See yaa"))}
+    return {'delivery_leads': [store.delivered_on.date() + datetime.timedelta(days=day) for day in range(16)]}
     
 
 class OrderTimeOptionsNode(template.Node):
     def render(self, context):
         pass
-        
-def do_order_time_options(parser, token):
-    return DeliveryLeadOptionsNode()
+
+@register.inclusion_tag('imly/order_time_options.html')    
+def order_time_options():
+    return {'time_choices': StoreOrder.TimeChoices}
     
-register.tag('order_time_options', do_order_time_options)
 
 class PickUpChoiceNode(template.Node):
     def render(self, context):
