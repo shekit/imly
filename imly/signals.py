@@ -39,7 +39,7 @@ def imly_confirmed_send_mail(sender,instance,**kwargs):
 				for detail in storeorder.order.items.all():
 					if detail.product.store == store:
 						product_detail.append(detail)
-			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
+			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
 			print "Store Order detail",store,storeorder.order.order_id,product_detail,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
@@ -150,13 +150,19 @@ def update_product_geography(sender, instance, **kwargs):
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created and Site.objects.get_current().domain == 'imly.in':
-        send_mail("Store added - Awaiting Confirmation @%s" % (Site.objects.get_current(), ),"Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
-        send_mail("Store added - @%s" % (Site.objects.get_current(), ),"Store has been created successfully." , instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
+    	msg.content_subtype = "html"
+    	msg.send()
+    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
+    	msg.content_subtype = "html"
+    	msg.send()
 
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):
-		send_mail("Store Approved","Your Store has been approved by imly.",'imlyfood@gmail.com',[instance.owner.email],fail_silently=False)
+		msg=EmailMessage("Store Approved.",ger_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
+		msg.content_subtype = 'html'
+		msg.send()
 		post_save.disconnect(store_approved_email,sender=Store)
 		instance.data['email'] = 'sent'
 		instance.save()

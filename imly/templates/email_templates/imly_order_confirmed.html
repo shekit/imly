@@ -1,0 +1,17 @@
+Hi, You got a new order. Order no is {{storeorder.order}}.
+
+Your order details are as follows.
+
+<table>
+	<tr><th>S.No</th><th>You have to make</th><th>Buyer Info</th><th>Order Placed</th></tr>
+	{% for product in product_detail %}
+		<tr><td>{{forloop.counter}}</td><td>{{product.name}}</td><td>{{buyer_info}}</td><td>{{storeorder.order.confirmed}}</td></tr>
+	{% endfor %}
+</table>
+Your order total is <b>{{storeorder.store_total}}</b>. Your delivery date is <b>{{storeorder.delivered_on}}</b>.
+
+Thank you,
+
+Imly
+
+
