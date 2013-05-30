@@ -151,3 +151,13 @@ def update_product_geography(sender, instance, **kwargs):
 def send_store_mail(sender,instance,created, **kwargs):
     if created and Site.objects.get_current().domain == 'imly.in':
         send_mail("Store added - Awaiting Confirmation @%s" % (Site.objects.get_current(), ),"Store has been added by %s" % (instance.owner), instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+        send_mail("Store added - @%s" % (Site.objects.get_current(), ),"Store has been created successfully. , instance.owner.email , ["imlyfood@gmail.com"], fail_silently=False)
+
+@receiver(post_save,sender=Store)
+def store_approved_email(sender,instance,created,**kwargs):
+	if instance.is_approved and not instance.data.get('email',''):
+		send_mail("Store Approved","Your Store has been approved by imly.",'imlyfood@gmail.com',[instance.owner.email],fail_silently=False)
+		post_save.disconnect(store_approved_email,sender=Store)
+		instance.data['email'] = 'sent'
+		instance.save()
+		post_save.connect(store_approved_email,sender=Store)
