@@ -55,6 +55,7 @@
         <div class="row-fluid">
             <ul class="thumbnails">
             {% for product in object.store.product_set.all|slice:"8" %}
+            {% if not product.is_deleted %}
             {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined_product_detail_aside">{% endif %}
             <li class="span4">
                 <div class="thumbnail">
@@ -63,6 +64,7 @@
                     <div class="clearfix"></div>
                 </div>
             </li>
+            {% endif %}
             {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
             {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
             {% endfor %}

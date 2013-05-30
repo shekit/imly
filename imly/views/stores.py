@@ -174,6 +174,10 @@ class StoreDetail(DetailView):
         object = self.get_object()
         return object and super(StoreDetail, self).get(request, *args, **kwargs) or redirect(reverse('imly_coming_soon'))
 
+    def get_context_data(self, **kwargs):
+        context = super(StoreDetail, self).get_context_data(**kwargs)
+        context['products'] = self.get_object().product_set.exclude(is_deleted=True)
+        return context  
 """
 class StoreNotice(UpdateView):
     

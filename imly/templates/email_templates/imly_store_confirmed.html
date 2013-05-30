@@ -1,0 +1,22 @@
+Hi Chef {{store.owner.first_name}},</br></br>
+
+Congratulations! Your store <strong>{{store.name}}</strong> on Imly has been approved and is ready to start accepting orders.</br></br>
+
+Start promoting your food immediately and see as the orders pour in.</br></br>
+
+The link to your store is:<a href="www.imly.in/{{store.slug}}">www.imly.in/{{store.slug}}</a></br></br>
+
+{% if store.owner.userprofile %}
+The link to your chef profile is:<a href="www.imly.in/profiles/{{ store.owner.userprofile.slug }}">www.imly.in/profiles/{{ store.owner.userprofile.slug }}</a></br></br>
+{% endif %}
+
+So share these links with your friends, families and customers. Put it up on Facebook, tweet about it and shout it out from the rooftops.</br></br>
+
+We are just as excited to have you on board and will do everything to help you get more orders. We will let the world know you are now part of the Imly family.</br></br>
+
+Cook on!</br></br>
+
+
+The Imly Team</br></br>
+
+P.S. Call Abhishek on your special chef helpline number +91 9820072565 for any problem, big or small.
