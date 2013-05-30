@@ -230,7 +230,12 @@
 						};
                                                 
                                                var set_location_button = function() {
+                                                if($('#loc').val()){
                                                     window.location.href = '/set_location?location=' + $('#loc').val();
+                                                }else{
+                                                    return;
+                                                }
+                                                    
                                                 }
                                                 
                                                 $(".go_location_button").on("click",set_location_button);
