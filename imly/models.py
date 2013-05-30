@@ -22,6 +22,7 @@ from imly.managers import StoreManager, ProductManager
 from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
+from plata.fields import JSONField
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -143,6 +144,7 @@ class Store(geo_models.Model):
     orders = models.ManyToManyField(Order, through='StoreOrder')
     tags = models.ManyToManyField(Tag, blank=True)
     delivery_points = geo_models.MultiPointField(blank=True, null=True)
+    data = JSONField('data',blank=True,help_text="JSON-encoded additional data about the store.")
     
     objects = StoreManager()  # default manager
     everything = models.Manager()
@@ -304,7 +306,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
 
 class StoreOrder(models.Model):
     
-    TIME_CHOICES = (
+    TimeChoices = (
         (1, ('Anytime')),
         (2, ('10am - 11am')),
         (3, ('11am - 12pm')),
@@ -321,7 +323,7 @@ class StoreOrder(models.Model):
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
     delivered_on_lead = models.IntegerField(default=0) 
-    order_time = models.IntegerField(choices= TIME_CHOICES, default=1)
+    order_time = models.IntegerField(choices= TimeChoices, default=1)
     pick_up = models.BooleanField(default=True)
     store_total = models.FloatField(default=0.0)
     store_items = models.IntegerField(default=0)
