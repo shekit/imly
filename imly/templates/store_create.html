@@ -101,7 +101,7 @@
 		$('div.delivery_locations').append(compiled);
 		$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
                 
-                $(".selected_locations").append("<li><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
+                $(".selected_locations").append("<li id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
                 //$(".delivery_location").hide();
                 $("#delivery_locator").val("");
                 
