@@ -9,7 +9,9 @@ def set_location(request):
     request.session["display_place_slug"] = display_place_slug
     try:
         result = geocode(place_slug)
-        if result: request.session['bingeo'] = result[1]
+        if result: 
+            request.session['bingeo'] = result[1]
+        #raise Exception(result)
         if "/no-such-place/" in request.META["HTTP_REFERER"]:
             return redirect("/food/")
     except IndexError:

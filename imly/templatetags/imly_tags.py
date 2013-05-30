@@ -106,8 +106,8 @@ class StoreDeliversNode(template.Node):
             user_point = Point(*user_geo)
 
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
-            store.delivers = distance < D(km=3)
-            return store.delivers and 'Delivers to You' or 'Not Yet.'
+            store.delivers = distance.km < D(km=3)
+            return ''
         else :
             store.delivers = False
             #raise template.TemplateSyntaxError('Not enough data for generating this information')
@@ -121,3 +121,46 @@ def do_store_delivers(parser, token):
     return StoreDeliversNode(store)
     
 register.tag('store_delivers', do_store_delivers)
+
+class DeliveryLeadOptionsNode(template.Node):
+    def render(self, context):
+        pass
+        
+def do_delivery_lead_options(parser, token):
+    return DeliveryLeadOptionsNode()
+    
+register.tag('delivery_lead_options', do_delivery_lead_options)
+
+@register.inclusion_tag('imly/delivery_lead_options.html')
+def delivery_lead_options(store):
+    return {'choices': ((1, "Hi ya"), (2, "See yaa"))}
+    
+
+class OrderTimeOptionsNode(template.Node):
+    def render(self, context):
+        pass
+        
+def do_order_time_options(parser, token):
+    return DeliveryLeadOptionsNode()
+    
+register.tag('order_time_options', do_order_time_options)
+
+class PickUpChoiceNode(template.Node):
+    def render(self, context):
+        pass
+        
+def do_pick_up_choice(parser, token):
+    return DeliveryLeadOptionsNode()
+    
+register.tag('pick_up_choice', do_pick_up_choice)
+
+class DeliveryChoiceNode(template.Node):
+    def render(self, context):
+        pass
+        
+def do_delivery_choice(parser, token):
+    return DeliveryLeadOptionsNode()
+    
+register.tag('delivery_choice', do_delivery_choice)
+
+    
