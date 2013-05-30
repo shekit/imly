@@ -186,6 +186,7 @@ class ProductDetail(DetailView):
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
         context["review_form"] = ReviewedItemForm()
+        context["other_store_products"] = self.get_object().store.product_set.exclude(is_deleted = True)
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
             
