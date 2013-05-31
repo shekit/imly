@@ -1,4 +1,4 @@
-An order has been placed by <strong>{{order.user.username}} - {{order.billing_phone_numbare}}</strong><br/><br/>
+An order has been placed by <strong>{{order.user.username}} - {{order.billing_phone_number}}</strong><br/><br/>
 
 Order detail are:<br/><br/>
 
@@ -11,4 +11,18 @@ Order detail are:<br/><br/>
 		<th>Total</th>
 		<th>Delivered On</th>
 	</tr>
-	
+	{% for storeorder in order.storeorder_set.all %}
+	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
+	<tr><td>
+		{% for product in storeorder.order.items.all %}
+			{% if product.product.store == storeorder.store %}
+				<table>
+					<tr><td>{{product.product.name}}</td><td>{{product.product.quantity_by_price}}</td></tr>
+				</table>
+		{% endfor %}
+		</td>
+		<td>{{ storeorder.order.confirmed }}<td>
+		<td>{{ storeorder.store_total }}</td>
+		<td>{{ storeorder.delivered_on }}</td>
+	</tr>
+</table>
