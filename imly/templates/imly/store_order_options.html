@@ -1,7 +1,7 @@
 <li>
 	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
 		{% for lead, delivery_lead in delivery_leads %}
-		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead }}</option>
+		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead|date:"F j" }}</option>
 		{% endfor %}
 	</select>
 	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'order_time')">

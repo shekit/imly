@@ -9,7 +9,7 @@
 {% block carousel %}
     {% if object.cover_profile_image %}
         
-    <div class="hero-unit hero_chef_profile" style="background:url({{ object.cover_profile_image_thumbnail.url }}) no-repeat;background-position: top 50%;">
+    <div class="hero-unit hero_chef_profile" style="background:url({{ object.cover_profile_image_thumbnail.url }}) top no-repeat;">
         
     {% else %}
     
@@ -31,9 +31,9 @@
 {% block featurette %}
     <div class="row-fluid">
         <div class="span9">
-            <h3 class="about_chef">
+            <h5 class="about_chef">
                 {{ object.about_me_html|safe }}
-            </h3>
+            </h5>
         </div>
         <div class="span3">
 

@@ -70,7 +70,7 @@
             {% endfor %}
             {% if other_store_products.count > 8 %}
                 <li class="span4">
-                    <div class="thumbnail">
+                    <div class="thumbnail product_detail_more_products">
                         <a href="{% url "imly_store_detail" object.store.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/more_items.png" alt="{{ object.store.name }}" class="centered"></a>
                     </div>
                 </li>

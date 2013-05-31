@@ -116,9 +116,9 @@ class Store(geo_models.Model):
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
     logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
-    logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
+    logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",options={'quality': 92},processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
-    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG", processors = [ResizeToFill(900,200)], cache_to=get_store_cover_photo_path)
+    cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(900,200)], cache_to=get_store_cover_photo_path)
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
@@ -341,7 +341,7 @@ class UserProfile(models.Model):
     about_me = models.TextField()
     about_me_html = models.TextField(editable=False, blank=True)
     cover_profile_image = models.ImageField(upload_to=get_cover_image_path, blank=True)
-    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
+    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",options={'quality': 92},processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
     word_one = models.CharField(max_length=40)
     word_two = models.CharField(max_length=40)
     word_three = models.CharField(max_length=40)
