@@ -54,8 +54,8 @@
         
         <div class="row-fluid">
             <ul class="thumbnails">
-            {% for product in object.store.product_set.all|slice:"8" %}
-            {% if not product.is_deleted %}
+            {% for product in other_store_products|slice:"8" %}
+           
             {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined_product_detail_aside">{% endif %}
             <li class="span4">
                 <div class="thumbnail">
@@ -64,13 +64,13 @@
                     <div class="clearfix"></div>
                 </div>
             </li>
-            {% endif %}
+            
             {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
             {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
             {% endfor %}
-            {% if object.store.product_set.count > 8 %}
+            {% if other_store_products.count > 8 %}
                 <li class="span4">
-                    <div class="thumbnail">
+                    <div class="thumbnail product_detail_more_products">
                         <a href="{% url "imly_store_detail" object.store.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/more_items.png" alt="{{ object.store.name }}" class="centered"></a>
                     </div>
                 </li>

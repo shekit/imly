@@ -52,7 +52,7 @@ legend {
 	margin-bottom: 0px;
     }
     
-    .lower_border {
+    .lower_border, .lower_border2 {
 	border-bottom:1px solid #e5e5e5;
     }
     
@@ -494,6 +494,7 @@ img.bottom_border {
 .login_modal {
     width:450px;
     margin-left:-225px;
+
 }
 
 .modal_login_header {
@@ -604,6 +605,8 @@ ul.errorlist > li {
 
 .about_chef {
     font-weight: 200;
+    font-size: 18px;
+    line-height: 30px;
     
 }
 
@@ -731,6 +734,9 @@ ul.errorlist > li {
 .what_link:hover {
     color:#f05a28;
 }
+
+
+
 /* RESPONSIVE CSS
     -------------------------------------------------- */
 
@@ -753,9 +759,49 @@ ul.errorlist > li {
 
 @media (max-width: 767px) {
     
+    body {
+    padding-right: 10px;
+    padding-left: 10px;
+    }
+    
     .nav-collapse.collapse ul li {
 	border-bottom: 1px solid #e5e5e5;
     }
+    
+    .navbar .btn-navbar {
+	padding: 2px 5px 2px 0px;
+    }
+    
+    
+    .navbar .navbar-inner {
+	padding-right:0px;
+    }
+    
+    .navbar .btn-nav-collapse {
+    color: #ffffff;
+    width:100%;
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+    background-color: #666;
+    *background-color: #333;
+    background-image: -moz-linear-gradient(top, #666, #333);
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#666), to(#333));
+    background-image: -webkit-linear-gradient(top, #666, #333);
+    background-image: -o-linear-gradient(top, #666, #333);
+    background-image: linear-gradient(to bottom, #666, #333);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff666 ', endColorstr='#ff333', GradientType=0);
+    filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+    border-radius:0px;
+}
+
+    .navbar .btn-nav-collapse:hover {
+      color: #ffffff;
+      background-color: #333;
+      *background-color: #666;
+    }
+    
+
+
     
     .login_modal {
 	width:450px;
@@ -807,6 +853,12 @@ ul.errorlist > li {
 	width:300px;
 	margin-left:auto;
 	margin-right:auto;
+	height:400px;
+	overflow: scroll;
+    }
+    
+    .lower_border {
+	border-bottom: none;
     }
     
     .modal-header .extra_top_margin {
@@ -828,10 +880,9 @@ ul.errorlist > li {
     
     .footer {
 	margin-top: -180px; /* negative value of footer height */
-	height: 180px;
+	height: 190px;
     }
     
-
 }
 
       

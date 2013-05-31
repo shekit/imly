@@ -1,10 +1,10 @@
 <li>
-	<select onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
+	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
 		{% for lead, delivery_lead in delivery_leads %}
-		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead }}</option>
+		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead|date:"F j" }}</option>
 		{% endfor %}
 	</select>
-	<select onchange="update_store_order(this, {{store_order.id}}, 'order_time')">
+	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'order_time')">
 		{% for index, value in time_choices %}
 		<option value="{{ index }}" {% ifequal index store_order.order_time %}selected="selected"{%endifequal%}>{{ value }}</option>
 		{% endfor %}
@@ -38,4 +38,4 @@ function update_store_order(field, store_order_id, parameter){
 	}).fail(function(){alert('sorry we could not update your order.')});
 }
 </script>
-{% endblock %}
+{% endblock extra_javascript %}
