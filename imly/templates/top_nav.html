@@ -1,10 +1,10 @@
 <nav class="navbar">
                     <div class="navbar-inner">
 
-                            <button type="button" class="btn btn-navbar btn-block" data-toggle="collapse" data-target=".nav-collapse">
-                                Menu
+                            <button type="button" class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
+                                <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>Menu
                             </button>
-                            <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
+                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
                            
                             <div class="nav-collapse collapse">
                                 
