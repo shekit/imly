@@ -160,7 +160,7 @@ def send_store_mail(sender,instance,created, **kwargs):
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):
-		msg=EmailMessage("Store Approved.",ger_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
+		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
 		msg.content_subtype = 'html'
 		msg.send()
 		post_save.disconnect(store_approved_email,sender=Store)
