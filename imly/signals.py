@@ -41,7 +41,7 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 				
 
     
-@receiver(post_save,sender=Order)
+#@receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_confirmed',''):
 		stores = [stores for stores in instance.store_set.all()]
@@ -55,22 +55,20 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
-			print "Store Order detail",store,storeorder.order.order_id,product_detail,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
+			
+		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
+		msg.content_subtype = "html"
+		msg.send()
 		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
 		instance.data['imly_confirmed_store'] = 'confirmed'
 		instance.save()
 		post_save.connect(imly_confirmed_send_mail_store_owner,sender=Order)
 
-@receiver(post_save,sender=Order)
+#@receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_buyer(sender,instance,**kwargs):
 	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('buyer',''):
-		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
-		msg.content_subtype = "html"
-		msg.send()
-		post_save.disconnect(imly_confirmed_send_mail_buyer,sender=Order)
-		instance.data['buyer'] = 'send'
-		instance.save()
-		post_save.connect(imly_confirmed_send_mail_buyer,sender=Order)
+		print "Email sent."
+		
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
