@@ -1,0 +1,41 @@
+<li>
+	<select onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
+		{% for lead, delivery_lead in delivery_leads %}
+		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead }}</option>
+		{% endfor %}
+	</select>
+	<select onchange="update_store_order(this, {{store_order.id}}, 'order_time')">
+		{% for index, value in time_choices %}
+		<option value="{{ index }}" {% ifequal index store_order.order_time %}selected="selected"{%endifequal%}>{{ value }}</option>
+		{% endfor %}
+	</select>
+</li>
+<li>
+    <label class="radio inline">
+    <input type="radio" name="pick_up_{{ store_order.pk }}" id="optionsRadios1" value="1" {% if store_order.pick_up %}checked="checked"{% endif %} onchange="update_store_order(this, {{store_order.id}}, 'pick_up')">
+    Pick Up
+    </label>
+</li>
+<li>
+    <label class="radio inline">
+    <input type="radio" name="pick_up_{{ store_order.pk }}" id="optionsRadios2" value="0" onchange="update_store_order(this, {{store_order.id}}, 'pick_up')" {% if not store_order.pick_up %}checked="checked"{%endif%}>
+    Delivery
+    </label>    
+</li>
+
+{% block extra_javascript %}
+<script>
+function update_store_order(field, store_order_id, parameter){
+	var update = {store_order_id: store_order_id};
+	if( (typeof field, 'radio')){
+		update[parameter] = field.value;
+	}else{
+		
+		update[parameter] = field.options[field.selectedIndex];
+	}
+	$.post('{% url "update_store_order"%}', update, function(data){
+		return true;
+	}).fail(function(){alert('sorry we could not update your order.')});
+}
+</script>
+{% endblock %}

@@ -83,7 +83,8 @@ class PickupDistanceNode(template.Node):
             user_geo = session['bingeo']
             user_point = Point(*user_geo)
             return Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km
-    
+
+        
 def do_pick_up_distance(parser, token):
     try:
         tag_name, store = token.split_contents()
@@ -104,19 +105,12 @@ class StoreDeliversNode(template.Node):
         store = self.store.resolve(context)
         session=context['request'].session
         if session.get('bingeo', None):
-            user_geo=session['bingeo']
-            user_point = Point(*user_geo)
-
-            distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
-
-            self.store.delivers = distance.km < D(km=3)
-
-            return ''
-
-        else :
-            store.delivers = False
-            #raise template.TemplateSyntaxError('Not enough data for generating this information')
-
+            store.delivery_locations.distance(*session['bingeo']).order_by('distance')[0].distance
+            self.store.delivers = distance.km < 3
+        else:
+            self.store.delivers = False
+        return self.store.delivers and 'Delivers To You' or ''
+    
 def do_store_delivers(parser, token):
     try:
         tag_name, store = token.split_contents()
@@ -125,47 +119,19 @@ def do_store_delivers(parser, token):
         raise template.TemplateSyntaxError('store_delivers requires store')
     return StoreDeliversNode(store)
     
-register.tag('store_delivers', do_store_delivers)
+register.tag('store_delivers', do_pick_up_distance)
 
-class DeliveryLeadOptionsNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_delivery_lead_options(parser, token):
-    return DeliveryLeadOptionsNode()
+@register.inclusion_tag('imly/store_order_geo_info.html')
+def store_order_geo_info(store_order, request):
+    delivers = False
+    if request.session.get('bingeo', None):
+        distance = store_order.store.delivery_locations.distance(Point(*request.session['bingeo'])).order_by('distance')[0].distance
+        delivers = 0 < distance.km < 3
+    return {'store_order': store_order, 'delivers': delivers, 'request': request , 'distance': distance.km }
     
-register.tag('delivery_lead_options', do_delivery_lead_options)
-
-@register.inclusion_tag('imly/delivery_lead_options.html')
-def delivery_lead_options(store):
-    return {'delivery_leads': [store.delivered_on.date() + datetime.timedelta(days=day) for day in range(16)]}
-    
-
-class OrderTimeOptionsNode(template.Node):
-    def render(self, context):
-        pass
-
-@register.inclusion_tag('imly/order_time_options.html')    
-def order_time_options():
-    return {'time_choices': StoreOrder.TimeChoices}
-    
-
-class PickUpChoiceNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_pick_up_choice(parser, token):
-    return DeliveryLeadOptionsNode()
-    
-register.tag('pick_up_choice', do_pick_up_choice)
-
-class DeliveryChoiceNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_delivery_choice(parser, token):
-    return DeliveryLeadOptionsNode()
-    
-register.tag('delivery_choice', do_delivery_choice)
-
-    
+@register.inclusion_tag('imly/store_order_options.html')
+def store_order_options(store_order):
+    return {'store_order': store_order, 
+            'delivery_leads': [[day, store_order.delivered_on.date() + datetime.timedelta(days=day)] for day in range(15)],
+            'time_choices': StoreOrder.TimeChoices
+            } 
