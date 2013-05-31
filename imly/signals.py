@@ -42,8 +42,8 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 
     
 @receiver(post_save,sender=Order)
-def imly_confirmed_send_mail(sender,instance,**kwargs):
-	if instance.status == Order.IMLY_CONFIRMED:
+def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
+	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_confirmed',''):
 		stores = [stores for stores in instance.store_set.all()]
 		for store in stores:
 			print "Store Name", store
@@ -56,9 +56,21 @@ def imly_confirmed_send_mail(sender,instance,**kwargs):
 			msg.content_subtype = "html"
 			msg.send()
 			print "Store Order detail",store,storeorder.order.order_id,product_detail,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
-		buyer_email = instance.user.email
-		print "Buyer Email",buyer_email
-		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance._order_id),"orders@imly.in",buyer_email,fail_silently=False)
+		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
+		instance.data['imly_confirmed_store'] = 'confirmed'
+		instance.save()
+		post_save.connect(imly_confirmed_send_mail_store_owner,sender=Order)
+
+@receiver(post_save,sender=Order)
+def imly_confirmed_send_mail_buyer(sender,instance,**kwargs):
+	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('buyer',''):
+		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
+		msg.content_subtype = "html"
+		msg.send()
+		post_save.disconnect(imly_confirmed_send_mail_buyer,sender=Order)
+		instance.data['buyer'] = 'send'
+		instance.save()
+		post_save.connect(imly_confirmed_send_mail_buyer,sender=Order)
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
