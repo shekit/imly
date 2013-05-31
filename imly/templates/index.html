@@ -101,12 +101,7 @@
                     </div>
     </div>
     
-    <div class="container visible-phone">
-                    <div class="row-fluid lower_border2">
-                        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_cover_photo.jpg"></p>
-                    </div>
-    </div>
-    
+
     <div id="myCarousel" class="carousel slide hidden-phone ">
         <div class="carousel-inner">
             <div class="hero-unit hero_carousel1 active item"></div>
@@ -118,6 +113,13 @@
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
         <a class="carousel-control right" href="#myCarousel" data-slide="prev">&rsaquo;</a>
     </div>
+    
+    <div class="container visible-phone">
+        <div class="row-fluid lower_border2">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_cover_photo.jpg"></p>
+        </div>
+    </div>
+    
     <div class="row-fluid">
         <div class="span3"></div>
         <div class="span6 negative_margin">
@@ -244,7 +246,7 @@
                 interval: 4000
           });
           
-          var c=0, words=["is different.","is home to great food.","is a marketplace.", "is a community.","is made for you.","is your friend.","is unique.", "is the place to be.","is sweet.","is spicy.","is tangy.","is memorable."]
+          var c=0, words=["is different.","connects home chefs to foodies.","is home to great food.","is a marketplace.", "is a community.","is made for you.","is your friend.","is unique.", "is the place to be.","is sweet.","is spicy.","is tangy.","is memorable."]
           
           function loop(){
             $(".what .what_all").delay(2500).fadeTo(300,0,function(){

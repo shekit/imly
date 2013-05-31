@@ -341,7 +341,7 @@ class UserProfile(models.Model):
     about_me = models.TextField()
     about_me_html = models.TextField(editable=False, blank=True)
     cover_profile_image = models.ImageField(upload_to=get_cover_image_path, blank=True)
-    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG",options={'quality': 92},processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
+    cover_profile_image_thumbnail = ImageSpecField(image_field="cover_profile_image", format="JPEG", options={'quality': 92},processors = [SmartResize(1600,400)], cache_to="cover_profile_regular")
     word_one = models.CharField(max_length=40)
     word_two = models.CharField(max_length=40)
     word_three = models.CharField(max_length=40)

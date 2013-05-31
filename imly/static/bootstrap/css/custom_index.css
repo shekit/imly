@@ -755,7 +755,19 @@ ul.errorlist > li {
     .border_right {
 	border-right: none;
     }
+    
+    .hero_open_shop{
+	background: url("../img/chef_cover_mobile.jpg") top no-repeat;
+    }
+    
+        
+    .hero_unit_contact {
+	background: url("../img/choc_brownie_tablet.jpg") top no-repeat;
+    }
+    
 }
+
+
 
 @media (max-width: 767px) {
     
@@ -770,11 +782,23 @@ ul.errorlist > li {
     
     .navbar .btn-navbar {
 	padding: 2px 5px 2px 0px;
+	margin-left:0px;
+	margin-right: 0px;
     }
     
     
     .navbar .navbar-inner {
 	padding-right:0px;
+	padding-left:0px;
+    }
+    
+    .navbar-inner {
+	padding-right:0px;
+	padding-left:0px;
+    }
+    
+    .navbar {
+	border-bottom: 1px solid #fff;
     }
     
     .navbar .btn-nav-collapse {
@@ -800,7 +824,13 @@ ul.errorlist > li {
       *background-color: #666;
     }
     
+    
+    .open_your_shop_mobile{
 
+	background: #ff7752;
+	font-weight: 200;
+	color: #fff;
+    }
 
     
     .login_modal {
@@ -817,7 +847,7 @@ ul.errorlist > li {
 	margin-left: auto;
 	margin-right: auto;
     }
-    
+
     .mobile_footer {
 	text-align: center;
     }
@@ -826,7 +856,7 @@ ul.errorlist > li {
 	margin-top: -180px; /* negative value of footer height */
 	height: 180px;
     }
-    
+
     
     .index_sign_in {
 	border-right: none;
@@ -843,6 +873,30 @@ ul.errorlist > li {
     
     .what_container {
     margin-top: auto;
+    }
+    
+    .contact_add {
+	margin-left: 0px;
+	padding-top:10px;
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e5e5e5;
+	border-top: 1px solid #e5e5e5;
+	background: #f6f6f6;
+    }
+    
+    .email_contact_mobile {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #e5e5e5;
+    }
+    
+    .about_chef{
+	font-size:14px;
+	line-height: 22px;
+    }
+    
+    .best_dish {
+	font-size:16px;
+	font-weight: 500;
     }
 }
 

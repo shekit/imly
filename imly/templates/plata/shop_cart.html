@@ -11,6 +11,7 @@
         <br><br><br><br>
         <h2 class="muted text-center">Your Cart is Empty :(</h2>
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
+        <br><br>
         {% else %}
         <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items)</h3>
         <div class="alert alert-block">
@@ -70,16 +71,21 @@
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
                                                             <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}</li>
+                                                            
                                                         </ul>
                                                     </li>
+                                                </ul>
+                                                <ul class="unstyled visible-phone cart_ul">
+                                                    <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</b></li>
+                                                    <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
                                                 </ul>
                                                 
                                             
                                             </td>
-                                            <td width="200"  class="less_padding_inner_td"><p class="text-center">
+                                            <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</p></td>
-                                            <td class="less_padding_inner_td"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -110,11 +116,13 @@
         {% endif %}
 
         {% endfor %}
-        
-            <p class="text-right">
-                <a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a>
-                <input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" />
-            <input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></p>
+            
+            <ul class="inline text-right checkout_mobile">
+                <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
+                <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
+                <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
+            </ul>
+
         </form>
         {% endif %}
 </div>

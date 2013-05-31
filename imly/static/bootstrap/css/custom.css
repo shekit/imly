@@ -40,12 +40,11 @@ body {
 
 /* navbar styling */
     .navbar {
-	margin-bottom: 20px;
+	margin-bottom: 0px;
     }
     
     .lower_border {
 	border-bottom:1px solid #e5e5e5;
-	height: 70px;
     }
     
 
@@ -1122,6 +1121,15 @@ td.less_padding_inner_td {
     border-left: none; 
 }
 
+
+td.less_padding_inner_td input[type=text]{
+    width:100px;
+}
+
+.error {
+    color: #f05a28;
+}
+
 /* SIGN OUT PAGE */
 
 .signout_bye {
@@ -1131,14 +1139,6 @@ td.less_padding_inner_td {
 
 .signout_bye_para {
     font-weight:300;
-}
-
-/* DATE PICKER IN CART */
-
-.ui-datepicker {
-    height: 250px ;
-    padding: 0.2em 0.2em 0;
-    width: 200px;
 }
 
 
@@ -1181,11 +1181,21 @@ td.less_padding_inner_td {
     
     .navbar .btn-navbar {
 	padding: 2px 5px 2px 0px;
+	margin-left:0px;
+	margin-right: 0px;
     }
+    
     
     .navbar .navbar-inner {
 	padding-right:0px;
+	padding-left:0px;
     }
+    
+    .navbar-inner {
+	padding-right:0px;
+	padding-left:0px;
+    }
+    
     .navbar .btn-nav-collapse {
     color: #ffffff;
     width:100%;
@@ -1214,7 +1224,7 @@ td.less_padding_inner_td {
 	margin-left:auto;
 	margin-right:auto;
     }
-    
+
     .modal-header .extra_top_margin {
 	margin-top:2px;
     }
@@ -1235,6 +1245,18 @@ td.less_padding_inner_td {
     
     .thumbnail {
 	margin-bottom: 10px;
+    }
+    
+    .table_border_right td{
+	border-right: none;
+    }
+    
+    .cart_ul{
+	padding-left:5px;
+    }
+    
+    ul.checkout_mobile li {
+	margin-bottom:15px;
     }
     
 }
