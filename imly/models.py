@@ -321,7 +321,7 @@ class StoreOrder(models.Model):
     store = models.ForeignKey(Store)
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
-    delivered_on_lead = models.IntegerField(default=0) 
+    delivery_lead = models.IntegerField(default=0) 
     order_time = models.IntegerField(choices= TimeChoices, default=1)
     pick_up = models.BooleanField(default=True)
     store_total = models.FloatField(default=0.0)

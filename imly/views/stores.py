@@ -1,13 +1,14 @@
 from django.views.generic import ListView, DetailView
 from django.shortcuts import get_object_or_404, redirect, render,render_to_response
 from django.views.generic.edit import UpdateView, CreateView
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseForbidden,HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
-from django.db.models import Q
-from imly.models import Category, Store, Product, Location, Tag
+from django.db.models import Q, F
+from imly.models import Category, Store, Product, Location, Tag, StoreOrder
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
@@ -264,3 +265,11 @@ class OrderList(ListView):
     def get_queryset(self):
         store = self.request.user.store#get_object_or_404(Store, slug=self.kwargs["slug"])
         return OrderItem.objects.filter(product__in=store.product_set.all())
+
+@csrf_exempt
+def  update_store_order(request):
+    store_order = StoreOrder.objects.get(pk=request.POST.get('store_order_id'))
+    update_parameter = [key for key in request.POST.keys() if key != 'store_order_id'][0]
+    store_order.__setattr__(update_parameter, int(request.POST.get(update_parameter)))
+    store_order.save()
+    return HttpResponse('Succesfully Updated')

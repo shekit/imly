@@ -1,8 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
-
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location
@@ -113,4 +112,6 @@ urlpatterns += patterns('',
     
 )
 
-
+urlpatterns += patterns('',
+    url(r'^storeorder$', login_required(update_store_order), name='update_store_order')
+)
