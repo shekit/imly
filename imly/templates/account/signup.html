@@ -7,17 +7,39 @@
 
 {% block content %}
 <div class="row-fluid">
-    <div class="span6 offset3">
+    <div class="span8 offset2">
         <div class="well">
-        <div class="grey_form_bg">
-            <h3 class="text-center">{% trans "Sign Up" %}</h3>
+            <ul class="nav nav-tabs">
+                <li><a href="{{ login_url }}"><h4 class="modal_window_header">Login</h4></a></li>
+                <li class="active"><a href="#"><h4 class="modal_window_header">Sign Up</h4></a></li>
+            </ul>
             
+        {% if not user.is_authenticated %}
+        
+            {% if socialaccount.providers  %}
+    
+            <br><br>
+            <div class="socialaccount_ballot">
+            
+                <ul class="socialaccount_providers inline text-center">
+                {% include "socialaccount/snippets/provider_list.html" %}
+                </ul>
+            
+            <!--<div class="login-or">{% trans 'or' %}</div>-->
+            
+            </div>
+    
+            {% include "socialaccount/snippets/login_extra.html" %}
+            
+            {% endif %}
+        {% endif %}
+        
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+    
             {% if user.is_authenticated %}
-        {% include "account/snippets/already_logged_in.html" %}
+                {% include "account/snippets/already_logged_in.html" %}
             {% else %}
-            <p class="text-center">{% blocktrans %}Already have an account? Go ahead and <a href="{{ login_url }}">sign in</a>.{% endblocktrans %}</p>
-        </div>
-            <br>
+
                 <form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
                     {% csrf_token %}
                
@@ -27,15 +49,7 @@
                         <span class="text-center">{{ form.non_field_errors }}</span>
                     </div>
                 </div>
-                
-                <div class="control-group">
-                    
-                    <span class="control-label">{{ form.username.label }}</span>
-                    <div class="controls">
-                        {{ form.username }}
-                        {{ form.username.errors }}
-                    </div>
-                </div>
+
                 <div class="control-group">
                     
                     <span class="control-label">{{ form.email.label }}</span>

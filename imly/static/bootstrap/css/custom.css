@@ -416,14 +416,15 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 		
 /* reducing h5 bottom margin in product list page so shop name comes below product */
 .less_bottom_margin{
-    margin-bottom:0px;
+    margin-bottom:5px;
     line-height: 80%;
     font-size:14px;
     font-weight: 500;
 }
 
 .lower_bottom_margin {
-    margin-bottom: 3px;
+    margin-bottom: 5px;
+    line-height: 14px;
 }
 
 .larger_h5 {
@@ -603,7 +604,7 @@ transition: all 0.2s ease-in-out;
 }
 
 h1.store_name {
-    font-size: 45px;
+    font-size: 40px;
     margin-top:5px;
 }
 
@@ -1160,6 +1161,16 @@ td.less_padding_inner_td input[type=text]{
     .border_right {
 	border-right: none;
     }
+    
+    h1.store_name{
+	font-size:30px;
+    }
+    
+        
+    .navbar .nav > li > a {
+	padding-left:15px;
+	padding-right: 15px;
+    }
 
 }
 
@@ -1169,7 +1180,7 @@ td.less_padding_inner_td input[type=text]{
     padding-right: 10px;
     padding-left: 10px;
     }
-    
+        
     .nav-collapse, .nav-collapse.collapse {
 	background: #fff;
 	z-index: 900;
@@ -1259,6 +1270,54 @@ td.less_padding_inner_td input[type=text]{
 	margin-bottom:15px;
     }
     
+    .tagline_mobile{
+	background: #f05a28;
+	color: #fff;
+    }
+    
+    .tagline_mobile_no_tagline {
+	background: #f05a28;
+	color: #f05a28;
+    }
+    
+    .btn-custom-mobile{
+		-webkit-border-radius: 0px;
+	-moz-border-radius: 0px;
+	border-radius:0px;
+
+    }
+    
+    .product_detail_mobile {
+	text-align: center;
+    }
+    
+    .bordered_left_right{
+	border-left: none;
+	border-right: none;
+    }
+    
+    .product_detail_prep {
+	border-top: 1px solid #e5e5e5;
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 5px;
+	background: #f7f7f7;
+    }
+    
+    .product_detail_rating {
+	border-top: 1px solid #e5e5e5;
+	margin-bottom: 0px;
+	padding-bottom: 5px;
+    }
+    
+    .product_detail_order {
+	border-bottom: 1px solid #e5e5e5;
+	padding-bottom: 5px;
+    }
+    
+    .hr_mobile {
+	border: none;
+    }
+
 }
 
 @media (max-width: 480px) {

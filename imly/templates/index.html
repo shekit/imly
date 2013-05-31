@@ -73,7 +73,8 @@
                                                     </ul>
                                               </li>
                                           {% else %}
-                                              <li><a class="index_sign_in" href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
+                                              <li class="hidden-phone"><a class="index_sign_in" href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
+                                              <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                           {% endif %}
       
                     </ul>

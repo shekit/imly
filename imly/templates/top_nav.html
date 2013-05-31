@@ -17,11 +17,12 @@
 
                                 </span>
                             </button>
-                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone hidden-tablet"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
-                           
+                            <a href="{% url "imly_landing_page" %}" class="brand visible-desktop"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
+                            
                             <div class="nav-collapse collapse">
                                 
                                 <ul class="nav pull-right">
+                                        <li class="visible-tablet top_nav_logo"><a href="{% url "imly_landing_page" %}" style="padding: 10px 0px;padding-right: 40px;"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo" width="80"></a></li>
                                     <li><a class="no_border" href="{% url "imly_product_list" %}">Discover Great Food</a></li>
                                     
                                     {% if user.is_authenticated %}
@@ -31,15 +32,16 @@
                                             <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                         {% endif %}
                                     {% else %}
-                                        <li><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
+                                        <li class="hidden-phone"><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
+                                        <li class="visible-phone"><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                     {% endif %}
                                     <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
                                     {% if user.is_authenticated %}
                                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         {% if user.userprofile.first_name %}
-                                            {{ user.userprofile.first_name }} <span class="caret"></span>
+                                            {{ user.userprofile.first_name|slice:"12" }} <span class="caret"></span>
                                         {% else %}
-                                            {{ user.first_name }} <span class="caret"></span>
+                                            {{ user.first_name|slice:"12" }} <span class="caret"></span>
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
@@ -51,7 +53,8 @@
                                         </li>
                                     {% else %}
                                         
-                                        <li>{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
+                                        <li class="hidden-phone">{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
+                                        <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
                                     <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
                                     

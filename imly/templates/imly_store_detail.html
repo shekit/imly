@@ -3,8 +3,19 @@
 {% block title %}Imly | {{ object.name }}{% endblock title %}
 
 {% block shop_info %}
-
-    <div class="well shop_info">
+    <div class="visible-phone">
+        <h3 class="store_name text-center">{{ object.name }}</h3>
+            {% if object.tagline %}
+                <p class="text-center tagline_mobile">{{ object.tagline }}</p>
+            {% else %}
+                <p class="text-center tagline_mobile_no_tagline">Hi</p>
+            {% endif %}
+            <br>
+        <p><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms from you <span class="pull-right">Delivers to you</span></small>
+        </p>
+    </div>
+    
+    <div class="well shop_info hidden-phone">
         {% if object.logo %}
             <p class="text-center"><img class="img-rounded" src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></p>
         {% endif %}
@@ -73,7 +84,7 @@
     
     {% else %}
         
-        <div class="hero-unit no_cover_photo text-center">
+        <div class="hero-unit no_cover_photo text-center hidden-phone">
             <h1 class="store_name">{{ object.name }}</h1>
             {% if object.tagline %}
                 <p>{{ object.tagline }}</p>
@@ -151,6 +162,18 @@
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
         </ul>
+    </div>
+    
+    <div class="row-fluid visible-phone">
+        {% if object.owner.userprofile %}
+            
+            <a class="btn btn-block btn-custom btn-custom-mobile" href="{% url "chef_profile" object.owner.userprofile.slug %}">{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}'s Profile</a>
+            
+        {% else %}
+            
+            <h5 class="muted text-center" style="font-weight: 300;">by {{ object.owner.username }}</h5>
+            
+        {% endif %}
     </div>
 {% endblock shop_product_content %}
 

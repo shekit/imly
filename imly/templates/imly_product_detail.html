@@ -101,7 +101,7 @@
                         <div class="thumbnail">
                             {% if request.session.place_slug %}
                                 <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
-                                {% store_delivers object.store %}
+                                <!--{% store_delivers object.store %}-->
 
                                 {% if distance < 1 %}
                                     &lt; {% pick_up_distance object.store %} km 
@@ -128,7 +128,7 @@
                 
         </div>
         
-        <div class="span4">
+        <div class="span4 product_detail_mobile">
             <h2>{{ object.name }}</h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></small>
             <br><br>
             {% if object.quantity_per_item == 1 %}
@@ -166,7 +166,7 @@
     <div class="row-fluid">
         <div class="row-fluid">
         <div class="span4">
-            <ul class="unstyled text-center">
+            <ul class="unstyled text-center product_detail_rating">
                 <li><h4 class="product_detail_header">Rating</h4></li>
                 <li>
                     {% if object.reviews.count %}
@@ -178,21 +178,21 @@
                         {% endfor %}
                     </ul>
                     {% else %}
-                        <p>Be the first to review</p>
+                        Be the first to review
                     {% endif %}
                 </li>
             </ul>
         </div>
         
         <div class="span4 bordered_left_right">
-            <ul class="unstyled text-center">
+            <ul class="unstyled text-center product_detail_prep">
                 <li><h4 class="product_detail_header">Preparation Time <a href='#' class='form-tips' title='Time in which the chef will have your dish ready for delivery/pick-up'>[?]</a></h4></li>
                 <li>
                     <b>
                     {% if object.lead_time == 1 %}
-                        <p>{{ object.lead_time }} {{ object.get_lead_time_unit_display }}</p>
+                        {{ object.lead_time }} {{ object.get_lead_time_unit_display }}
                     {% else %}
-                        <p>{{ object.lead_time }} {{ object.get_lead_time_unit_display }}s</p>
+                        {{ object.lead_time }} {{ object.get_lead_time_unit_display }}s
                     {% endif %}
                     </b>
                 </li>
@@ -200,7 +200,7 @@
         </div>
         
         <div class="span4">
-            <ul class="unstyled text-center">
+            <ul class="unstyled text-center  product_detail_order">
                 <li><h4 class="product_detail_header">Orders Left Today</h4></li>
                 <li>
                     <b>{{ object.items_in_stock }}</b>
@@ -221,12 +221,12 @@
         </div>
     {% endif %}
 
-    
+    <a class="btn btn-block btn-custom btn-custom-mobile visible-phone" href="{% url "imly_store_detail" object.store.slug %}"><small>More from {{ object.store.name }}</small></a>
     
     <div class="row-fluid">
         <br>
         <div class="span6 offset3">
-            <hr>
+            <hr class="hr_mobile">
         </div>
     </div>
     

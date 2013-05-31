@@ -170,7 +170,7 @@ def update_product_geography(sender, instance, **kwargs):
     post_save.connect(update_store_categories_from_product, sender=Product)
     
 
-@receiver(post_save, sender=Store)
+#@receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:# and Site.objects.get_current().domain == 'imly.in':
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
@@ -181,7 +181,7 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg.send()
 
 
-@receiver(post_save,sender=Store)
+#@receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
 		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
