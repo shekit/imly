@@ -31,7 +31,7 @@ def set_location_point(sender,instance,**kwargs):
 #@receiver(post_save,sender=Order)
 def imly_order_place_send_email_admin(sender,instance,**kwargs):
 	if instance.status == Order.PAID and not instance.data.get('paid',''):
-		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance,'store':[stores for stores in instance.store_set.all()]})),'orders@imly.in',['imlyfood@gmail.com'])
+		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'orders@imly.in',['imlyfood@gmail.com'])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_order_place_send_email_admin,sender=Order)
@@ -41,9 +41,9 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 				
 
     
-@receiver(post_save,sender=Order)
-def imly_confirmed_send_mail(sender,instance,**kwargs):
-	if instance.status == Order.IMLY_CONFIRMED:
+#@receiver(post_save,sender=Order)
+def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
+	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_confirmed',''):
 		stores = [stores for stores in instance.store_set.all()]
 		for store in stores:
 			print "Store Name", store
@@ -55,10 +55,20 @@ def imly_confirmed_send_mail(sender,instance,**kwargs):
 			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
-			print "Store Order detail",store,storeorder.order.order_id,product_detail,storeorder.delivered_on.date(),storeorder.store_total,instance.user.username
-		buyer_email = instance.user.email
-		print "Buyer Email",buyer_email
-		#send_mail("Order Confirmed.","Your order is confirmed by Imly and you order id is %s" %(instance._order_id),"orders@imly.in",buyer_email,fail_silently=False)
+			
+		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
+		msg.content_subtype = "html"
+		msg.send()
+		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
+		instance.data['imly_confirmed_store'] = 'confirmed'
+		instance.save()
+		post_save.connect(imly_confirmed_send_mail_store_owner,sender=Order)
+
+#@receiver(post_save,sender=Order)
+def imly_confirmed_send_mail_buyer(sender,instance,**kwargs):
+	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('buyer',''):
+		print "Email sent."
+		
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
@@ -162,7 +172,7 @@ def update_product_geography(sender, instance, **kwargs):
 
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
-    if created and Site.objects.get_current().domain == 'imly.in':
+    if created:# and Site.objects.get_current().domain == 'imly.in':
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
     	msg.content_subtype = "html"
     	msg.send()
@@ -173,7 +183,7 @@ def send_store_mail(sender,instance,created, **kwargs):
 
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
-	if instance.is_approved and not instance.data.get('email','') and Site.objects.get_current().domain == 'imly.in':
+	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
 		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
 		msg.content_subtype = 'html'
 		msg.send()

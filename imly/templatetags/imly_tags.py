@@ -126,7 +126,7 @@ def store_order_geo_info(store_order, request):
     delivers = False
     if request.session.get('bingeo', None):
         distance = store_order.store.delivery_locations.distance(Point(*request.session['bingeo'])).order_by('distance')[0].distance
-        delivers = 0 < distance.km < 3
+        delivers = distance.km < 3
     return {'store_order': store_order, 'delivers': delivers, 'request': request , 'distance': distance.km }
     
 @register.inclusion_tag('imly/store_order_options.html')

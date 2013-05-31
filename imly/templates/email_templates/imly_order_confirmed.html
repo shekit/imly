@@ -1,6 +1,7 @@
-Hi, You got a new order. Order no is {{storeorder.order}}.
+Hi,<br/><br/>
+You have received an order through your store on Imly. Your order details are as follows:
 
-Your order details are as follows.
+Order no is {{storeorder.order}}<br/><br/>
 
 <table>
 	<tr><th>S.No</th><th>You have to make</th><th>Buyer Info</th><th>Order Placed</th></tr>
@@ -8,10 +9,14 @@ Your order details are as follows.
 		<tr><td>{{forloop.counter}}</td><td>{{product.name}}</td><td>{{buyer_info}}</td><td>{{storeorder.order.confirmed}}</td></tr>
 	{% endfor %}
 </table>
-Your order total is <b>{{storeorder.store_total}}</b>. Your delivery date is <b>{{storeorder.delivered_on}}</b>.
+Your order total is <b>{{storeorder.store_total}}</b>. Your delivery date is <b>{{storeorder.delivered_on}}</b>.<br/><br/>
 
-Thank you,
-
-Imly
+Cook on!<br/><br/>
 
 
+
+The Imly Team<br/><br/>
+
+
+
+P: +91 9920190624<br/><br/>
