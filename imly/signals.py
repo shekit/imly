@@ -157,6 +157,7 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg.content_subtype = "html"
     	msg.send()
 
+
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):

@@ -108,8 +108,11 @@ class StoreDeliversNode(template.Node):
             user_point = Point(*user_geo)
 
             distance = Store.objects.filter(pk=store.pk).distance(user_point, field_name='delivery_points')[0].distance
-            distance.km < D(km=3)
+
+            self.store.delivers = distance.km < D(km=3)
+
             return ''
+
         else :
             store.delivers = False
             #raise template.TemplateSyntaxError('Not enough data for generating this information')
