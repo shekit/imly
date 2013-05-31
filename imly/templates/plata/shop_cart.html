@@ -90,7 +90,7 @@
             <td class="cart_delivery_section" >
                 
                 <ul class="unstyled text-center">
-                    <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on.date }}</span></small></li>
+                    <li class="muted">I want my order on:</li>
 					<li>
 						{% delivery_lead_options store %}
 						{% order_time_options %}
@@ -111,6 +111,7 @@
                     </li>
                     <li><br></li>
                     <li><h3 class="muted">Rs. {{ store.store_total|floatformat:"0" }}</h3></li>
+                    <li><small class="muted">Cash on Delivery</small></li>
                 </ul>
                 
             </td>
