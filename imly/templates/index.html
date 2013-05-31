@@ -26,7 +26,20 @@
                 <div class="navbar-inner">
                   <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
                   <button type="button" class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
-                    MENU 
+                                <a href="#" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_small_with_beta_light.png" alt="Imly Logo" width="80"></a>
+                                <span class="pull-right">
+                                        <br>
+                                        <ul class="inline">
+                                                            <li>MENU</li>
+                                                            <li><span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                                <span class="icon-bar"></span>
+                                                            </li>
+                                                            
+                                        </ul>
+                                        
+
+                                </span>
                   </button>
                   <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
                   <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->

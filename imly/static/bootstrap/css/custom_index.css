@@ -494,6 +494,7 @@ img.bottom_border {
 .login_modal {
     width:450px;
     margin-left:-225px;
+
 }
 
 .modal_login_header {
@@ -767,6 +768,11 @@ ul.errorlist > li {
 	border-bottom: 1px solid #e5e5e5;
     }
     
+    .navbar .btn-navbar {
+	padding: 2px 5px 2px 0px;
+    }
+    
+    
     .navbar .navbar-inner {
 	padding-right:0px;
     }
@@ -847,6 +853,8 @@ ul.errorlist > li {
 	width:300px;
 	margin-left:auto;
 	margin-right:auto;
+	height:400px;
+	overflow: scroll;
     }
     
     .lower_border {
@@ -871,11 +879,10 @@ ul.errorlist > li {
     }
     
     .footer {
-	margin-top: -190px; /* negative value of footer height */
+	margin-top: -180px; /* negative value of footer height */
 	height: 190px;
     }
     
-
 }
 
       

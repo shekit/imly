@@ -1172,14 +1172,21 @@ td.less_padding_inner_td {
     
     .nav-collapse, .nav-collapse.collapse {
 	background: #fff;
-	z-index: 1300;
+	z-index: 900;
     }
     
     .nav-collapse.collapse ul li {
 	border-bottom: 1px solid #e5e5e5;
     }
     
-        .navbar .btn-nav-collapse {
+    .navbar .btn-navbar {
+	padding: 2px 5px 2px 0px;
+    }
+    
+    .navbar .navbar-inner {
+	padding-right:0px;
+    }
+    .navbar .btn-nav-collapse {
     color: #ffffff;
     width:100%;
     text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -1238,6 +1245,8 @@ td.less_padding_inner_td {
 	width:300px;
 	margin-left:auto;
 	margin-right:auto;
+	height:400px;
+	overflow: scroll;
     }
     
     .modal-header .extra_top_margin {
@@ -1258,7 +1267,7 @@ td.less_padding_inner_td {
     }
     
     .footer {
-	margin-top: -190px; /* negative value of footer height */
+	margin-top: -180px; /* negative value of footer height */
 	height: 190px;
     }
     
