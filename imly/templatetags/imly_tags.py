@@ -83,7 +83,8 @@ class PickupDistanceNode(template.Node):
             user_geo = session['bingeo']
             user_point = Point(*user_geo)
             return Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km
-    
+
+        
 def do_pick_up_distance(parser, token):
     try:
         tag_name, store = token.split_contents()
@@ -108,7 +109,7 @@ class StoreDeliversNode(template.Node):
             self.store.delivers = distance.km < 3
         else:
             self.store.delivers = False
-        return ''
+        return self.store.delivers and 'Delivers To You' or ''
     
 def do_store_delivers(parser, token):
     try:
@@ -118,6 +119,7 @@ def do_store_delivers(parser, token):
         raise template.TemplateSyntaxError('store_delivers requires store')
     return StoreDeliversNode(store)
     
+register.tag('store_delivers', do_pick_up_distance)
 
 @register.inclusion_tag('imly/store_order_geo_info.html')
 def store_order_geo_info(store_order, request):
@@ -125,7 +127,7 @@ def store_order_geo_info(store_order, request):
     if request.session.get('bingeo', None):
         distance = store_order.store.delivery_locations.distance(Point(*request.session['bingeo'])).order_by('distance')[0].distance
         delivers = 0 < distance.km < 3
-    return {'store_order': store_order, 'delivers': delivers, 'request': request }
+    return {'store_order': store_order, 'delivers': delivers, 'request': request , 'distance': distance.km }
     
 @register.inclusion_tag('imly/store_order_options.html')
 def store_order_options(store_order):
