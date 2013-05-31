@@ -121,14 +121,33 @@ def do_store_delivers(parser, token):
     
 register.tag('store_delivers', do_pick_up_distance)
 
-@register.inclusion_tag('imly/store_order_geo_info.html')
-def store_order_geo_info(store_order, request):
-    delivers = False
-    if request.session.get('bingeo', None):
-        distance = store_order.store.delivery_locations.distance(Point(*request.session['bingeo'])).order_by('distance')[0].distance
-        delivers = distance.km < 3
-    return {'store_order': store_order, 'delivers': delivers, 'request': request , 'distance': distance.km }
-    
+class StoreAmendGeo(template.Node):
+    def __init__(self, store):
+        self.store = template.Variable(store)
+
+    def render(self, context):
+        store = self.store.resolve(context)
+        session = context['request'].session
+        if session.get('bingeo', None):
+            user_point = Point(*session['bingeo'])
+            distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
+            self.store.delivers = distance.km < 3
+            self.store.distance = self.store.pick_up and Store.objects.filter(pk=self.store.pk).distance(user_point)[0].distance.km or None
+        else:
+            self.store.delivers = False
+            self.store.distance = None
+        return ''
+
+def do_store_amend_geo(parser, token):
+    try:
+        tag_name, store = token.split_contents()
+        isinstance(store, Store)
+    except ValueError:
+        raise template.TemplateSyntaxError('store_amend_geo requires store')
+    return StoreAmendGeo(store)
+
+register.tag('store_amend_geo', do_store_amend_geo)
+
 @register.inclusion_tag('imly/store_order_options.html')
 def store_order_options(store_order):
     return {'store_order': store_order, 
