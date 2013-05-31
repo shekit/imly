@@ -91,25 +91,8 @@
                 
                 <ul class="unstyled text-center">
                     <li class="muted"><small>I want my order on <span class="del_date">{{ store.delivered_on.date }}</span></small></li>
-					<li>
-						{% delivery_lead_options store %}
-						{% order_time_options %}
-					</li>
-                    <li>
-                        <label class="radio inline">
-							{% pick_up_choice store %}
-                        <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                        Pick Up
-                        </label>
-                    </li>
-                    <li>
-                        <label class="radio inline">
-							{% delivery_choice store %}
-                        <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
-                        Delivery
-                        </label>    
-                    </li>
-                    <li><br></li>
+					{% store_order_options store %}
+					<li><br></li>
                     <li><h3 class="muted">Rs. {{ store.store_total|floatformat:"0" }}</h3></li>
                 </ul>
                 

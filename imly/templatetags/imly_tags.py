@@ -127,45 +127,9 @@ def do_store_delivers(parser, token):
     
 register.tag('store_delivers', do_store_delivers)
 
-class DeliveryLeadOptionsNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_delivery_lead_options(parser, token):
-    return DeliveryLeadOptionsNode()
-    
-register.tag('delivery_lead_options', do_delivery_lead_options)
-
-@register.inclusion_tag('imly/delivery_lead_options.html')
-def delivery_lead_options(store):
-    return {'delivery_leads': [store.delivered_on.date() + datetime.timedelta(days=day) for day in range(16)]}
-    
-
-class OrderTimeOptionsNode(template.Node):
-    def render(self, context):
-        pass
-
-@register.inclusion_tag('imly/order_time_options.html')    
-def order_time_options():
-    return {'time_choices': StoreOrder.TimeChoices}
-    
-
-class PickUpChoiceNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_pick_up_choice(parser, token):
-    return DeliveryLeadOptionsNode()
-    
-register.tag('pick_up_choice', do_pick_up_choice)
-
-class DeliveryChoiceNode(template.Node):
-    def render(self, context):
-        pass
-        
-def do_delivery_choice(parser, token):
-    return DeliveryLeadOptionsNode()
-    
-register.tag('delivery_choice', do_delivery_choice)
-
-    
+@register.inclusion_tag('imly/store_order_options.html')
+def store_order_options(store_order):
+    return {'store_order': store_order, 
+            'delivery_leads': [[day, store_order.delivered_on.date() + datetime.timedelta(days=day)] for day in range(15)],
+            'time_choices': StoreOrder.TimeChoices
+            } 
