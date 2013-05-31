@@ -4,7 +4,7 @@
 
 {% block shop_info %}
     {% load imly_tags %}
-    <div class="well shop_info">
+    <div class="well shop_info hidden-phone">
         
         <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
         <small class="muted"> by
