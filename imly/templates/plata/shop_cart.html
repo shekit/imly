@@ -37,11 +37,11 @@
             <tr class="shop_cart_header">
 
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
-					{% store_delivers store.store %}
+				{% store_order_geo_info store request %}
                 <span class="pull-right">
 					{% if store.store.delivers %}
                                             Delivers to you
-                                        {% endif %}    
+                    {% endif %}    
                                         
                     {% if request.session.place_slug %}
                         <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} {% pick_up_distance store.store %} kms</small>
