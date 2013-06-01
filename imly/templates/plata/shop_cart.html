@@ -38,7 +38,9 @@
 
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
 				{% if request.session.place_slug %}
-                                    {% store_order_geo_info store request %}
+                                    {%  store_amend_geo store.store %}
+                                    {{ store.store.distance }}
+                                    {{ store.store.delivers }}
                                 {% endif %}
                 <span class="pull-right">
 					{% if store.store.delivers %}
