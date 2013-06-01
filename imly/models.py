@@ -229,7 +229,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     lead_time_unit = models.IntegerField(choices=LEAD_TIME_CHOICES, default=DAY)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    image = models.ImageField(upload_to=get_image_path, help_text="Minimum image size - 600 X 400 pixels")
+    image = models.ImageField(upload_to=get_image_path, help_text="Minimum 600 pixels wide")
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG",options={'quality':92}, processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
