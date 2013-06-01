@@ -1,21 +1,13 @@
-<html>
-<head>
-	<style>
-	table{border:1px solid;border-spacing:0;border-collapse:collapse;}
-	td{border:1px solid;padding:0.2em;}
-	th{border:1px solid;padding:0.2em;}
-	</style>
-</head>
-<body>
+
 Hi,<br/><br/>
 You have received an order through your store on Imly. Your order details are as follows:
 Order place on {{storeorder.order.confirmed.date}}<br/>
 Order no is {{storeorder.order}}<br/><br/>
 
-<table>
-	<tr><th>S.No</th><th>You have to make</th><th>Buyer Info</th><th>Delivery Date</th></tr>
+<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
+	<tr><th style="border:1px solid;padding:0.2em;">S.No</th><th style="border:1px solid;padding:0.2em;">You have to make</th><th style="border:1px solid;padding:0.2em;">Buyer Info</th><th style="border:1px solid;padding:0.2em;">Delivery Date</th></tr>
 	{% for product in product_detail %}
-		<tr><td>{{forloop.counter}}</td><td>{{product.product.name}}</td><td>{{buyer_info.user.first_name}}<br/></td><td>{{storeorder.delivered_on.date}}</td></tr>
+		<tr><td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td><td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td><td style="border:1px solid;padding:0.2em;">{{buyer_info.user.first_name}}<br/></td><td style="border:1px solid;padding:0.2em;">{{storeorder.delivered_on.date}}</td></tr>
 	{% endfor %}
 </table><br/><br/>
 Your order total is <b>{{storeorder.store_total}}</b>. <br/><br/>
@@ -25,5 +17,7 @@ Cook on!<br/><br/>
 The Imly Team<br/><br/>
 
 P: +91 9920190624<br/><br/>
-</body>
-</html>
+
+<a href="https://imly.in">imly.in</a><br/><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
