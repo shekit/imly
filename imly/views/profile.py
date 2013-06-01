@@ -42,7 +42,7 @@ class ProfileList(ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all()))
+        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all())).exclude(cover_profile_image=None)
         
 
             

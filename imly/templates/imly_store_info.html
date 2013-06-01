@@ -100,7 +100,7 @@
                 <div class="span6 well">
                     <h4 class="store_info">Delivery Areas:</h4>
                             <ul class="inline no_left_padding">
-                                {% if object.delivery_locations %}
+                                {% if object.delivery_locations.count %}
                                         {% for delivery in object.delivery_locations.all %}
                                             <li>{{ delivery|truncatewords:"2"|cut:"."|cut:","|capfirst }}</li>
                                         {% endfor %}
