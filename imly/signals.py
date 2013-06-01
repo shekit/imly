@@ -18,7 +18,7 @@ from django.template import Context
 @receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),'imlyfood@imly.in',[instance.email])
+		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),'hello@imly.in',[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 
@@ -37,7 +37,7 @@ def set_location_point(sender,instance,**kwargs):
 @receiver(post_save,sender=Order)
 def imly_order_place_send_email_admin(sender,instance,**kwargs):
 	if instance.status == Order.PAID and not instance.data.get('paid',''):
-		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'orders@imly.in',['imlyfood@gmail.com'])
+		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'orders@imly.in',['orders@imly.in'])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_order_place_send_email_admin,sender=Order)
@@ -61,11 +61,11 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
-		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
+		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
-		instance.data['imly_confirmed_store'] = 'confirmed'
+		instance.data['imly_confirmed'] = 'confirmed'
 		instance.save()
 		post_save.connect(imly_confirmed_send_mail_store_owner,sender=Order)
 
@@ -175,7 +175,7 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
     	msg.content_subtype = "html"
     	msg.send()
-    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
+    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),'hello@imly.in',[instance.owner.email])
     	msg.content_subtype = "html"
     	msg.send()
 
@@ -183,7 +183,7 @@ def send_store_mail(sender,instance,created, **kwargs):
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
-		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
+		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'hello@imly.in',[instance.owner.email])
 		msg.content_subtype = 'html'
 		msg.send()
 		post_save.disconnect(store_approved_email,sender=Store)
