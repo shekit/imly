@@ -115,6 +115,7 @@
                 <li class="span4">
                     <div class="thumbnail thumbnail_custom">
                     {% if request.session.place_slug %}
+                        {% if object.pick_up %}
                                 {% store_amend_geo object %}
                                 
                                 <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
@@ -125,13 +126,15 @@
                                         {{ object.distance|floatformat:"1" }} kms
                                     {% endif %}
                                 
-                                
+                        {% endif %}
                                 
                                 <span class="pull-right">
                                 {% if object.delivers %}
                                     Delivers to you &nbsp;
                                 {% else %}
+                                    {% if object.pick_up %}
                                     Pick up required &nbsp;
+                                    {% endif %}
                                 {% endif %}
                                 </span>
                                 </small></p>

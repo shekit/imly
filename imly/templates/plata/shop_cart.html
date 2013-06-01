@@ -41,7 +41,7 @@
 					{% store_amend_geo store.store %}
 
                         {% if request.session.place_slug %}
-                                
+                                {% if store.store.pick_up %}
                                 <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
 
                                     {% if store.store.distance < 1 %}
@@ -49,6 +49,7 @@
                                     {% else %}
                                         {{ store.store.distance|floatformat:"1" }} kms
                                     {% endif %}
+                                {% endif %}
 
                                     &nbsp;|&nbsp;
                                 
@@ -56,12 +57,16 @@
                                 {% if store.store.delivers %}
                                     Delivers to you &nbsp;
                                 {% else %}
-
+                                    {% if store.store.pick_up %}
                                         Pick up required &nbsp;
+                                    {% endif %}
 
                                 {% endif %}
                                 </span>
-                                
+                        {% else %}
+                            {% if store.store.pick_up %}
+                                <span class="pull-right"><small>Pick-up from {{ store.store.pick_up_display }}</small></span>
+                            {% endif %}
                         {% endif %}
                 </th>
             </tr>
@@ -113,7 +118,7 @@
                 <ul class="unstyled text-center">
 
                     <li class="muted"><small>I want my order on:</small></li>
-					{% store_order_options store %}
+					{% store_order_options store request %}
 					<li><br></li>
 
                     <li><h3 class="muted">Rs. {{ store.store_total|floatformat:"0" }}</h3></li>

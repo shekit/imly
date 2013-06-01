@@ -177,6 +177,10 @@ class Store(geo_models.Model):
       self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
 
     @property
+    def pick_up_display(self):
+        return self.pick_up_location.split(",")[0].title()
+    
+    @property
     def delivers(self):
         return self._delivers
         
@@ -192,6 +196,10 @@ class DeliveryLocation(geo_models.Model):
 
     def __unicode__(self):
         return self.name
+    
+    @property
+    def display(self):
+        return self.name.split(",")[0].title()
 
 class Product(ProductBase, PriceBase, geo_models.Model):
     #Product Details
