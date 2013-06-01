@@ -36,7 +36,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["imly.in","ec2-50-19-23-242.compute-1.amazonaws.com"]
+ALLOWED_HOSTS = ["imly.in","ec2-50-19-23-242.compute-1.amazonaws.com", 'www.imly.in']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
