@@ -1,3 +1,12 @@
+<html>
+<head>
+	<style>
+	table{border:1px solid;border-spacing:0;border-collapse:collapse;}
+	th{border:1px solid;padding:0.2em;}
+	td{border:1px solid;padding:0.2em;}
+	</style>
+</head>
+<body>
 Hi!<br/><br/>
 
 Thank you for placing an order through Imly.in . Your order details are as follows:<br/><br/>
@@ -8,8 +17,9 @@ Order no is:{{order}}<br/><br/>
 Order detail are:<br/><br/>
 
 <table>
+	<tr><strong>Order from {{ storeorder.store.name }}</strong></tr>
 	{% for storeorder in order.storeorder_set.all %}
-	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
+	<tr><th>Items Detail</th><th>Confirmed</th><th>Store Total</th><th>Delivery Date</th></tr>
 	<tr><td><table><tr><th>Items</th><th>Qty</th></tr>
 		{% for product in storeorder.order.items.all %}
 			{% if product.product.store == storeorder.store %}
@@ -20,7 +30,7 @@ Order detail are:<br/><br/>
 		{% endfor %}
 	</table>
 		</td>
-		<td>{{ storeorder.order.confirmed.date }}<td>
+		<td>{{ storeorder.order.confirmed.date }}</td>
 		<td>{{ storeorder.store_total }}</td>
 		<td>{{ storeorder.delivered_on.date }}</td>
 	</tr>
@@ -29,21 +39,12 @@ Order detail are:<br/><br/>
 <br/><br/>
 You total ammount is {{order.subtotal}}.<br/><br/>
 
-
 Enjoy your food<br/><br/>
-
-
 
 The Imly Team<br/><br/>
 
-
-
 P: +91 9920190624<br/><br/>
-
-
-
 <a href="https://facebook.com/imly.in">Facebook</a><br/><br/>
-
-
-
 <a href="https://twitter.com/imly_in">Twitter</a>
+</body>
+</html>
