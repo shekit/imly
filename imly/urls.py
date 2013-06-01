@@ -84,7 +84,7 @@ urlpatterns += patterns('',
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
     url(r"^account/store/status/$", "imly.views.stores.status" , name="imly_store_status"),
-    url(r"^(?P<store_slug>[-\w]+)/food/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
+    
     
     
 )
@@ -113,5 +113,6 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
-    url(r'^storeorder$', login_required(update_store_order), name='update_store_order')
+    url(r'^storeorder$', login_required(update_store_order), name='update_store_order'),
+    url(r"^(?P<store_slug>[-\w]+)/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
 )

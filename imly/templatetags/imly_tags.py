@@ -149,8 +149,9 @@ def do_store_amend_geo(parser, token):
 register.tag('store_amend_geo', do_store_amend_geo)
 
 @register.inclusion_tag('imly/store_order_options.html')
-def store_order_options(store_order):
-    return {'store_order': store_order, 
+def store_order_options(store_order, request):
+    return {'store_order': store_order,
+            'request': request,
             'delivery_leads': [[day, store_order.delivered_on.date() + datetime.timedelta(days=day)] for day in range(15)],
             'time_choices': StoreOrder.TimeChoices
             } 

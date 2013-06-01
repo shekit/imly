@@ -9,8 +9,9 @@
 {% block carousel %}
     {% if object.cover_profile_image %}
         
-    <div class="hero-unit hero_chef_profile" style="background:url({{ object.cover_profile_image_thumbnail.url }}) top no-repeat;">
-        
+    <div class="hero-unit hero_chef_profile hidden-phone" style="background:url({{ object.cover_profile_image_thumbnail.url }}) top no-repeat;">
+
+       
     {% else %}
     
     <div class="hero-unit hero_chef_profile chef_profile_no_cover">
@@ -26,6 +27,26 @@
         </div>
     </div>
     
+    {% if object.cover_profile_image %}
+        
+    <div class="container visible-phone">
+        <div class="row-fluid">
+            <img src="{{ object.cover_profile_image_thumbnail.url }}">
+        </div>
+    </div>
+
+       
+    {% endif %}
+    
+    <div class="row-fluid visible-phone">
+        <ul class="unstyled text-center">
+                <li><h4 class="chef_profile" style="font-weight: 300;">{{ object.first_name }} {{ object.last_name }}</h4></li>
+                <li><p class="chef_profile_para">{{ object.word_one }}. {{ object.word_two }}. {{ object.word_three }}.</p></li>
+        </ul>
+    </div>
+ 
+        
+
 {% endblock carousel %}
 
 {% block featurette %}

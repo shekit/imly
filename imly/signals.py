@@ -15,6 +15,12 @@ from imly.utils import geocode
 from django.template.loader import get_template
 from django.template import Context
 
+#@receiver(post_save,sender=User)
+def sign_up_email(sender,instance,created,**kwargs):
+	if created:
+		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),'imlyfood@imly.in',[instance.email])
+		msg.content_subtype = "html"
+		msg.send()
 
 @receiver(pre_save, sender=User)
 def save_first_name(sender, instance, **kwargs):
@@ -55,7 +61,6 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
-			
 		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])
 		msg.content_subtype = "html"
 		msg.send()
@@ -170,7 +175,7 @@ def update_product_geography(sender, instance, **kwargs):
     post_save.connect(update_store_categories_from_product, sender=Product)
     
 
-@receiver(post_save, sender=Store)
+#@receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:# and Site.objects.get_current().domain == 'imly.in':
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
@@ -181,7 +186,7 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg.send()
 
 
-@receiver(post_save,sender=Store)
+#@receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
 		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'imlyfood@gmail.com',[instance.owner.email])
