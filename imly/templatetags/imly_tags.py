@@ -128,14 +128,13 @@ class StoreAmendGeo(template.Node):
     def render(self, context):
         store = self.store.resolve(context)
         session = context['request'].session
-        if session.get('bingeo', None) or store.delivery_locations.count():
+        if session.get('bingeo', None) and store.delivery_locations.count():
             user_point = Point(*session['bingeo'])
             distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
             store.delivers = distance.km < 3
-            store.distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
         else:
             store.delivers = False
-            store.distance = None
+        store.distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
         return ''
 
 def do_store_amend_geo(parser, token):
