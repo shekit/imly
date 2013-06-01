@@ -75,7 +75,7 @@ def set_store_order(sender,instance,**kwargs):
     StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
     for store in stores:
         store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
-        store_order.delivered_on = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
+        store_order.delivered_by_product_lead = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
         store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
         store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
         store_order.save()
