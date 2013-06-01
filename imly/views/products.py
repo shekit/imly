@@ -148,7 +148,6 @@ class ProductDelete(DeleteView):
         else:
             count = store.product_set.filter(is_deleted = False).count()
             self.object.position = count + 100
-        print self.object.position
         self.object.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -193,9 +192,6 @@ class ProductDetail(DetailView):
             user_point = Point(*user_point)
             print user_point
             store_point = self.get_object().store.pick_up_point
-            print store_point
-            context["distance"] = user_point.distance(store_point)
-            print user_point.distance(store_point)
         return context
     
     def get_queryset(self):
