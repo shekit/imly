@@ -3,8 +3,64 @@
 {% block title %}Imly | {{ object.name }}{% endblock title %}
 
 {% block shop_info %}
+    {% load imly_tags %}
+    <div class="visible-phone">
+        <h3 class="store_name text-center">{{ object.name }}</h3>
+            {% if object.tagline %}
+                <p class="text-center tagline_mobile">{{ object.tagline }}</p>
+            {% else %}
+                <p class="text-center tagline_mobile_no_tagline">Hi</p>
+            {% endif %}
+    <span class="visible-phone">
+        <ul class="unstyled text-center" style="background: #f5f5f5;">    
+            {% if object.provide_delivery and object.pick_up %}
+                <li><span class="delivery_area_info">Delivers to:</span>
+                {% for area in object.delivery_locations.all %}
+                    {{ area.display }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}</li>
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_display }}</li>
+            {% else %}
+            
+                {% if object.provide_delivery %}
+                    <li><span class="delivery_area_info">Delivers to:</span>
+                    {% for area in object.delivery_locations.all %}
+                        {{ area.display }}
+                    {% endfor %}</li>
+                {% endif %}
+                {% if object.pick_up %}
+                    <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_display }}</li>
+                {% endif %}
+            {% endif %}
+        </ul>
+    </span>
+        {% if request.session.place_slug %}
+            {% if object.pick_up %}
+                                {% store_amend_geo object %}
+                                
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                    {% if object.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                {% endif %}
+                                
+                                
+                                <span class="pull-right">
+                                {% if object.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if object.pick_up %}
+                                        Pick up required &nbsp;
+                                    {% endif %}
+                                {% endif %}
+                            </span>
+                        </small></p>
+        {% endif %}
+    </div>
 
-    <div class="well shop_info">
+    <div class="well shop_info hidden-phone">
         {% if object.logo %}
             <p class="text-center"><img class="img-rounded" src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></p>
         {% endif %}
@@ -17,26 +73,49 @@
                 <hr>
             </div>
         </div>
+        
+            
+            {% if request.session.place_slug %}
+                                {% store_amend_geo object %}
+                                {% if object.pick_up %}
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                    {% if object.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                {% endif %}
+                                &nbsp;|&nbsp;
+                                {% if object.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if object.pick_up %}
+                                    Pick up required &nbsp;
+                                    {% endif %}
+                                {% endif %}
+                                
+                                </small></p>
+            {% endif %}
         <ul class="unstyled">
-            <p><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms from you</small></p>
             {% if object.provide_delivery and object.pick_up %}
-                <li><span class="delivery_area_info">Deliver to:</span>
-                {% for area in object.delivery_areas.all %}
-                    {{ area }}{% if not forloop.last %}, {% endif %}
+                <li><span class="delivery_area_info">Delivers to:</span>
+                {% for area in object.delivery_locations.all %}
+                    {{ area.display }}{% if not forloop.last %}, {% endif %}
                 {% endfor %}</li>
                 <br>
-                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
+                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_display }}</li>
             {% else %}
             
-            {% if object.provide_delivery %}
-                <li><span class="delivery_area_info">Deliver to:</span>
-                {% for area in object.delivery_areas.all %}
-                    {{ area }}
-                {% endfor %}</li>
-            {% endif %}
-            {% if object.pick_up %}
-                <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_location }}</li>
-            {% endif %}
+                {% if object.provide_delivery %}
+                    <li><span class="delivery_area_info">Delivers to:</span>
+                    {% for area in object.delivery_locations.all %}
+                        {{ area.display }}
+                    {% endfor %}</li>
+                {% endif %}
+                {% if object.pick_up %}
+                    <li><span class="delivery_area_info">Pick up from:</span> {{ object.pick_up_display }}</li>
+                {% endif %}
             {% endif %}
         </ul>
         
@@ -73,37 +152,14 @@
     
     {% else %}
         
-        <div class="hero-unit no_cover_photo text-center">
+        <div class="hero-unit no_cover_photo text-center hidden-phone">
             <h1 class="store_name">{{ object.name }}</h1>
             {% if object.tagline %}
                 <p>{{ object.tagline }}</p>
             {% endif %}
         </div>
     {% endif %}
-    {% comment %}
-    <div class="row-fluid">
-        <div class="span12 text-center delivery_area_band">
-            {% if object.provide_delivery and object.pick_up %}
-                <span class="orange">Deliver to:</span>
-                {% for area in object.delivery_areas.all %}
-                    {{ area }}
-                {% endfor %}
-                | <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
-            {% else %}
-            
-            {% if object.provide_delivery %}
-                <span class="orange">Deliver to:</span>
-                {% for area in object.delivery_areas.all %}
-                    {{ area }}
-                {% endfor %}
-            {% endif %}
-            {% if object.pick_up %}
-                <span class="orange">Pick up from:</span> {{ object.pick_up_location }}
-            {% endif %}
-            {% endif %}
-        </div>
-    </div>
-    {% endcomment %}
+    
     <div class="row-fluid">
         <ul class="thumbnails">
         {% for product in products %}
@@ -151,6 +207,18 @@
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
         </ul>
+    </div>
+    
+    <div class="row-fluid visible-phone">
+        {% if object.owner.userprofile %}
+            
+            <a class="btn btn-block btn-custom btn-custom-mobile" href="{% url "chef_profile" object.owner.userprofile.slug %}">{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}'s Profile</a>
+            
+        {% else %}
+            
+            <h5 class="muted text-center" style="font-weight: 300;">by {{ object.owner.username }}</h5>
+            
+        {% endif %}
     </div>
 {% endblock shop_product_content %}
 

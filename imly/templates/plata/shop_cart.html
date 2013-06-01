@@ -11,11 +11,11 @@
         <br><br><br><br>
         <h2 class="muted text-center">Your Cart is Empty :(</h2>
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
+        <br><br>
         {% else %}
-        <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items)</h3>
-        <div class="alert alert-block">
-            <b>Heads up!</b> Please ensure that the stores you order from either deliver to your area or provide pick-up facility before confirming your order.
-        </div>
+        <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
+        <br>
+            
         <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
@@ -38,22 +38,35 @@
 
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
 					{% store_amend_geo store.store %}
-				{% if request.session.place_slug %}
 
-                                    {%  store_amend_geo store.store %}
-                                    {{ store.store.distance }}
-                                    {{ store.store.delivers }}
+                        {% if request.session.place_slug %}
+                                {% if store.store.pick_up %}
+                                <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
+
+                                    {% if store.store.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ store.store.distance|floatformat:"1" }} kms
+                                    {% endif %}
                                 {% endif %}
 
-                <span class="pull-right">
-					{% if store.store.delivers %}
-                          {{ store.store.delivers }} {{ store.store.distance }}                  Delivers to you
-                    {% endif %}    
-                                        
-                    {% if request.session.place_slug %}
-                        <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} {% pick_up_distance store.store %} kms</small>
-                    {% endif %}
-                </span>
+                                    &nbsp;|&nbsp;
+                                
+                            
+                                {% if store.store.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if store.store.pick_up %}
+                                        Pick up required &nbsp;
+                                    {% endif %}
+
+                                {% endif %}
+                                </span>
+                        {% else %}
+                            {% if store.store.pick_up %}
+                                <span class="pull-right cart_mobile"><small>Pick-up from {{ store.store.pick_up_display }}</small></span>
+                            {% endif %}
+                        {% endif %}
                 </th>
             </tr>
             
@@ -75,16 +88,21 @@
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
                                                             <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}</li>
+                                                            
                                                         </ul>
                                                     </li>
+                                                </ul>
+                                                <ul class="unstyled visible-phone cart_ul">
+                                                    <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</b></li>
+                                                    <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
                                                 </ul>
                                                 
                                             
                                             </td>
-                                            <td width="200"  class="less_padding_inner_td"><p class="text-center">
+                                            <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</p></td>
-                                            <td class="less_padding_inner_td"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -99,10 +117,10 @@
                 <ul class="unstyled text-center">
 
                     <li class="muted"><small>I want my order on:</small></li>
-					{% store_order_options store %}
+					{% store_order_options store request %}
 					<li><br></li>
 
-                    <li><h3 class="muted">Rs. {{ store.store_total|floatformat:"0" }}</h3></li>
+                    <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
                     <li><small class="muted">Cash on Delivery</small></li>
                 </ul>
                 
@@ -115,11 +133,13 @@
         {% endif %}
 
         {% endfor %}
-        
-            <p class="text-right">
-                <a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a>
-                <input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" />
-            <input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></p>
+
+            <ul class="inline text-right checkout_mobile">
+                <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
+                <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
+                <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
+            </ul>
+
         </form>
         {% endif %}
 </div>

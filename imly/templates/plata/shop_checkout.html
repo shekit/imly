@@ -11,21 +11,6 @@
 {% block cart_content %}
 <h2>{% trans "Checkout" %}</h2>
 
-{% if loginform %}
-    <form method="post" action=".">{% csrf_token %}
-    <input type="hidden" name="_login" value="1" />
-    {% form_errors loginform %}
-
-    <table class="table table-order">
-        {{ loginform }}
-    <tr>
-        <td></td>
-        <td><button type="submit" class="btn btn-primary">{% trans "Log In" %}</button></td>
-    </tr>
-    </table>
-    </form>
-{% endif %}
-
 <form method="post" action=".">
 {% csrf_token %}
 <input type="hidden" name="_checkout" value="1" />
@@ -39,6 +24,7 @@
 
 {% if orderform.create_account %}
     {% form_item orderform.create_account %}
+    <p class="muted"><small>Create an account for faster checkout</small></p>
 {% endif %}
 
 {# {% form_item orderform.billing_company %} #}
