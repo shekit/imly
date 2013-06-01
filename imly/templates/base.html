@@ -186,40 +186,7 @@
                 !function ($) {
 					
                     $(function(){
-						/*
-					    //$('#sortable').sortable({items:"> tr"});
-                        //$('#sortable').disableSelection();
-					   
-						$("#local").autocomplete({
-						            source: function (request, response) {
-						                $.ajax({
-						                    url: "http://dev.virtualearth.net/REST/v1/Locations/",
-						                    dataType: "jsonp",
-						                    data: {
-						                        key: "AgOr3aEARXNVLGGSQe9nt2j6v9ThHyIiSNyWmoO5uw2N5RSfjt3MLBsxB_kgJTFn",
-						                        q: request.term,
-												inclnb: 1,
-						                    },
-						                    jsonp: "jsonp",
-						                    success: function (data) {
-						                        var result = data.resourceSets[0];
-						                        if (result) {
-						                            if (result.estimatedTotal > 0) {
-						                                response($.map(result.resources, function (item) {
-						                                    return {
-						                                        data: item,
-						                                        label: item.name + ' (' + JSON.stringify(item.point) + ')',
-						                                        value: item.name
-						                                    }
-						                                }));
-						                            }
-						                        }
-						                    }
-						                });
-						            },
-						            minLength: 1
-						        });
-						*/		
+							
 						var default_bounds = new google.maps.LatLngBounds(
 								new google.maps.LatLng(19.26, 72.98),
 								new google.maps.LatLng(18.89, 72.775)); 

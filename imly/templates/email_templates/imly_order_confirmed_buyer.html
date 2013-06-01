@@ -1,3 +1,4 @@
+
 Hi!<br/><br/>
 
 Thank you for placing an order through Imly.in . Your order details are as follows:<br/><br/>
@@ -7,43 +8,34 @@ Order no is:{{order}}<br/><br/>
 
 Order detail are:<br/><br/>
 
-<table>
+<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
+	<tr><strong>Order from {{ storeorder.store.name }}</strong></tr>
 	{% for storeorder in order.storeorder_set.all %}
-	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
-	<tr><td><table><tr><th>Items</th><th>Qty</th></tr>
+	<tr><th style="border:1px solid;padding:0.2em;">Items Detail</th><th style="border:1px solid;padding:0.2em;">Confirmed</th><th style="border:1px solid;padding:0.2em;">Store Total</th><th style="border:1px solid;padding:0.2em;">Delivery Date</th></tr>
+	<tr><td style="border:1px solid;padding:0.2em;"><table style="border:1px solid;border-spacing:0;border-collapse:collapse;"><tr><th>Items</th><th style="border:1px solid;padding:0.2em;">Qty</th></tr>
 		{% for product in storeorder.order.items.all %}
 			{% if product.product.store == storeorder.store %}
 				
-					<tr><td>{{product.product.name}}</td><td>{{product.quantity}}</td></tr>
+					<tr><td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td><td style="border:1px solid;padding:0.2em;">{{product.quantity}}</td></tr>
 				
 			{% endif %}
 		{% endfor %}
 	</table>
 		</td>
-		<td>{{ storeorder.order.confirmed.date }}<td>
-		<td>{{ storeorder.store_total }}</td>
-		<td>{{ storeorder.delivered_on.date }}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.confirmed.date }}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.store_total }}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.delivered_on.date }}</td>
 	</tr>
 	{% endfor %}
 </table>
 <br/><br/>
 You total ammount is {{order.subtotal}}.<br/><br/>
 
-
 Enjoy your food<br/><br/>
-
-
 
 The Imly Team<br/><br/>
 
-
-
 P: +91 9920190624<br/><br/>
-
-
-
-<a href="https://facebook.com/imly.in">Facebook</a><br/><br/>
-
-
-
-<a href="https://twitter.com/imly_in">Twitter</a>
+Visit our website <a href="https://imly.in">imly.in</a><br/><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
