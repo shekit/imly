@@ -128,7 +128,7 @@ class StoreAmendGeo(template.Node):
     def render(self, context):
         store = self.store.resolve(context)
         session = context['request'].session
-        if session.get('bingeo', None):
+        if session.get('bingeo', None) or store.delivery_locations.count():
             user_point = Point(*session['bingeo'])
             distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
             store.delivers = distance.km < 3
