@@ -1,6 +1,6 @@
 from plata.shop.models import Order
 import os
-from datetime import date
+from datetime import date, timedelta
 from django.db.models import Sum
 from django.db import models
 from django.contrib.gis.db import models as geo_models
@@ -329,6 +329,7 @@ class StoreOrder(models.Model):
     store = models.ForeignKey(Store)
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
+    delivered_by_product_lead = models.DateTimeField(default=date.today())
     delivery_lead = models.IntegerField(default=0) 
     order_time = models.IntegerField(choices= TimeChoices, default=1)
     pick_up = models.BooleanField(default=True)
@@ -340,7 +341,10 @@ class StoreOrder(models.Model):
     def __unicode__(self):
         return self.store.slug
 
-
+    def save(self, *args, **kwargs):
+        self.delivered_on = self.delivered_by_product_lead + timedelta(days=self.delivery_lead)
+        return super(StoreOrder, self).save(*args, **kwargs)
+        
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100)

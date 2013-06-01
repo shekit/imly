@@ -56,7 +56,7 @@ class ProductList(ListView):
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-            products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all())
+            products = products.filter(category=self.category) if self.category.super_category else products.filter(category__in=self.category.sub_categories.all()).distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[])) 
         except:
