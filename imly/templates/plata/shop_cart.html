@@ -13,10 +13,9 @@
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
         <br><br>
         {% else %}
-        <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items)</h3>
-        <div class="alert alert-block">
-            <b>Heads up!</b> Please ensure that the stores you order from either deliver to your area or provide pick-up facility before confirming your order.
-        </div>
+        <h3>{% trans "Cart" %} ({{ plata.order.items.count }} items) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
+        <br>
+            
         <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
@@ -65,7 +64,7 @@
                                 </span>
                         {% else %}
                             {% if store.store.pick_up %}
-                                <span class="pull-right"><small>Pick-up from {{ store.store.pick_up_display }}</small></span>
+                                <span class="pull-right cart_mobile"><small>Pick-up from {{ store.store.pick_up_display }}</small></span>
                             {% endif %}
                         {% endif %}
                 </th>
@@ -121,7 +120,7 @@
 					{% store_order_options store request %}
 					<li><br></li>
 
-                    <li><h3 class="muted">Rs. {{ store.store_total|floatformat:"0" }}</h3></li>
+                    <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
                     <li><small class="muted">Cash on Delivery</small></li>
                 </ul>
                 
@@ -134,7 +133,7 @@
         {% endif %}
 
         {% endfor %}
-            
+
             <ul class="inline text-right checkout_mobile">
                 <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
                 <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
