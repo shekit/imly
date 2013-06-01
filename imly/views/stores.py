@@ -45,7 +45,7 @@ class StoreList(ListView):
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all())
+            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
