@@ -341,6 +341,9 @@ class StoreOrder(models.Model):
     def __unicode__(self):
         return self.store.slug
 
+    def display_order_time(self):
+        return self.TimeChoices[self.order_time - 1][1]
+        
     def save(self, *args, **kwargs):
         self.delivered_on = self.delivered_by_product_lead + timedelta(days=self.delivery_lead)
         return super(StoreOrder, self).save(*args, **kwargs)
