@@ -2,12 +2,16 @@
 {% with order.addresses as addresses %}
 
 <legend class="orange">{% trans "Address Details" %}</legend>
-
-<legend class="legend">{% trans "Billing address" %}</legend>
-{% with addresses.billing as address %}{% include "plata/_address.html" %}{% endwith %}
-
-<legend class="legend">{% trans "Shipping address" %}</legend>
-{% with addresses.shipping as address %}{% include "plata/_address.html" %}{% endwith %}
+<ul class="inline">
+    <li style="width:150px;"><legend class="legend">{% trans "Billing address" %}</legend>
+    {% with addresses.billing as address %}{% include "plata/_address.html" %}{% endwith %}
+    </li>
+    
+    <li style="width:150px;padding-left: 20px;">
+    <legend class="legend">{% trans "Shipping address" %}</legend>
+    {% with addresses.shipping as address %}{% include "plata/_address.html" %}{% endwith %}
+    </li>
+</ul>
 {% endwith %}
 
 <legend class="orange">{% trans "Order Details" %}</legend>
