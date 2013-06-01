@@ -37,7 +37,7 @@ def set_location_point(sender,instance,**kwargs):
 @receiver(post_save,sender=Order)
 def imly_order_place_send_email_admin(sender,instance,**kwargs):
 	if instance.status == Order.PAID and not instance.data.get('paid',''):
-		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'Imly <orders@imly.in>',['orders@imly.in'])
+		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'Imly Orders <orders@imly.in>',['orders@imly.in'])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_order_place_send_email_admin,sender=Order)
@@ -58,10 +58,10 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 				for detail in storeorder.order.items.all():
 					if detail.product.store == store:
 						product_detail.append(detail)
-			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),"Imly <orders@imly.in>",[store.owner.email])
+			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),"Imly Oredrs <orders@imly.in>",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
-		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'Imly <orders@imly.in>',[instance.email])
+		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'Imly Orders <orders@imly.in>',[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
