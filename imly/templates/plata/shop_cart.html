@@ -39,18 +39,30 @@
 
                 <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
 					{% store_amend_geo store.store %}
-				{% if request.session.place_slug %}
 
-                {% endif %}
-                <span class="pull-right">
-					{% if store.store.delivers %}
-                          {{ store.store.delivers }} {{ store.store.distance }}                  Delivers to you
-                    {% endif %}    
-                                        
-                    {% if request.session.place_slug %}
-                        <span class="icon-map-marker"></span> <small>{{ store.store.distance.km|floatformat:"1" }} {% pick_up_distance store.store %} kms</small>
-                    {% endif %}
-                </span>
+                        {% if request.session.place_slug %}
+                                
+                                <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
+
+                                    {% if store.store.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ store.store.distance|floatformat:"1" }} kms
+                                    {% endif %}
+
+                                    &nbsp;|&nbsp;
+                                
+                            
+                                {% if store.store.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+
+                                        Pick up required &nbsp;
+
+                                {% endif %}
+                                </span>
+                                
+                        {% endif %}
                 </th>
             </tr>
             

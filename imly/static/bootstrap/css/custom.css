@@ -1317,6 +1317,11 @@ td.less_padding_inner_td input[type=text]{
     .hr_mobile {
 	border: none;
     }
+    
+    .cart_mobile {
+	float:none;
+	display: block;
+    }
 
 }
 

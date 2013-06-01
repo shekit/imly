@@ -3,6 +3,7 @@
 {% block title %}Imly | {{ object.name }}{% endblock title %}
 
 {% block shop_info %}
+    {% load imly_tags %}
     <div class="visible-phone">
         <h3 class="store_name text-center">{{ object.name }}</h3>
             {% if object.tagline %}
@@ -11,8 +12,30 @@
                 <p class="text-center tagline_mobile_no_tagline">Hi</p>
             {% endif %}
             <br>
-        <p><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms from you <span class="pull-right">Delivers to you</span></small>
-        </p>
+        {% if request.session.place_slug %}
+                                {% store_amend_geo object %}
+                                
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                    {% if object.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                
+                                
+                                
+                                <span class="pull-right">
+                                {% if object.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                   
+                                        Pick up required &nbsp;
+                                
+                                {% endif %}
+                                </span>
+                                </small></p>
+                            {% endif %}
     </div>
     
     <div class="well shop_info hidden-phone">
@@ -29,7 +52,27 @@
             </div>
         </div>
         <ul class="unstyled">
-            <p><span class="icon-map-marker"></span> <small class="muted">{{ object.distance.km|floatformat:"1" }} kms from you</small></p>
+            
+            {% if request.session.place_slug %}
+                                {% store_amend_geo object %}
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                    {% if object.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.distance|floatformat:"1" }} kms
+                                    {% endif %}
+
+                                <br>
+                                {% if object.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                        Pick up required &nbsp;
+                                {% endif %}
+                                
+                                </small></p>
+            {% endif %}
+            
             {% if object.provide_delivery and object.pick_up %}
                 <li><span class="delivery_area_info">Deliver to:</span>
                 {% for area in object.delivery_areas.all %}

@@ -102,26 +102,12 @@
                 {% endblock sidebar_nav %}
 
 {% block shop_or_product %}
-                {% comment %}
-                    <div class="row-fluid">
-                        
-                        <div class="span12 centered-pills">
-                            <p class="text-center"><small>SEARCH BY</small></p>
-                            <ul class="nav nav-pills">
-                                <li class="active"><a href="#">Chef</a></li>
-                                <li><a href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url "imly_product_list" %}{% endif %}">Food</a></li>
-                                
-                            </ul>
-                            
-                        </div>
-                    
-                    </div>
-                {% endcomment %}
+
 {% endblock shop_or_product %}
 
 {% block content %}
 <!-- using forloop counter to correct twitter bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
-
+{% load imly_tags %}
 {% if object_list %}
     <ul class="thumbnails">
         {% for object in object_list %}
@@ -129,14 +115,27 @@
                 <li class="span4">
                     <div class="thumbnail thumbnail_custom">
                     {% if request.session.place_slug %}
-                        <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
-                        {% if object.distance.km < 1 %}
-                            &lt; 1 km 
-                        {% else %}
-                            {{ object.distance.km|floatformat:"1" }} kms
-                        {% endif %}
-                        </small></p>
-                    {% endif %}
+                                {% store_amend_geo object %}
+                                
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                
+                                    {% if object.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                
+                                
+                                
+                                <span class="pull-right">
+                                {% if object.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    Pick up required &nbsp;
+                                {% endif %}
+                                </span>
+                                </small></p>
+                            {% endif %}
                         {% if object.logo %}
                             <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></a>
                         {% else %}
