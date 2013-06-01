@@ -58,7 +58,7 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 				for detail in storeorder.order.items.all():
 					if detail.product.store == store:
 						product_detail.append(detail)
-			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance.user.username})),"orders@imly.in",[store.owner.email])
+			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),"orders@imly.in",[store.owner.email])
 			msg.content_subtype = "html"
 			msg.send()
 		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),'orders@imly.in',[instance.user.email])

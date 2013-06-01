@@ -64,6 +64,16 @@ class EditProfile(UpdateView):
     template_name = "imly_edit_profile.html"
     success_url = "/account/my-profile/"
 
+    def get(self,request,*args,**kwargs):
+        if self.get_object().user == self.request.user:
+            return super(EditProfile,self).get(request,*args,**kwargs)
+        else:
+            return HttpResponseForbidden()
+
+    def get_object(self):
+        return get_object_or_404(UserProfile, user=self.request.user)
+
+
 def give_us_tip(request):
     if request.method == 'POST':
         tip_form = ChefTipForm(request.POST)
