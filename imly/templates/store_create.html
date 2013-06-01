@@ -87,8 +87,12 @@
 		bounds: default_bounds,
 		componentRestrictions: {country: 'in'}
 	};
-        
-        $('#delivery_locator').keypress(function() { return event.keyCode != 13; });
+    
+    $('#id_pick_up_location').keypress(function() { return event.keyCode != 13; });
+
+	var autocomplete_pick_up = new google.maps.places.Autocomplete(document.getElementById('id_pick_up_location'), google_map_api_options);
+	    
+    $('#delivery_locator').keypress(function() { return event.keyCode != 13; });
 
 	var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
 
