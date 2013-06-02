@@ -53,7 +53,11 @@
                                         </li>
                                     {% else %}
                                         
-                                        <li class="hidden-phone">{% ifequal request.path "/logout/" %}<a id="from_logout" class="hand_pointer">Sign In</a>{% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>{% endifequal %}</li>
+                                        <li class="hidden-phone">
+                                                            {% ifequal request.path "/logout/" %}
+                                                                                <a id="from_logout" class="hand_pointer">Sign In</a>
+                                                                                {% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>
+                                                            {% endifequal %}</li>
                                         <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
                                     <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>

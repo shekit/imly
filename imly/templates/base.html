@@ -159,7 +159,9 @@
 
             $(document).ready(function(){
             
-            
+            if(window.location.pathname.split("/")[1] == "password") {
+                $(".redirect_path").attr("value","{% url 'imly_product_list' %}");
+            }
 
             $("#sortable").sortable({
                 update:function(event,ui){
