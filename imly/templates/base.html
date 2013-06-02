@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,9 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
-        
+        {% block extra_head %}
+		
+		{% endblock %}
     </head>
     
     <body>
