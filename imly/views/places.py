@@ -4,14 +4,12 @@ from imly.utils import geocode
 
 def set_location(request):
     place_slug = request.GET.get('location', 'all')
-    display_place_slug = place_slug.split(",")[0]
-    request.session["place_slug"] = place_slug
-    request.session["display_place_slug"] = display_place_slug
     try:
         result = geocode(place_slug)
         if result: 
             request.session['bingeo'] = result[1]
-        #raise Exception(result)
+        display_place_slug = place_slug.split(",")[0]
+        request.session["place_slug"], request.session["display_place_slug"] = place_slug, display_place_slug
         if "/no-such-place/" in request.META["HTTP_REFERER"]:
             return redirect("/food/")
     except IndexError:
