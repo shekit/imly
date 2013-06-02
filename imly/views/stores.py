@@ -45,14 +45,15 @@ class StoreList(ListView):
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
+            stores = stores.filter(categories=self.category).distinct() if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
             self.tags = []
         if self.tags:
+            stores = stores.distinct()
             for tag in self.tags:
-                stores &= tag.store_set.all()
+                stores &= tag.store_set.distinct()
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get('bingeo')
             user_point = Point(*user_point)

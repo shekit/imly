@@ -20,10 +20,8 @@ class StoreOrders(ListView):
     template_name = 'imly_store_orders.html'
 
     def get_queryset(self):
-        store =  self.request.user.store
-
-#        orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
-        return store.storeorder_set.filter(order__status = Order.IMLY_CONFIRMED)
+        self.store =  self.request.user.store
+        return self.store.storeorder_set.filter(order__status = Order.IMLY_CONFIRMED)
 
         
 

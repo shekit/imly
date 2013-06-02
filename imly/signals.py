@@ -44,8 +44,6 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 		instance.data['paid'] = 'PAID'
 		instance.save()
 		post_save.connect(imly_order_place_send_email_admin,sender=Order)
-				
-
     
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
