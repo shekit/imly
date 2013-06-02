@@ -20,10 +20,8 @@ class StoreOrders(ListView):
     template_name = 'imly_store_orders.html'
 
     def get_queryset(self):
-        store =  self.request.user.store
-
-#        orders = Order.objects.filter(items__product__in=store.product_set.all()).order_by('confirmed').distinct()
-        return store.storeorder_set.filter(order__status = Order.IMLY_CONFIRMED)
+        self.store =  self.request.user.store
+        return self.store.storeorder_set.filter(order__status = Order.IMLY_CONFIRMED)
 
         
 
@@ -46,6 +44,13 @@ class StoreOrders(ListView):
             else:
                 dates.append(delivery_date)
                 context['newer'].append((delivery_date, [order]))
+        orders = context['today'] + context['tomorrow'] + newer
+        store_orders = self.store.storeorder_set.filter(order__in=orders) 
+        for order in orders:
+            for store_order in store_orders:
+                if store_order.order == order:
+                    order.store_order = store_order
+                    break
         return context
 
 class StoreOrder(DetailView):

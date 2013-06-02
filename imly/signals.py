@@ -37,15 +37,13 @@ def set_location_point(sender,instance,**kwargs):
 @receiver(post_save,sender=Order)
 def imly_order_place_send_email_admin(sender,instance,**kwargs):
 	if instance.status == Order.PAID and not instance.data.get('paid',''):
-		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'Imly Orders <orders@imly.in>',['orders@imly.in'])
+		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'Imly Orders <orders@imly.in>',['imlyfood@gmail.com'])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_order_place_send_email_admin,sender=Order)
 		instance.data['paid'] = 'PAID'
 		instance.save()
 		post_save.connect(imly_order_place_send_email_admin,sender=Order)
-				
-
     
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
