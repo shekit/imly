@@ -62,6 +62,7 @@ class ProductList(ListView):
         except:
             self.tags = []
         if self.tags:
+            products = products.distinct()
             for tag in self.tags:
                 products &= tag.product_set.distinct()
         if self.request.session.get("place_slug",""):

@@ -51,6 +51,7 @@ class StoreList(ListView):
         except:
             self.tags = []
         if self.tags:
+            stores = stores.distinct()
             for tag in self.tags:
                 stores &= tag.store_set.distinct()
         if self.request.session.get("place_slug",""):
