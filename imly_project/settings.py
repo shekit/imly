@@ -20,6 +20,7 @@ EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
 
 MANAGERS = ADMINS
 DATABASES = {

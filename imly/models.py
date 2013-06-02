@@ -338,6 +338,9 @@ class StoreOrder(models.Model):
     created = models.DateTimeField(auto_now = True)
     updated = models.DateTimeField(auto_now_add=True)
 
+    class Meta:
+        ordering = ['-delivered_on']
+        
     def __unicode__(self):
         return self.store.slug
 

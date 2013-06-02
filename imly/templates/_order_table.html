@@ -5,6 +5,7 @@
                         <th style="background: #e5e5e5;">Order No.</th>
                         <th style="background: #e5e5e5;">You have to make</th>
                         <th style="background: #e5e5e5;">Buyer Info</th>
+						<th style="background: #e5e5e5;">Pickup/Delivery</th>
                         <th style="background: #e5e5e5;">Order Placed on</th>
                         <th style="background: #e5e5e5;">Total</th>
                         
@@ -24,6 +25,14 @@
                         {% else %}
                         <td><u>{{ object.order.shipping_first_name|capfirst }} {{ object.order.shipping_last_name|capfirst }}</u><br>{{ object.order.shipping_address }}<br>{{ object.order.shipping_city|slice:"3" }} - {{ object.order.shipping_zip_code }}</td>  
                         {% endif %}
+						<td>
+							{{ object.display_order_time }}
+							{% if object.pick_up %}
+							Pickup
+							{% else %}
+							Delivery
+							{% endif %}
+						</td>
                         <td>{{ object.order.confirmed|date:"F j, Y" }}</td>
                         <td>{{ object.store_total|floatformat:"2" }}
                         </td>
