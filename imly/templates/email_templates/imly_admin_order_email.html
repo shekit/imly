@@ -6,8 +6,9 @@ Order detail are:<br/><br/>
 Order no is:{{order}}<br/><br/>
 
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
-	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
+	
 	{% for storeorder in order.storeorder_set.all %}
+	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
 	<tr><th style="border:1px solid;padding:0.2em;">Items</th><th style="border:1px solid;padding:0.2em;">Placed on</th><th style="border:1px solid;padding:0.2em;">Store Total</th><th style="border:1px solid;padding:0.2em;">Due On</th></tr>
 	<tr><td border:1px solid;padding:0.2em;><table><tr><th style="border:1px solid;padding:0.2em;">Items</th><th style="border:1px solid;padding:0.2em;">Qty</th></tr>
 		{% for product in storeorder.order.items.all %}

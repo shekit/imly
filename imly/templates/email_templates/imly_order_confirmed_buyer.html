@@ -4,13 +4,14 @@ Hi!<br/><br/>
 Thank you for placing an order through Imly.in . Your order details are as follows:<br/><br/>
 
 
-Your order no is: {{order}} <br/>
+Your order number is: {{order}} <br/>
 
 Your order details are:<br/><br/>
 
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
-	<tr><strong>Order from {{ storeorder.store.name }}</strong></tr>
+	
 	{% for storeorder in order.storeorder_set.all %}
+	<tr><strong>Order from {{ storeorder.store.name }}</strong></tr>
 	<tr>
 	<th style="border:1px solid;padding:0.2em;">Items</th>
 	<th style="border:1px solid;padding:0.2em;">Placed On</th>

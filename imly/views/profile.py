@@ -42,7 +42,7 @@ class ProfileList(ListView):
     paginate_by = 12
     
     def get_queryset(self):
-        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all())).exclude(cover_profile_image=None)
+        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all())).exclude(cover_profile_image="")
         
 
             
@@ -95,6 +95,8 @@ def modal_login(request, **kwargs):
             print next
             return HttpResponse(next)
         redirect_field_name, redirect_field_value = "next", request.META["HTTP_REFERER"]
+        if "/reset/" in request.META["HTTP_REFERER"]:
+            redirect_field_value = "/food/"
         response = render(request,"login_error.html",locals())
         response.status_code = 400 
         return response
@@ -109,6 +111,8 @@ def modal_signup(request, **kwargs):
             complete_signup(request, user, "/food/")
             return HttpResponse(next)
         redirect_field_name, redirect_field_value = "next", request.META["HTTP_REFERER"]
+        if "/reset/" in request.META["HTTP_REFERER"]:
+            redirect_field_value = "/food/"
         response = render(request, "signup_error.html", locals())
         response.status_code = 400
         return response
