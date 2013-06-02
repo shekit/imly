@@ -1329,6 +1329,9 @@ td.less_padding_inner_td input[type=text]{
 	display: block;
     }
 
+    ul.socialaccount_providers li {
+	margin-bottom:10px;
+    }
 }
 
 @media (max-width: 480px) {
