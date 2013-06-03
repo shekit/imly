@@ -4,7 +4,7 @@ An order has been placed by <strong>{{order.user.username}} - {{order.billing_ph
 Order detail are:<br/><br/>
 
 Order no is:{{order}}<br/><br/>
-
+{% load imly_tags %}
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 	
 	{% for storeorder in order.storeorder_set.all %}
@@ -14,7 +14,7 @@ Order no is:{{order}}<br/><br/>
 		{% for orderitem in storeorder.order.items.all %}
 			{% if orderitem.product.store == storeorder.store %}
 				
-					<tr><td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td><td style="border:1px solid;padding:0.2em;">{% orderitem_item_quantity orderitem %}</td></tr>
+					<tr><td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td><td style="border:1px solid;padding:0.2em;">{% order_item_quantity orderitem %}</td></tr>
 				
 			{% endif %}
 		{% endfor %}

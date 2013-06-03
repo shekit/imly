@@ -7,6 +7,7 @@ Thank you for placing an order through Imly.in . Your order details are as follo
 Your order number is: {{order}} <br/>
 
 Your order details are:<br/><br/>
+{% load imly_tags %}
 
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 	
@@ -30,7 +31,7 @@ Your order details are:<br/><br/>
 						
 							<tr>
 								<td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td>
-								<td style="border:1px solid;padding:0.2em;">{% order_item_quantity  orderitem %}</td>
+								<td style="border:1px solid;padding:0.2em;">{% order_item_quantity orderitem %}</td>
 							</tr>
 						
 					{% endif %}
