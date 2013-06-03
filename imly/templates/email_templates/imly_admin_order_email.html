@@ -11,10 +11,10 @@ Order no is:{{order}}<br/><br/>
 	<tr><td><strong>Order from {{ storeorder.store.name }}</strong></td></tr>
 	<tr><th style="border:1px solid;padding:0.2em;">Items</th><th style="border:1px solid;padding:0.2em;">Placed on</th><th style="border:1px solid;padding:0.2em;">Store Total</th><th style="border:1px solid;padding:0.2em;">Due On</th></tr>
 	<tr><td border:1px solid;padding:0.2em;><table><tr><th style="border:1px solid;padding:0.2em;">Items</th><th style="border:1px solid;padding:0.2em;">Qty</th></tr>
-		{% for product in storeorder.order.items.all %}
-			{% if product.product.store == storeorder.store %}
+		{% for orderitem in storeorder.order.items.all %}
+			{% if orderitem.product.store == storeorder.store %}
 				
-					<tr><td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td><td style="border:1px solid;padding:0.2em;">{{product.quantity}}</td></tr>
+					<tr><td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td><td style="border:1px solid;padding:0.2em;">{% orderitem_item_quantity orderitem %}</td></tr>
 				
 			{% endif %}
 		{% endfor %}

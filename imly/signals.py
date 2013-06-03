@@ -15,7 +15,7 @@ from imly.utils import geocode
 from django.template.loader import get_template
 from django.template import Context
 
-#@receiver(post_save,sender=User)
+@receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
 	if created:
 		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),'Imly <hello@imly.in>',[instance.email])
@@ -34,7 +34,7 @@ def set_location_point(sender,instance,**kwargs):
         point = Point(*result[1])
         instance.location = point
 
-#@receiver(post_save,sender=Order)
+@receiver(post_save,sender=Order)
 def imly_order_place_send_email_admin(sender,instance,**kwargs):
 	if instance.status == Order.PAID and not instance.data.get('paid',''):
 		msg = EmailMessage("New Order %s Placed." % (instance._order_id),get_template('email_templates/imly_admin_order_email.html').render(Context({'order':instance})),'Imly Orders <orders@imly.in>',['imlyfood@gmail.com'])
@@ -45,7 +45,7 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 		instance.save()
 		post_save.connect(imly_order_place_send_email_admin,sender=Order)
     
-#@receiver(post_save,sender=Order)
+@receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_confirmed',''):
 		stores = [stores for stores in instance.store_set.all()]
@@ -157,7 +157,7 @@ def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_tags()
     instance.store.reset_categories()        
         
-#@receiver(post_save, sender=Store)
+@receiver(post_save, sender=Store)
 def update_product_geography(sender, instance, **kwargs):
     post_save.disconnect(sender=Product)
     for product in instance.product_set.all():
@@ -167,7 +167,7 @@ def update_product_geography(sender, instance, **kwargs):
     post_save.connect(update_store_categories_from_product, sender=Product)
     
 
-#@receiver(post_save, sender=Store)
+@receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:# and Site.objects.get_current().domain == 'imly.in':
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,['imlyfood@gmail.com'])
@@ -178,7 +178,7 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg.send()
 
 
-#@receiver(post_save,sender=Store)
+@receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
 		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),'Imly <hello@imly.in>',[instance.owner.email])

@@ -19,7 +19,7 @@ Order number: {{storeorder.order}}<br/>
 		<tr>
 			<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
 			<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
-			<td style="border:1px solid;padding:0.2em;">{{product.quantity}} {{product.product.quantity_unit}}</td>
+			<td style="border:1px solid;padding:0.2em;">{% order_item_quantity product %} {{product.product.quantity_unit}}</td>
 			<td style="border:1px solid;padding:0.2em;">
 				{% if not storeorder.pick_up %}
 					{% if storeorder.order.shipping_same_as_billing %}
@@ -32,6 +32,8 @@ Order number: {{storeorder.order}}<br/>
 						{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}
 					{% endif %}
 				{% else %}
+					{{storeorder.order.billing_first_name}} {{stororder.order.billing_last_name}}<br/>
+					{{storeorder.order.billing_phone_number}}<br/>
 					Buyer will pick from store.
 				{% endif %}
 			</td>
