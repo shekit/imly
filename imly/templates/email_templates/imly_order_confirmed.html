@@ -19,11 +19,20 @@ Order number: {{storeorder.order}}<br/>
 		<tr>
 			<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
 			<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
-			<td style="border:1px solid;padding:0.2em;">{{product.quantity}}</td>
-			<td style="border:1px solid;padding:0.2em;"><u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>
+			<td style="border:1px solid;padding:0.2em;">{{product.quantity}} {{product.product.quantity_unit}}</td>
+			<td style="border:1px solid;padding:0.2em;">
 				{% if not storeorder.pick_up %}
-					{{ storeorder.order.billing_address }}<br>
-					{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
+					{% if storeorder.order.shipping_same_as_billing %}
+						<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
+						{{ storeorder.order.billing_address }}<br/>
+						{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
+					{% else %}
+						<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
+						{{storeorder.order.sipping_address}}<br/>
+						{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}
+					{% endif %}
+				{% else %}
+					Buyer will pick from store.
 				{% endif %}
 			</td>
 			<td style="border:1px solid;padding:0.2em;">
