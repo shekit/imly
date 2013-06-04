@@ -118,9 +118,9 @@ class StoreEdit(UpdateView):
         context = super(StoreEdit, self).get_context_data(**kwargs)
         store = self.get_object()
         if self.request.POST:
-            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all())
+            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all(),instance=store)
         else:
-            context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all())
+            context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all(),instance=store)
         
         return context
     

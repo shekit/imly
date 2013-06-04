@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:fb="http://ogp.me/ns/fb#" lang="en">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,7 +18,9 @@
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
-        
+        {% block extra_head %}
+		
+		{% endblock %}
     </head>
     
     <body>
@@ -165,28 +167,7 @@
             if(window.location.pathname.split("/")[1] == "password") {
                 $(".redirect_path").attr("value","{% url 'imly_product_list' %}");
             }
-
-            $("#sortable").sortable({
-                update:function(event,ui){
-                    var serial = $('#sortable').sortable('serialize',{handle:".handle"});
-                        //alert(serial);
-                    $.ajax({url:"/account/store/sort-product/",type:"post",data:serial});
-                },
-                }).disableSelection();
-            });
-            
-
-		
-		/*		
-                $("#sortable").sortable({
-                    update:function(event,ui){
-                        var serial = $('#sortable').sortable('serialize',{handle:".handle"});
-                        //alert(serial);
-                        $.ajax({url:"/account/store/sort_product/",type:"post",data:serial});
-                    },
-                	}).disableSelection();
-				});
-  */          
+        });
 
                 !function ($) {
 					

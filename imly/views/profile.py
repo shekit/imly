@@ -92,7 +92,6 @@ def modal_login(request, **kwargs):
         if login_form.is_valid():
             next = request.POST.get("next","/food/")
             login_form.login(request, redirect_url=next)
-            print next
             return HttpResponse(next)
         redirect_field_name, redirect_field_value = "next", request.META["HTTP_REFERER"]
         response = render(request,"login_error.html",locals())

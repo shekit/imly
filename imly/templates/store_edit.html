@@ -33,7 +33,7 @@
         <form enctype="multipart/form-data" method="post" action="">
             {% crispy form %}
             <fieldset class="formset" id="delivery_location_formset">
-            {{ delivery_location_form }}
+            <!--{{ delivery_location_form }}-->
             {{ delivery_location_form.management_form }}
             <div class="delivery_locations">
             {% for form in delivery_location_form %}

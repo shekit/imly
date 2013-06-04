@@ -22,6 +22,7 @@ from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 from plata.fields import JSONField
+from autoslug import AutoSlugField
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -108,7 +109,7 @@ class Location(models.Model):
 class Store(geo_models.Model):
     #Store Details
     name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
+    slug = AutoSlugField(populate_from='name')
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
                                             help_text="(Mobile number) We will not share this with anyone")
@@ -160,7 +161,6 @@ class Store(geo_models.Model):
     
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
-        self.slug = slugify(self.name)
         if self.pick_up_location:
             result = geocode(self.pick_up_location)
             if result: self.pick_up_point = Point(*result[1]) 
@@ -224,7 +224,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     )
     
     name = models.CharField(max_length=255)
-    slug = models.SlugField(max_length=255)
+    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'])
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
@@ -267,6 +267,9 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     def get_price(self, *args, **kwargs):
         return self
+
+    def quantity_unit(self):
+        return self.QUANTITY_BY_PRICE[self.quantity_by_price - 1][1]
     
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
@@ -303,7 +306,6 @@ class Product(ProductBase, PriceBase, geo_models.Model):
             transaction_type = self.pk and StockTransaction.CORRECTION or StockTransaction.INITIAL
         if self.description:
             self.description_html = markdown(self.description)
-        self.slug = "%s-%s" % (self.store.slug, slugify(self.name))
         self.currency = settings.CURRENCIES[0]
         self.tax_class = TaxClass.objects.get(name="India")
         super(Product, self).save(*args, **kwargs)

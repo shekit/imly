@@ -154,3 +154,7 @@ def store_order_options(store_order, request):
             'delivery_leads': [[day, store_order.delivered_by_product_lead.date() + datetime.timedelta(days=day)] for day in range(15)],
             'time_choices': StoreOrder.TimeChoices
             } 
+
+@register.inclusion_tag('imly/order_item_quantity.html')
+def order_item_quantity(order_item):
+    return {'orderitem':order_item.quantity * order_item.product.quantity_per_item}
