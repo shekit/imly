@@ -28,13 +28,13 @@ Order number: {{storeorder.order}}<br/>
 						{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
 					{% else %}
 						<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
-						{{storeorder.order.sipping_address}}<br/>
+						{{storeorder.order.shipping_address}}<br/>
 						{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}
 					{% endif %}
 				{% else %}
-					{{storeorder.order.billing_first_name}} {{stororder.order.billing_last_name}}<br/>
+					{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
 					{{storeorder.order.billing_phone_number}}<br/>
-					Buyer will pick from store.
+					Buyer will pick up.
 				{% endif %}
 			</td>
 			<td style="border:1px solid;padding:0.2em;">
