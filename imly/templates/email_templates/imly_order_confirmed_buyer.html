@@ -5,46 +5,57 @@ Thank you for placing an order through Imly.in . Your order details are as follo
 
 
 Your order number is: {{order}} <br/>
+Order placed on: {{ storeorder.order.confirmed.date }}
 
 Your order details are:<br/><br/>
 {% load imly_tags %}
-
+{% for storeorder in order.storeorder_set.all %}
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 	
-	{% for storeorder in order.storeorder_set.all %}
-	<tr><strong>Order from {{ storeorder.store.name }}</strong></tr>
+	<tr><td><strong>Your Order from {{ storeorder.store.name }}</strong></td></tr>
+	
 	<tr>
 	<th style="border:1px solid;padding:0.2em;">Items</th>
-	<th style="border:1px solid;padding:0.2em;">Placed On</th>
+	<th style="border:1px solid;padding:0.2em;">
+		{% if storeorder.pick_up %}
+			Pick-up Details
+		{% else %}
+			Delivery Details
+		{% endif %}</th>
+	<th style="border:1px solid;padding:0.2em;">
+		{% if storeorder.pick_up %}
+			Order to be Picked up on
+		{% else %}
+			Order will be Delivered on
+		{% endif %}</th>
 	<th style="border:1px solid;padding:0.2em;">Store Total</th>
-	<th style="border:1px solid;padding:0.2em;">{% if storeorder.pick_up %}Pick-up Details{% else %}Delivery Detail{% endif %}</th>
 	</tr>
 	<tr>
 		<td style="border:1px solid;padding:0.2em;">
 			<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
-				<tr>
-					<th>Items</th>
-					<th style="border:1px solid;padding:0.2em;">Qty</th>
-				</tr>
 				{% for orderitem in storeorder.order.items.all %}
 					{% if orderitem.product.store == storeorder.store %}
 						
-							<tr>
-								<td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td>
-								<td style="border:1px solid;padding:0.2em;">{% order_item_quantity orderitem %}</td>
+							<tr style="border:1px solid black;">
+								<td>{{orderitem.product.name}}</td>
+								<td>
+									{% order_item_quantity orderitem %}
+									{% if orderitem.product.quantity == 1 %} 
+										{{ orderitem.product.quantity_unit }}
+									{% else %}
+										{{ orderitem.product.quantity_unit }}s
+									{% endif %}</td>
+								<td>{{ storeorder.order.currency }}{{ orderitem.subtotal }}</td>
 							</tr>
 						
 					{% endif %}
 				{% endfor %}
 			</table>
 		</td>
-		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.confirmed.date }}</td>
-		<td style="border:1px solid;padding:0.2em;">{{ storeorder.store_total }}</td>
 		<td style="border:1px solid;padding:0.2em;">
 		{% if storeorder.pick_up %}
 				{{storeorder.store.pick_up_address}}<br/>
 				{{storeorder.store.pick_up_location}}<br/>
-				Date:{{storeorder.delivered_on}} {{storeorder.display_order_time}}
 		{% else %}
 				{% if storeorder.order.shipping_same_as_billing %}
 					<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
@@ -55,17 +66,20 @@ Your order details are:<br/><br/>
 					{{storeorder.order.shipping_address}}<br/>
 					{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
 				{% endif %}
-				Date:{{storeorder.delivered_on}} {{storeorder.display_order_time}}
 		{% endif %}
 		</td>
+		<td style="border:1px solid;padding:0.2em;"><u>Date:</u>{{storeorder.delivered_on.date}}<br/><u>Time:</u> {{storeorder.display_order_time}}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.currency }}{{ storeorder.store_total }}</td>
 	</tr>
-	{% endfor %}
+	
 </table>
-<br/><br/>
-Your order total is <b>Rs. {{order.subtotal}}</b>.<br/><br/>
+
+<br/>
+{% endfor %}<br/><br/>
+<h3>Your order total is <b>Rs. {{ storeorder.order.currency }}{{order.subtotal}}</b>.</h3><br/><br/>
 
 
-Eat On!<br/>
+Dig in!<br/>
 
 The Imly Team<br/><br/>
 

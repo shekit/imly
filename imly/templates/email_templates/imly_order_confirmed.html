@@ -1,5 +1,10 @@
 
-Hi,<br/><br/>
+Hi Chef {% if storeorder.store.owner.userprofile %}
+			{{ storeorder.store.owner.userprofile.first_name }}
+		{% else %}
+			{{storeorder.store.owner.username}}
+		{% endif %}
+	,<br/><br/>
 
 You have received an order through your store on Imly! Your order details are as follows:<br/><br/>
 
@@ -13,13 +18,18 @@ Order number: {{storeorder.order}}<br/>
 		<th style="border:1px solid;padding:0.2em;">Quantity</th>
 		<th style="border:1px solid;padding:0.2em;">Buyer Info</th>
 		<th style="border:1px solid;padding:0.2em;">Order Due Date</th>
-		<th style="border:1px solid;padding:0.2em;">{% if storeorder.pick_up %}Pick-Up{% else %}Delivery{% endif %} Time</th>
 	</tr>
 	{% for product in product_detail %}
 		<tr>
 			<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
 			<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
-			<td style="border:1px solid;padding:0.2em;">{% order_item_quantity product %} {{product.product.quantity_unit}}</td>
+			<td style="border:1px solid;padding:0.2em;">
+				{% order_item_quantity product %} 
+				{% if product.product.quantity == 1 %}
+					{{product.product.quantity_unit}}
+				{% else %}
+					{{product.product.quantity_unit}}s
+				{% endif %}</td>
 			<td style="border:1px solid;padding:0.2em;">
 				{% if not storeorder.pick_up %}
 					{% if storeorder.order.shipping_same_as_billing %}
@@ -43,20 +53,14 @@ Order number: {{storeorder.order}}<br/>
 				{% else %}
 					<u>Delivery</u>
 				{% endif %}<br>
-				{{storeorder.delivered_on.date}}<br>
-				
+				Date:{{storeorder.delivered_on.date}}<br>
+				Time:{{storeorder.display_order_time}}
 			</td>
-			<td style="border:1px solid;padding:0.2em;">
-				{% if storeorder.pick_up %}
-					<u>Pick Up:</u>
-				{% else %}
-					<u>Deliver:</u>
-				{% endif %}<br>
-				{{storeorder.display_order_time}}</td>
+			
 		</tr>
 	{% endfor %}
 </table><br/><br/>
-Your order total is <b>Rs. {{storeorder.store_total}}</b>. <br/><br/>
+<h3>Your order total is <b>Rs. {{storeorder.store_total}}</b>.</h3> <br/><br/>
 
 Cook on!<br/>
 
