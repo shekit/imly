@@ -14,7 +14,7 @@ Order no is:{{order}}<br/><br/>
 		{% for orderitem in storeorder.order.items.all %}
 			{% if orderitem.product.store == storeorder.store %}
 				
-					<tr><td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td><td style="border:1px solid;padding:0.2em;">{% order_item_quantity orderitem %}</td></tr>
+					<tr><td style="border:1px solid;padding:0.2em;">{{orderitem.product.name}}</td><td style="border:1px solid;padding:0.2em;">{% order_item_quantity orderitem %}{{ orderitem.product.quantity_unit }}</td></tr>
 				
 			{% endif %}
 		{% endfor %}
