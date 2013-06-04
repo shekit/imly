@@ -36,16 +36,16 @@ Your order details are:<br/><br/>
 				{% for orderitem in storeorder.order.items.all %}
 					{% if orderitem.product.store == storeorder.store %}
 						
-							<tr style="border:1px solid black;">
-								<td>{{orderitem.product.name}}</td>
-								<td>
+							<tr style="border-bottom:1px solid black;">
+								<td style="border-right:1px solid black;">{{orderitem.product.name}}</td>
+								<td style="border-right:1px solid black;">
 									{% order_item_quantity orderitem %}
 									{% if orderitem.product.quantity == 1 %} 
 										{{ orderitem.product.quantity_unit }}
 									{% else %}
 										{{ orderitem.product.quantity_unit }}s
 									{% endif %}</td>
-								<td>{{ storeorder.order.currency }}{{ orderitem.subtotal }}</td>
+								<td>{{ storeorder.order.currency }}{{ orderitem.subtotal|floatformat:"0" }}</td>
 							</tr>
 						
 					{% endif %}
