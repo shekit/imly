@@ -16,28 +16,44 @@ Order number: {{storeorder.order}}<br/>
 		<th style="border:1px solid;padding:0.2em;">S.No</th>
 		<th style="border:1px solid;padding:0.2em;">You have to make</th>
 		<th style="border:1px solid;padding:0.2em;">Quantity</th>
-		<th style="border:1px solid;padding:0.2em;">Buyer Info</th>
-		<th style="border:1px solid;padding:0.2em;">Order Due Date</th>
+		<th style="border:1px solid;padding:0.2em;">
+			{% if not storeorder.pick_up %}
+				Deivery
+			{% else %}
+				Pick up
+			{% endif %}
+			</th>
+		<th style="border:1px solid;padding:0.2em;">
+			{% if not storeorder.pick_up %}
+				Delivered Date
+			{% else %}
+				Pick up Date
+			{% endif %}
+		</th>
 	</tr>
 	{% for product in product_detail %}
 		<tr>
 			<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
 			<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
 			<td style="border:1px solid;padding:0.2em;">
-				{% order_item_quantity product %} 
-				{% if product.product.quantity == 1 %}
+				{{product.product.quantity_per_item}}
+				{% ifequal product.product.quantity_per_item 1 %}
 					{{product.product.quantity_unit}}
 				{% else %}
 					{{product.product.quantity_unit}}s
-				{% endif %}</td>
+				{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}</td>
 			<td style="border:1px solid;padding:0.2em;">
 				{% if not storeorder.pick_up %}
+					<b><u>Buyer Info</u></b><br>
 					{% if storeorder.order.shipping_same_as_billing %}
 						<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
+						<b><u>Address:</u></b><br>
 						{{ storeorder.order.billing_address }}<br/>
 						{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
 					{% else %}
+						<b><u>Buyer Info</u></b><br>
 						<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
+						<b><u>Address:</u></b><br>
 						{{storeorder.order.shipping_address}}<br/>
 						{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}
 					{% endif %}
@@ -48,11 +64,6 @@ Order number: {{storeorder.order}}<br/>
 				{% endif %}
 			</td>
 			<td style="border:1px solid;padding:0.2em;">
-				{% if storeorder.pick_up %}
-					<u>Pick Up</u>
-				{% else %}
-					<u>Delivery</u>
-				{% endif %}<br>
 				Date:{{storeorder.delivered_on.date}}<br>
 				Time:{{storeorder.display_order_time}}
 			</td>

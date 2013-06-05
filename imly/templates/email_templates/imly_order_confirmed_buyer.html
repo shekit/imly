@@ -39,13 +39,14 @@ Your order details are:<br/><br/>
 							<tr style="border-bottom:1px solid black;">
 								<td style="border-right:1px solid black;padding:5px;">{{orderitem.product.name}}</td>
 								<td style="border-right:1px solid black;padding:5px;">
-									{% order_item_quantity orderitem %}
-									{% if orderitem.product.quantity == 1 %} 
-										{{ orderitem.product.quantity_unit }}
+									{{orderitem.product.quantity_per_item}}
+									{% ifequal orderitem.product.quantity_per_item 1 %}
+										{{orderitem.product.quantity_unit}}
 									{% else %}
-										{{ orderitem.product.quantity_unit }}s
-									{% endif %}</td>
-								<td style="padding:5px;">{{ storeorder.order.currency }}{{ orderitem.subtotal|floatformat:"0" }}</td>
+										{{orderitem.product.quantity_unit}}s
+									{% endifequal %} x {{orderitem.product.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
+								</td>
+								<td style="padding:5px;">{{ storeorder.order.currency }} {{ orderitem.subtotal|floatformat:"0" }}</td>
 							</tr>
 						
 					{% endif %}
@@ -68,15 +69,15 @@ Your order details are:<br/><br/>
 				{% endif %}
 		{% endif %}
 		</td>
-		<td style="border:1px solid;padding:0.2em;"><u>Date:</u>{{storeorder.delivered_on.date}}<br/><u>Time:</u> {{storeorder.display_order_time}}</td>
-		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.currency }}{{ storeorder.store_total }}</td>
+		<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.currency }} {{ storeorder.store_total }}</td>
 	</tr>
 	
 </table>
 
 <br/>
 {% endfor %}<br/><br/>
-<h3>Your order total is <b>Rs. {{ storeorder.order.currency }}{{order.subtotal}}</b>.</h3><br/><br/>
+<h3>Your order total is <b>Rs. {{ storeorder.order.currency }} {{order.subtotal}}</b>.</h3><br/><br/>
 
 
 Dig in!<br/>
