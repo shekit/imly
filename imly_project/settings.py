@@ -184,7 +184,7 @@ INSTALLED_APPS = (
     'allauth.socialaccount',
     #allauth providers
     'allauth.socialaccount.providers.facebook',
-    'allauth.socialaccount.providers.google',
+    #'allauth.socialaccount.providers.google',
     'storages',
     'widget_tweaks',
     'crispy_forms',
