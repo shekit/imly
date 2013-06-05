@@ -31,7 +31,7 @@ Order no is:{{order}}<br/><br/>
 								{{orderitem.product.quantity_unit}}
 							{% else %}
 								{{orderitem.product.quantity_unit}}s
-							{% endifequal %} x {{orderitem.product.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
+							{% endifequal %} x {{orderitem.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
 						</td>
 					</tr>
 				

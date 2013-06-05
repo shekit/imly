@@ -44,7 +44,7 @@ Your order details are:<br/><br/>
 										{{orderitem.product.quantity_unit}}
 									{% else %}
 										{{orderitem.product.quantity_unit}}s
-									{% endifequal %} x {{orderitem.product.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
+									{% endifequal %} x {{orderitem.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
 								</td>
 								<td style="padding:5px;">{{ storeorder.order.currency }} {{ orderitem.subtotal|floatformat:"0" }}</td>
 							</tr>
