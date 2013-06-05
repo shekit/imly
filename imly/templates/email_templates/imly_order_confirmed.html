@@ -44,14 +44,12 @@ Order number: {{storeorder.order}}<br/>
 				{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}</td>
 			<td style="border:1px solid;padding:0.2em;">
 				{% if not storeorder.pick_up %}
-					<b><u>Buyer Info</u></b><br>
 					{% if storeorder.order.shipping_same_as_billing %}
 						<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
 						<b><u>Address:</u></b><br>
 						{{ storeorder.order.billing_address }}<br/>
 						{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
 					{% else %}
-						<b><u>Buyer Info</u></b><br>
 						<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
 						<b><u>Address:</u></b><br>
 						{{storeorder.order.shipping_address}}<br/>
