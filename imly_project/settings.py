@@ -1,7 +1,7 @@
 # Django settings for imly_project project.
 
 import os
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
@@ -37,7 +37,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["imly.in","ec2-50-19-23-242.compute-1.amazonaws.com", 'www.imly.in']
+ALLOWED_HOSTS = ["imly.in", 'www.imly.in']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -166,6 +166,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sitemaps',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'django.contrib.gis',
@@ -256,7 +257,7 @@ PLATA_PAYMENT_MODULES = (
 
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
                             "ogone" : ("Visa/Mastercard"),
-                            "cod":("Cash on Delivery")
+                            "cod":("Pay in Cash")
                             }
 
 #AllAuth settings
