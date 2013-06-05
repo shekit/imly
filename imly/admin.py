@@ -34,7 +34,6 @@ class StoreAdmin(admin.ModelAdmin):
     list_display = ["name","owner", "is_approved", "is_featured"]
     list_filter = ["is_approved", "is_featured"]
     inlines = [DeliveryLocationInline,]
-    prepopulated_fields = {"slug":("name",)}
 
     def queryset(self,request):
         qs = self.model.everything.all()
