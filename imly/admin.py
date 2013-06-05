@@ -31,7 +31,7 @@ class DeliveryLocationInline(admin.TabularInline):
 
 class StoreAdmin(admin.ModelAdmin):
     
-    list_display = ["name","owner", "is_approved", "is_featured"]
+    list_display = ["name","owner", 'pick_up_location', 'delivers_to', "is_approved", "is_featured"]
     list_filter = ["is_approved", "is_featured"]
     inlines = [DeliveryLocationInline,]
 
@@ -44,9 +44,8 @@ class StoreAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     
-    list_display = ["admin_thumbnail","name","store", "category", "capacity_per_day", "lead_time", "is_featured", "is_bestseller"]
-    list_filter = ["store", "is_featured"]
-    prepopulated_fields = {"slug":("name",)}
+    list_display = ["admin_thumbnail","name","store", "category", '_unit_price', "lead_time", "capacity_per_day", "is_bestseller"]
+    list_filter = [ "is_featured", 'category', "store"]
     admin_thumbnail = AdminThumbnail(image_field="image_thumbnail_mini")
     list_display_links = ("name",)
     

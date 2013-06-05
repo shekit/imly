@@ -168,6 +168,8 @@ class Store(geo_models.Model):
             self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)
 
+    def delivers_to(self):
+        return ', '.join([dl.display for dl in self.delivery_locations.all()])
     def reset_tags(self):
       self.tags.clear()
       self.tags.add(*Tag.objects.filter(product__in=self.product_set.all()))
