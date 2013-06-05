@@ -256,7 +256,7 @@ PLATA_PAYMENT_MODULES = (
 
 PLATA_PAYMENT_MODULE_NAMES = {"paypal" : ("Paypal and Credit Cards"),
                             "ogone" : ("Visa/Mastercard"),
-                            "cod":("Cash on Delivery")
+                            "cod":("Pay in Cash")
                             }
 
 #AllAuth settings

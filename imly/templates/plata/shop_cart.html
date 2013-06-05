@@ -94,6 +94,8 @@
                                                 </ul>
                                                 <ul class="unstyled visible-phone cart_ul">
                                                     <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</b></li>
+                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {{ orderitemform.instance.product.quantity_unit }}</b>
+                                                    </li>
                                                     <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
                                                 </ul>
                                                 
@@ -101,7 +103,14 @@
                                             </td>
                                             <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
-                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</p></td>
+                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}<br><br>
+                                            {{ orderitemform.instance.product.quantity_per_item }} 
+                                            {% ifequal orderitemform.instance.product.quantity_per_item 1 %}
+                                                {{ orderitemform.instance.product.quantity_unit }}
+                                            {% else %}
+                                                {{ orderitemform.instance.product.quantity_unit }}s
+                                            {% endifequal %}
+                                            <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {% quantity_by_price orderitemform.instance %}</p></td>
                                             <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
                                         </tr>
                                     </table>
@@ -121,7 +130,7 @@
 					<li><br></li>
 
                     <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
-                    <li><small class="muted">Cash on Delivery</small></li>
+                    <li><small class="muted">Pay in Cash</small></li>
                 </ul>
                 
             </td>
