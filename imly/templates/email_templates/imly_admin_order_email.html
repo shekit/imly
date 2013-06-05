@@ -1,5 +1,5 @@
 
-An order has been placed by <strong>{{order.user.username}} - {{order.billing_phone_number}}</strong><br/><br/>
+An order has been placed by <strong>{{order.billing_first_name}} {{order.billing_last_name}} - {{order.billing_phone_number}}</strong><br/><br/>
 
 Order detail are:<br/><br/>
 
@@ -26,7 +26,13 @@ Order no is:{{order}}<br/><br/>
 				
 					<tr style="border:1px solid;padding:0.2em;">
 						<td >{{orderitem.product.name}}</td>
-						<td>{% order_item_quantity orderitem %}{{ orderitem.product.quantity_unit }}</td>
+						<td>{{orderitem.product.quantity_per_item}}
+							{% ifequal orderitem.product.quantity_per_item 1 %}
+								{{orderitem.product.quantity_unit}}
+							{% else %}
+								{{orderitem.product.quantity_unit}}s
+							{% endifequal %} x {{orderitem.product.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
+						</td>
 					</tr>
 				
 			{% endif %}
