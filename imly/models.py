@@ -267,6 +267,9 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     def get_price(self, *args, **kwargs):
         return self
+
+    def quantity_unit(self):
+        return self.QUANTITY_BY_PRICE[self.quantity_by_price - 1][1]
     
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)

@@ -96,6 +96,7 @@ class StoresByCategory(ListView):
         context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
         return context
 
+
 class StoreEdit(UpdateView):
     
     form_class= StoreForm
@@ -110,7 +111,16 @@ class StoreEdit(UpdateView):
             return super(StoreEdit, self).get(request,*args, **kwargs)
         else:
             return HttpResponseForbidden()
-        
+  
+    def post(self, request, *args, **kwargs):
+        super_return = super(StoreEdit, self).post(request, *args, **kwargs)
+        delivery_formset = DeliveryLocationFormSet(self.request.POST, instance=self.get_object()) 
+        if delivery_formset.is_valid():
+            delivery_formset.save()
+            return super_return
+        else:
+            return self.form_invalid()
+            
     def get_object(self):
         return get_object_or_404(Store, owner=self.request.user)
 
@@ -118,10 +128,9 @@ class StoreEdit(UpdateView):
         context = super(StoreEdit, self).get_context_data(**kwargs)
         store = self.get_object()
         if self.request.POST:
-            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all())
+            context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all(),instance=store)
         else:
-            context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all())
-        
+            context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all(),instance=store)        
         return context
     
 class StoreCreate(CreateView):
