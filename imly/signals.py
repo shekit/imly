@@ -7,13 +7,20 @@ from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
-from imly.models import Product, Store,DeliveryLocation,StoreOrder
+from imly.models import Product, Store,DeliveryLocation,StoreOrder,ChefTip
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
 from django.contrib.auth.models import User
 from imly.utils import geocode
 from django.template.loader import get_template
 from django.template import Context
+
+@receiver(post_save,sender=ChefTip)
+def cheftip_mail(sender,instance,created,**kwargs):
+	if created:
+		msg = EmailMessage("Chef tip by %s" %(instance.your_name),get_template('email_templates/cheftip_mail.html').render(Context({"chef":instance})),'Imly New chef <hello@imly.in>',['abhishek3188@gmail.com'])
+		msg.content_subtype = "html"
+		msg.send()
 
 @receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
