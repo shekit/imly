@@ -217,12 +217,14 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     GRAMS = 3
     KILOS = 4
     DOZEN = 5
+    LITRE = 6
     QUANTITY_BY_PRICE = (
         (PIECES,"piece"),
         (SERVING, "serving"),
         (GRAMS, "gram"),
         (KILOS,"kg"),
         (DOZEN,"dozen"),
+        (LITRE,"litre"),
     )
     
     name = models.CharField(max_length=255)
