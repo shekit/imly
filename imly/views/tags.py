@@ -8,7 +8,7 @@ def add_tag(request, slug):
         request.session['tags'] = tags
     else:
         request.session['tags']=[slug]
-    return redirect(request.META["HTTP_REFERER"])
+    return redirect(request.referer)
 
 
 def remove_tag(request, slug):
@@ -16,4 +16,4 @@ def remove_tag(request, slug):
     tag_list.remove(slug)
     request.session["tags"] = tag_list
     #raise Exception(request.session["tags"])
-    return redirect(request.META["HTTP_REFERER"])
+    return redirect(request.referer)
