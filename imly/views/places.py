@@ -12,11 +12,11 @@ def set_location(request):
             request.session["place_slug"], request.session["display_place_slug"] = place_slug, display_place_slug
         else:
             return redirect("/no-such-place/")            
-        if "/no-such-place/" in request.META["HTTP_REFERER"]:
+        if "/no-such-place/" in request.referer:
             return redirect("/food/")
     except IndexError:
         return redirect("/no-such-place/")
-    return redirect(request.GET.get("next", request.META["HTTP_REFERER"]))
+    return redirect(request.GET.get("next", request.referer))
 
 def unset_location(request):
     try:
@@ -25,4 +25,4 @@ def unset_location(request):
         request.session.pop("bingeo")
     except KeyError:
         pass
-    return redirect(request.META["HTTP_REFERER"])
+    return redirect(request.referer)

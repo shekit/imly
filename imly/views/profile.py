@@ -93,7 +93,7 @@ def modal_login(request, **kwargs):
             next = request.POST.get("next","/food/")
             login_form.login(request, redirect_url=next)
             return HttpResponse(next)
-        redirect_field_name, redirect_field_value = "next", request.META["HTTP_REFERER"]
+        redirect_field_name, redirect_field_value = "next", request.referer
         response = render(request,"login_error.html",locals())
         response.status_code = 400 
         return response
@@ -107,7 +107,7 @@ def modal_signup(request, **kwargs):
             next = request.POST.get("next","/food/")
             complete_signup(request, user, "/food/")
             return HttpResponse(next)
-        redirect_field_name, redirect_field_value = "next", request.META["HTTP_REFERER"]
+        redirect_field_name, redirect_field_value = "next", request.referer
         response = render(request, "signup_error.html", locals())
         response.status_code = 400
         return response

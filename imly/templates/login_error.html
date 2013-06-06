@@ -36,7 +36,7 @@
                                         <div class="row-fluid">
                                             <div class="span4 offset4">
                                                 {% if redirect_field_value %}
-                                                    {% ifequal request.META.HTTP_REFERER "http://imly.in/logout/" %}
+                                                    {% ifequal request.referer "http://imly.in/logout/" %}
                                                         <input type="hidden" name="{{ redirect_field_name }}" value="/food/" />
                                                     {% else %}
                                                         <input type="hidden" class="from_pass_reset" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
