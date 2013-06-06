@@ -74,3 +74,44 @@
                 
 {% endblock shop_info %}
 
+{% block extra_javascript %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		if ($('#id_order-shipping_same_as_billing').is(':checked'));
+		{
+			$('#id_order-shipping_first_name').prop("disabled",true);
+			$('#id_order-shipping_last_name').prop("disabled",true);
+			$('#id_order-shipping_address').prop("disabled",true);
+			$('#id_order-shipping_phone_number').prop("disabled",true);
+			$('#id_order-shipping_zip_code').prop("disabled",true);
+			$('#id_order-shipping_city').prop("disabled",true);
+			$('#id_order-shipping_country').prop("disabled",true);
+		}
+
+		$('#id_order-shipping_same_as_billing').change(function(){
+			if ($(this).is(':checked'))
+			{
+				$('#id_order-shipping_first_name').prop("disabled",true);
+				$('#id_order-shipping_last_name').prop("disabled",true);
+				$('#id_order-shipping_address').prop("disabled",true);
+				$('#id_order-shipping_phone_number').prop("disabled",true);
+				$('#id_order-shipping_zip_code').prop("disabled",true);
+				$('#id_order-shipping_city').prop("disabled",true);
+				$('#id_order-shipping_country').prop("disabled",true);
+			}
+			else
+			{
+				$('#id_order-shipping_first_name').prop("disabled",false);
+				$('#id_order-shipping_last_name').prop("disabled",false);
+				$('#id_order-shipping_address').prop("disabled",false);
+				$('#id_order-shipping_phone_number').prop("disabled",false);
+				$('#id_order-shipping_zip_code').prop("disabled",false);
+				$('#id_order-shipping_city').prop("disabled",false);
+				$('#id_order-shipping_country').prop("disabled",false);
+			}
+		});
+		
+	});
+</script>            
+{% endblock extra_javascript %}
+
