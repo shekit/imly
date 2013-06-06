@@ -18,7 +18,7 @@ from django.template import Context
 @receiver(post_save,sender=ChefTip)
 def cheftip_mail(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("Chef tip by %s" %(instance.your_name),get_template('email_templates/cheftip_mail.html').render(Context({"chef":instance})),'Imly New chef <hello@imly.in>',['abhishek3188@gmail.com'])
+		msg = EmailMessage("Chef tip by %s" %(instance.your_name),get_template('email_templates/cheftip_mail.html').render(Context({"chef":instance})),'Imly New chef <hello@imly.in>',['imlyfood@gmail.com'])
 		msg.content_subtype = "html"
 		msg.send()
 
