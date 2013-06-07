@@ -109,7 +109,7 @@ class StoreForm(forms.ModelForm):
     class Meta:
         model = Store
         exclude = ["slug","owner","categories", "date_created","date_updated","tags", "is_featured","is_approved"]
-        fields = ("name","logo","cover_photo", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","provide_delivery", "facebook_link", "twitter_link")
+        fields = ("name","logo","cover_photo", "tagline", "store_contact_number","description","pick_up","pick_up_address","pick_up_location","pick_up_landmark","provide_delivery", "facebook_link", "twitter_link")
         widgets = {
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
