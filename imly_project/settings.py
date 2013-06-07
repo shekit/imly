@@ -1,7 +1,7 @@
 # Django settings for imly_project project.
 
 import os
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
@@ -205,7 +205,8 @@ MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
+if not DEBUG:
+    LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'filters': {
