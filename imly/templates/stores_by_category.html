@@ -69,7 +69,7 @@
                         
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
-                                <li><a href="{% url "imly_product_list" %}">All</a></li>
+                                <li><a href="{% url "imly_store_list" %}">All</a></li>
                                 {% for category in categories %}
                                     
                                         {% if category.sub_categories.count %}
