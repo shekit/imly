@@ -64,4 +64,8 @@ Order no is:{{order}}<br/><br/>
 	
 </table> 
 <br/><br/>
+{% if storeorder.note %}
+		<b>{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}} has requested:</b> {{storeorder.note}}
+{% endif %}
+
 {% endfor %}<br/><br/>
