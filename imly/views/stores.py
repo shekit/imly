@@ -280,6 +280,9 @@ class OrderList(ListView):
 def  update_store_order(request):
     store_order = StoreOrder.objects.get(pk=request.POST.get('store_order_id'))
     update_parameter = [key for key in request.POST.keys() if key != 'store_order_id'][0]
-    store_order.__setattr__(update_parameter, int(request.POST.get(update_parameter)))
+    value = request.POST.get(update_parameter)
+    if update_parameter != 'note':
+        value = int(value)
+    store_order.__setattr__(update_parameter, value)
     store_order.save()
     return HttpResponse('Succesfully Updated')

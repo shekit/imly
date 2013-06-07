@@ -27,6 +27,7 @@ class StoreForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)
         self.fields["provide_delivery"].label = "Provide Delivery?"
+        self.fields["pick_up_landmark"].label = "Landmark Nearby"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
@@ -50,6 +51,7 @@ class StoreForm(forms.ModelForm):
                 Div(
                     Field("pick_up_address",rows="4"),
                     Field("pick_up_location",placeholder="e.g Breach Candy etc"),
+                    Field("pick_up_landmark"),
                     css_class="pick_up"
                 ),
                 "provide_delivery",

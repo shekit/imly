@@ -126,6 +126,7 @@ class Store(geo_models.Model):
     pick_up = models.BooleanField(default=False)
     pick_up_address = models.TextField(blank=True)
     pick_up_location = models.CharField(max_length=255,blank=True)
+    pick_up_landmark = models.CharField(max_length=100,blank=True)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)
     delivery_areas = models.ManyToManyField(Location, blank=True)
@@ -218,6 +219,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     KILOS = 4
     DOZEN = 5
     LITRE = 6
+    ML = 7
     QUANTITY_BY_PRICE = (
         (PIECES,"piece"),
         (SERVING, "serving"),
@@ -225,6 +227,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         (KILOS,"kg"),
         (DOZEN,"dozen"),
         (LITRE,"litre"),
+        (ML,"ml"),
     )
     
     name = models.CharField(max_length=255)
@@ -320,16 +323,17 @@ class Product(ProductBase, PriceBase, geo_models.Model):
 class StoreOrder(models.Model):
     
     TimeChoices = (
-        (1, ('Anytime')),
-        (2, ('10am - 11am')),
-        (3, ('11am - 12pm')),
-        (4, ('12pm - 1pm')),
-        (5, ('1pm - 2pm')),
-        (6, ('2pm - 3pm')),
-        (7, ('3pm - 4pm')),
-        (8, ('4pm - 5pm')),
-        (9, ('5pm - 6pm')),
-        (10, ('6pm - 7pm')),
+        
+        
+        (1, ('11am - 12pm')),
+        (2, ('12pm - 1pm')),
+        (3, ('1pm - 2pm')),
+        (4, ('2pm - 3pm')),
+        (5, ('3pm - 4pm')),
+        (6, ('4pm - 5pm')),
+        (7, ('5pm - 6pm')),
+        (8, ('6pm - 7pm')),
+        (9, ('Anytime')),
         )
     
     store = models.ForeignKey(Store)
@@ -341,6 +345,7 @@ class StoreOrder(models.Model):
     pick_up = models.BooleanField(default=True)
     store_total = models.FloatField(default=0.0)
     store_items = models.IntegerField(default=0)
+    note = models.TextField(blank=True)
     created = models.DateTimeField(auto_now = True)
     updated = models.DateTimeField(auto_now_add=True)
 
