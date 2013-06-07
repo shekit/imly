@@ -1,7 +1,7 @@
 # Django settings for imly_project project.
 
 import os
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
@@ -218,13 +218,22 @@ LOGGING = {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'logfile':{
+            'class':'logging.handlers.WatchedFileHandler'
+            'filename':'/var/log/django/error.log'
+        },
     },
     'loggers': {
         'django.request': {
             'handlers': ['mail_admins'],
             'level': 'ERROR',
             'propagate': True,
+        },
+        'django':{
+            'handlers':['logfile'],
+            'level':'ERROR',
+            'propagate':False,
         },
     }
 }
