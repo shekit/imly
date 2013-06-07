@@ -167,7 +167,7 @@
             if(window.location.pathname.split("/")[1] == "password") {
                 $(".redirect_path").attr("value","{% url 'imly_product_list' %}");
             }
-        });
+		});
 
                 !function ($) {
 					
@@ -298,12 +298,16 @@
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                        
+						
+						if(window.location.hash == '#suggest'){
+							$('#givetip').click();
+						}
+						
                         
                     })
                 }(window.jQuery)
                 
-
+				
               
         </script>
         
