@@ -3,7 +3,19 @@
 {% block title %}Imly | Chef Profiles{% endblock title %}
 
 {% block location_search_bar %}
-    
+    <div class="container-fluid location_bar_outer">
+                    <div class="container location_bar_inner">
+                            <div class="row-fluid">
+                                <div class="span12">
+                                   
+                                        <ul class="text-center inline suggest_chef_bar">
+                                            <li><a class="give_us_a_tip give_us_a_tip2 action_button" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></li>
+                                            <li>you want to see here</li>  
+                                        </ul>
+                                </div>
+                            </div>
+                    </div><!-- end of location_bar_inner -->
+                </div><!-- end of div container-fluid location_bar_outer -->
 {% endblock location_search_bar%}
 
 {% block profile_content %}
