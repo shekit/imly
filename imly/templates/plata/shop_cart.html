@@ -152,6 +152,19 @@
         </form>
         {% endif %}
 </div>
+<script>
+function update_store_order(field, store_order_id, parameter){
+	var update = {store_order_id: store_order_id};
+	if(parameter == 'delivery_lead'){
+		update[parameter] = field.options[field.selectedIndex].value;
+	}else{
+		update[parameter] = field.value;
+	}
+	$.post('{% url "update_store_order"%}', update, function(data){
+		return true;
+	}).fail(function(){alert('sorry we could not update your order.')});
+}
+</script>
 {% endblock cart_content %}
 
 {% block extra_javascript %}
