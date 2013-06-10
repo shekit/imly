@@ -57,6 +57,7 @@ Your order details are:<br/><br/>
 		{% if storeorder.pick_up %}
 				{{storeorder.store.pick_up_address}}<br/>
 				{{storeorder.store.pick_up_location}}<br/>
+				{{storeorder.store.pick_up_landmark}}<br/>
 		{% else %}
 				{% if storeorder.order.shipping_same_as_billing %}
 					<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
@@ -77,7 +78,7 @@ Your order details are:<br/><br/>
 
 <br/>
 {% if storeorder.note %}
-		<b>You had requested:</b>{{storeorder.note}}<br>
+		<b>Your request:</b>{{storeorder.note}}<br>
 {% endif %}
 {% endfor %}<br/><br/>
 <h3>Your order total is <b>Rs. {{ storeorder.order.currency }} {{order.subtotal}}</b>.</h3><br/><br/>
