@@ -47,6 +47,7 @@ Order no is:{{order}}<br/><br/>
 			<u>Pick up from:</u><br/>
 			{{storeorder.store.pick_up_address}}<br/>
 			{{storeorder.store.pick_up_location}}
+			{{storeorder.store.pick_up_landmark}}
 		{% else %}
 			<u>Deliver to:</u><br/>
 			{% if storeorder.order.shipping_same_as_billing %}
@@ -63,9 +64,9 @@ Order no is:{{order}}<br/><br/>
 	</tr>
 	
 </table> 
-<br/><br/>
+<br/>
 {% if storeorder.note %}
-		<b>{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}} has requested:</b> {{storeorder.note}}
+		<p><b>{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}} has requested:</b> {{storeorder.note}}</p><br/><br/>
 {% endif %}
 
 {% endfor %}<br/><br/>

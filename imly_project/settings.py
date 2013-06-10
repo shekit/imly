@@ -22,6 +22,11 @@ EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
 
+ADMIN_EMAIL = 'Imly Admin <admin@imly.in>'
+ORDERS_EMAIL = 'Imly Orders <orders@imly.in>'
+STORE_EMAIL = 'Imly Store <stores@imly.in>'
+SIGNUP_EMAIL = 'Imly <hello@imly.in>'
+
 MANAGERS = ADMINS
 DATABASES = {
         'default': {

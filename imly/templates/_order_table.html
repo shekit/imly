@@ -6,7 +6,7 @@
                         <th style="background: #e5e5e5;">You have to make</th>
                         <th style="background: #e5e5e5;">Buyer Info</th>
 						<th style="background: #e5e5e5;">Pickup/Delivery</th>
-                        <th style="background: #e5e5e5;">Order Placed on</th>
+                        <th style="background: #e5e5e5;">Customer's Request</th>
                         <th style="background: #e5e5e5;">Total</th>
                         
                     </tr>
@@ -33,7 +33,12 @@
 							Delivery
 							{% endif %}
 						</td>
-                        <td>{{ object.order.confirmed|date:"F j, Y" }}</td>
+                        <td>{% if object.note %}
+                                {{object.note}}
+                            {% else %}
+                                <small class="muted">No special request</small>
+                            {% endif %}
+                            </td>
                         <td>{{ object.store_total|floatformat:"2" }}
                         </td>
                         

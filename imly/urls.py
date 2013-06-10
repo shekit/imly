@@ -115,7 +115,7 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
-    url(r'^storeorder$', login_required(update_store_order), name='update_store_order'),
+    url(r'^storeorder$', update_store_order, name='update_store_order'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<store_slug>[-\w]+)/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),
