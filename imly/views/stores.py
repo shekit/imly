@@ -41,7 +41,9 @@ class StoreList(ListView):
     
     def get_queryset(self):        
         stores = Store.objects.filter(is_approved=True)
-
+        if self.request.city:
+            stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry) | stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
+        stores = stores.distinct()
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
@@ -51,7 +53,7 @@ class StoreList(ListView):
         except:
             self.tags = []
         if self.tags:
-            stores = stores.distinct()
+
             for tag in self.tags:
                 stores &= tag.store_set.distinct()
         if self.request.session.get("place_slug",""):
