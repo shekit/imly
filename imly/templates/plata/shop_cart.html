@@ -16,7 +16,7 @@
         <h3>{% trans "Cart" %} ({{ plata.order.items.count }}) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
         <br>
             
-        <form method="post" action=".">{% csrf_token %}{{ orderitemformset.management_form }}
+        <form method="post" action="." onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
                     <ul class="messages unstyled">
@@ -166,6 +166,17 @@ function update_store_order(field, store_order_id, parameter){
 }
 </script>
 {% endblock cart_content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+    function sync_notes(){
+        $('textarea').each(function(){ 
+            $(this).change()
+        });
+    }
+    setTimeout(sync_notes, 1000);
+</script>            
+{% endblock extra_javascript %}
 
 
 {% block shop_info %}
