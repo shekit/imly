@@ -931,6 +931,7 @@ ul.no_left_padding > li {
 
 .form-tips {
     color:#ff7752;
+    text-shadow: none;
 }
 
 .form-tips:hover {
@@ -1133,6 +1134,11 @@ td.less_padding_inner_td input[type=text]{
 
 .error {
     color: #f05a28;
+}
+
+.note_to_chef {
+    width:200px;
+
 }
 
 /* SIGN OUT PAGE */
