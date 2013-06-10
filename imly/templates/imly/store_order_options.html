@@ -51,7 +51,7 @@ function update_store_order(field, store_order_id, parameter){
 	}
 	$.post('{% url "update_store_order"%}', update, function(data){
 		return true;
-	}).fail(function(){alert('sorry we could not update your order.')});
+	});
 }
 </script>
 {% endblock extra_javascript %}
