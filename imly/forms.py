@@ -3,11 +3,12 @@ from django.forms.models import inlineformset_factory
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
 from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation
+from imly.fields import GroupedModelChoiceField
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
+from django.db.models import Count
 import os
 import re
-
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, Field, Submit, Div, HTML
 from crispy_forms.bootstrap import PrependedText
@@ -141,7 +142,7 @@ DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, Deliver
         fields = ("store_notice",)"""
         
 class ProductForm(forms.ModelForm):
-    
+#    category = GroupedModelChoiceField(queryset=Category.objects.exclude(super_category=None).annotate(dcount=Count('super_category')), group_by_field='super_category', group_label=lambda c: c.name)
     def __init__(self,*args,**kwargs):
         super(ProductForm,self).__init__(*args,**kwargs)
         self.fields["category"].queryset = Category.objects.exclude(super_category=None)

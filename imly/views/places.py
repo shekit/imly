@@ -1,4 +1,4 @@
-from imly.models import Location
+from imly.models import Location, City
 from django.shortcuts import get_object_or_404, redirect, render
 from imly.utils import geocode
 
@@ -26,3 +26,13 @@ def unset_location(request):
     except KeyError:
         pass
     return redirect(request.referer)
+    
+    
+def set_city(request):
+    try:
+        city_slug = request.GET.get('city', None)
+        city = City.objects.get(slug=city_slug)
+    except:
+        pass
+    request.session['city'] = city_slug
+    return redirect(request.GET.get("next", request.referer))

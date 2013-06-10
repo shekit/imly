@@ -51,6 +51,9 @@ class ProductList(ListView):
 
     def get_queryset(self):
         products = Product.objects.is_approved().filter(is_deleted=False)
+        if self.request.city:
+            products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+        
         #if self.request.session.get('place_slug', ''):
         #    products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
         self.category=None

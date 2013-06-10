@@ -1,5 +1,6 @@
 from django.contrib import admin
-from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation
+from django.contrib.gis import admin as gadmin
+from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation, City
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
@@ -69,8 +70,10 @@ class StoreOrderAdmin(admin.ModelAdmin):
 
     list_display = ["order","store","delivered_on","store_total","store_items"]
 
-
- 
+class CityGeoAdmin(gadmin.OSMGeoAdmin):
+    default_lon=98.962880
+    default_lat=20.5936840
+    
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Location, LocationAdmin)
@@ -79,3 +82,4 @@ admin.site.register(Product, ProductAdmin)
 admin.site.register(ChefTip, ChefTipAdmin)
 admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(StoreOrder,StoreOrderAdmin)
+gadmin.site.register(City, CityGeoAdmin)

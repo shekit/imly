@@ -395,3 +395,13 @@ class ChefTip(models.Model):
 
     def __unicode__(self):
         return self.name
+
+class City(geo_models.Model):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name')
+    enclosing_geometry = geo_models.PolygonField(blank=True)
+    active = models.BooleanField(default=True)
+
+    def __unicode__(self):
+        return self.name
+
