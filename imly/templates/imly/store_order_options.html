@@ -30,6 +30,6 @@
 {% endif %}
 
 <br><li>
-	Note to chef:<br>
-	<textarea row="2" onchange="update_store_order(this, {{store_order.id}}, 'note')"></textarea>
+	<small class="muted">Send a note to the chef:</small><br>
+	<textarea class="note_to_chef" row="9" cols="30" placeholder="e.g make it less spicy" onchange="update_store_order(this, {{store_order.id}}, 'note')"></textarea>
 </li>
