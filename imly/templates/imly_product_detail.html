@@ -27,18 +27,32 @@
         <ul class="unstyled">
                             {% if object.store.provide_delivery and object.store.pick_up %}
                                 <li><span class="delivery_area_info">Delivers to:</span>
-                                {% for area in object.store.delivery_locations.all %}
-                                    {{ area.display }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}</li>
+                                {% if request.session.place_slug %}
+                                    {% store_amend_geo object.store %}
+                                    {% if object.store.delivers %}
+                                        Chef delivers to you :) Additional charges may apply
+                                    {% else %}
+                                        Sorry, chef can't deliver :(
+                                    {% endif %}
+                                {% else %}
+                                    Enter location above to check delivery
+                                {% endif %}</li>
                                 <br>
                                 <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
                             {% else %}
                             
                             {% if object.store.provide_delivery %}
                                 <li><span class="delivery_area_info">Delivers to:</span>
-                                {% for area in object.store.delivery_locations.all %}
-                                    {{ area.display }}
-                                {% endfor %}</li>
+                                {% if request.session.place_slug %}
+                                    {% store_amend_geo object.store %}
+                                    {% if object.store.delivers %}
+                                        Chef delivers to you :) Additional charges may apply
+                                    {% else %}
+                                        Sorry, chef can't deliver :(
+                                    {% endif %}
+                                {% else %}
+                                    Enter location above to check delivery
+                                {% endif %}</li>
                             {% endif %}
                             {% if object.store.pick_up %}
                                 <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
@@ -140,17 +154,29 @@
                             <ul class="unstyled">
                             {% if object.store.provide_delivery and object.store.pick_up %}
                                 <li><span class="delivery_area_info">Deliver to:</span>
-                                {% for area in object.store.delivery_locations.all %}
-                                    {{ area.display }}{% if not forloop.last %}, {% endif %}
-                                {% endfor %}</li>
+                                {% if request.session.place_slug %}
+                                    {% if object.store.delivers %}
+                                        Chef delivers to you :) Additional charges may apply
+                                    {% else %}
+                                        Sorry, chef can't deliver :(
+                                    {% endif %}
+                                {% else %}
+                                    Enter location above to check delivery
+                                {% endif %}</li>
                                 <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
                             {% else %}
                             
                             {% if object.store.provide_delivery %}
-                                <li><span class="delivery_area_info">Deliver to:</span>
-                                {% for area in object.store.delivery_locations.all %}
-                                    {{ area.display }}
-                                {% endfor %}</li>
+                                <li><span class="delivery_area_info">Delivers to:</span>
+                                {% if request.session.place_slug %}
+                                    {% if object.store.delivers %}
+                                        Chef delivers to you :) Additional charges may apply
+                                    {% else %}
+                                        Sorry, chef can't deliver :(
+                                    {% endif %}
+                                {% else %}
+                                    Enter location above to check delivery
+                                {% endif %}</li>
                             {% endif %}
                             {% if object.store.pick_up %}
                                 <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
