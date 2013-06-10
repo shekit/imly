@@ -604,8 +604,14 @@ transition: all 0.2s ease-in-out;
 }
 
 h1.store_name {
-    font-size: 40px;
+    font-size: 36px;
     margin-top:5px;
+}
+
+    
+h1.store_name_with_cover_photo{
+    color: #fff;
+    text-shadow: 0px 0px 4px #000;
 }
 
 .read-more > a:hover, .read-less > a:hover {
@@ -1220,7 +1226,7 @@ td.less_padding_inner_td input[type=text]{
     h1.store_name{
 	font-size:30px;
     }
-    
+
         
     .navbar .nav > li > a {
 	padding-left:15px;

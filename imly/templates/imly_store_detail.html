@@ -181,7 +181,9 @@
     
     {% if object.cover_photo %}
         
-        <div class="hero-unit hero_unit_custom" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%;"></div>
+        <div class="hero-unit hero_unit_custom text-center hidden-phone" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%;">
+            <h1 class="store_name store_name_with_cover_photo">{{ object.name }}</h1>
+        </div>
     
     {% else %}
         
