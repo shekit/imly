@@ -1,7 +1,7 @@
 # Django settings for imly_project project.
 
 import os
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"

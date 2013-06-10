@@ -1,12 +1,15 @@
 from imly.models import Location, City
 from django.shortcuts import get_object_or_404, redirect, render
 from imly.utils import geocode
+from django.contrib.gis.geos import Point
 
 def set_location(request):
     try:
         place_slug = request.GET.get('location', 'all')        
         result = geocode(place_slug)
         if result: 
+            if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):
+                return redirect('/no-such-place/')
             request.session['bingeo'] = result[1]
             display_place_slug = place_slug.split(",")[0]
             request.session["place_slug"], request.session["display_place_slug"] = place_slug, display_place_slug
