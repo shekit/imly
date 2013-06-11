@@ -40,7 +40,7 @@ def set_city(request, slug):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
             request.session.pop("bingeo")
-        return redirect('http://' + request.city + '.imly.in/food/')
+        return redirect('http://' + request.city.slug + '.imly.in/food/')
     except:
         pass
     if "/will-be-there-soon/" in request.referer:
