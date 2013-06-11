@@ -5,7 +5,6 @@ DEBUG = False
 if not DEBUG:
     DEPLOY_DOMAIN = 'imly.in'
     CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN = '.' + DEPLOY_DOMAIN
-    
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
