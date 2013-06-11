@@ -36,14 +36,13 @@ def unset_location(request):
 def set_city(request, slug):
     try:
         city = City.objects.get(slug=slug)
-        if city.slug != request.city:
+        if city.slug != request.city and request.session.get('place_slug'):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
             request.session.pop("bingeo")
-        return redirect('http://' + request.city.slug + '.imly.in/food/')
+        return redirect('http://' + city.slug + '.imly.in/food/')
     except:
         pass
     if "/will-be-there-soon/" in request.referer:
         return redirect("/food/")
     return redirect(request.GET.get("next", request.referer))
-
