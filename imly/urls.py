@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city
 from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
@@ -64,6 +64,8 @@ urlpatterns = patterns('',
     url(r"^account/store/sort-product/$","imly.views.products.sort_product",name="imly_store_sort_product"),
     url(r"^coming-soon/$", coming_soon, name="imly_coming_soon"),
     url(r"^no-such-place/$", wrong_location, name="wrong_location"),
+    url(r"^will-be-there-soon/$", no_city, name="imly_dont_see_city"),
+    url(r"^not-in-city/$", not_in_city, name="not_in_city"),
     
 )
 
@@ -71,7 +73,7 @@ urlpatterns += patterns('',
     
     url(r"^set_location/$", set_location, name="imly_filter_by_place"),
     url(r"^unset_location/$", unset_location, name="unset_location"),
-    url(r'^set_city/$', set_city, name='imly_set_city'),
+    url(r'^set_city/(?P<slug>[-\w]+)/$', set_city, name='imly_set_city'),
     url(r"^add-tag/(?P<slug>[-\w]+)/$", add_tag, name="add_tag"),
     url(r"^remove-tag/(?P<slug>[-\w]+)/$", remove_tag, name="remove_tag"),
     #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),

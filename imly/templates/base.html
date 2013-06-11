@@ -24,9 +24,7 @@
     </head>
     
     <body>
-    <div style="position:absolute; top:0px; right:0px;z-index:10;" class="hidden-phone">
-        <img src="{{ STATIC_URL }}bootstrap/img/imly_mumbai.png" alt="Starting in Mumbai">
-    </div>
+
     <div class="container-fluid lower_border">
         <div class="container">
             {% block navigation %}
@@ -46,7 +44,7 @@
                                         <ul class="text-center inline">
                                                 <li><p>I want food in</p></li>
                                                 <li><div class="input-append">
-                                                    <input id="loc" type="text" class="large_location_search" placeholder="e.g. Breach Candy">
+                                                    <input id="loc" type="text" class="large_location_search" placeholder={% if request.city %}"e.g places in {{ request.city }}"{% else %}"Select your city above"{% endif %} >
                                                     <button class="btn btn-custom go_location_button" type="button">Go</button>
                                                   </div>
                                                 </li>
@@ -137,7 +135,7 @@
         </div>
         {% block login %}
             {% include "modal_signup.html" %}   
-            
+            {% include "select_city.html" %}
         {% endblock login %}
 
         <footer class="container-fluid bgfull footer">

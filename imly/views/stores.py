@@ -33,6 +33,12 @@ def what_is_imly(request):
 def wrong_location(request):
     return render(request, "no_location.html")
 
+def no_city(request):
+    return render(request, "no_city_yet.html")
+
+def not_in_city(request):
+    return render(request, "not_in_city.html")
+
 class StoreList(ListView):
     
     model = Store

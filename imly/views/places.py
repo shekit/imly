@@ -9,13 +9,15 @@ def set_location(request):
         result = geocode(place_slug)
         if result: 
             if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):
-                return redirect('/no-such-place/')
+                return redirect('/not-in-city/')  #redirect if place not within city limits
             request.session['bingeo'] = result[1]
             display_place_slug = place_slug.split(",")[0]
             request.session["place_slug"], request.session["display_place_slug"] = place_slug, display_place_slug
         else:
             return redirect("/no-such-place/")            
         if "/no-such-place/" in request.referer:
+            return redirect("/food/")
+        if "/not-in-city/" in request.referer:
             return redirect("/food/")
     except IndexError:
         return redirect("/no-such-place/")
@@ -31,11 +33,13 @@ def unset_location(request):
     return redirect(request.referer)
     
     
-def set_city(request):
+def set_city(request, slug):
     try:
-        city_slug = request.GET.get('city', None)
-        city = City.objects.get(slug=city_slug)
+        city = City.objects.get(slug=slug)
     except:
         pass
-    request.session['city'] = city_slug
+    request.session['city'] = slug
+    if "/will-be-there-soon/" in request.referer:
+        return redirect("/food/")
     return redirect(request.GET.get("next", request.referer))
+

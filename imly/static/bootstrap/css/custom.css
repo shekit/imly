@@ -141,6 +141,8 @@ body {
     color: #fff;
 }
 
+
+
 /* CUSTOM BUTTON */
 
 .btn-custom {
@@ -1085,6 +1087,51 @@ div.store_form > legend {
     color:#666;
 }
 
+/* CITY MODAL WINDOW */
+
+.select_city {
+    position: absolute;
+    top: 23px;
+    left:90px;
+    color: #ff7752;
+    border: 1px solid #ddd;
+    padding: 0px 5px;
+    border-radius: 3px;
+}
+
+.select_city:hover {
+    color: #f05a28;
+    text-decoration: none;
+}
+
+.caret_city {
+    margin-top:8px;
+}
+
+.city_modal_body {
+    padding: 0px;
+}
+
+.city_modal_heading {
+    color: #bbb;
+    text-shadow: 1px 1px 0px #fff;
+    
+}
+
+ul.city_ul a {
+    display: block;
+    background: #fff;
+    padding: 10px 20px;
+    color: #f05a28;
+    border-bottom: 1px solid #e5e5e5;
+}
+
+ul.city_ul a:hover {
+    background: #f05a28;
+    color: #fff;
+    text-decoration: none;
+}
+
 /* SHOP CART TABLE */
 
 .shop_cart_header {
@@ -1229,9 +1276,10 @@ td.less_padding_inner_td input[type=text]{
 
         
     .navbar .nav > li > a {
-	padding-left:15px;
-	padding-right: 15px;
+	padding-left:10px;
+	padding-right: 10px;
     }
+
 
 }
 
@@ -1389,6 +1437,18 @@ td.less_padding_inner_td input[type=text]{
     ul.socialaccount_providers li {
 	margin-bottom:10px;
     }
+    
+    .select_city{
+	top:32px;
+	background: #333;
+	border: 1px solid #555;
+    }
+    
+    .caret_city {
+	border-top:4px solid #ccc;
+    }
+    
+
 }
 
 @media (max-width: 480px) {
@@ -1427,5 +1487,9 @@ td.less_padding_inner_td input[type=text]{
 	height: 70px;
     }
     
+    h3.no_city {
+	font-size:18px;
+    }
+
 }
 

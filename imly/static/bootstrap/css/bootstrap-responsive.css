@@ -950,7 +950,7 @@
   }
 }
 
-@media (max-width: 640px) {
+@media (max-width: 767px) {  /* IMLY CHANGE was originally 640px, changed to change navbar collapse threshold */
   body {
     padding-top: 0;
   }
