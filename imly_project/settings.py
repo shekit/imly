@@ -151,6 +151,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'plata.context_processors.plata_context',
     'imly.context_processors.chef_tip',
     'imly.context_processors.modal_signup',
+    'imly.context_processors.select_city',
 )
 
 AUTHENTICATION_BACKENDS = (
