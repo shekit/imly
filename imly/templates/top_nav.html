@@ -21,7 +21,7 @@
                             <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" alt="Imly Logo"></a>
                             <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
                                         {% if request.city %}
-                                                            {{ request.city }} <span class="caret caret_city"></span>
+                                                            {{ request.city|capitalize }} <span class="caret caret_city"></span>
                                         {% else %}
                                                             Select City <span class="caret caret_city"></span>
                                         {% endif %}

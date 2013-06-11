@@ -53,9 +53,6 @@ class ProductList(ListView):
         products = Product.objects.is_approved().filter(is_deleted=False)
         if self.request.city:
             products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
-        
-        #if self.request.session.get('place_slug', ''):
-        #    products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
@@ -70,10 +67,11 @@ class ProductList(ListView):
                 products &= tag.product_set.distinct()
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
-#            raise Exception(user_point)
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
-        return products.distinct()
+        return products.distinct(
+            
+        )
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
