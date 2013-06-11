@@ -1,5 +1,6 @@
 from imly.models import City
 
+
 class RefererMiddleware(object):
     ''' middleware to setup referer in requests to '''
     def process_request(self, request):
@@ -13,6 +14,7 @@ class SelectCityMiddleware(object):
     ''' middleware to assign the selected city '''
     def process_request(self, request):
         try:
-            request.city = City.objects.get(slug=request.session.get('city', ''))
+            http_host = request.META.get('HTTP_HOST', 'imly.in')
+            request.city = City.objects.get(slug=http_host.split('.')[0])
         except:
             request.city = None
