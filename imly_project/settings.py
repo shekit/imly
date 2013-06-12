@@ -2,6 +2,9 @@
 
 import os
 DEBUG = False
+if not DEBUG:
+    DEPLOY_DOMAIN = 'imly.in'
+    CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN = '.' + DEPLOY_DOMAIN
 TEMPLATE_DEBUG = DEBUG
 PROJECT_DIR = os.path.abspath(os.path.dirname(__file__))
 LOGIN_URL="/login/"
@@ -42,7 +45,7 @@ DATABASES = {
 
 # Hosts/domain names that are valid for this site; required if DEBUG is False
 # See https://docs.djangoproject.com/en/1.5/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["imly.in", 'www.imly.in']
+ALLOWED_HOSTS = [".imly.in", 'www.imly.in', '*.imly.in']
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -151,6 +154,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'plata.context_processors.plata_context',
     'imly.context_processors.chef_tip',
     'imly.context_processors.modal_signup',
+    'imly.context_processors.select_city',
 )
 
 AUTHENTICATION_BACKENDS = (

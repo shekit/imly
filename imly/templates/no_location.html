@@ -2,30 +2,6 @@
 
 {% block title %}Imly{% endblock title %}
 
-{% block location_search_bar %}
-            {% if not request.session.place_slug %}
-                <div class="container-fluid location_bar_outer">
-                    <div class="container location_bar_inner">
-                            <div class="row-fluid">
-                                <div class="span12">
-                
-                                        <ul class="text-center inline">
-                                            <li>I want food in</li>
-                                            <li>
-                                                <div class="input-append">
-                                                    <input id="loc" type="text" class="large_location_search" placeholder="e.g. Breach Candy">
-                                                    <button class="btn btn-custom go_location_button" type="button">Go</button>
-                                                  </div>
-                                            </li>
-                                            <li><input type="hidden" name="next" value="/food/"></li>
-                                        </ul>
-                                </div>
-                            </div>
-                    </div><!-- end of location_bar_inner -->
-                </div><!-- end of div container-fluid location_bar_outer -->
-            {% endif %}
-{% endblock location_search_bar %}
-
 {% block shop_or_product %}
     
 {% endblock shop_or_product %}

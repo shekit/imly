@@ -2,7 +2,7 @@
                     <div class="navbar-inner">
 
                             <button class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
-                                <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_small_with_beta_light.png" alt="Imly Logo" width="80"></a>
+                                <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_small_without_beta_light.png" alt="Imly Logo" width="65"></a>
                                 <span class="pull-right">
                                         <br>
                                         <ul class="inline">
@@ -17,12 +17,20 @@
 
                                 </span>
                             </button>
-                            <a href="{% url "imly_landing_page" %}" class="brand visible-desktop"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
-                            
+                            <div class="logo_city_wrapper" style="position:relative;">
+                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" alt="Imly Logo"></a>
+                            <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
+                                        {% if request.city %}
+                                                            {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
+                                        {% else %}
+                                                            Select City <span class="caret caret_city"></span>
+                                        {% endif %}
+                            </a>
+                            </div>
                             <div class="nav-collapse collapse">
                                 
                                 <ul class="nav pull-right">
-                                        <li class="visible-tablet top_nav_logo"><a href="{% url "imly_landing_page" %}" style="padding: 10px 0px;padding-right: 40px;"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo" width="80"></a></li>
+                                        
                                     <li><a class="no_border" href="{% url "imly_product_list" %}">Discover Great Food</a></li>
                                     
                                     {% if user.is_authenticated %}

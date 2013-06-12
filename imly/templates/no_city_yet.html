@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block title %}Imly{% endblock title %}
+
+{% block location_search_bar %}
+<br>
+<br>
+{% endblock location_search_bar %}
+
+{% block shop_or_product %}
+    
+{% endblock shop_or_product %}
+
+{% block content %}
+    <div class="span12">
+        <br>
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png" alt="Help us come there soon"></p><br>
+        <h3 class="muted text-center no_city">I know you are sad, so am I :(<br>Help us turn that frown upside down :)<br></h3>
+        <p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef in your city</a><br><br><small class="muted text-center">Are you a chef? Setup shop & be the first from your city!</small></p>
+        <br><br>
+    </div>
+{% endblock content %}
+
+
+{% block picture_line %}
+
+{% endblock picture_line %}

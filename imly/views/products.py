@@ -71,10 +71,11 @@ class ProductList(ListView):
                 products &= tag.product_set.distinct()
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
-#            raise Exception(user_point)
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
-        return products.distinct()
+        return products.distinct(
+            
+        )
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
