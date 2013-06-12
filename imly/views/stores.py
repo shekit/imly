@@ -190,6 +190,7 @@ class StoreDetail(DetailView):
     def get_context_data(self, **kwargs):
         context = super(StoreDetail, self).get_context_data(**kwargs)
         context['products'] = self.get_object().product_set.exclude(is_deleted=True)
+        context['product_count'] = self.get_object().product_set.filter(is_deleted=False).count()
         return context  
 """
 class StoreNotice(UpdateView):

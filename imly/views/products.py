@@ -56,6 +56,7 @@ class ProductList(ListView):
         
         #if self.request.session.get('place_slug', ''):
         #    products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
+        
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
