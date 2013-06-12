@@ -20,7 +20,7 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
         {% block extra_head %}
 		
-		{% endblock %}
+	{% endblock extra_head%}
     </head>
     
     <body>
@@ -69,6 +69,7 @@
                 {% endif %}
             <div class="row-fluid">
                 <nav class="span3">
+                    <p>Father's day special</p>
                 {% block sidebar_nav %}
                     {% load imly_tags %}
                 {% comment %}{% get_location_list %}

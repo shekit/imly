@@ -1,4 +1,71 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>{{ request.special }}</h2>
-{% endblock %}
+{% extends "imly_store_detail.html" %}
+
+{% block title %}Imly | {{ request.special }}{% endblock title %}
+
+{% block shop_info %}
+    <div class="well shop_info hidden-phone">
+    </div>
+{% endblock shop_info %}
+{% block shop_product_content %}
+    {% if request.special.special_cover_photo %}
+        
+        <div class="hero-unit hero_unit_custom text-center hidden-phone" style="background:url({{ request.special.special_cover_photo_thumbnail.url }});background-position: 50% 50%; border: 1px solid #ccc;">
+            <h1 class="store_name store_name_with_cover_photo">{{ request.special }}</h1>
+        </div>
+    
+    {% else %}
+        
+        <div class="hero-unit no_cover_photo text-center hidden-phone">
+            <h1 class="store_name">{{ request.special }}</h1>
+        </div>
+    {% endif %}
+    
+    <div class="row-fluid">
+        <ul class="thumbnails">
+        {% for product in object_list %}
+        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+        <li class="span4">
+            <div class="thumbnail thumbnail_custom">
+                <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                    <div class="sold_out">
+                        <img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}">
+                        {% if not product.items_in_stock %}
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                        {% endif %}
+                        
+                    </div>
+                </a>
+
+                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name }}</a></h5>
+                <div class="thumbnail_info_wrapper">
+                    <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                        {% if product.quantity_per_item == 1 %}
+                            /{{ product.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
+                        {% endif %} 
+                    </small></span>
+                    
+                    {% if product.store.is_open %}
+                        {% if product.items_in_stock %}
+                            <form method="post" action="{% url "imly_add_order" product.slug %}">
+                            {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                            </form>
+                        {% else %}
+                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        {% endif %}
+                    {% else %}
+                        <small class="ultra_small muted pull-right">Chef on vacation</small>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock shop_product_content %}

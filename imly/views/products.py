@@ -22,7 +22,6 @@ def coming_soon(request):
 
 class SpecialList(ListView):
     model = Product
-    paginate_by = 12
     template_name = 'special_products.html'
     
     def get_queryset(self):

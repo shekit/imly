@@ -57,6 +57,7 @@ def get_thumbnail_mini_path(instance,path,specname,extension):
 def get_thumbnail_large_path(instance,path,specname,extension):
     return os.path.join("large", path)
 
+
 class Category(models.Model):
     
     name = models.CharField(max_length=50, unique=True)
@@ -413,6 +414,9 @@ class Special(models.Model):
     products = models.ManyToManyField(Product, blank=True)
     priority = models.IntegerField(default = 10)
     created = models.DateTimeField(auto_now_add = True)
+    special_cover_photo = models.ImageField(upload_to="special-cover-photos", blank=True)
+    special_cover_photo_thumbnail = ImageSpecField(image_field="special_cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(900,200)], cache_to="special-cover-photo-thumbnails")
+    
 
     def __unicode__(self):
         return self.title
