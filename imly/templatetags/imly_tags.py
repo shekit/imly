@@ -1,6 +1,6 @@
 from django import template
 from django.contrib.gis.geos import Point
-from imly.models import Category, Tag, Location, Store, Product, StoreOrder
+from imly.models import Category, Tag, Location, Store, Product, StoreOrder, Special
 from django.contrib.gis.measure import D
 import datetime
 
@@ -159,6 +159,10 @@ def store_order_options(store_order, request):
 def order_item_quantity(order_item):
     return {'orderitem':order_item.quantity * order_item.product.quantity_per_item}
 
+@register.inclusion_tag('special_display.html')
+def special_display():
+    return {'special': Special.objects.current()}
+    
 @register.inclusion_tag('imly/quantity_by_price.html')
 def quantity_by_price(order_item):
     unit = order_item.quantity * order_item.product.quantity_per_item
