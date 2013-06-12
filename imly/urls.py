@@ -80,6 +80,7 @@ urlpatterns += patterns('',
     
 )
 
+
 urlpatterns += patterns('',
     
     url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
