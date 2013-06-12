@@ -17,7 +17,7 @@ from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
-from imly.managers import StoreManager, ProductManager
+from imly.managers import StoreManager, ProductManager, SpecialManager
 from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
@@ -414,9 +414,13 @@ class Special(models.Model):
     products = models.ManyToManyField(Product, blank=True)
     priority = models.IntegerField(default = 10)
     created = models.DateTimeField(auto_now_add = True)
+
     special_cover_photo = models.ImageField(upload_to="special-cover-photos", blank=True)
     special_cover_photo_thumbnail = ImageSpecField(image_field="special_cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(900,200)], cache_to="special-cover-photo-thumbnails")
+
     
+    objects = SpecialManager()
 
     def __unicode__(self):
         return self.title
+        
