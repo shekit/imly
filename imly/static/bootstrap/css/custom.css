@@ -1263,7 +1263,8 @@ td.less_padding_inner_td input[type=text]{
     .navbar .nav > li > a {
 
       border-left: none;
-
+	padding-left:10px;
+	padding-right: 10px;
     }
       
     .border_right {
@@ -1272,12 +1273,6 @@ td.less_padding_inner_td input[type=text]{
     
     h1.store_name{
 	font-size:30px;
-    }
-
-        
-    .navbar .nav > li > a {
-	padding-left:10px;
-	padding-right: 10px;
     }
 
 
