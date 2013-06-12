@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city
-from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
+from imly.views.products import ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
 from imly.views.orders import UserOrders, StoreOrders
@@ -66,6 +66,8 @@ urlpatterns = patterns('',
     url(r"^no-such-place/$", wrong_location, name="wrong_location"),
     url(r"^will-be-there-soon/$", no_city, name="imly_dont_see_city"),
     url(r"^not-in-city/$", not_in_city, name="not_in_city"),
+    url(r"^special_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",special_event,name="imly_special_event"),
+    url(r"^unsubscribe_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",unsubscribe_event,name="imly_unsubscribe_event"),
     
 )
 

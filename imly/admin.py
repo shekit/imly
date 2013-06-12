@@ -59,7 +59,7 @@ class ProductAdmin(admin.ModelAdmin):
     
 class ChefTipAdmin(admin.ModelAdmin):
     
-    list_display = ["name", "tip_contact_number", "your_name"]
+    list_display = ["name", "tip_contact_number", "your_name","create"]
     
 class UserProfileAdmin(admin.ModelAdmin):
     

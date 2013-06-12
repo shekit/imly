@@ -55,11 +55,21 @@
                             <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>{{ object.currency}} {{ object.get_price.unit_price|floatformat:"0" }}</td>
+                        <td>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}</td>
                         <td>{{ object.capacity_per_day }}</td>
                         <td>
                             <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-small">Edit</a>
                             <a href="{% url "imly_product_delete" object.id %}" class="btn btn-small">Deactivate</a>
+                            {% if special_event %}
+                                
+                                {% if object in special_event.products.all %}
+                                    <br><br><a href="{% url "imly_unsubscribe_event" special_event.slug object.slug %}" class="btn btn-success">Unsubscribe</a>
+                                {% else %}
+                                    <br><br><a href="{% url "imly_special_event" special_event.slug object.slug %}" class="btn btn-success">{{special_event.title}}</a>
+                                {% endif %}
+
+                            {% endif %}
+
                         </td>
                     </tr>
                 

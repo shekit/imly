@@ -41,7 +41,7 @@ Order no is:{{order}}<br/><br/>
 		</td>
 		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.confirmed.date }}</td>
 		<td style="border:1px solid;padding:0.2em;">{{ storeorder.store_total }}</td>
-		<td style="border:1px solid;padding:0.2em;">{{ storeorder.delivered_on.date }}</td>
+		<td style="border:1px solid;padding:0.2em;">Date:{{ storeorder.delivered_on.date }}<br>Time:{{ storeorder.order_time }}</td>
 		<td style="border:1px solid;padding:0.2em;">
 		{% if storeorder.pick_up %}
 			<u>Pick up from:</u><br/>
