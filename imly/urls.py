@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city
-from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product
+from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
 from imly.views.orders import UserOrders, StoreOrders
