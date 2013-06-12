@@ -42,9 +42,10 @@ class ProfileList(ListView):
     paginate_by = 30
     
     def get_queryset(self):
-        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all())).exclude(cover_profile_image="")
-        
-
+        stores = Store.objects.is_approved().all()
+        if self.request.city:
+            stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry) | stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
+        return UserProfile.objects.filter(user__in=User.objects.filter(store__in=stores.distinct())).exclude(cover_profile_image="")
             
 
 class ProfileCreate(CreateView):

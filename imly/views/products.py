@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.db.models import Q
 from imly.forms import ProductForm, OrderItemForm, UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
-from imly.models import Product, Category, Store, Tag, Location, UserProfile
+from imly.models import Product, Category, Store, Tag, Location, UserProfile, Special
 from reviews.forms import ReviewedItemForm
 from reviews.models import ReviewedItem
 from django.core.urlresolvers import reverse
@@ -20,6 +20,19 @@ from django.contrib.gis.measure import D
 def coming_soon(request):
     return render(request,"coming_soon.html")
 
+class SpecialList(ListView):
+    model = Product
+    paginate_by = 12
+    template_name = 'special_products.html'
+    
+    def get_queryset(self):
+        special = get_object_or_404(Special, slug=self.kwargs['slug'], active=True)
+        self.request.special = special
+        products = special.products.is_approved()
+        if self.request.city:
+            products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+        return products.distinct()
+    
 class ProductReview(CreateView):
     form_class = ReviewedItemForm
     model = ReviewedItem
@@ -53,10 +66,6 @@ class ProductList(ListView):
         products = Product.objects.is_approved().filter(is_deleted=False)
         if self.request.city:
             products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
-        
-        #if self.request.session.get('place_slug', ''):
-        #    products = products.filter(store__in=Location.objects.get(slug=self.request.session.get('place_slug', '')).store_set.all())
-        
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
@@ -73,9 +82,7 @@ class ProductList(ListView):
             user_point = self.request.session.get("bingeo")
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
-        return products.distinct(
-            
-        )
+        return products.distinct()
 
     def get_context_data(self, **kwargs):
         context = super(ProductList, self).get_context_data(**kwargs)
