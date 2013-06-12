@@ -17,7 +17,7 @@ from imagekit.processors import ResizeToFill,SmartResize, ResizeToFit
 from reviews.models import ReviewedItem
 from markdown import markdown
 import uuid
-from imly.managers import StoreManager, ProductManager
+from imly.managers import StoreManager, ProductManager, SpecialManager
 from imly.utils import geocode
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
@@ -413,6 +413,9 @@ class Special(models.Model):
     products = models.ManyToManyField(Product, blank=True)
     priority = models.IntegerField(default = 10)
     created = models.DateTimeField(auto_now_add = True)
-
+    
+    objects = SpecialManager()
+    
     def __unicode__(self):
         return self.title
+        
