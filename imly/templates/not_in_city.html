@@ -11,7 +11,7 @@
     <div class="span12">
         <br>
         <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_joke.png" alt="Help us come there soon"></p><br>
-        <h3 class="muted text-center no_city">Haha, you know that is not in {{ request.city }}.<br>Try a place which actually is :)<br></h3>
+        <h3 class="muted text-center no_city">Haha, you know that is not in {{ request.city.name|capfirst}}.<br>Try a place which actually is :)<br></h3>
         <br><br>
     </div>
 {% endblock content %}

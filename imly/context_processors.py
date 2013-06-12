@@ -12,4 +12,4 @@ def modal_signup(request):
 	}
 
 def select_city(request):
-	return {"cities":City.objects.all()}
+	return {"cities":City.objects.filter(active=True).all()}

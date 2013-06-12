@@ -39,7 +39,7 @@ class ChefProfile(DetailView):
 class ProfileList(ListView):
     model = UserProfile
     template_name = "imly_profiles.html"
-    paginate_by = 12
+    paginate_by = 30
     
     def get_queryset(self):
         return UserProfile.objects.filter(user__in=User.objects.filter(store__in=Store.objects.is_approved().all())).exclude(cover_profile_image="")
