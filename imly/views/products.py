@@ -243,7 +243,7 @@ def special_event(request,event_slug,product_slug):
     product = Product.objects.get(slug=product_slug,store=request.user.store)
     event.products.add(product)
     event.save()
-    return HttpResponseRedirect("/account/store/products/")
+    return redirect('imly_store_products')
 
 @login_required
 def unsubscribe_event(request,event_slug,product_slug):
@@ -251,4 +251,4 @@ def unsubscribe_event(request,event_slug,product_slug):
     product = Product.objects.get(slug=product_slug,store=request.user.store)
     event.products.remove(product)
     event.save()
-    return HttpResponseRedirect("/account/store/products/")    
+    return redirect('imly_store_products')
