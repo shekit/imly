@@ -1,7 +1,7 @@
 # Django settings for imly_project project.
 
 import os
-DEBUG = False
+DEBUG = True
 if not DEBUG:
     DEPLOY_DOMAIN = 'imly.in'
     CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN = '.' + DEPLOY_DOMAIN
