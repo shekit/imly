@@ -187,6 +187,10 @@ class ProductsByAccount(ListView):
         context = super(ProductsByAccount,self).get_context_data(**kwargs)
         context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False)
         context["inactive_items"] = self.request.user.store.product_set.filter(is_deleted=True)
+        try:
+            context["special_event"] = Special.objects.filter(live = True, active = True).order_by('priority')[0]
+        except IndexError:
+            pass
         return context
     
 class ProductDetail(DetailView):
@@ -232,3 +236,19 @@ def sort_product(request):
         product.save()
         print product.position
     return HttpResponse('Success')
+
+@login_required
+def special_event(request,event_slug,product_slug):
+    event = Special.objects.get(slug=event_slug)
+    product = Product.objects.get(slug=product_slug,store=request.user.store)
+    event.products.add(product)
+    event.save()
+    return HttpResponseRedirect("/account/store/products/")
+
+@login_required
+def unsubscribe_event(request,event_slug,product_slug):
+    event = Special.objects.get(slug=event_slug)
+    product = Product.objects.get(slug=product_slug,store=request.user.store)
+    event.products.remove(product)
+    event.save()
+    return HttpResponseRedirect("/account/store/products/")    

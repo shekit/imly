@@ -67,6 +67,8 @@ urlpatterns = patterns('',
     url(r"^no-such-place/$", wrong_location, name="wrong_location"),
     url(r"^will-be-there-soon/$", no_city, name="imly_dont_see_city"),
     url(r"^not-in-city/$", not_in_city, name="not_in_city"),
+    url(r"^special_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",special_event,name="imly_special_event"),
+    url(r"^unsubscribe_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",unsubscribe_event,name="imly_unsubscribe_event"),
     
 )
 
