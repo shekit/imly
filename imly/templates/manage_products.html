@@ -63,9 +63,9 @@
                             {% if special_event %}
                                 
                                 {% if object in special_event.products.all %}
-                                    <br><br><a href="{% url "imly_unsubscribe_event" special_event.slug object.slug %}" class="btn btn-small btn-custom"><span class="icon-remove-circle icon-white"></span> {{ special_event.title }}</a>
+                                    <br><br><a href="{% url "imly_unsubscribe_event" special_event.slug object.slug %}" class="btn btn-small btn-custom"><span class="icon-star icon-white"></span> {{ special_event.title }}</a>
                                 {% else %}
-                                    <br><br><a href="{% url "imly_special_event" special_event.slug object.slug %}" class="btn btn-small btn-success"><span class="icon-plus-sign icon-white"></span> {{special_event.title}}</a>
+                                    <br><br><a href="{% url "imly_special_event" special_event.slug object.slug %}" class="btn btn-small btn-custom-yellow"><span class="icon-plus icon-white"></span> {{special_event.title}}</a>
                                 {% endif %}
 
                             {% endif %}
