@@ -1,0 +1,13 @@
+{% load imly_tags %}
+Review added by {{review.user.first_name}} on item {{review.content_object.name}}.<br/><br/>
+Review Content : <br/>{{review.content}}<br/><br/>
+<b>Review rating : {% for i in review.score|loop_int %}<span style="color:orange;"><font size="6"><sub> * </sub></font></span> {% endfor %}</b><br/><br/>
+
+Cook on!<br/>
+
+The Imly Team<br/><br/>
+
+Special Chef Helpline: +91 9820072565<br/>
+Visit our website <a href="https://imly.in">imly.in</a><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>

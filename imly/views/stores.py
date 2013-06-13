@@ -187,7 +187,7 @@ class StoreDetail(DetailView):
         object = super(StoreDetail, self).get_object(queryset)
         return (object.is_approved or
                 (self.request.user.is_authenticated()
-                 and object.owner == self.request.user)) and object
+                 and (object.owner == self.request.user or self.request.user.is_staff))) and object
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()
