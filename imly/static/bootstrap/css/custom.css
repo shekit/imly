@@ -1275,6 +1275,14 @@ td.less_padding_inner_td input[type=text]{
 	text-decoration: none;
     }
     
+/* SPECIAL EVENT BUTTON ON BASE */
+
+.special_event {
+    margin-bottom: 5px;
+    background: #f05a28;
+    border-radius: 4px;
+    box-shadow: inset 0px 0px 5px #d85124;
+}
 
 /* MEDIA QUERIES */
 

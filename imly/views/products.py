@@ -187,7 +187,7 @@ class ProductsByAccount(ListView):
         context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False)
         context["inactive_items"] = self.request.user.store.product_set.filter(is_deleted=True)
         try:
-            context["special_event"] = Special.objects.filter(live = True, active = True).order_by('priority')[0]
+            context["special_event"] = Special.objects.filter(active = True).order_by('priority')[0]
         except IndexError:
             pass
         return context

@@ -416,9 +416,11 @@ class Special(models.Model):
     created = models.DateTimeField(auto_now_add = True)
 
     special_cover_photo = models.ImageField(upload_to="special-cover-photos", blank=True)
-    special_cover_photo_thumbnail = ImageSpecField(image_field="special_cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(900,200)], cache_to="special-cover-photo-thumbnails")
-
+    special_cover_photo_thumbnail_mini = ImageSpecField(image_field="special_cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(768,200)], cache_to="special-cover-photo-thumbnails-mini")
     
+    special_button_photo = models.ImageField(upload_to="special-button-photo", blank=True)
+    
+
     objects = SpecialManager()
 
     def __unicode__(self):

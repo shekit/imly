@@ -88,7 +88,9 @@
             {% endblock navigation %}
         </div> <!-- end of div container -->
     </div>
-    
+    {% block location_search_bar %}
+        
+    {% endblock location_search_bar %}
     {% block carousel %}
     <div class="hero-unit hero-unit-float hidden-phone">
                     <div class="row-fluid">
@@ -243,9 +245,35 @@
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
         <script>
       !function ($) {
         $(function(){
+            
+            var default_bounds = new google.maps.LatLngBounds(
+								new google.maps.LatLng(19.26, 72.98),
+								new google.maps.LatLng(18.89, 72.775)); 
+						var google_map_api_options = {
+							bounds: default_bounds,
+							componentRestrictions: {country: 'in'}
+						};
+                                                
+                                               var set_location_button = function() {
+                                                if($('#loc').val()){
+                                                    window.location.href = '/set_location?location=' + $('#loc').val();
+                                                }else{
+                                                    return;
+                                                }
+                                                    
+                                                }
+                                                
+                                                $(".go_location_button").on("click",set_location_button);
+                                                
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
+						google.maps.event.addListener(autocomplete, 'place_changed', function(){
+							window.location.href = '/set_location?location=' + $('#loc').val();
+						});
+            
           // carousel demo
           $('#myCarousel').carousel({
                 interval: 4000

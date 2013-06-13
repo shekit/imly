@@ -35,25 +35,7 @@
         </div> <!-- end of div container -->
     </div>   
         {% block location_search_bar %}
-            {% if not request.session.place_slug %}
-                <div class="container-fluid location_bar_outer">
-                    <div class="container location_bar_inner">
-                            <div class="row-fluid">
-                                <div class="span12">
-                                   
-                                        <ul class="text-center inline">
-                                                <li><p>I want food in</p></li>
-                                                <li><div class="input-append">
-                                                    <input id="loc" type="text" class="large_location_search" placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select your city above"{% endif %} >
-                                                    <button class="btn btn-custom go_location_button" type="button">Go</button>
-                                                  </div>
-                                                </li>
-                                        </ul>
-                                </div>
-                            </div>
-                    </div><!-- end of location_bar_inner -->
-                </div><!-- end of div container-fluid location_bar_outer -->
-            {% endif %}
+            {% include "location_search_bar.html" %}
             
         {% endblock location_search_bar %}
         
@@ -71,6 +53,7 @@
                 <nav class="span3">
                 {% load imly_tags %}					             
 				{% special_display %}
+                                
                 {% block sidebar_nav %}
 
                     <div class="well sidebar-nav">
