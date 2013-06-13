@@ -20,11 +20,11 @@ from reviews.models import ReviewedItem
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):
 	if created:
-        site = Site.objects.get(pk=settings.SITE_ID)
+		site = Site.objects.get(pk=settings.SITE_ID)
 		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_admin.html').render(Context({'review':instance, 'site': site})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
-		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.ADMIN_EMAIL,[instance.content_object.store.owner.email])
+		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.SIGNUP_EMAIL,[instance.content_object.store.owner.email])
 		msg.content_subtype = "html"
 		msg.send()
 		
