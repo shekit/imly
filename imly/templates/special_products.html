@@ -1,4 +1,113 @@
-{% extends "base.html" %}
-{% block content %}
-<h2>{{ request.special }}</h2>
-{% endblock %}
+{% extends "index.html" %}
+
+{% block title %}Imly | {{ request.special }}{% endblock title %}
+
+{% block navigation %}
+    {% include "top_nav.html" %}
+{% endblock navigation %}
+
+{% block location_search_bar %}
+    {% include "location_search_bar.html" %}
+{% endblock location_search_bar %}
+
+{% block carousel %}
+    {% if request.special.special_cover_photo %}
+        
+        <div class="hero-unit hero_unit_special_page text-center hidden-phone" style="background:url({{ request.special.special_cover_photo.url }});background-position: 50% 50%; border: 1px solid #ccc;">
+            
+        </div>
+    
+    {% else %}
+        
+        <div class="hero-unit hero_unit_special_page text-center hidden-phone">
+            
+        </div>
+    {% endif %}
+    
+    <div class="container visible-phone">
+        <div class="row-fluid">
+            <p class="text-center"><img src="{{ request.special.special_cover_photo_thumbnail_mini.url }}"></p>
+        </div>
+    </div>
+    
+{% endblock carousel %}
+
+{% block featurette %}
+     <div class="row-fluid">
+        <ul class="thumbnails">
+            {% load imly_tags %}
+        {% for product in object_list %}
+        {% if forloop.counter0|divisibleby:"4" %}<div class="row-fluid margined">{% endif %}
+        <li class="span3">
+            <div class="thumbnail thumbnail_custom">
+                            {% if request.session.place_slug %}
+                                {% store_amend_geo product.store %}
+                                {% if product.store.pick_up %}
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+
+                                    {% if product.store.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ product.store.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                {% endif %}
+                                
+                                
+                                <span class="pull-right">
+                                {% if product.store.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if product.store.pick_up %}
+                                        Pick up required &nbsp;
+                                    {% endif %}
+                                {% endif %}
+                                </span>
+                                </small></p>
+                            {% endif %}
+                
+                <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                    <div class="sold_out">
+                        <img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}">
+                        {% if not product.items_in_stock %}
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                        {% endif %}
+                        
+                    </div>
+                </a>
+
+                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name }}</a></h5><p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a></small></p>
+                <div class="thumbnail_info_wrapper">
+                    <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                        {% if product.quantity_per_item == 1 %}
+                            /{{ product.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
+                        {% endif %} 
+                    </small></span>
+                    
+                    {% if product.store.is_open %}
+                        {% if product.items_in_stock %}
+                            <form method="post" action="{% url "imly_add_order" product.slug %}">
+                            {% csrf_token %}
+                                <input type="hidden" name="quantity" value="1">
+                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                            </form>
+                        {% else %}
+                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        {% endif %}
+                    {% else %}
+                        <small class="ultra_small muted pull-right">Chef on vacation</small>
+                    {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"4" %}<div class="clearfix"></div>{% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock featurette %}
+
+{% block as_seen_on %}
+{% endblock as_seen_on %}

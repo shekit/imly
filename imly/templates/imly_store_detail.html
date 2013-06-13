@@ -3,8 +3,10 @@
 {% block title %}Imly | {{ object.name }}{% endblock title %}
 
 {% block shop_info %}
+{% if request.user.is_staff and not request.user.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
     {% load imly_tags %}
     <div class="visible-phone">
+        
         <h3 class="store_name text-center">{{ object.name }}</h3>
             {% if object.tagline %}
                 <p class="text-center tagline_mobile">{{ object.tagline }}</p>

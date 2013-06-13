@@ -23,7 +23,6 @@ def coming_soon(request):
 
 class SpecialList(ListView):
     model = Product
-    paginate_by = 12
     template_name = 'special_products.html'
     
     def get_queryset(self):
@@ -94,37 +93,6 @@ class ProductList(ListView):
         context["delivery_products"] = self.request.session.get("place_slug","") and Product.objects.filter(delivery_points__distance_lte=(Point(*self.request.session["bingeo"]),D(km=3)))
         return context
 
-# Not being used now
-class ProductsByCategory(ListView):
-    
-    model = Product
-    template_name = "products_by_category.html"
-    paginate_by = 12
-    
-    
-    def get_queryset(self):
-        if not self.request.session.get("place_slug",""):
-            product_list = Product.objects.all()
-        else:
-            location = Location.objects.get(slug=self.request.session["place_slug"])
-            product_list = Product.objects.filter(store__in=location.store_set.all())
-        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        if self.category.super_category:
-            products_by_category = product_list.filter(category=self.category)
-        else:
-            products_by_category = product_list.filter(category__in=self.category.sub_categories.all())
-        
-        products = products_by_category.is_approved()
-        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        return products.filter(tags__in=self.tags).distinct() if self.tags else products
-        
-            
-    def get_context_data(self, **kwargs):
-        context = super(ProductsByCategory, self).get_context_data(**kwargs)
-        context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
-        return context
-
-
 class ProductCreate(CreateView):
     form_class = ProductForm
     model = Product
@@ -190,7 +158,7 @@ class ProductsByAccount(ListView):
         context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False)
         context["inactive_items"] = self.request.user.store.product_set.filter(is_deleted=True)
         try:
-            context["special_event"] = Special.objects.filter(live = True, active = True).order_by('priority')[0]
+            context["special_event"] = Special.objects.filter(active = True).order_by('priority')[0]
         except IndexError:
             pass
         return context
@@ -219,10 +187,8 @@ class ProductDetail(DetailView):
 
     def get_object(self, queryset=None):
         object = super(ProductDetail, self).get_object(queryset)
-        return  (
-                (not object.is_deleted and object.is_approved)
-                or (self.request.user.is_authenticated() and self.request.user == object.store.owner)
-                )  and object
+        return  ((not object.is_deleted and object.is_approved)
+                or (self.request.user.is_authenticated() and (self.request.user.is_staff or self.request.user == object.store.owner) )) and object
 
     def get(self, request, *args, **kwargs):
         object = self.get_object()

@@ -4,15 +4,7 @@
 
                 {% block sidebar_nav %}
                     {% load imly_tags %}
-                {% comment %}{% get_location_list %}
-                    <select class="location_list">
-                        <option value="all">Search by Location (All)</option>
-                        {% for location in locations %}
-                            <option value="{{ location.slug }}" {% ifequal request.session.place_slug location.slug %}selected="selected"{% endifequal %}>{{ location.name|capfirst }}</option>
-                        {% endfor %}
-                    </select>
-                    <br>
-                {% endcomment %}
+
                     
                     <div class="well sidebar-nav">
                         
