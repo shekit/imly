@@ -1,11 +1,12 @@
 from imly.models import Location, City
 from django.shortcuts import get_object_or_404, redirect, render
-from imly.utils import geocode
+from imly.utils import geocode, tracker
 from django.contrib.gis.geos import Point
 
 def set_location(request):
     try:
         place_slug = request.GET.get('location', 'all')        
+        tracker.add_event('set-location', {'location': place_slug})
         result = geocode(place_slug)
         if result: 
             if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):
@@ -36,6 +37,7 @@ def unset_location(request):
 def set_city(request, slug):
     try:
         city = City.objects.get(slug=slug)
+        tracker.add_event('set-city', {'cit': slug})
         if city.slug != request.city and request.session.get('place_slug'):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")

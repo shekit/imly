@@ -13,6 +13,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
+from imly.utils import tracker
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -40,6 +41,7 @@ class ProductReview(CreateView):
     
     def get_success_url(self):
         reviewed_item = self.object
+        tracker.add_event('review-created', {'product': self.object.content_object.slug, 'store': self.object.content_object.store.slug})
         return reverse("imly_product_detail", args = (reviewed_item.content_object.store.slug,reviewed_item.content_object.slug,))
     
     def form_valid(self,form):
