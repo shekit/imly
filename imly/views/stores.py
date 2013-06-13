@@ -14,6 +14,7 @@ from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 import plata
 from plata.shop.models import OrderItem
+from imly.utils import tracker
 
 def home_page(request):
     return render(request,"index.html")
@@ -59,7 +60,6 @@ class StoreList(ListView):
         except:
             self.tags = []
         if self.tags:
-
             for tag in self.tags:
                 stores &= tag.store_set.distinct()
         if self.request.session.get("place_slug",""):
@@ -75,35 +75,6 @@ class StoreList(ListView):
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
         return context
-
-class StoresByCategory(ListView):
-    
-    model = Store
-    template_name = "stores_by_category.html"
-    paginate_by = 12
-    
-    def get_queryset(self):
-        if not self.request.session.get("place_slug",""):
-            store_list = Store.objects
-        else:
-            location = Location.objects.get(slug=self.request.session["place_slug"])
-            store_list = location.store_set
-        self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-        if self.category.super_category:
-            stores_by_category = store_list.filter(categories=self.category)
-        else:
-            stores_by_category = store_list.filter(categories__in=self.category.sub_categories.all()).distinct()
-        stores = stores_by_category.is_approved()
-        self.tags = Tag.objects.filter(slug__in=self.request.GET.getlist("tags",[]))
-        for tag in self.tags:
-            stores.filter(tags=tag)
-        return stores.distinct()
-    
-    def get_context_data(self, **kwargs):
-        context = super(StoresByCategory, self).get_context_data(**kwargs)
-        context["category"], context["super_category"], context["selected_tags"] = self.category, self.category.super_category or self.category, self.tags
-        return context
-
 
 class StoreEdit(UpdateView):
     
@@ -142,11 +113,9 @@ class StoreEdit(UpdateView):
         return context
     
 class StoreCreate(CreateView):
-    
     form_class = StoreForm
     model = Store
-    template_name = "store_create.html"
-    
+    template_name = "store_create.html"    
     success_url = "/account/store/products"
     
     def form_valid(self, form):
@@ -157,6 +126,7 @@ class StoreCreate(CreateView):
         delivery_location_form.instance = store
         if delivery_location_form.is_valid():
             delivery_location_form.save()
+            tracker.add_event('store-create', {'store': store.slug})
             return HttpResponseRedirect(self.success_url)
         else:
             return self.form_invalid(form)
@@ -198,19 +168,6 @@ class StoreDetail(DetailView):
         context['products'] = self.get_object().product_set.exclude(is_deleted=True)
         context['product_count'] = self.get_object().product_set.filter(is_deleted=False).count()
         return context  
-"""
-class StoreNotice(UpdateView):
-    
-    model=Store
-    template_name="imly_store_info.html"
-    form_class = StoreNotice
-    
-    success_url = "account/store/details"
-    
-    def form_valid(self, form):
-        form.instance.owner = self.request.user
-        return super(StoreNotice, self).form_valid(form)
-"""
 
 class StoreInfoDetail(DetailView):
     ''' Account view of store information '''
@@ -270,7 +227,6 @@ def add_order(request, product_slug):
                 else:
                     raise
             return redirect("plata_shop_cart")
-        
     else:
         form = OrderItemForm()
         
