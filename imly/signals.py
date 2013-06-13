@@ -37,7 +37,7 @@ def cheftip_mail(sender,instance,created,**kwargs):
 @receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.ADMIN_EMAIL,[instance.email])
+		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 
