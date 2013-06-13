@@ -887,6 +887,14 @@ ul.city_ul a:hover {
     text-shadow: 1px 1px #fff;
 }
 
+.location_bar_inner {
+    position:relative;
+}
+
+.only_for_special_page {
+    position:absolute;
+}
+
 input.large_location_search {
     padding:10px 5px;
     font-size:16px;

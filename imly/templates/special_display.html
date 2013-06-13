@@ -1,4 +1,7 @@
 {% if special %}
-    
-<div class="special_event text-center"><a href="{% url "imly_specials" special.slug %}"><img src="{{ special.special_button_photo.url }}" alt="{{ special.title }}"></a> </div>
+    {% if special.special_button_photo %}
+        <div class="special_event text-center"><a href="{% url "imly_specials" special.slug %}"><img src="{{ special.special_button_photo.url }}" alt="{{ special.title }}"></a> </div>
+    {% else %}
+        <h5><a href="{% url "imly_specials" special.slug %}">{{ special.title }}</a></h5>
+    {% endif %}
 {% endif %}
