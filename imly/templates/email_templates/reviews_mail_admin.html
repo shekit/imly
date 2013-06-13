@@ -1,3 +1,9 @@
-{{ review.user.first_name }} add reviews on {{ review.content_object }}.<br/><br/>
-Review Content is : <br/>{{ review.content }}<br/><br/>
-<b>Review Ratings : {{ review.score }}</b></br/>
+{{ review.user.first_name }} has reviewed the following item:<br/>
+
+{{ review.content_object }}.<br/>
+{{ review.content_object.store.name }}<br/><br/>
+
+
+<b>Rating : {{ review.score }}</b></br/>
+<b>Review :</b>
+<br/>{{ review.content }}<br/><br/>

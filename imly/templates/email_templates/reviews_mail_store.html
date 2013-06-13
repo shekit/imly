@@ -1,7 +1,14 @@
 {% load imly_tags %}
-Review added by {{review.user.first_name}} on item {{review.content_object.name}}.<br/><br/>
-Review Content : <br/>{{review.content}}<br/><br/>
-<b>Review rating : {% for i in review.score|loop_int %}<span style="color:orange;"><font size="6"><sub> * </sub></font></span> {% endfor %}</b><br/><br/>
+Hi Chef {{ review.content_object.store.owner.userprofile.first_name }},<br/><br/>
+
+Your dish - {{ review.content_object.name }} was just reviewed!
+
+The buyer <b>{{ review.user.username }}</b> gave the following rating and comments:<br/>
+
+<b>Rating : {% for i in review.score|loop_int %}<span style="color:orange;"><font size="6"><sub> * </sub></font></span> {% endfor %}</b><br/><br/>
+<b>Review :</b><br/>{{review.content}}<br/><br/>
+
+You can view the review on your product page by clicking <a href="{% url "imly_product_detail" review.content_object.store.slug review.content_object.slug %}">here</a>.<br/><br/>
 
 Cook on!<br/>
 
