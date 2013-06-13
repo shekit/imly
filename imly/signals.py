@@ -20,10 +20,11 @@ from reviews.models import ReviewedItem
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_admin.html').render(Context({'review':instance})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
+		site = Site.objects.get(pk=settings.SITE_ID)
+		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_admin.html').render(Context({'review':instance, 'site': site})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
-		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance})),settings.ADMIN_EMAIL,[instance.content_object.store.owner.email])
+		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.SIGNUP_EMAIL,[instance.content_object.store.owner.email])
 		msg.content_subtype = "html"
 		msg.send()
 		
@@ -37,7 +38,7 @@ def cheftip_mail(sender,instance,created,**kwargs):
 @receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.ADMIN_EMAIL,[instance.email])
+		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 
