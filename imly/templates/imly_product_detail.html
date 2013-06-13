@@ -6,7 +6,7 @@
 
     {% load imly_tags %}
     <div class="well shop_info hidden-phone">
-        {% if request.user.is_staff and not request.user.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
+        {% if request.user.is_staff and not object.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
         <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name }}</a></h4>
         <small class="muted"> by
                                             {% if object.store.owner.userprofile %}
