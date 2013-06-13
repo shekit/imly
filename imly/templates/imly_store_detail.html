@@ -3,7 +3,7 @@
 {% block title %}Imly | {{ object.name }}{% endblock title %}
 
 {% block shop_info %}
-{% if request.user.is_staff and not request.user.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
+{% if request.user.is_staff and not object.is_approved %}<h4>Store not Approved</h4>{% endif %}
     {% load imly_tags %}
     <div class="visible-phone">
         
