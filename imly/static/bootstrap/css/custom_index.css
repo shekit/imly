@@ -867,6 +867,9 @@ ul.city_ul a:hover {
 	text-decoration: none;
     }
 
+.margined {
+	margin-bottom: 30px;
+}
 
 .store_list_name{
     font-weight: 500;
