@@ -16,6 +16,7 @@ from django.template.loader import get_template
 from django.template import Context
 from django.conf import settings
 from reviews.models import ReviewedItem
+from imly.utils import geocode, tracker
 
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):
@@ -41,6 +42,8 @@ def sign_up_email(sender,instance,created,**kwargs):
 		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
+		tracker.add_event('sign-up',{'user':instance})
+
 
 @receiver(post_save,sender=User)
 def sign_up_email_admin(sender,instance,created,**kwargs):
@@ -133,14 +136,14 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,[settings.STORE_EMAIL])
     	msg.content_subtype = "html"
     	msg.send()
-    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email])
+    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
     	msg.content_subtype = "html"
     	msg.send()
 
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
-		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email])
+		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
 		msg.content_subtype = 'html'
 		msg.send()
 		post_save.disconnect(store_approved_email,sender=Store)
