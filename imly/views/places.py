@@ -42,6 +42,8 @@ def set_city(request, slug):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
             request.session.pop("bingeo")
+        if 'specials' in request.referer:
+            return redirect(request.referer)
         return redirect('http://' + city.slug + '.imly.in/food/')
     except City.DoesNotExist:
         return redirect('http://imly.in/food/')
