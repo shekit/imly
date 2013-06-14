@@ -42,7 +42,7 @@ def sign_up_email(sender,instance,created,**kwargs):
 		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
-		tracker.add_event('sign-up',{'user':instance})
+		
 
 
 @receiver(post_save,sender=User)

@@ -57,7 +57,7 @@ Your order details are:<br/><br/>
 		{% if storeorder.pick_up %}
 				{{storeorder.store.pick_up_address}}<br/>
 				{{storeorder.store.pick_up_location}}<br/>
-				{{storeorder.store.pick_up_landmark}}<br/>
+				<b>Landmark nearby:</b>{{storeorder.store.pick_up_landmark}}<br/>
 		{% else %}
 				{% if storeorder.order.shipping_same_as_billing %}
 					<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
