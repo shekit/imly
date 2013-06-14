@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
-<form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
+<form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'imly_modal_signup' %}">
                                 {% csrf_token %}
                         
                             {% load widget_tweaks %}
