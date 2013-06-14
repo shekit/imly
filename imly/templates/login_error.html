@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
-                                    <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'imly_modal_login' %}">
                                         {% csrf_token %}
 
                                         {% load widget_tweaks %}
@@ -46,8 +45,4 @@
                                                 <a class="secondaryAction" href="{% url 'account_reset_password' %}"><small>{% trans "Forgot Password?" %}</small></a>
                                             </div>
                                         </div>
-                                                
-                        
-                                        
-                                        
-                                    </form>
+                                           
