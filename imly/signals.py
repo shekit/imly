@@ -45,7 +45,7 @@ def sign_up_email(sender,instance,created,**kwargs):
 @receiver(post_save,sender=User)
 def sign_up_email_admin(sender,instance,created,**kwargs):
 	if created:
-		msg = EmailMessage("New user",'%s has sign up through imly.in' %(instance.first_name),settings.SIGNUP_EMAIL,[settings.SIGNUP_EMAIL])
+		msg = EmailMessage("New user",'%s has sign up through imly.in' %(instance.first_name),settings.SIGNUP_EMAIL,[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
 
