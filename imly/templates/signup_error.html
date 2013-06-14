@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
-<form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'imly_modal_signup' %}">
                                 {% csrf_token %}
                         
                             {% load widget_tweaks %}
@@ -51,5 +50,3 @@
                                 <input class="btn btn-primary btn-block btn-custom" type="submit" value="Create Account &raquo;" />
                                 </div>
                             </div>
-            
-                            </form>
