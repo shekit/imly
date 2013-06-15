@@ -38,7 +38,7 @@ def unset_location(request):
 def set_city(request, slug):
     try:
         city = City.objects.get(slug=slug)
-        tracker.add_event('set-city', {'cit': slug})
+        tracker.add_event('set-city', {'city': slug})
         if city.slug != request.city and request.session.get('place_slug'):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
