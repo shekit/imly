@@ -33,6 +33,7 @@ ADMINS = (
     ("Abhishek Singh", "abhishek3188@gmail.com"),
     ("Pavan Mishra", "pavanmishra@gmail.com"),
     ('Tech Team', 'tech@imly.in'),
+    ('Manish Kansara', 'manish@imly.in'),
 )
 
 EMAIL_USE_TLS = True
