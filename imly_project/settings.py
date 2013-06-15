@@ -2,8 +2,7 @@
 
 import os
 
-DEBUG = True
-
+DEBUG = False
 if DEBUG:
     ADMIN_EMAIL = 'Imly Admin <betamails@imly.in>'
     ORDERS_EMAIL = 'Imly Orders <betamails@imly.in>'
@@ -33,6 +32,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
     ("Abhishek Singh", "abhishek3188@gmail.com"),
     ("Pavan Mishra", "pavanmishra@gmail.com"),
+    ('Tech Team', 'tech@imly.in'),
+    ('Manish Kansara', 'manish@imly.in'),
 )
 
 EMAIL_USE_TLS = True
@@ -41,7 +42,7 @@ EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
 
 
 MANAGERS = ADMINS
@@ -224,7 +225,7 @@ INSTALLED_APPS = (
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
-# A sample logging configuration. The only tangible logging
+# A sample checking configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
