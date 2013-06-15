@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
-<form class="signup form-horizontal" id="signup_form" method="post" action="{% url 'account_signup' %}">
                                 {% csrf_token %}
                         
                             {% load widget_tweaks %}
@@ -48,8 +47,6 @@
                                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                                     {% endifequal %}
                                 {% endif %}
-                                <button class="btn btn-primary btn-block btn-custom" type="submit">Create Account &raquo;</button>
+                                <input class="btn btn-primary btn-block btn-custom" type="submit" value="Create Account &raquo;" />
                                 </div>
                             </div>
-            
-                            </form>

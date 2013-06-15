@@ -2,17 +2,23 @@
 
 import os
 
-DEBUG = True
-
+DEBUG = False
 if DEBUG:
+    ADMIN_EMAIL = 'Imly Admin <betamails@imly.in>'
+    ORDERS_EMAIL = 'Imly Orders <betamails@imly.in>'
+    STORE_EMAIL = 'Imly Store <betamails@imly.in>'
+    SIGNUP_EMAIL = 'Imly <betamails@imly.in>'
     KEEN_PROJECT_ID = '51b9c843897a2c364e000000'
     KEEN_READ_KEY = 'b8ed5d9c6df1889be26362f90a51943cdfe0f8f0009c2652a7bd9ff274d70190b9b51f8309017ff11fc411dea5f8454efc8ea9b94894adecb62705cdbb08703a4b456308af8e861d589285c72137868b6c7b1665085bea4ffb779c6e1aa9b7cd31447833b2ea508fc07bba6209317b62'
     KEEN_WRITE_KEY = '5b2430dac72e3c16a78c66b1593397add2dc421db2715549c3e54d5bac37fe516983557a616553889369e80cf89c3c29024d86a6353e0a4da051ede2c43389e2e0cfd2e262a099c94afc0a2adbaeb006c8714dfe1fc9855f401b36f9c0ddfca12124d7ccd270e9048ba55cb3fbfe2626'
 else:
+    ADMIN_EMAIL = 'Imly Admin <admin@imly.in>'
+    ORDERS_EMAIL = 'Imly Orders <orders@imly.in>'
+    STORE_EMAIL = 'Imly Store <stores@imly.in>'
+    SIGNUP_EMAIL = 'Imly <hello@imly.in>'
     KEEN_PROJECT_ID = '51b9bc6b897a2c3648000002'
     KEEN_READ_KEY = '6dc42dbe14a850406bd6146c9405bee5229eb72a8c010d852b6f2547938db7cbcb9358fff8f2cddc92db3df24b98ecca8ddc553f56c92509def91b847af9eae35639e73abdd00892c2854bb8e20bd7e9f50f19d0f8f07f97702b7d3ae6066079e4b1cf526f9f1da45e8def09c61af2a6'
     KEEN_WRITE_KEY = '86ca93911fc63ae808a7b8f13a1534677db3a9cffe31c72c36be9322c15830ecb9addb654fe4509301d20225dcf9fa53782933878ccd701dc2362d72b8433f597c7d16a02f237c0038da2c16290d79ea11d156a0d1c480f273fe0b08957416f3a024bb7761f28af1d2c225cfae81a008'
-
     DEPLOY_DOMAIN = 'imly.in'
     CSRF_COOKIE_DOMAIN = SESSION_COOKIE_DOMAIN = '.' + DEPLOY_DOMAIN
     
@@ -26,6 +32,8 @@ ADMINS = (
     # ('Your Name', 'your_email@example.com'),
     ("Abhishek Singh", "abhishek3188@gmail.com"),
     ("Pavan Mishra", "pavanmishra@gmail.com"),
+    ('Tech Team', 'tech@imly.in'),
+    ('Manish Kansara', 'manish@imly.in'),
 )
 
 EMAIL_USE_TLS = True
@@ -34,12 +42,8 @@ EMAIL_HOST_USER = 'pavan@imly.in'
 EMAIL_HOST_PASSWORD = 'CVJY4aOOxPELFaWFfq1ekg'
 EMAIL_PORT = 587
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
+SERVER_EMAIL = DEFAULT_FROM_EMAIL='Imly<hello@imly.in>'
 
-ADMIN_EMAIL = 'Imly Admin <admin@imly.in>'
-ORDERS_EMAIL = 'Imly Orders <orders@imly.in>'
-STORE_EMAIL = 'Imly Store <stores@imly.in>'
-SIGNUP_EMAIL = 'Imly <hello@imly.in>'
 
 MANAGERS = ADMINS
 DATABASES = {
@@ -221,7 +225,7 @@ INSTALLED_APPS = (
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
-# A sample logging configuration. The only tangible logging
+# A sample checking configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for

@@ -1,7 +1,6 @@
 {% load i18n %}
 {% load account %}
 {% load url from future %}
-                                    <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
                                         {% csrf_token %}
 
                                         {% load widget_tweaks %}
@@ -42,12 +41,8 @@
                                                         <input type="hidden" class="from_pass_reset" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                                                     {% endifequal %}
                                                 {% endif %}
-                                                <button class="primaryAction btn btn-primary btn-block btn-custom" type="submit">{% trans "Login" %}</button>
+                                                <input class="primaryAction btn btn-primary btn-block btn-custom" type="submit" value="{% trans "Login" %}" />
                                                 <a class="secondaryAction" href="{% url 'account_reset_password' %}"><small>{% trans "Forgot Password?" %}</small></a>
                                             </div>
                                         </div>
-                                                
-                        
-                                        
-                                        
-                                    </form>
+                                           

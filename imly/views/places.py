@@ -1,7 +1,8 @@
-from imly.models import Location, City
 from django.shortcuts import get_object_or_404, redirect, render
-from imly.utils import geocode, tracker
 from django.contrib.gis.geos import Point
+from django.core.urlresolvers import reverse
+from imly.models import Location, City, Special
+from imly.utils import geocode, tracker
 
 def set_location(request):
     try:
@@ -37,16 +38,19 @@ def unset_location(request):
 def set_city(request, slug):
     try:
         city = City.objects.get(slug=slug)
-        tracker.add_event('set-city', {'cit': slug})
+        tracker.add_event('set-city', {'city': slug})
         if city.slug != request.city and request.session.get('place_slug'):
             request.session.pop("place_slug")
             request.session.pop("display_place_slug")
             request.session.pop("bingeo")
+        if 'specials' in request.referer and Special.objects.current():
+            return redirect('http://'+city.slug + '.imly.in' + reverse('imly_specials', kwargs={'slug': Special.objects.current().slug}))
         return redirect('http://' + city.slug + '.imly.in/food/')
     except City.DoesNotExist:
         return redirect('http://imly.in/food/')
-    except:
+    except: 
         pass
     if "/will-be-there-soon/" in request.referer:
         return redirect("/food/")
     return redirect(request.GET.get("next", request.referer))
+    
