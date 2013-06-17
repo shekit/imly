@@ -2,11 +2,12 @@ from django.dispatch import receiver
 import decimal
 from datetime import timedelta
 from django.db.models import Max
-from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
+from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save, pre_delete
 from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
+from plata.shop.signals import contact_created
 from imly.models import Product, Store,DeliveryLocation,StoreOrder,ChefTip
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
@@ -18,11 +19,17 @@ from django.conf import settings
 from reviews.models import ReviewedItem
 from imly.utils import geocode, tracker
 
+
 @receiver(post_save,sender=Product)
 def product_add_mail(sender,instance,created,**kwargs):
 	if created:
 		msg = EmailMessage("New Product",get_template('email_templates/product_add_mail.html').render(Context({'product':instance})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
 		msg.send()
+
+@receiver(contact_created)
+def anonymous_checkout_created_account(sender, user, password, **kwargs):
+    if password:
+        print 'Send Email'
 
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):
@@ -120,7 +127,7 @@ def update_store_tags_from_product(sender, instance, action, **kwargs):
 def update_store_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_categories()
 
-@receiver(post_delete, sender=Product)
+@receiver(pre_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_tags()
     instance.store.reset_categories()        
