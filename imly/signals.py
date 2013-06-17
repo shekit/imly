@@ -42,8 +42,6 @@ def sign_up_email(sender,instance,created,**kwargs):
 		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
-		
-
 
 @receiver(post_save,sender=User)
 def sign_up_email_admin(sender,instance,created,**kwargs):

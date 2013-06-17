@@ -1,4 +1,8 @@
-Hi Chef {{store.owner.first_name}},<br/><br/>
+Hi Chef {% if store.owner.userprofile %}
+			{{ store.owner.userprofile.first_name }}
+		{% else %}
+			{{store.owner.username}}
+		{% endif %},<br/><br/>
 
 <p>Congratulations! Your store <strong>{{store.name}}</strong> on Imly has been approved and is ready to start accepting orders.</p>
 
