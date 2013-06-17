@@ -2,7 +2,7 @@ from django.dispatch import receiver
 import decimal
 from datetime import timedelta
 from django.db.models import Max
-from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save
+from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save, pre_delete
 from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
 from plata.shop.models import Order
@@ -114,7 +114,7 @@ def update_store_tags_from_product(sender, instance, action, **kwargs):
 def update_store_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_categories()
 
-@receiver(post_delete, sender=Product)
+@receiver(pre_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_tags()
     instance.store.reset_categories()        
