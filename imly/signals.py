@@ -7,6 +7,7 @@ from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
 from plata.shop.models import Order
 from plata.product.stock.models import Period, StockTransaction
+from plata.shop.signals import contact_created
 from imly.models import Product, Store,DeliveryLocation,StoreOrder,ChefTip
 from django.contrib.sites.models import Site
 from django.contrib.gis.geos import Point, MultiPoint
@@ -17,6 +18,13 @@ from django.template import Context
 from django.conf import settings
 from reviews.models import ReviewedItem
 from imly.utils import geocode, tracker
+
+@receiver(contact_created)
+def anonymous_checkout_created_account(sender, user, password, **kwargs):
+    if password:
+        print 'Send Email'
+        
+
 
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):
