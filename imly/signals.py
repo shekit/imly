@@ -22,9 +22,10 @@ from imly.utils import geocode, tracker
 
 @receiver(post_save,sender=Product)
 def product_add_mail(sender,instance,created,**kwargs):
-	if created:
-		msg = EmailMessage("New Product",get_template('email_templates/product_add_mail.html').render(Context({'product':instance})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
-		msg.send()
+    if created:
+        instance.app_label, instance.module_name = 'imly', 'product'
+        msg = EmailMessage("New Product",get_template('email_templates/product_add_mail.html').render(Context({'product':instance})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
+        msg.send()
 
 @receiver(contact_created)
 def anonymous_checkout_created_account(sender, user, password, **kwargs):
