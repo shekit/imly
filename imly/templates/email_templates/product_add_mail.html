@@ -1,2 +1,5 @@
-A new product {{product}} added by {{product.store.name}}.<br/><br/>
-<a href="{% url "admin:imly_product" product.id %}"
+{% load admin_urls %}
+<a href="http://imly.in{% url product|admin_urlname:'change' product.id %}">{{ product }}</a> has been added. Go ahead and checkout for Imly compliance.
+
+Thanks,
+Pavan.
