@@ -153,7 +153,7 @@
                     <li class="span3">
                         <div class="thumbnail thumbnail_custom half">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
-                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
+                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
                         </div>
                     </li> 
                     {% endfor %}
@@ -183,9 +183,9 @@
                                 {% endif %}
 
                                 
-                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
+                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name|lower|title }}</h5></a><small class="muted"> by
                                             {% if store.owner.userprofile %}
-                                                <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name }} {{ store.owner.userprofile.last_name }}</u></a>
+                                                <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
                                             {% else %}
                                                 {{ store.owner.username }}
                                             {% endif %}</small>

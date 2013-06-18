@@ -75,7 +75,7 @@
                 <div class="span12 well">
                     <div class="row-fluid">
                         <div class="span4">
-                            <h4 class="store_info">Name:</h4>{{ object.name }} 
+                            <h4 class="store_info">Name:</h4>{{ object.name|lower|title }} 
                         </div>
                         <div class="span4">
                             <h4 class="store_info">Owner:</h4>{{ object.owner }}  <small>({{ object.store_contact_number }})</small> 
@@ -167,7 +167,7 @@
     {% if user.store %}
     <div class="well shop_info">
 
-        <h4>{{ object.name }}</h4>
+        <h4>{{ object.name|lower|title }}</h4>
         <small><em>opened on {{ object.date_created|date:"F j, Y" }}</em></small>
 
         <div class="row-fluid">
