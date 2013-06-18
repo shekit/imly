@@ -1,13 +1,27 @@
 Hi,<br/><br/>
 
-<table>
-	<tr>
-		<th>No.</th><th>Product</th><th>Store name</th><th>Link to review</th>
-	</tr>
+We hope you enjoyed the food you ordered from <b>{{ orderitem.product.store.name }}</b> (by {% if orderitem.product.store.owner.userprofile %}{{ orderitem.product.store.owner.first_name }} {{ orderitem.product.store.owner.last_name }}{% else %}{{ orderitem.product.store.owner.username }} {% endif %})<br/><br/>
+
+We want to know how you felt?<br/><br/>
+
+Did the food leave you licking your fingers and craving for more? Or was there room for improvement?<br/><br/>
+
+Either way, your feedback will really help <b>{% if orderitem.product.store.owner.userprofile %}{{ orderitem.product.store.owner.first_name }} {{ orderitem.product.store.owner.last_name }}{% else %}{{ orderitem.product.store.owner.username }} {% endif %}</b> and Imly serve you better next time.
+<br/>So please spare a few minutes to review the dish(es) below: 
+
+<ol>
 {% for orderitem in storeorder.order.items.all %}
-<tr>
-	<td>{{orderitem.product.name}}</td>
-	<td>{{orderitem.product.store.name}}</td>
-	<td><a href="http://{{site.domain}}/{{orderitem.product.store.slug}}/{{orderitem.product.slug}}">Write Review</a></td>
-</tr>
+
+	<li>{{orderitem.product.name}} - <a href="http://{{site.domain}}/{{orderitem.product.store.slug}}/{{orderitem.product.slug}}">Review</a></li>
+
 {% endfor %}
+</ol>
+
+Thanks!<br/>
+The Imly Team<br/><br/>
+
+Call us: +91 9920190624<br/>
+Visit our website <a href="http://imly.in">imly.in</a><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
+

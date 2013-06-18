@@ -1,11 +1,11 @@
-Hi cheff, {% if storeorder.store.owner.userprofile %}
+Hi Chef, {% if storeorder.store.owner.userprofile %}
 				{{storeorder.store.owner.userprofile.first_name}}
 		  {% else %}
 		  		{{storeorder.store.owner.username}}
 		  {% endif %}<br/><br/>
-This is riminder that you have due order today.<br/>
+A friendly reminder from Imly that you have an order due today. The details are as follows:<br/>
 
-Order number is {{storeorder.order}}<br/>
+Order number: {{storeorder.order}}<br/>
 {% load imly_tags %}
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 	<tr>
