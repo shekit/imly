@@ -39,7 +39,7 @@
                                     Enter location above to check delivery
                                 {% endif %}</li>
                                 <br>
-                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
+                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                             {% else %}
                             
                             {% if object.store.provide_delivery %}
@@ -56,7 +56,7 @@
                                 {% endif %}</li>
                             {% endif %}
                             {% if object.store.pick_up %}
-                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
+                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                             {% endif %}
                             {% endif %}
         </ul>
@@ -165,7 +165,7 @@
                                 {% else %}
                                     Enter location above to check delivery
                                 {% endif %}</li>
-                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
+                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                             {% else %}
                             
                             {% if object.store.provide_delivery %}
@@ -181,7 +181,7 @@
                                 {% endif %}</li>
                             {% endif %}
                             {% if object.store.pick_up %}
-                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}</li>
+                                <li><span class="delivery_area_info">Pick up near:</span> {% if object.store.pick_up_landmark %}{{ object.store.pick_up_landmark }}, {% endif %}{{ object.store.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                             {% endif %}
                             {% endif %}
                             </ul>

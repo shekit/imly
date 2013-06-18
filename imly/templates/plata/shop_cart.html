@@ -58,7 +58,7 @@
                                     Delivers to you &nbsp;
                                 {% else %}
                                     {% if store.store.pick_up %}
-                                        Pick up required &nbsp;
+                                        Pick up required near: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}&nbsp;
                                     {% endif %}
 
                                 {% endif %}
@@ -131,7 +131,13 @@
 					<li><br></li>
 
                     <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
-                    <li><small class="muted">Pay in Cash</small></li>
+                    <li><small class="muted">Pay in Cash<br>
+                    {% if not store.store.delivers %}
+                        {% if store.store.pick_up %}
+                            Exact address shared after purchase
+                        {% endif %}
+                    {% endif %}
+                    </small></li>
                 </ul>
                 
             </td>
