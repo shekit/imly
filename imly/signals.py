@@ -138,7 +138,6 @@ def update_product_geography(sender, instance, **kwargs):
     post_save.disconnect(sender=Product)
     for product in instance.product_set.all():
         product.pick_up_point = instance.pick_up_point
-        product.delivery_points = instance.delivery_points
         product.save()
     post_save.connect(update_store_categories_from_product, sender=Product)
     

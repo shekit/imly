@@ -90,7 +90,6 @@ class ProductList(ListView):
         if self.category:
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
-        context["delivery_products"] = self.request.session.get("place_slug","") and Product.objects.filter(delivery_points__distance_lte=(Point(*self.request.session["bingeo"]),D(km=3)))
         return context
 
 class ProductCreate(CreateView):
