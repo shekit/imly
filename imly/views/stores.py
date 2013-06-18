@@ -8,7 +8,7 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q, F
-from imly.models import Category, Store, Product, Location, Tag, StoreOrder
+from imly.models import Category, Store, Product, Location, Tag, StoreOrder, Special
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
@@ -17,7 +17,14 @@ from plata.shop.models import OrderItem
 from imly.utils import tracker
 
 def home_page(request):
-    return render(request,"index.html")
+    bestselling_products = Product.objects.filter(is_bestseller=True)[:4]
+    featured_stores = Store.objects.filter(is_featured=True)[:4]
+    try:
+        special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
+        special_products = special_event.products.all()[:4]
+    except IndexError:
+        pass
+    return render(request,"index.html", locals())
 
 def why_open_your_shop(request):
     return render(request, "open_your_shop.html")

@@ -147,9 +147,9 @@
                             {% endwith %}
                         {% endif %}
                     
-                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_store_detail" object.slug %}">{{ object.name }}</a></h5><small class="muted"> by
+                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_store_detail" object.slug %}">{{ object.name|lower|title }}</a></h5><small class="muted"> by
                                             {% if object.owner.userprofile %}
-                                                <a class="sub_text" href="{% url "chef_profile" object.owner.userprofile.slug %}"><u>{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}</u></a>
+                                                <a class="sub_text" href="{% url "chef_profile" object.owner.userprofile.slug %}"><u>{{ object.owner.userprofile.first_name|lower|title }} {{ object.owner.userprofile.last_name|lower|title }}</u></a>
                                             {% else %}
                                                 {{ object.owner.username }}
                                             {% endif %}</small>

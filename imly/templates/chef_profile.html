@@ -65,7 +65,7 @@
                 <li class="span12">
                     <div class="thumbnail thumbnail_custom">
                         <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
-                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name }}</a></h5>
+                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
                         <small class="muted"><a class="sub_text" href="{% url "imly_store_detail" product.store.slug %}">{{ product.store.name|upper }}</a></small>
                     </div>
                 </li>
