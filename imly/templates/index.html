@@ -142,7 +142,28 @@
     <div id="wrap">
         <div id="main" class="container clear-top">
             {% block featurette %}
-
+            {% if special_event %}
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="row-fluid">
+                    <legend class="orange"><span class="legend_lower">{{ special_event.title }}</span> <span class="legend_upper">Special</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_specials" special_event.slug %}">View More</a></span></legend>
+                    <ul class="thumbnails">
+                    {% for product in special_products %}
+                    <li class="span3">
+                        <div class="thumbnail thumbnail_custom half">
+                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
+                        </div>
+                    </li> 
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <br>
+            <br>
+            {% endif %}
             
             {% if bestselling_products %}
             <div class="row-fluid">

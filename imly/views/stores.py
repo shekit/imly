@@ -19,9 +19,11 @@ from imly.utils import tracker
 def home_page(request):
     bestselling_products = Product.objects.filter(is_bestseller=True)[:4]
     featured_stores = Store.objects.filter(is_featured=True)[:4]
-    special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
-    if special_event:
+    try:
+        special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
         special_products = special_event.products.all()[:4]
+    except IndexError:
+        pass
     return render(request,"index.html", locals())
 
 def why_open_your_shop(request):
