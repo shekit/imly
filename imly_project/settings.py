@@ -30,7 +30,6 @@ LOGIN_ERROR_URL = "/login-error/"
 
 ADMINS = (
     # ('Your Name', 'your_email@example.com'),
-    ("Abhishek Singh", "abhishek3188@gmail.com"),
     ("Pavan Mishra", "pavanmishra@gmail.com"),
     ('Tech Team', 'tech@imly.in'),
     ('Manish Kansara', 'manish@imly.in'),
