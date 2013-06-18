@@ -1,0 +1,13 @@
+Hi,<br/><br/>
+
+<table>
+	<tr>
+		<th>No.</th><th>Product</th><th>Store name</th><th>Link to review</th>
+	</tr>
+{% for orderitem in storeorder.order.items.all %}
+<tr>
+	<td>{{orderitem.product.name}}</td>
+	<td>{{orderitem.product.store.name}}</td>
+	<td><a href="http://{{site.domain}}/{{orderitem.product.store.slug}}/{{orderitem.product.slug}}">Write Review</a></td>
+</tr>
+{% endfor %}
