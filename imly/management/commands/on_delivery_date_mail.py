@@ -14,9 +14,9 @@ class Command(BaseCommand):
 			for orderitem in storeorder.order.items.all():
 				if orderitem.product.store == storeorder.store:
 					product_detail.append(orderitem)
-			msg = EmailMessage("Reminder: Order delivery",get_template('email_templates/reminder_delivery_store.html').render(Context({'store':storeorder.store,'product_detail':product_detail,'storeorder':storeorder})),settings.ORDERS_EMAIL,[storeorder.store.owner.email],bcc=[settings.ADMIN_EMAIL])
+			msg = EmailMessage("Reminder: Order due today",get_template('email_templates/reminder_delivery_store.html').render(Context({'store':storeorder.store,'product_detail':product_detail,'storeorder':storeorder})),settings.ORDERS_EMAIL,[storeorder.store.owner.email],bcc=[settings.ADMIN_EMAIL])
 			msg.content_subtype = "html"
 			msg.send()
-		msg = EmailMessage("Reminder: Order delivery",get_template('email_templates/reminder_delivery_buyer.html').render(Context({'order':storeorder.order})),settings.ORDERS_EMAIL,[storeorder.order.email],bcc=[settings.ADMIN_EMAIL])
+		msg = EmailMessage("Reminder: Order due today",get_template('email_templates/reminder_delivery_buyer.html').render(Context({'order':storeorder.order})),settings.ORDERS_EMAIL,[storeorder.order.email],bcc=[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
