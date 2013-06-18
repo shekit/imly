@@ -1,0 +1,92 @@
+Hi!<br/><br/>
+
+This is reminder for your order that yo have place. :<br/><br/>
+
+
+Your order number is: {{order}} <br/>
+Order placed on: {{ storeorder.order.confirmed.date }}
+
+Your order details are:<br/><br/>
+{% load imly_tags %}
+{% for storeorder in order.storeorder_set.all %}
+<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
+	
+	<tr><td><strong>Your Order from {{ storeorder.store.name }}</strong></td></tr>
+	
+	<tr>
+	<th style="border:1px solid;padding:0.2em;">Items</th>
+	<th style="border:1px solid;padding:0.2em;">
+		{% if storeorder.pick_up %}
+			Pick-up Details
+		{% else %}
+			Delivery Details
+		{% endif %}</th>
+	<th style="border:1px solid;padding:0.2em;">
+		{% if storeorder.pick_up %}
+			Order to be Picked up on
+		{% else %}
+			Order will be Delivered on
+		{% endif %}</th>
+	<th style="border:1px solid;padding:0.2em;">Store Total</th>
+	</tr>
+	<tr>
+		<td style="border:1px solid;padding:0.2em;">
+			<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
+				{% for orderitem in storeorder.order.items.all %}
+					{% if orderitem.product.store == storeorder.store %}
+						
+							<tr style="border-bottom:1px solid black;">
+								<td style="border-right:1px solid black;padding:5px;">{{orderitem.product.name}}</td>
+								<td style="border-right:1px solid black;padding:5px;">
+									{{orderitem.product.quantity_per_item}}
+									{% ifequal orderitem.product.quantity_per_item 1 %}
+										{{orderitem.product.quantity_unit}}
+									{% else %}
+										{{orderitem.product.quantity_unit}}s
+									{% endifequal %} x {{orderitem.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
+								</td>
+								<td style="padding:5px;">{{ storeorder.order.currency }} {{ orderitem.subtotal|floatformat:"0" }}</td>
+							</tr>
+						
+					{% endif %}
+				{% endfor %}
+			</table>
+		</td>
+		<td style="border:1px solid;padding:0.2em;">
+		{% if storeorder.pick_up %}
+				{{storeorder.store.pick_up_address}}<br/>
+				{{storeorder.store.pick_up_location}}<br/>
+				<b>Landmark nearby:</b>{{storeorder.store.pick_up_landmark}}<br/>
+		{% else %}
+				{% if storeorder.order.shipping_same_as_billing %}
+					<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
+					{{ storeorder.order.billing_address }}<br/>
+					{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
+				{% else %}
+					<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
+					{{storeorder.order.shipping_address}}<br/>
+					{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
+				{% endif %}
+		{% endif %}
+		</td>
+		<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}</td>
+		<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.currency }} {{ storeorder.store_total }}</td>
+	</tr>
+		
+</table>
+
+<br/>
+{% if storeorder.note %}
+		<b>Your request:</b>{{storeorder.note}}<br>
+{% endif %}
+{% endfor %}<br/><br/>
+<h3>Your order total is <b>Rs. {{ storeorder.order.currency }} {{order.subtotal}}</b>.</h3><br/><br/>
+
+Dig in!<br/>
+
+The Imly Team<br/><br/>
+
+Call us: +91 9920190624<br/>
+Visit our website <a href="http://imly.in">imly.in</a><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
