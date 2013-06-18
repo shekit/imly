@@ -142,12 +142,13 @@
     <div id="wrap">
         <div id="main" class="container clear-top">
             {% block featurette %}
+
+            
+            {% if bestselling_products %}
             <div class="row-fluid">
                 <div class="span12">
                     <div class="row-fluid">
                     <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
-                    {% load imly_tags %}
-                    {% get_bestseller_product_list %}
                     <ul class="thumbnails">
                     {% for product in bestselling_products %}
                     <li class="span3">
@@ -161,14 +162,16 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         <br>
             <br>
+            
+            {% if featured_stores %}
             <div class="row-fluid">
                 <div class="span12">
                     <div class="row-fluid">
                     <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">chefs</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
                     
-                    {% get_featured_store_list %}
                     <ul class="thumbnails">
                     {% for store in featured_stores %}
                         
@@ -198,7 +201,7 @@
                     </div>
                 </div>
             </div>
-
+            {% endif %}
             <br>
             <br>
             <br>
