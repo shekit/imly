@@ -29,6 +29,9 @@
 {% if object_list %}
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
+        {% load endless %}
+        
+        {% paginate object_list %}
         {% for object in object_list %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
@@ -97,6 +100,9 @@
         {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
         {% endfor %}
     </ul>
+    <div class="text-center">
+        {% show_pages %}
+    </div>
 {% else %}
     <br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
@@ -104,19 +110,6 @@
     <h3 class="muted text-center">Oops, we don't have any food<br> matching your search criteria yet. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
 {% endif %}
     
-    {% if is_paginated %}
-        <div class="pagination pagination-centered">
-            <ul>
-                {% if page_obj.has_previous %}
-                    <li><a href="{{ request.path }}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
-                    <li class="active"><span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-                {% if page_obj.has_next %}
-                    <li><a href="{{ request.path }}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
 
 
 {% endblock content %}

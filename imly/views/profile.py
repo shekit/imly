@@ -39,7 +39,6 @@ class ChefProfile(DetailView):
 class ProfileList(ListView):
     model = UserProfile
     template_name = "imly_profiles.html"
-    paginate_by = 30
     
     def get_queryset(self):
         stores = Store.objects.is_approved().all()

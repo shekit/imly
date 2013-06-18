@@ -51,7 +51,6 @@ class StoreList(ListView):
     
     model = Store
     template_name = "stores_by_category.html"
-    paginate_by = 12
     
     def get_queryset(self):        
         stores = Store.objects.filter(is_approved=True)

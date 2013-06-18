@@ -61,7 +61,7 @@ class ProductList(ListView):
 
     model = Product
     template_name = "products_by_category.html"
-    paginate_by = 12
+    #paginate_by = 12
 
     def get_queryset(self):
         products = Product.objects.is_approved().filter(is_deleted=False)
