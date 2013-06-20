@@ -3,7 +3,7 @@ Hi Chef {{ review.content_object.store.owner.userprofile.first_name }},<br/><br/
 
 Your dish - {{ review.content_object.name }} was just reviewed!
 
-The buyer <b>{{ review.user.username }}</b> gave the following rating and comments:<br/>
+The buyer <b>{{ review.user.first_name }}</b> gave the following rating and comments:<br/>
 
 <b>Rating : {% for i in review.score|loop_int %}<span style="color:orange;"><font size="6"><sub> * </sub></font></span> {% endfor %}</b><br/><br/>
 <b>Review :</b><br/>{{review.content}}<br/><br/>
