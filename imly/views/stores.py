@@ -209,10 +209,10 @@ def store_info_detail(request):
         return render(request, "imly_store_info.html", {"user":request.user})
 
 
-def add_order(request, product_slug):
+def add_order(request, store_slug, product_slug):
     shop = plata.shop_instance()
     
-    product = get_object_or_404(Product, slug=product_slug)
+    product = get_object_or_404(Product, slug=product_slug, store__slug=store_slug)
     
     if request.method == "POST":
         form = OrderItemForm(data=request.POST)

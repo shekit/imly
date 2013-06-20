@@ -254,7 +254,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     position = models.PositiveIntegerField(default=0)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     delivery_points = geo_models.MultiPointField(null=True, blank=True)
-    is_veg = models.BooleanField(default=)
+    is_veg = models.BooleanField(default=True)
     objects = ProductManager() #defaultManager
     everything = models.Manager()
     reviews = generic.GenericRelation(ReviewedItem)
