@@ -218,6 +218,7 @@ INSTALLED_APPS = (
     'rollyourown.seo',
     'django_comments',
     'autoslug',
+    'endless_pagination',
     #'djangoratings',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
@@ -317,3 +318,10 @@ if not DEBUG:
 
 if DEBUG:
     from settings_local import *
+
+
+ENDLESS_PAGINATION_PER_PAGE = 12
+ENDLESS_PAGINATION_PREVIOUS_LABEL = "&laquo;"
+ENDLESS_PAGINATION_NEXT_LABEL = "&raquo;"
+ENDLESS_PAGINATION_DEFAULT_CALLABLE_EXTREMES = 2
+ENDLESS_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2

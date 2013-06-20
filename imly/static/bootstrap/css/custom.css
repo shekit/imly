@@ -1284,6 +1284,40 @@ td.less_padding_inner_td input[type=text]{
     box-shadow: inset 0px 0px 5px #d85124;
 }
 
+/* PAGINATION */
+
+.endless_page_link {
+    border: 1px solid #e5e5e5;
+    padding:3px 5px;
+    margin-left:0px;
+    margin-right:0px;
+    color: #999;
+    
+}
+
+.endless_page_link:hover {
+    background: #f5f5f5;
+    text-decoration: none;
+    color: #777;
+}
+
+.endless_page_current {
+    font-weight: normal;
+    color: #f05a28;
+    border: 1px solid #e5e5e5;
+    padding: 3px 1px 3px 5px;
+    margin-right:3px;
+}
+
+
+.endless_separator {
+    border: 1px solid #e5e5e5;
+    padding:3px 5px;
+    color: #999;
+}
+
+
+
 /* MEDIA QUERIES */
 
 @media (max-width:979px) {

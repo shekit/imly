@@ -32,9 +32,12 @@ class DeliveryLocationInline(admin.TabularInline):
 
 class StoreAdmin(admin.ModelAdmin):
     
-    list_display = ["name","owner", 'pick_up_location', 'delivers_to', "is_approved", "is_featured"]
+    list_display = ["name","owner", 'pick_up_location', 'delivers_to','no_of_product', "is_approved", "is_featured"]
     list_filter = ["is_approved", "is_featured"]
     inlines = [DeliveryLocationInline,]
+
+    def no_of_product(self,instance):
+        return instance.product_set.count()
 
     def queryset(self,request):
         qs = self.model.everything.all()

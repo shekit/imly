@@ -64,7 +64,7 @@
 {% block shop_info %}
     <div class="well shop_info">
 
-        <h4>{{ user.store.name }}</h4>
+        <h4>{{ user.store.name|lower|title }}</h4>
         <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
         
         <div class="row-fluid">
@@ -84,7 +84,7 @@
             </tr>
         {% for product in user.store.product_set.all %}
             <tr>
-                <td>{{ product.name }}</td>
+                <td>{{ product.name|lower|title }}</td>
                 <td class="center_aligned_td">{{ product.store_order_count }}</td>
                 <td class="center_aligned_td">{{ product.sale }}</td>
             </tr>

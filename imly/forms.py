@@ -50,7 +50,7 @@ class StoreForm(forms.ModelForm):
                 "Delivery/Pick-Up Details",
                 "pick_up",
                 Div(
-                    Field("pick_up_address",rows="4"),
+                    Field("pick_up_address",rows="4", placeholder="Only shared with confirmed buyers. Not displayed on imly :)"),
                     Field("pick_up_location",placeholder="e.g Breach Candy etc"),
                     Field("pick_up_landmark"),
                     css_class="pick_up"

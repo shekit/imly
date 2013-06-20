@@ -28,7 +28,7 @@
                     Enter location above to check delivery
                 {% endif %}
                 </li>
-                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}</li>
+                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
             {% else %}
             
                 {% if object.provide_delivery %}
@@ -45,7 +45,7 @@
                     </li>
                 {% endif %}
                 {% if object.pick_up %}
-                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}</li>
+                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                 {% endif %}
             {% endif %}
         </ul>
@@ -133,7 +133,7 @@
                 {% endcomment %}
                 </li>
                 <br>
-                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}</li>
+                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
             {% else %}
             
                 {% if object.provide_delivery %}
@@ -149,7 +149,7 @@
                 {% endif %}</li>
                 {% endif %}
                 {% if object.pick_up %}
-                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}</li>
+                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
                 {% endif %}
             {% endif %}
         </ul>
@@ -184,13 +184,13 @@
     {% if object.cover_photo %}
         
         <div class="hero-unit hero_unit_custom text-center hidden-phone" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%; border: 1px solid #ccc;">
-            <h1 class="store_name store_name_with_cover_photo">{{ object.name }}</h1>
+            <h1 class="store_name store_name_with_cover_photo">{{ object.name|lower|title }}</h1>
         </div>
     
     {% else %}
         
         <div class="hero-unit no_cover_photo text-center hidden-phone">
-            <h1 class="store_name">{{ object.name }}</h1>
+            <h1 class="store_name">{{ object.name|lower|title }}</h1>
             {% if object.tagline %}
                 <p>{{ object.tagline }}</p>
             {% endif %}
@@ -213,7 +213,7 @@
                     </div>
                 </a>
 
-                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name }}</a></h5>
+                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
                 <div class="thumbnail_info_wrapper">
                     <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
                         {% if product.quantity_per_item == 1 %}

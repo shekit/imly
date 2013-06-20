@@ -18,19 +18,30 @@ from django.template import Context
 from django.conf import settings
 from reviews.models import ReviewedItem
 from imly.utils import geocode, tracker
-
+from django.core.urlresolvers import reverse
+from django.utils.http import int_to_base36
+from django.contrib.auth.tokens import default_token_generator
 
 @receiver(post_save,sender=Product)
 def product_add_mail(sender,instance,created,**kwargs):
     if created:
         instance.app_label, instance.module_name = 'imly', 'product'
         msg = EmailMessage("New Product",get_template('email_templates/product_add_mail.html').render(Context({'product':instance})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
+        msg.content_subtype = "html"
         msg.send()
+
 
 @receiver(contact_created)
 def anonymous_checkout_created_account(sender, user, password, **kwargs):
     if password:
-        print 'Send Email'
+    	token_generator = kwargs.get("token_generator",default_token_generator)
+    	temp_key = token_generator.make_token(user)
+    	site = Site.objects.get(pk=settings.SITE_ID)
+    	path = reverse("account_reset_password_from_key",kwargs=dict(uidb36=int_to_base36(user.id),key=temp_key))
+    	url = 'http://%s%s' %(site.domain,path)
+        msg = EmailMessage("Password for Account.",get_template('email_templates/anonymous_checkout_created_account.html').render(Context({'user':user,'password':password,'password_reset_url':url})),settings.ADMIN_EMAIL,[user.email])
+        msg.content_subtype = "html"
+        msg.send()
 
 @receiver(post_save,sender=ReviewedItem)
 def reviewed_mail(sender,instance,created,**kwargs):

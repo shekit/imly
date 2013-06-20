@@ -37,7 +37,7 @@
 
             <tr class="shop_cart_header">
 
-                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name }}</a>
+                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name|lower|title }}</a>
 					{% store_amend_geo store.store %}
 
                         {% if request.session.place_slug %}
@@ -58,7 +58,7 @@
                                     Delivers to you &nbsp;
                                 {% else %}
                                     {% if store.store.pick_up %}
-                                        Pick up required &nbsp;
+                                        Pick up required near: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}&nbsp;
                                     {% endif %}
 
                                 {% endif %}
@@ -85,7 +85,7 @@
                                                     <li class="pull-left"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></li>
                                                     <li>
                                                         <ul class="unstyled">
-                                                            <li><span style="font-size:16px;">{{ orderitemform.instance.product.name }}</span></li>
+                                                            <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
                                                             <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}</li>
@@ -131,7 +131,13 @@
 					<li><br></li>
 
                     <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
-                    <li><small class="muted">Pay in Cash</small></li>
+                    <li><small class="muted">Pay in Cash<br>
+                    {% if not store.store.delivers %}
+                        {% if store.store.pick_up %}
+                            Exact address shared after purchase
+                        {% endif %}
+                    {% endif %}
+                    </small></li>
                 </ul>
                 
             </td>

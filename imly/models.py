@@ -409,6 +409,7 @@ class Special(models.Model):
     slug = AutoSlugField(populate_from = 'title')
     active = models.BooleanField(default = True)
     live = models.BooleanField(default = False)
+    chef_can_tag = models.BooleanField(default=False)
     products = models.ManyToManyField(Product, blank=True)
     priority = models.IntegerField(default = 10)
     created = models.DateTimeField(auto_now_add = True)

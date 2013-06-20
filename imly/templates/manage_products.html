@@ -51,11 +51,19 @@
                     <tr id="product_{{object.id}}">
                         <td class="handle"><a href="{% url "imly_product_detail" object.store.slug object.slug %}"><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></a></td>
                         <td>
-                            {{ object.name }}
-                            <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
+                            {{ object.name|lower|title }}
+                            <p><small class="muted"><em>updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}</td>
+                        <td>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}
+                            <small class="muted">
+                                {% if object.quantity_per_item == 1 %}
+                                    /{{ object.get_quantity_by_price_display }}
+                                {% else %}
+                                    for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
+                                {% endif %} 
+                            </small>
+                        </td>
                         <td>{{ object.capacity_per_day }}</td>
                         <td>
                             <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-small">Edit</a>
@@ -108,11 +116,19 @@
                     <tr>
                         <td><img class="img-polaroid img-rounded" src="{{ object.image_thumbnail_mini.url }}" alt="{{ object.name }}" width="100" height="80"></td>
                         <td>
-                            {{ object.name }}
-                            <p><small><em>last updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
+                            {{ object.name|lower|title }}
+                            <p><small class="muted"><em>updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>{{ object.currency}} {{ object.get_price.unit_price|floatformat:"0" }}</td>
+                        <td>{{ object.currency}} {{ object.get_price.unit_price|floatformat:"0" }}
+                        <small class="muted">
+                        {% if object.quantity_per_item == 1 %}
+                            /{{ object.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
+                        {% endif %} 
+                        </small>
+                        </td>
                         <td>{{ object.capacity_per_day }}</td>
                         <td>
                             <a href="{% url "imly_product_activate" object.id %}" class="btn btn-small">Activate</a>
@@ -135,7 +151,7 @@
 {% block shop_info %}
     <div class="well shop_info">
 
-        <h4>{{ user.store.name }}</h4>
+        <h4>{{ user.store.name|lower|title }}</h4>
         <small><em>opened on {{ user.store.date_created|date:"F j, Y" }}</em></small>
         
         <div class="row-fluid">
