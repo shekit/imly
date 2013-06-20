@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /set_location/
+Disallow: /storeorder
+Disallow: /give_us_tip/
+Disallow: /signup-x/
+Disallow: /login-x/
