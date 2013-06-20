@@ -166,8 +166,6 @@ class Store(geo_models.Model):
         if self.pick_up_location:
             result = geocode(self.pick_up_location)
             if result: self.pick_up_point = Point(*result[1]) 
-        if self.delivery_locations.count() > 0:
-            self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)
 
     def delivers_to(self):
@@ -256,7 +254,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     position = models.PositiveIntegerField(default=0)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     delivery_points = geo_models.MultiPointField(null=True, blank=True)
-    
+    is_veg = models.BooleanField(default=True)
     objects = ProductManager() #defaultManager
     everything = models.Manager()
     reviews = generic.GenericRelation(ReviewedItem)
