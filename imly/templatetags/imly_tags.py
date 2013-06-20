@@ -28,8 +28,8 @@ def do_category_list(parser, token):
 class SuperCategoryNode(template.Node):
     
     def render(self, context):
-        context["categories"] = [category.super_category for category in Category.objects.exclude(super_category=None) if category.product_set.count()]
-        #context["categories"] = Category.objects.filter(super_category=None)
+        #context["categories"] = [category.super_category for category in Category.objects.exclude(super_category=None) if category.product_set.count()]
+        context["categories"] = Category.objects.filter(super_category=None)
         return ""
     
 
