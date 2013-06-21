@@ -110,7 +110,7 @@ class Location(models.Model):
 class Store(geo_models.Model):
     #Store Details
     name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', editable=True)
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
                                             help_text="(Mobile number) We will not share this with anyone")
@@ -230,7 +230,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     )
     
     name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'])
+    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
