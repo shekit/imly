@@ -110,7 +110,7 @@ class Location(models.Model):
 class Store(geo_models.Model):
     #Store Details
     name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name', editable=True)
+    slug = AutoSlugField(populate_from='name', editable=True, unique=True)
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
                                             help_text="(Mobile number) We will not share this with anyone")
