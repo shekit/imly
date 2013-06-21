@@ -10,10 +10,8 @@ Either way, your feedback will really help <b>{% if storeorder.store.owner.userp
 <br/>So please spare a few minutes to review the dish(es) below: 
 
 <ol>
-{% for orderitem in storeorder.order.items.all %}
-
-	<li>{{orderitem.product.name}} - <a href="http://{{site.domain}}/{{orderitem.product.store.slug}}/{{orderitem.product.slug}}">Review</a></li>
-
+{% for item in items %}
+	<li>{{item.name}} - <a href="http://{{site.domain}}/{{item.product.store.slug}}/{{item.product.slug}}">Review</a></li>
 {% endfor %}
 </ol>
 
