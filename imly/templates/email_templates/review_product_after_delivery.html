@@ -1,12 +1,12 @@
 Hi,<br/><br/>
 
-We hope you enjoyed the food you ordered from <b>{{ orderitem.product.store.name }}</b> (by {% if orderitem.product.store.owner.userprofile %}{{ orderitem.product.store.owner.first_name }} {{ orderitem.product.store.owner.last_name }}{% else %}{{ orderitem.product.store.owner.username }} {% endif %})<br/><br/>
+We hope you enjoyed the food you ordered from <b>{{ storeorder.store.name }}</b> (by {% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %})<br/><br/>
 
 We want to know how you felt?<br/><br/>
 
 Did the food leave you licking your fingers and craving for more? Or was there room for improvement?<br/><br/>
 
-Either way, your feedback will really help <b>{% if orderitem.product.store.owner.userprofile %}{{ orderitem.product.store.owner.first_name }} {{ orderitem.product.store.owner.last_name }}{% else %}{{ orderitem.product.store.owner.username }} {% endif %}</b> and Imly serve you better next time.
+Either way, your feedback will really help <b>{% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %}</b> and Imly serve you better next time.
 <br/>So please spare a few minutes to review the dish(es) below: 
 
 <ol>
