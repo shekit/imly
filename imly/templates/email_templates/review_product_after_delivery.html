@@ -1,4 +1,4 @@
-Hi,<br/><br/>
+Hi {{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}, <br/><br/>
 
 We hope you enjoyed the food you ordered from <b>{{ storeorder.store.name }}</b> (by {% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %})<br/><br/>
 
@@ -11,7 +11,7 @@ Either way, your feedback will really help <b>{% if storeorder.store.owner.userp
 
 <ol>
 {% for item in items %}
-	<li>{{item.name}} - <a href="http://{{site.domain}}/{{item.product.store.slug}}/{{item.product.slug}}">Review</a></li>
+	<li>{{item.product.name}} - <a href="http://{{site.domain}}/{{item.product.store.slug}}/{{item.product.slug}}">Review</a></li>
 {% endfor %}
 </ol>
 
