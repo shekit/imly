@@ -67,7 +67,7 @@ class Category(models.Model):
     is_active = models.BooleanField(default=False)
     super_category = models.ForeignKey("self", blank=True, null=True, related_name="sub_categories")
     position = models.IntegerField(default=1)
-    
+    product_ordering = models.IntegerField(default=10)
     tags = models.ManyToManyField("Tag", blank=True)
     
     class Meta:
@@ -261,7 +261,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     class Meta:
         unique_together =("name","store",)
-        ordering = ["position","store"]
+        ordering = ['category__product_ordering', 'position']
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)
