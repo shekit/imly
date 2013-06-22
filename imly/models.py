@@ -261,7 +261,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     class Meta:
         unique_together =("name","store",)
-        ordering = ['position', 'category__product_ordering']
+        ordering = ['category__product_ordering', 'position']
     
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)
