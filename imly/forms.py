@@ -161,12 +161,13 @@ class ProductForm(forms.ModelForm):
             Fieldset(
                 "",
                 "name",
+                HTML("<p style='font-weight:500; font-size:14px;'>Your minimum order :</p>"),
                 Div(
                     Div(
                         PrependedText("_unit_price","INR", css_class="input-mini"),
                         css_class="span2"),
                     Div(
-                        PrependedText("quantity_per_item", "per",css_class="input-mini"),
+                        PrependedText("quantity_per_item", "for",css_class="input-mini"),
                         css_class="span2"),
                     Div(
                         Field("quantity_by_price",css_class="input-small"),
