@@ -297,12 +297,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
         if not self.pk:
-            product_count = Product.objects.filter(is_deleted = False).count()
-            if product_count:
-                self.position = product_count + 1
-            else:
-                self.position = 0
-            print self.position
+            self.position = Product.objects.filter(is_deleted = False, store=self.store).count()
         transaction_type = change = None
         if self.capacity_per_day != self.previous_cpd:  # managing the stock for current product
             # if new capacity is less than sales than adjust items in stock to make it zero
