@@ -9,7 +9,7 @@ register_seo_admin(admin.site, ImlyMetadata)
 
 class CategoryAdmin(admin.ModelAdmin):
     
-    list_display = ["name", "super_category", "is_active"]
+    list_display = ["name", "super_category", "is_active", 'product_ordering']
     prepopulated_fields = {"slug":("name",)}
     list_filter = ["super_category"]
     
