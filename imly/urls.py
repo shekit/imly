@@ -116,7 +116,7 @@ urlpatterns += patterns('',
 )
 urlpatterns += patterns('',
     url(r"^shop/", include(shop.urls), name="imly_shop"),
-    url(r"^shop/add/(?P<product_slug>[-\w]+)/$", "imly.views.stores.add_order", name="imly_add_order"),
+    url(r"^shop/add/(?P<store_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$", "imly.views.stores.add_order", name="imly_add_order"),
     
 )
 

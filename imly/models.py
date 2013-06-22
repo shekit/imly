@@ -110,7 +110,7 @@ class Location(models.Model):
 class Store(geo_models.Model):
     #Store Details
     name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name')
+    slug = AutoSlugField(populate_from='name', editable=True, unique=True)
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
                                             help_text="(Mobile number) We will not share this with anyone")
@@ -166,8 +166,6 @@ class Store(geo_models.Model):
         if self.pick_up_location:
             result = geocode(self.pick_up_location)
             if result: self.pick_up_point = Point(*result[1]) 
-        if self.delivery_locations.count() > 0:
-            self.delivery_points = MultiPoint(*(dl.location for dl in self.delivery_locations.all()))
         return super(Store, self).save(*args, **kwargs)
 
     def delivers_to(self):
@@ -232,7 +230,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     )
     
     name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'])
+    slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
     quantity_per_item = models.IntegerField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
@@ -256,7 +254,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     position = models.PositiveIntegerField(default=0)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     delivery_points = geo_models.MultiPointField(null=True, blank=True)
-    
+    is_veg = models.BooleanField(default=True)
     objects = ProductManager() #defaultManager
     everything = models.Manager()
     reviews = generic.GenericRelation(ReviewedItem)
@@ -299,12 +297,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
         if not self.pk:
-            product_count = Product.objects.filter(is_deleted = False).count()
-            if product_count:
-                self.position = product_count + 1
-            else:
-                self.position = 0
-            print self.position
+            self.position = Product.objects.filter(is_deleted = False, store=self.store).count()
         transaction_type = change = None
         if self.capacity_per_day != self.previous_cpd:  # managing the stock for current product
             # if new capacity is less than sales than adjust items in stock to make it zero

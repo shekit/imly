@@ -1,5 +1,7 @@
 from django.conf.urls import patterns, include, url
+from django.views.generic.base import TemplateView
 from imly_project import settings
+
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
@@ -16,7 +18,7 @@ urlpatterns = patterns('',
     url(r'^nimda/', include(admin.site.urls)),
     url(r"", include("allauth.urls")),
     url(r"", include("imly.urls")),
-
+    url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),
 )
 
 if settings.DEBUG:

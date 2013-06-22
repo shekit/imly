@@ -39,7 +39,7 @@ def anonymous_checkout_created_account(sender, user, password, **kwargs):
     	site = Site.objects.get(pk=settings.SITE_ID)
     	path = reverse("account_reset_password_from_key",kwargs=dict(uidb36=int_to_base36(user.id),key=temp_key))
     	url = 'http://%s%s' %(site.domain,path)
-        msg = EmailMessage("Password for Account.",get_template('email_templates/anonymous_checkout_created_account.html').render(Context({'user':user,'password':password,'password_reset_url':url})),settings.ADMIN_EMAIL,[user.email])
+        msg = EmailMessage("Password for Account.",get_template('email_templates/anonymous_checkout_created_account.html').render(Context({'user':user,'password':password,'password_reset_url':url})),settings.ADMIN_EMAIL,[user.email],bcc=[settings.ADMIN_EMAIL])
         msg.content_subtype = "html"
         msg.send()
 
@@ -149,7 +149,6 @@ def update_product_geography(sender, instance, **kwargs):
     post_save.disconnect(sender=Product)
     for product in instance.product_set.all():
         product.pick_up_point = instance.pick_up_point
-        product.delivery_points = instance.delivery_points
         product.save()
     post_save.connect(update_store_categories_from_product, sender=Product)
     

@@ -87,7 +87,7 @@
                     
                     {% if product.store.is_open %}
                         {% if product.items_in_stock %}
-                            <form method="post" action="{% url "imly_add_order" product.slug %}">
+                            <form method="post" action="{% url "imly_add_order" product.store.slug product.slug %}">
                             {% csrf_token %}
                                 <input type="hidden" name="quantity" value="1">
                                 <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
