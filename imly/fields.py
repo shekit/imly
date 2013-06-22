@@ -37,6 +37,6 @@ class GroupedModelChoiceIterator(ModelChoiceIterator):
             for choice in self.field.choice_cache:
                 yield choice
         else:
-            for group, choices in groupby(self.queryset.all(),
+            for group, choices in groupby(self.queryset.order_by('super_category').all(),
                     key=lambda row: getattr(row, self.field.group_by_field)):
                 yield (self.field.group_label(group), [self.choice(ch) for ch in choices])

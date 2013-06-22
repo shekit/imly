@@ -142,7 +142,8 @@ DeliveryLocationFormSet = inlineformset_factory(Store, DeliveryLocation, Deliver
         fields = ("store_notice",)"""
         
 class ProductForm(forms.ModelForm):
-#    category = GroupedModelChoiceField(queryset=Category.objects.exclude(super_category=None).annotate(dcount=Count('super_category')), group_by_field='super_category', group_label=lambda c: c.name)
+    category = GroupedModelChoiceField(queryset=Category.objects.order_by('super_category'), group_by_field='super_category', group_label=lambda c: c.name)
+    
     def __init__(self,*args,**kwargs):
         super(ProductForm,self).__init__(*args,**kwargs)
         self.fields["category"].queryset = Category.objects.exclude(super_category=None)
