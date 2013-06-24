@@ -138,7 +138,7 @@ class StoreAmendGeo(template.Node):
                     distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
                     store.delivers = distance.km < 3
             except AttributeError:
-                pass
+                store.delivers = False
         return ''
 
 def do_store_amend_geo(parser, token):
