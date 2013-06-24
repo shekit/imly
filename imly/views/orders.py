@@ -1,8 +1,10 @@
-from django.views.generic import ListView, DetailView
-from plata.shop.models import Order, OrderItem
 from datetime import date, timedelta
+from django.views.generic import ListView, DetailView
+from django.shortcuts import redirect
+from django.core.urlresolvers import reverse
+from plata.shop.models import Order, OrderItem
 from django.db.models import Sum
-from imly.models import StoreOrder
+from imly.models import StoreOrder 
 
 class UserOrders(ListView):
     model = Order
@@ -46,9 +48,8 @@ class StoreOrders(ListView):
                 context['newer'].append((delivery_date, [order]))
         return context
 
-class StoreOrder(DetailView):
-    model = OrderItem
-    template_name = 'imly_store_order.html'
-
-    def get_queryset(self):
-        pass
+def update_store_orders_for_order(request, pk):
+#    if request.method == 'POST':
+        order = Order.objects.get(pk=pk)
+        StoreOrder.update_for_order(order)
+        return redirect('/shop/cart/')

@@ -1,7 +1,6 @@
 from django.dispatch import receiver
 import decimal
-from datetime import timedelta
-from django.db.models import Max
+from datetime import timedelta, datetime
 from django.db.models.signals import m2m_changed, post_save, post_delete, pre_save, pre_delete
 from django.core.mail import send_mail,EmailMessage,get_connection
 from django.db.models import Sum
@@ -121,15 +120,8 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 
 @receiver(post_save,sender=Order)
 def set_store_order(sender,instance,**kwargs):	
-    stores = set((item.product.store for item in instance.items.all()))
-    StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
-    for store in stores:
-        store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
-        store_order.delivered_by_product_lead = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
-        store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
-        store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
-        store_order.save()
-
+    StoreOrder.update_for_order(instance)
+    
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):
     if action == 'post_add':

@@ -151,6 +151,7 @@
         {% endfor %}
 
             <ul class="inline text-right checkout_mobile">
+				{% request_update_cart plata.order %}
                 <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
                 <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
                 <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
@@ -185,8 +186,3 @@ function update_store_order(field, store_order_id, parameter){
 </script>            
 {% endblock extra_javascript %}
 
-
-{% block shop_info %}
-
-
-{% endblock shop_info %}   
