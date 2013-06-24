@@ -1,7 +1,7 @@
 from plata.shop.models import Order
 import os
-from datetime import date, timedelta
-from django.db.models import Sum
+from datetime import date, timedelta, datetime
+from django.db.models import Sum, Max
 from django.db import models
 from django.contrib.gis.db import models as geo_models
 from django.contrib.gis.geos import Point, Polygon, MultiPoint
@@ -355,6 +355,19 @@ class StoreOrder(models.Model):
     def save(self, *args, **kwargs):
         self.delivered_on = self.delivered_by_product_lead + timedelta(days=self.delivery_lead)
         return super(StoreOrder, self).save(*args, **kwargs)
+    
+    @classmethod
+    def update_for_order(cls, instance):
+        stores = set((item.product.store for item in instance.items.all()))
+        StoreOrder.objects.filter(order=instance).exclude(store__in=stores).delete()
+        for store in stores:
+            store_order, created = StoreOrder.objects.get_or_create(store=store,order=instance)
+            store_order.delivered_by_product_lead = (instance.created.date() > datetime.now().date() and instance.created or datetime.now()) + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
+    #        store_order.delivered_by_product_lead = instance.created + timedelta(days=instance.items.filter(product__in=store.product_set.all()).aggregate(max = Max('product__lead_time'))['max'])
+            store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
+            store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
+            store_order.save()
+    
         
 class UserProfile(models.Model):
     user = models.OneToOneField(User)

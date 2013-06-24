@@ -1,0 +1,3 @@
+{% if request_update %}
+	<li><a href="{% url 'update_store_orders_for_order' order.pk %}">You have a stale cart. Update it!!!</a></li>
+{% endif %}
