@@ -40,7 +40,9 @@
                             <li><a href="{% url "imly_stores_by_category" super_category.slug %}" {% ifequal super_category category %}class="selected_super_category"{% endifequal %}>{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
                                 <ul>
                                     {% for sub_category in super_category.sub_categories.all %}
-                                        <li><a {% ifequal sub_category category %}class="selected_sub_category_link"{% else %}class="unselected_sub_category_link"{% endifequal %} href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                        {% if sub_category.product_set.count %}
+                                            <li><a {% ifequal sub_category category %}class="selected_sub_category_link"{% else %}class="unselected_sub_category_link"{% endifequal %} href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                        {% endif %}
                                     {% endfor %}
                                 </ul>
                                 
