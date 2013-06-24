@@ -29,7 +29,7 @@ class SuperCategoryNode(template.Node):
     
     def render(self, context):
         #context["categories"] = [category.super_category for category in Category.objects.exclude(super_category=None) if category.product_set.count()]
-        context["categories"] = Category.objects.filter(super_category=None)
+        context["categories"] = Category.objects.filter(super_category=None).exclude(is_active=False)
         return ""
     
 
@@ -42,9 +42,9 @@ class TagListNode(template.Node):
         #selected_tags = context.get("selected_tags",[])
         selected_tags = context['request'].session.get("tags",[])
         if selected_tags:
-            context["tags"] = Tag.objects.exclude(slug__in=selected_tags)
+            context["tags"] = Tag.objects.exclude(slug__in=selected_tags,is_active=True)
         else:
-            context["tags"] = Tag.objects.all()
+            context["tags"] = Tag.objects.all().filter(is_active=True)
         return ""
 
 

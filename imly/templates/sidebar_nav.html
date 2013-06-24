@@ -65,9 +65,9 @@
                                 <ul class="inline tags_for_product_home">
                                     
                                     {% for tag in tags %}
-                                    {% if tag.product_set.count %}
+                                    
                                         <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
-                                    {% endif %}
+                                    
                                     {% endfor %}
                                 </ul>
                             {% endif %}
