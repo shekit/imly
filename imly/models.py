@@ -171,12 +171,32 @@ class Store(geo_models.Model):
     def delivers_to(self):
         return ', '.join([dl.display for dl in self.delivery_locations.all()])
     def reset_tags(self):
-      self.tags.clear()
-      self.tags.add(*Tag.objects.filter(product__in=self.product_set.all()))
+        for tag in self.tags.all():
+            if not tag.product_set.count():
+                tag.is_active = False
+            tag.save()
+        self.tags.clear()
+        self.tags.add(*Tag.objects.filter(product__in=self.product_set.all()))
+        for tag in self.tags.all():
+            if tag.product_set.count():
+                tag.is_active = True
+            tag.save()
 
     def reset_categories(self):
-      self.categories.clear()
-      self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
+        for cat in self.categories.all():
+            if not cat.product_set.count():
+                cat.is_active = False
+                cat.super_category.is_active = False
+            cat.save()
+            cat.super_category.save()
+        self.categories.clear()
+        self.categories.add(*Category.objects.filter(product__in = self.product_set.all()))
+        for cat in self.categories.all():
+            if cat.product_set.count():
+                cat.is_active = True
+                cat.super_category.is_active = True
+            cat.save()
+            cat.super_category.save()
 
     @property
     def pick_up_display(self):
@@ -231,7 +251,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
-    quantity_per_item = models.IntegerField(default=1)
+    quantity_per_item = models.FloatField(default=1.0)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
