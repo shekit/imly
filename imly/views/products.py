@@ -46,7 +46,7 @@ class ProductReview(CreateView):
     def form_valid(self,form):
         reviewed_item = form.save(commit=False)
         reviewed_item.user = self.request.user
-        reviewed_item.content_object = Product.objects.get(slug=self.request.POST.get("product_slug"))
+        reviewed_item.content_object = Product.objects.get(slug=self.request.POST.get("product_slug"), store__slug=self.request.POST.get('store_slug'))
         self.object = form.save()
         return super(ModelFormMixin,self).form_valid(form)
     

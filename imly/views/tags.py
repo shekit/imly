@@ -13,7 +13,11 @@ def add_tag(request, slug):
 
 def remove_tag(request, slug):
     tag_list = request.session["tags"]
-    tag_list.remove(slug)
+    try:
+        tag_list.remove(slug)
+    except ValueError:
+        # duplicate removal of tags
+        pass
     request.session["tags"] = tag_list
     #raise Exception(request.session["tags"])
     return redirect(request.referer.split('?')[0])
