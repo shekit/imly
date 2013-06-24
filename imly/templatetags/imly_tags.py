@@ -133,9 +133,12 @@ class StoreAmendGeo(template.Node):
         if session.get('bingeo', None):
             user_point = Point(*session['bingeo'])
             store.distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None            
-            if store.delivery_locations.count():
-                distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
-                store.delivers = distance.km < 3
+            try:
+                if store.delivery_locations.count():
+                    distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
+                    store.delivers = distance.km < 3
+            except AttributeError:
+                pass
         return ''
 
 def do_store_amend_geo(parser, token):
