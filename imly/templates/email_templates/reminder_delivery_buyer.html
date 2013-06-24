@@ -9,6 +9,7 @@ Order placed on: {{ storeorder.order.confirmed.date }}
 Your order details are:<br/><br/>
 {% load imly_tags %}
 {% for storeorder in order.storeorder_set.all %}
+{% ifequal storeorder.store store  %}
 <table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 	
 	<tr><td><strong>Your Order from {{ storeorder.store.name }}</strong></td></tr>
@@ -74,7 +75,7 @@ Your order details are:<br/><br/>
 	</tr>
 		
 </table>
-
+{% endifequal %}
 <br/>
 {% if storeorder.note %}
 		<b>Your request:</b>{{storeorder.note}}<br>
