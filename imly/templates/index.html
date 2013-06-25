@@ -163,7 +163,9 @@
             
             <br>
             <br>
-            {% endif %}
+        {% endif %}
+        
+       
             
             {% if bestselling_products %}
             <div class="row-fluid">
@@ -225,6 +227,52 @@
             {% endif %}
             <br>
             <br>
+        
+        <div class="row-fluid">
+                <div class="span6">
+                    <div class="row-fluid">
+                        <div class="span12 recently_added_bought">
+                    <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Added</span></legend>
+                    <ul class="thumbnails">
+                    {% for product in recently_added %}
+                    {% if forloop.counter0|divisibleby:"4" %}<div class="row-fluid margined">{% endif %}
+                    <li class="span3">
+                        <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+                            
+                        </div>
+                    </li>
+                    {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
+                    {% if forloop.counter|divisibleby:"4" %}<div class="clearfix"></div>{% endif %}
+                    {% endfor %}
+                    </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="span6">
+                    <div class="row-fluid">
+                        <div class="span12 recently_added_bought">
+                    <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Bought</span></legend>
+                    <ul class="thumbnails">
+                    {% for product in recently_bought %}
+                    {% if forloop.counter0|divisibleby:"4" %}<div class="row-fluid margined">{% endif %}
+                    <li class="span3">
+                        <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+                            
+                        </div>
+                    </li>
+                    {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
+                    {% if forloop.counter|divisibleby:"4" %}<div class="clearfix"></div>{% endif %}
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    </div>
+                </div>
+        </div>
+        <br>
+            <br>
+        
             <br>
         {% endblock featurette %}
             {% block as_seen_on %}

@@ -251,7 +251,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
-    quantity_per_item = models.FloatField(default=1.0)
+    quantity_per_item = models.FloatField(default=1)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)

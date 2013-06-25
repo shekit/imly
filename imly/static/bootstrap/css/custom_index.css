@@ -204,6 +204,11 @@ legend {
       z-index: 40;
     }
 
+.recently_added_bought {
+    background:#fbfbfb;
+    padding: 5px;
+    border: 1px solid #e5e5e5;
+}
 /* CUSTOM BUTTON */
 
 .btn-custom {
@@ -252,6 +257,7 @@ legend {
 	transition: all 0.2s ease-in-out;
 	}
 
+
 img.bottom_border {
     border-bottom: 1px solid #e5e5e5;
 }
@@ -259,6 +265,13 @@ img.bottom_border {
 .thumbnail_custom:hover {
     border: 1px solid #bbb;
 }
+
+	
+    .thumbnail_custom_recently_added_bought {
+	border-radius: 0px 0px 0px 0px;
+    }
+
+
     
     .top_text {
 	color: #301208;
