@@ -416,6 +416,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	
 }
 
+.sidebar-nav .nav > li.selected_nav_header {
+    color:#f05a28;
+}
+
 /* still have to figure how to get rid of the blue whenn hovering over sidebar items with submenus */
 /*.dropdown-submenu > a:hover {
 	background: red;

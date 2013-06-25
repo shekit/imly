@@ -2,28 +2,47 @@
 
                         <ul class="nav nav-list">
                             {% if request.session.place_slug %}
-                            <li class="nav-header">Your location: </li>
+                            <li class="nav-header selected_nav_header">Your location: </li>
                                 <ul class="inline tags_for_product_home_inverted">
                                     <li><a href="{% url "unset_location" %}">{{ request.session.display_place_slug|capfirst }} <span class="small">&times;</span></a></li>
                                 </ul>
-                            <p></p>                               
+                            <p></p>
+                                {% if not selected_tags and not super_category %}
+                                        <hr>
+                                {% endif %}
                             {% endif %}
                             {% if super_category %}
-                            <li class="nav-header">You are currently here:</li>
-                            <li><a href="{% url "imly_products_by_category" super_category.slug %}" {% ifequal super_category category %}class="selected_super_category"{% endifequal %}>{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
+                            <li class="nav-header selected_nav_header hidden-desktop">You have selected:</li>
+                            <li class="hidden-desktop"><a href="{% url "imly_products_by_category" super_category.slug %}" {% ifequal super_category category %}class="selected_super_category"{% endifequal %}>{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
                                 <ul>
                                     {% for sub_category in super_category.sub_categories.all %}
                                         <li><a {% ifequal sub_category category %}class="selected_sub_category_link"{% else %}class="unselected_sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
                                     {% endfor %}
+                                </ul>  
+
+                            <li class="nav-header selected_nav_header visible-desktop">You have selected:</li>
+
+                                <ul class="inline tags_for_product_home_inverted visible-desktop">
+                                    {% ifequal super_category category %}
+                                        <li><a href="{% url "imly_product_list" %}">{{ super_category.name|capfirst }} <span class="small">&times;</span></a></li>
+                                    {% endifequal %}
+                                    {% for sub_category in super_category.sub_categories.all %}
+                                        {% ifequal sub_category category %}
+                                            <li><a href="{% url "imly_product_list" %}">{{ sub_category.name|capfirst }} <span class="small">&times;</span></a></li>
+                                        {% endifequal %}
+                                    {% endfor %}
                                 </ul>
                                 
-                            </li>
+                            
                                 {% if not selected_tags and super_category %}
                                         <hr>
                                 {% endif %}
                             {% endif %}
                             {% if selected_tags %}
-                            <li class="nav-header">You have filtered by:</li>
+                                {% if super_category and selected_tags %}
+                                    <p></p>
+                                {% endif %}
+                            <li class="nav-header selected_nav_header">You have filtered by:</li>
                             
                                 <ul class="inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
