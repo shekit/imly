@@ -1,10 +1,10 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
         <title>Welcome to Imly!</title>
         <style type="text/css">
-			/* ///////// CLIENT-SPECIFIC STYLES ///////// */
+			/* /\/\/\/\/\/\/\/\/ CLIENT-SPECIFIC STYLES /\/\/\/\/\/\/\/\/ */
 			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
 			.ReadMsgBody{width:100%;} .ExternalClass{width:100%;} /* Force Hotmail to display emails at full width */
 			.ExternalClass, .ExternalClass p, .ExternalClass span, .ExternalClass font, .ExternalClass td, .ExternalClass div {line-height: 100%;} /* Force Hotmail to display normal line spacing */
@@ -12,13 +12,13 @@
 			table, td{mso-table-lspace:0pt; mso-table-rspace:0pt;} /* Remove spacing between tables in Outlook 2007 and up */
 			img{-ms-interpolation-mode:bicubic;} /* Allow smoother rendering of resized image in Internet Explorer */
 
-			/* ///////// RESET STYLES ///////// */
+			/* /\/\/\/\/\/\/\/\/ RESET STYLES /\/\/\/\/\/\/\/\/ */
 			body{margin:0; padding:0;}
 			img{border:0; height:auto; line-height:100%; outline:none; text-decoration:none;}
 			table{border-collapse:collapse !important;}
 			body, #bodyTable, #bodyCell{height:100% !important; margin:0; padding:0; width:100% !important;}
 
-			/* ///////// TEMPLATE STYLES ///////// */
+			/* /\/\/\/\/\/\/\/\/ TEMPLATE STYLES /\/\/\/\/\/\/\/\/ */
 
 			/* ========== Page Styles ========== */
 
@@ -424,183 +424,24 @@
 				/*@editable*/ text-decoration:underline;
 			}
 
-/* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
-
-            @media only screen and (max-width: 480px){
-				/* /\/\/\/\/\/\/ CLIENT-SPECIFIC MOBILE STYLES /\/\/\/\/\/\/ */
-				body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
-                body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
-
-				/* /\/\/\/\/\/\/ MOBILE RESET STYLES /\/\/\/\/\/\/ */
-				#bodyCell{padding:10px !important;}
-
-				/* /\/\/\/\/\/\/ MOBILE TEMPLATE STYLES /\/\/\/\/\/\/ */
-
-				/* ======== Page Styles ======== */
-
-				/**
-				* @tab Mobile Styles
-				* @section template width
-				* @tip Make the template fluid for portrait or landscape view adaptability. If a fluid layout doesn't work for you, set the width to 300px instead.
-				*/
-				#templateContainer{
-					max-width:600px !important;
-					/*@editable*/ width:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section heading 1
-				* @tip Make the first-level headings larger in size for better readability on small screens.
-				*/
-				h1{
-					/*@editable*/ font-size:24px !important;
-					/*@editable*/ line-height:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section heading 2
-				* @tip Make the second-level headings larger in size for better readability on small screens.
-				*/
-				h2{
-					/*@editable*/ font-size:20px !important;
-					/*@editable*/ line-height:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section heading 3
-				* @tip Make the third-level headings larger in size for better readability on small screens.
-				*/
-				h3{
-					/*@editable*/ font-size:18px !important;
-					/*@editable*/ line-height:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section heading 4
-				* @tip Make the fourth-level headings larger in size for better readability on small screens.
-				*/
-				h4{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:100% !important;
-				}
-
-				/* ======== Header Styles ======== */
-
-				#templatePreheader{display:none !important;} /* Hide the template preheader to save space */
-
-				/**
-				* @tab Mobile Styles
-				* @section header image
-				* @tip Make the main header image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
-				*/
-				#headerImage{
-					height:auto !important;
-					/*@editable*/ max-width:600px !important;
-					/*@editable*/ width:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section header text
-				* @tip Make the header content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.headerContent{
-					/*@editable*/ font-size:20px !important;
-					/*@editable*/ line-height:125% !important;
-				}
-
-				/* ======== Body Styles ======== */
-
-				/**
-				* @tab Mobile Styles
-				* @section body text
-				* @tip Make the body content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.bodyContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-				}
-
-				/* ======== Column Styles ======== */
-
-				.templateColumnContainer{display:block !important; width:100% !important;}
-
-				/**
-				* @tab Mobile Styles
-				* @section column image
-				* @tip Make the column image fluid for portrait or landscape view adaptability, and set the image's original width as the max-width. If a fluid setting doesn't work, set the image width to half its original size instead.
-				*/
-				.columnImage{
-					height:auto !important;
-					/*@editable*/ max-width:480px !important;
-					/*@editable*/ width:100% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section left column text
-				* @tip Make the left column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.leftColumnContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section center column text
-				* @tip Make the center column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.centerColumnContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-				}
-
-				/**
-				* @tab Mobile Styles
-				* @section right column text
-				* @tip Make the right column content text larger in size for better readability on small screens. We recommend a font size of at least 16px.
-				*/
-				.rightColumnContent{
-					/*@editable*/ font-size:16px !important;
-					/*@editable*/ line-height:125% !important;
-				}
-
-				/* ======== Footer Styles ======== */
-
-				/**
-				* @tab Mobile Styles
-				* @section footer text
-				* @tip Make the body content text larger in size for better readability on small screens.
-				*/
-				.footerContent{
-					/*@editable*/ font-size:12px !important;
-					/*@editable*/ line-height:115% !important;
-				}
-
-				/*.footerContent a{display:block !important;}*/ /* Place footer social and utility links on their own lines, for easier access */
-			}
+			
 		</style>
     </head>
-    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;margin: 0;padding: 0;background-color: #f5f5f5;height: 100%;width: 100%;">
+    <body leftmargin="0" marginwidth="0" topmargin="0" marginheight="0" offset="0">
     	<center>
-        	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 0;background-color: #f5f5f5;border-collapse: collapse;height: 100%;width: 100%;">
+        	<table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" width="100%" id="bodyTable">
             	<tr>
-                	<td align="center" valign="top" id="bodyCell" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;margin: 0;padding: 20px;border-top: 4px solid #BBBBBB;height: 100%;width: 100%;">
+                	<td align="center" valign="top" id="bodyCell">
                     	<!-- BEGIN TEMPLATE // -->
-                    	<table border="0" cellpadding="0" cellspacing="0" id="templateContainer" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 600px;border: 1px solid #BBBBBB;border-collapse: collapse;">
+                    	<table border="0" cellpadding="0" cellspacing="0" id="templateContainer">
                         	
                         	<tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                            	<td align="center" valign="top">
                                 	<!-- BEGIN HEADER // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: none;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader">
                                         <tr>
-                                            <td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;text-align: left;vertical-align: middle;">
-                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade">
+                                            <td valign="top" class="headerContent">
+                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width:600px;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -609,22 +450,22 @@
                             </tr>
 				<tr style="height:20px;"></tr>
                         	<tr style="border-left:5px solid #f05a28;">
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                            	<td align="center" valign="top">
                                 	<!-- BEGIN BODY // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody">
                                         <tr>
-                                            <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #888888;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;font-weight: 300;">
-                                                <h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 24px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Welcome to Imly!</h1>
+                                            <td valign="top" class="bodyContent" mc:edit="body_content">
+                                                <h1>Welcome to Imly!</h1>
                                                 Imly is your destination for discovering and buying amazing homefood being served <em>fresh</em> and <em>made to order</em> from kitchens and homes around your city.
-                                                <br>
-						<br>
+                                                <br />
+						<br />
 						We connect you directly to the chefs so you can start ordering drool inducing food you just wont find anywhere else.
-                                                <br>
-						<br>
-						<br>
-                                                <h2 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 20px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #404040;">Are you a chef?</h2>
+                                                <br />
+						<br />
+						<br />
+                                                <h2>Are you a chef?</h2>
                                                 
-                                                Head on over and <a href="http://imly.in/why-join-imly/" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">setup your shop.</a> Its fast, simple and free!<br><a href="http://imly.in/profiles/#suggest" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">Suggest your chef</a> buddies to us so we can get in touch with them.
+                                                Head on over and <a href="http://imly.in/why-join-imly/">setup your shop.</a> Its fast, simple and free!<br/><a href="http://imly.in/profiles/#suggest">Suggest your chef</a> buddies to us so we can get in touch with them.
                                             </td>
                                         </tr>
                                     </table>
@@ -633,21 +474,21 @@
                             </tr>
 				<tr style="height:20px;"></tr>
                         	<tr style="border-left:5px solid #f05a28;">
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                            	<td align="center" valign="top">
                                 	<!-- BEGIN COLUMNS // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateColumns" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateColumns">
 					<tr>
-						<td style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
-							<h2 style="padding-left: 20px;padding-top: 20px;display: block;font-family: Helvetica,Arial,sans-serif;font-size: 20px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #404040;">300+ dishes to choose from!</h2>
+						<td>
+							<h2 style="padding-left:20px;padding-top:20px;">300+ dishes to choose from!</h2>
 						</td>
 					</tr>
                                     	<tr mc:repeatable>
 						{% for product in featured_products %}
-							<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 200px;">
-							<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
+							<td align="center" valign="top" class="templateColumnContainer" style="padding-top:20px;">
+							<table border="0" cellpadding="20" cellspacing="0" width="100%">
 								<tr>
-								<td class="leftColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-									<img src="{% product.image_thumbnail.url %}" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image">
+								<td class="leftColumnContent">
+									<img src="{% product.image_thumbnail.url %}" style="max-width:160px;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image" />
 								</td>
 							    </tr>
 							</table>
@@ -660,25 +501,25 @@
                             </tr>
 				<tr style="height:20px;"></tr>
                         	<tr>
-                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                            	<td align="center" valign="top">
                                 	<!-- BEGIN FOOTER // -->
-                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F1F1F1;border-top: 1px solid #cccccc;border-collapse: collapse;">
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter">
                                         <tr>
-                                            <td valign="top" class="footerContent" mc:edit="footer_content00" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                            <td valign="top" class="footerContent" mc:edit="footer_content00">
+                                                <a href="http://twitter.com/imly_in"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog"></a>
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td valign="top" class="footerContent" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content01">
+                                            <td valign="top" class="footerContent" style="padding-top:0;" mc:edit="footer_content01">
                                                 
                                                 <strong>Contact us:</strong>
-                                                <br>
+                                                <br />
                                                 +91 9920190624
-						<br>
-						<br>
-						<em>Cooked with love by <a href="http://imly.in">imly.in</a></em>
+						<br />
+						<br />
+						<em>Cooked with love by Imly.in</em>
                                                 
-                                                <br>
+                                                <br />
                                             </td>
                                         </tr>
 
