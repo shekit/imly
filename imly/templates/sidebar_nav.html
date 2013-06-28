@@ -68,7 +68,7 @@
                                             <li class="dropdown-submenu"><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a>
                                                 <ul class="dropdown-menu hidden-phone">
                                                     {% for sub_category in category.sub_categories.all %}
-                                                        {% if sub_category.product_set.count %}
+                                                        {% if sub_category.product_set.count and sub_category.product_set.is_flag.count %}
                                                             <li><a href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
                                                         {% endif %}
                                                     {% endfor %}
