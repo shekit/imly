@@ -178,12 +178,22 @@ function update_store_order(field, store_order_id, parameter){
 {% block extra_javascript %}
 <script type="text/javascript">
 
+	$(document).ready(function(){
+		if(document.getElementById('cart-update-modal')){
+		$('#cart-update-modal').modal({
+		keyboard: false,
+		show: true,
+		});
+		}
+	});
+
     function sync_notes(){
         $('textarea').each(function(){ 
             $(this).change()
         });
     }
     setTimeout(sync_notes, 1000);
+	
 </script>            
 {% endblock extra_javascript %}
 
