@@ -327,7 +327,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         # using this approach so that stock transactions can be created after new products being created
         if self.is_flag and not self.data.get('flag',''):
             self.position = Product.objects.filter(store=self.store).count() + 20
-            self.flag_reason = "Your upload image is bad please upload good quality image."
+            self.flag_reason = "Please upload a better quality image for this dish"
             self.data['flag'],self.data['date'],self.data['time'] = 'True',datetime.today().date(),datetime.today().time()
              
         if not self.is_flag and self.data.get('flag',''):
