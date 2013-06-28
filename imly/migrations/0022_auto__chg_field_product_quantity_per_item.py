@@ -10,7 +10,7 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
 
         # Changing field 'Product.quantity_per_item'
-        db.alter_column(u'imly_product', 'quantity_per_item', self.gf('django.db.models.fields.DecimalField')(max_digits=4, decimal_places=2))
+        db.alter_column(u'imly_product', 'quantity_per_item', self.gf('django.db.models.fields.DecimalField')(max_digits=6, decimal_places=2))
 
     def backwards(self, orm):
 
