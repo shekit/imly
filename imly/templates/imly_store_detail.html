@@ -221,7 +221,7 @@
                         {% if product.quantity_per_item == 1 %}
                             /{{ product.get_quantity_by_price_display }}
                         {% else %}
-                            for {{ product.quantity_per_item }} {{ product.get_quantity_by_price_display }}s
+                            for {{ product.quantity_per_item|floatformat:"0" }} {{ product.get_quantity_by_price_display }}s
                         {% endif %} 
                     </small></span>
                     

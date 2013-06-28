@@ -105,7 +105,7 @@
                                             <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}<br><br>
-                                            {{ orderitemform.instance.product.quantity_per_item }} 
+                                            {{ orderitemform.instance.product.quantity_per_item|floatformat:"0" }} 
                                             {% ifequal orderitemform.instance.product.quantity_per_item 1 %}
                                                 {{ orderitemform.instance.product.quantity_unit }}
                                             {% else %}
