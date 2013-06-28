@@ -167,7 +167,9 @@
         <h5>I make:</h5>
         <ul class="unstyled">
             {% for category in object.categories.all %}
+            {% if not category.flag_product %}
                 <li>{{ category.name }}</li>
+            {% endif %}
             {% endfor %}
         </ul>
         

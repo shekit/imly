@@ -33,7 +33,7 @@
         
         {% for store in order.storeorder_set.all %}
         {% if store.store_items %}
-        <table class="table table-bordered">
+        <table class="table table-bordered ">
 
             <tr class="shop_cart_header">
 
@@ -177,6 +177,7 @@ function update_store_order(field, store_order_id, parameter){
 
 {% block extra_javascript %}
 <script type="text/javascript">
+
     function sync_notes(){
         $('textarea').each(function(){ 
             $(this).change()

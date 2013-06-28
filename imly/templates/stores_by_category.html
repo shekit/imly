@@ -78,7 +78,9 @@
                                             <li class="dropdown-submenu"><a href="{% url "imly_stores_by_category" category.slug %}">{{ category.name|capfirst }}</a>
                                                 <ul class="dropdown-menu hidden-phone">
                                                     {% for sub_category in category.sub_categories.all %}
+                                                    {% if sub_category.product_set.count %}
                                                         <li><a href="{% url "imly_stores_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
+                                                    {% endif %}
                                                     {% endfor %}
                                                 </ul>
                                             </li>
@@ -94,7 +96,7 @@
                                 <ul class="inline tags_for_product_home">
                                     
                                     {% for tag in tags %}
-                                    {% if tag.is_active %}
+                                    {% if tag.is_active and not tag.flag_product %}
                                         <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
                                     {% endif %}
                                     {% endfor %}

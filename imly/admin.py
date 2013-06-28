@@ -48,8 +48,8 @@ class StoreAdmin(admin.ModelAdmin):
 
 class ProductAdmin(admin.ModelAdmin):
     
-    list_display = ["admin_thumbnail","name","store", "category", '_unit_price', "lead_time", "capacity_per_day", "is_bestseller"]
-    list_filter = [ "is_featured", 'category', "store"]
+    list_display = ["admin_thumbnail","name","store", "category", '_unit_price', "lead_time", "capacity_per_day", "is_bestseller","is_flag"]
+    list_filter = [ "is_featured", 'category', "store","is_flag"]
     admin_thumbnail = AdminThumbnail(image_field="image_thumbnail_mini")
     list_display_links = ("name",)
     

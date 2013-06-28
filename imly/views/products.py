@@ -64,7 +64,7 @@ class ProductList(ListView):
     #paginate_by = 12
 
     def get_queryset(self):
-        products = Product.objects.is_approved().filter(is_deleted=False)
+        products = Product.objects.is_approved().filter(is_deleted=False,is_flag=False)
         if self.request.city:
             products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
@@ -154,8 +154,9 @@ class ProductsByAccount(ListView):
     
     def get_context_data(self, **kwargs):
         context = super(ProductsByAccount,self).get_context_data(**kwargs)
-        context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False)
+        context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False,is_flag=False)
         context["inactive_items"] = self.request.user.store.product_set.filter(is_deleted=True)
+        context["flag"] = self.request.user.store.product_set.filter(is_flag=True)
         try:
             context["special_event"] = Special.objects.filter(active = True, chef_can_tag=True).order_by('priority')[0]
         except IndexError:
@@ -171,7 +172,8 @@ class ProductDetail(DetailView):
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
         context["review_form"] = ReviewedItemForm()
-        context["other_store_products"] = self.get_object().store.product_set.exclude(is_deleted = True)
+        context["other_store_products"] = self.get_object().store.product_set.filter(is_flag=False).exclude(is_deleted = True)
+        context["product_count"] = self.get_object().store.product_set.filter(is_flag=False).count()
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
             
