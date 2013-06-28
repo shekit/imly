@@ -17,9 +17,9 @@ from plata.shop.models import OrderItem
 from imly.utils import tracker
 
 def home_page(request):
-    bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False)[:4]
+    bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False,is_flag = False)[:4]
     featured_stores = Store.objects.filter(is_featured=True)[:4]
-    recently_added = Product.objects.is_approved().filter(is_deleted=False).order_by("-date_created")[:8]
+    recently_added = Product.objects.is_approved().filter(is_deleted=False,is_flag = False).order_by("-date_created")[:8]
     recently_bought = Product.objects.is_approved().filter(is_deleted=False).order_by("date_created")[:8]
     try:
         special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]

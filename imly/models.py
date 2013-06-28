@@ -257,7 +257,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
-    quantity_per_item = models.DecimalField(default=1.0, max_digits=6,decimal_places=2)
+    quantity_per_item = models.DecimalField(default=1, max_digits=6,decimal_places=2)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
@@ -326,10 +326,12 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
         if self.is_flag and not self.data.get('flag',''):
+            self.position = Product.objects.filter(store=self.store).count() + 20
             self.flag_reason = "Your upload image is bad please upload good quality image."
             self.data['flag'],self.data['date'],self.data['time'] = 'True',datetime.today().date(),datetime.today().time()
              
         if not self.is_flag and self.data.get('flag',''):
+            self.position = Product.objects.filter(is_deleted = False, store=self.store).count() + 1
             self.flag_reason = ''
             self.data['flag'] = ''
             self.data['date'] = ''
