@@ -13,14 +13,14 @@ from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 import plata
-from plata.shop.models import OrderItem
+from plata.shop.models import OrderItem, Order
 from imly.utils import tracker
 
 def home_page(request):
     bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False)[:4]
     featured_stores = Store.objects.filter(is_featured=True)[:4]
     recently_added = Product.objects.is_approved().filter(is_deleted=False).order_by("-date_created")[:8]
-    recently_bought = Product.objects.is_approved().filter(is_deleted=False).order_by("date_created")[:8]
+    recently_bought = Product.objects.filter(orderitem__order__status=Order.IMLY_CONFIRMED).order_by("-orderitem__order__confirmed")[:8]
     try:
         special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
         special_products = special_event.products.all()[:4]
