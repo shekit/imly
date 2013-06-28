@@ -63,8 +63,13 @@ def cheftip_mail(sender,instance,created,**kwargs):
 @receiver(post_save,sender=User)
 def sign_up_email(sender,instance,created,**kwargs):
 	if created:
-                featured_products = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[:6]
-		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance, 'featured_products':featured_products})),settings.SIGNUP_EMAIL,[instance.email])
+                product1 = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[0]
+                product2 = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[1]
+                product3 = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[2]
+                product4 = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[3]
+                product5 = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[0]
+                product6 = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[1]
+		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance, 'product1':product1,'product2':product2,'product3':product3,'product4':product4,'product5':product5,'product6':product6})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 
