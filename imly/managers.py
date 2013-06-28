@@ -14,6 +14,9 @@ class ProductManager(models.GeoManager):
     def is_approved(self):
         from imly.models import Store
         return self.filter(store__in=Store.objects.is_approved().all())
+
+    def is_flag(self):
+        return self.filter(is_flag = False)
         
 class SpecialManager(models.Manager):
     

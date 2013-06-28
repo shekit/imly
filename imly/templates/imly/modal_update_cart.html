@@ -1,3 +1,14 @@
 {% if request_update %}
-	<li><a href="{% url 'update_store_orders_for_order' order.pk %}">You have a stale cart. Update it!!!</a></li>
+<div class="modal hide fade" id="cart-update-modal">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Modal header</h3>
+  </div>
+  <div class="modal-body">
+    <p>One fine message</p>
+  </div>
+  <div class="modal-footer">
+    <a class="btn btn-primary" href="{% url 'update_store_orders_for_order' order.pk %}">You have a stale cart. Update it!!!</a>
+  </div>
+</div>
 {% endif %}

@@ -23,6 +23,9 @@ from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 from plata.fields import JSONField
 from autoslug import AutoSlugField
+from django.template.loader import get_template
+from django.template import Context
+from django.core.mail import send_mail,EmailMessage,get_connection
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
@@ -92,6 +95,9 @@ class Tag(models.Model):
         
     def __unicode__(self):
         return self.name
+
+    def flag_product(self):
+        return self.product_set.filter(is_flag = True).count() == 1 and self.product_set.count() == 1
 
 class Location(models.Model):
     
@@ -251,7 +257,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
-    quantity_per_item = models.FloatField(default=1)
+    quantity_per_item = models.DecimalField(default=1, max_digits=6,decimal_places=2)
     quantity_by_price = models.IntegerField(choices=QUANTITY_BY_PRICE,default=PIECES)
     capacity_per_day = models.IntegerField(help_text="How many can you make every day?")
     previous_cpd = models.IntegerField(default=0)
@@ -271,6 +277,8 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
+    is_flag = models.BooleanField(default=False)
+    flag_reason = models.TextField(blank=True)
     position = models.PositiveIntegerField(default=0)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     delivery_points = geo_models.MultiPointField(null=True, blank=True)
@@ -278,7 +286,8 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     objects = ProductManager() #defaultManager
     everything = models.Manager()
     reviews = generic.GenericRelation(ReviewedItem)
-    
+    data = JSONField('data',blank=True,help_text="JSON-encoded additional data about the store.")
+
     class Meta:
         unique_together =("name","store",)
         ordering = ['category__product_ordering', 'position']
@@ -316,6 +325,18 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day
         # using this approach so that stock transactions can be created after new products being created
+        if self.is_flag and not self.data.get('flag',''):
+            self.position = Product.objects.filter(store=self.store).count() + 20
+            self.flag_reason = "Your upload image is bad please upload good quality image."
+            self.data['flag'],self.data['date'],self.data['time'] = 'True',datetime.today().date(),datetime.today().time()
+             
+        if not self.is_flag and self.data.get('flag',''):
+            self.position = Product.objects.filter(is_deleted = False, store=self.store).count() + 1
+            self.flag_reason = ''
+            self.data['flag'] = ''
+            self.data['date'] = ''
+            self.data['time'] = ''
+            
         if not self.pk:
             self.position = Product.objects.filter(is_deleted = False, store=self.store).count()
         transaction_type = change = None
