@@ -88,7 +88,7 @@
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
-                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}</li>
+                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-plus"></span></a><span class="icon-minus"></span></li>
                                                             
                                                         </ul>
                                                     </li>
@@ -98,6 +98,7 @@
                                                     <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
                                                     <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
+                                                    <li><small class="muted"><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></small>
                                                 </ul>
                                                 
                                             
@@ -112,7 +113,7 @@
                                                 {{ orderitemform.instance.product.quantity_unit }}s
                                             {% endifequal %}
                                             <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {% quantity_by_price orderitemform.instance %}</p></td>
-                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p><p class="text-center"><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></p></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -184,7 +185,22 @@ function update_store_order(field, store_order_id, parameter){
 		keyboard: false,
 		show: true,
 		});
-		}
+	}
+    $('a.quantity_plus').click(function(){
+        var input_id = $(this).prev().find('input[type=text]').attr("id");
+        var quantity = parseInt($("#"+input_id).val());
+        var data = {order_item:$(this).attr("id")};
+        $.post('{% url "update_quantity" %}',data,function(data){
+            quantity = quantity + 1;
+            quantity = quantity.toString();
+            $('#'+input_id).val(quantity) ;
+        });
+        //alert($(this).attr("id"));
+        //alert(id.prev('input').attr("id"));
+    });
+    $('a.order-item').click(function(){
+        $(location).attr('href','/order/'+$(this).attr('id')+'/update_cart/');
+    });
 	});
 
     function sync_notes(){

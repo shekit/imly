@@ -1,10 +1,12 @@
 from datetime import date, timedelta
+from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
 from django.shortcuts import redirect
 from django.core.urlresolvers import reverse
 from plata.shop.models import Order, OrderItem
 from django.db.models import Sum
 from imly.models import StoreOrder 
+from django.views.decorators.csrf import csrf_exempt
 
 class UserOrders(ListView):
     model = Order
@@ -53,3 +55,18 @@ def update_store_orders_for_order(request, pk):
         order = Order.objects.get(pk=pk)
         StoreOrder.update_for_order(order)
         return redirect('/shop/cart/')
+
+def update_cart(request,pk):
+    oi = OrderItem.objects.get(pk=pk)
+    order = oi.order
+    oi.delete()
+    order.recalculate_total()
+    return redirect('/shop/cart/')
+
+@csrf_exempt
+def update_quantity(request):
+    oi_id = request.POST.getlist('order_item')[0]
+    oi = OrderItem.objects.get(pk=oi_id)
+    oi.quantity = oi.quantity + 1
+    oi.save()
+    return HttpResponse('Success')
