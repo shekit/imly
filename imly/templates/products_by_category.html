@@ -75,7 +75,7 @@
                         {% if object.quantity_per_item == 1 %}
                             /{{ object.get_quantity_by_price_display }}
                         {% else %}
-                            for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
+                            for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
                         {% endif %} 
                     </small></span>
                     
