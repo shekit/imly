@@ -64,9 +64,17 @@ def update_cart(request,pk):
     return redirect('/shop/cart/')
 
 @csrf_exempt
-def update_quantity(request):
+def update_quantity_plus(request):
     oi_id = request.POST.getlist('order_item')[0]
     oi = OrderItem.objects.get(pk=oi_id)
     oi.quantity = oi.quantity + 1
+    oi.save()
+    return HttpResponse('Success')
+
+@csrf_exempt
+def update_quantity_minus(request):
+    oi_id = request.POST.getlist('order_item')[0]
+    oi = OrderItem.objects.get(pk=oi_id)
+    oi.quantity = oi.quantity - 1
     oi.save()
     return HttpResponse('Success')

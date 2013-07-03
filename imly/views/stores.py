@@ -15,6 +15,8 @@ from django.contrib.gis.measure import D
 import plata
 from plata.shop.models import OrderItem, Order
 from imly.utils import tracker
+import json as simplejson
+
 
 def home_page(request):
     bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False,is_flag = False)[:4]
@@ -235,7 +237,9 @@ def add_order(request, store_slug, product_slug):
                     pass
                 else:
                     raise
-            return redirect("plata_shop_cart")
+            #return redirect("plata_shop_cart")
+            data = {"product":product.name,"store":product.store.name,"quantity":quantity,"image":product.image_thumbnail_mini.url}
+            return HttpResponse(simplejson.dumps(data),mimetype="application/json")
     else:
         form = OrderItemForm()
         

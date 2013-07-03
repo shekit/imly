@@ -109,7 +109,28 @@
 
     <h3 class="muted text-center">Oops, we don't have any food<br> matching your search criteria yet. Help us! </h3><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
 {% endif %}
-    
-
-
 {% endblock content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('form').submit(function(){
+        $.ajax({
+            data:$(this).serialize(),
+            type:$(this).attr('method'),
+            url:$(this).attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                $('.dropDowncart').empty();
+                $('.dropDowncart').append('<li>' + response['product'] + '</li>');
+                $('.dropDowncart').append('<li><img src="'+response['image']+'"/></li>');
+                $('.dropDowncart').append('<li>' + response['store'] + '</li>');
+                $('.dropDowncart').append('<li>' + response['quantity'] + '</li>');
+                $('.dropDowncart').slideDown(500).delay(4000).slideUp(500);
+            }
+        });
+        return false;
+    });
+});
+</script>   
+{% endblock extra_javascript %}

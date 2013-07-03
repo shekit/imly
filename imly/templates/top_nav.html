@@ -68,7 +68,7 @@
                                                             {% endifequal %}</li>
                                         <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
+                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a><ul class="dropDowncart" style="display:none;"></ul></li>
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->

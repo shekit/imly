@@ -88,7 +88,7 @@
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
-                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-plus"></span></a><span class="icon-minus"></span></li>
+                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-plus"></span></a><a class="quantity_minus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-minus"></span></a></li>
                                                             
                                                         </ul>
                                                     </li>
@@ -190,13 +190,24 @@ function update_store_order(field, store_order_id, parameter){
         var input_id = $(this).prev().find('input[type=text]').attr("id");
         var quantity = parseInt($("#"+input_id).val());
         var data = {order_item:$(this).attr("id")};
-        $.post('{% url "update_quantity" %}',data,function(data){
+        $.post('{% url "update_quantity_plus" %}',data,function(data){
             quantity = quantity + 1;
             quantity = quantity.toString();
-            $('#'+input_id).val(quantity) ;
+            $('#'+input_id).val(quantity);
         });
-        //alert($(this).attr("id"));
-        //alert(id.prev('input').attr("id"));
+    });
+    $('a.quantity_minus').click(function(){
+        var input_id = $(this).prevAll().find('input[type=text]').attr("id");
+        var quantity = parseInt($("#"+input_id).val());
+        var data = {order_item:$(this).attr("id")};
+        quantity = quantity - 1;
+        if (quantity>=1){
+            $.post('{% url "update_quantity_minus" %}',data,function(data){
+            quantity = quantity.toString();
+            $('#'+input_id).val(quantity);
+            });    
+        }else return false;
+        
     });
     $('a.order-item').click(function(){
         $(location).attr('href','/order/'+$(this).attr('id')+'/update_cart/');

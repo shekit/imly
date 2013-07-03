@@ -5,7 +5,7 @@ from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, St
 from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
-from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,update_quantity
+from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,update_quantity_plus,update_quantity_minus
 from imly.views.tags import add_tag, remove_tag
 from imly.sitemaps import all_sitemaps as sitemaps
 from plata.contact.models import Contact
@@ -124,7 +124,8 @@ urlpatterns += patterns('',
     url(r'^storeorder$', update_store_order, name='update_store_order'),
     url(r'^order/(?P<pk>\d+)/update-store-orders/$', update_store_orders_for_order, name='update_store_orders_for_order'),
     url(r'^order/(?P<pk>\d+)/update_cart/$',update_cart,name='update_cart'),
-    url(r'^order/update_quantity/$',update_quantity,name='update_quantity'),
+    url(r'^order/update_quantity_plus/$',update_quantity_plus,name='update_quantity_plus'),
+    url(r'^order/update_quantity_minus/$',update_quantity_minus,name='update_quantity_minus'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<store_slug>[-\w]+)/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),

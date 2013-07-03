@@ -261,4 +261,26 @@
     </div>
 {% endblock shop_product_content %}
 
-
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('form').submit(function(){
+        $.ajax({
+            data:$(this).serialize(),
+            type:$(this).attr('method'),
+            url:$(this).attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                $('.dropDowncart').empty();
+                $('.dropDowncart').append('<li>' + response['product'] + '</li>');
+                $('.dropDowncart').append('<li><img src="'+response['image']+'"/></li>');
+                $('.dropDowncart').append('<li>' + response['store'] + '</li>');
+                $('.dropDowncart').append('<li>' + response['quantity'] + '</li>');
+                $('.dropDowncart').slideDown(500).delay(5000).slideUp(500);
+            }
+        });
+        return false;
+    });
+});
+</script>   
+{% endblock extra_javascript %}

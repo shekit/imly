@@ -209,7 +209,7 @@
                             {% endfor %}
                         </ul>
                     {% endif %}
-                <form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
+                <form id="order_form" method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                 {% csrf_token %}
                     {{ form.as_p }}
                     <br>
@@ -348,3 +348,26 @@
         
 {% endblock shop_product_content %}
 
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('#order_form').submit(function(){
+        $.ajax({
+            data:$(this).serialize(),
+            type:$(this).attr('method'),
+            url:$(this).attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                $('.dropDowncart').empty();
+                $('.dropDowncart').append('<li>' + response['product'] + '</li>');
+                $('.dropDowncart').append('<li><img src="'+response['image']+'"/></li>');
+                $('.dropDowncart').append('<li>' + response['store'] + '</li>');
+                $('.dropDowncart').append('<li>' + response['quantity'] + '</li>');
+                $('.dropDowncart').slideDown(500).delay(4000).slideUp(500);
+            }
+        });
+        return false;
+    });
+});
+</script>   
+{% endblock extra_javascript %}
