@@ -273,7 +273,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG",options={'quality':92}, processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
-    date_created = models.DateTimeField(auto_now=True, editable=False)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_featured= models.BooleanField(default=False)
     is_bestseller = models.BooleanField(default=False)
     tags = models.ManyToManyField(Tag)
