@@ -88,7 +88,7 @@
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
-                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-plus"></span></a><a class="quantity_minus" href="#" id="{{orderitemform.instance.id}}"><span class="icon-minus"></span></a></li>
+                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" href="#" id="{{orderitemform.instance.id}}">-</a></li>
                                                             
                                                         </ul>
                                                     </li>
@@ -98,7 +98,7 @@
                                                     <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
                                                     <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
-                                                    <li><small class="muted"><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></small>
+                                                    <li><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></li>
                                                 </ul>
                                                 
                                             
