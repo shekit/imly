@@ -68,6 +68,7 @@ def update_quantity_plus(request):
     oi_id = request.POST.getlist('order_item')[0]
     oi = OrderItem.objects.get(pk=oi_id)
     oi.quantity = oi.quantity + 1
+    oi.discounted_subtotal
     oi.save()
     return HttpResponse('Success')
 
@@ -76,5 +77,6 @@ def update_quantity_minus(request):
     oi_id = request.POST.getlist('order_item')[0]
     oi = OrderItem.objects.get(pk=oi_id)
     oi.quantity = oi.quantity - 1
+    oi.discounted_subtotal
     oi.save()
     return HttpResponse('Success')
