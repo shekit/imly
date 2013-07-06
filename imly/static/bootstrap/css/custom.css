@@ -9,6 +9,7 @@ html,body
 
 body {
     font-size: 13px;
+    padding-top:70px;
 }
  
 #wrap
@@ -41,6 +42,12 @@ body {
 /* navbar styling */
     .navbar {
 	margin-bottom: 0px;
+	background: #fff;
+    }
+    
+    .custom_navbar {
+	border-bottom:1px solid #e5e5e5;
+	box-shadow: 0px 0px 4px #ccc;
     }
     
     .lower_border {
@@ -117,6 +124,7 @@ body {
 
     .border_right {
 	border-right: 1px solid #e5e5e5;
+	position: relative;
     }
 
     .hand_pointer {
@@ -140,6 +148,63 @@ body {
 .items_in_cart:hover {
     color: #fff;
 }
+
+.dropdown_div {
+    display: none;
+    position: absolute;
+    top: 75px;
+    right: 2px;
+}
+
+.dropDowncart {
+    position: relative;
+    background: #fff;
+    box-shadow: 0px 0px 5px #ccc;
+    border:1px solid #ccc;
+    padding: 10px 7px;
+    z-index: 1400;
+    width: 200px;
+}
+
+.dropDowncart:before, .dropDowncart:after {
+    position: absolute;
+    right:10px;
+    top:-15px;
+    border-color: transparent transparent #f05a28 transparent;
+    border-style: solid;
+    border-width: 7px;
+    content: '';
+}
+
+.dropDowncart_img {
+    border: 1px solid #e5e5e5;
+}
+
+.dropDowncart_store {
+    color: #ccc;
+    font-size: 10px;
+    text-transform: capitalize;
+}
+
+.dropDowncart_product {
+    text-transform: capitalize;
+    font-size: 10px;
+}
+
+.dropDowncart_product_name{
+    font-weight: 500;
+    font-size: 12px;
+}
+
+/*.dropDowncart:before {
+    border-color: transparent transparent #ccc transparent;
+    border-style: solid;
+    border-width: 10px;
+    top:-20px;
+    right:7px;
+}*/
+
+
 
 
 
@@ -1393,8 +1458,13 @@ td.less_padding_inner_td input[type=text]{
     body {
     padding-right: 10px;
     padding-left: 10px;
+    padding-top:0px;
     }
         
+    .custom_navbar {
+	border: none;
+	box-shadow: none;
+    }
     .nav-collapse, .nav-collapse.collapse {
 	background: #fff;
 	z-index: 900;
@@ -1412,13 +1482,13 @@ td.less_padding_inner_td input[type=text]{
     
     
     .navbar .navbar-inner {
-	padding-right:0px;
-	padding-left:0px;
+	padding-right:10px;
+	padding-left:10px;
     }
     
     .navbar-inner {
-	padding-right:0px;
-	padding-left:0px;
+	padding-right:10px;
+	padding-left:10px;
     }
     
     .navbar .btn-nav-collapse {

@@ -1,4 +1,6 @@
-<nav class="navbar">
+
+<nav class="navbar navbar-fixed-top custom_navbar">
+                    <div class="container">
                     <div class="navbar-inner">
 
                             <button class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
@@ -68,11 +70,17 @@
                                                             {% endifequal %}</li>
                                         <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}(<span id="items-count">{{ plata.order.items.count }}</span>){% endif %}</a><ul class="dropDowncart" style="display:none;"></ul></li>
+                                    <li class="border_right"><a class="items_in_cart" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}(<span id="items-count">{{ plata.order.items.count }}</span>){% endif %}</a>
+                                        <div class="dropdown_div">
+                                        <div class="dropDowncart_triangle"></div>
+                                        <ul class="inline dropDowncart"></ul>
+                                        </div>
+                                    </li>
+                                    
                                     
                                 </ul>
                             </div> <!-- end of nav-collapse div -->
 
                     </div> <!-- end of navbar-inner --> 
-
+</div>
                 </nav> <!-- end of navbar -->
