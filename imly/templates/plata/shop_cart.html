@@ -13,7 +13,7 @@
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
         <br><br>
         {% else %}
-        <h3>{% trans "Cart" %} ({{ plata.order.items.count }}) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
+        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
         
         <br>
         
@@ -33,7 +33,7 @@
         
         {% for store in order.storeorder_set.all %}
         {% if store.store_items %}
-        <table class="table table-bordered ">
+        <table class="table table-bordered store_table" id="{{store.store.slug}}">
 
             <tr class="shop_cart_header">
 
@@ -76,7 +76,7 @@
                 <table class="table table_top_border">
                     {% for orderitemform in orderitemformset.forms %}
                             {% ifequal orderitemform.instance.product.store.pk store.store.id %}
-                            <tr>
+                            <tr id="order_item-{{orderitemform.instance.id}}" class="order-items">
                                 <td class="less_padding">
                                     <table class="table table_border_right">
                                         <tr>
@@ -88,32 +88,36 @@
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
-                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" href="#" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" href="#" id="{{orderitemform.instance.id}}">-</a></li>
+
+                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" id="{{orderitemform.instance.id}}">-</a></li>
+
                                                             
                                                         </ul>
                                                     </li>
                                                 </ul>
                                                 <ul class="unstyled visible-phone cart_ul">
-                                                    <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</b></li>
-                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {{ orderitemform.instance.product.quantity_unit }}</b>
+                                                    <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span></b></li>
+                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
                                                     <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
-                                                    <li><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></li>
+
+                                                    <li><small class="muted"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></small>
+
                                                 </ul>
                                                 
                                             
                                             </td>
                                             <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
-                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {{ orderitemform.instance.currency }} {{ orderitemform.instance.discounted_subtotal|floatformat:0 }}<br><br>
+                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span><br><br>
                                             {{ orderitemform.instance.product.quantity_per_item|floatformat:"0" }} 
                                             {% ifequal orderitemform.instance.product.quantity_per_item 1 %}
                                                 {{ orderitemform.instance.product.quantity_unit }}
                                             {% else %}
                                                 {{ orderitemform.instance.product.quantity_unit }}s
                                             {% endifequal %}
-                                            <span class="muted">x</span> {{ orderitemform.instance.quantity }} = {% order_item_quantity orderitemform.instance %} {% quantity_by_price orderitemform.instance %}</p></td>
-                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p><p class="text-center"><a class="order-item" id="{{orderitemform.instance.id}}" href="#">Remove</a></p></td>
+                                            <span class="muted">x</span><span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span>{% quantity_by_price orderitemform.instance %}<span class="quantity_by_price_{{orderitemform.instance.id}}"></span></p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p><p class="text-center"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></p></td>
                                         </tr>
                                     </table>
                                 </td>
@@ -131,7 +135,7 @@
 					{% store_order_options store request %}
 					<li><br></li>
 
-                    <li><h3 class="muted">{{ order.currency }} {{ store.store_total|floatformat:"0" }}</h3></li>
+                    <li><h3 class="muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
                     <li><small class="muted">Pay in Cash<br>
                     {% if not store.store.delivers %}
                         {% if store.store.pick_up %}
@@ -152,7 +156,7 @@
         {% endfor %}
 
             <ul class="inline text-right checkout_mobile">
-				{% comment %}{% request_update_cart plata.order %}{% endcomment %}
+				{% request_update_cart plata.order %}
                 <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
                 <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
                 <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
@@ -187,30 +191,85 @@ function update_store_order(field, store_order_id, parameter){
 		});
 	}
     $('a.quantity_plus').click(function(){
+        var id = $(this).attr('id');
         var input_id = $(this).prev().find('input[type=text]').attr("id");
         var quantity = parseInt($("#"+input_id).val());
+        var store_table = $(this).parents('table.store_table').attr('id');
         var data = {order_item:$(this).attr("id")};
-        $.post('{% url "update_quantity_plus" %}',data,function(data){
-            quantity = quantity + 1;
-            quantity = quantity.toString();
-            $('#'+input_id).val(quantity);
+        $.post('{% url "change_quantity" change='up' %}',data,function(data){
+            //quantity = quantity + 1;
+            //quantity = quantity.toString();
+            
+        }).done(function(data){
+            if (parseInt(data['order_item_quantity']) > 1){
+                $('.quantity_by_price_'+id).html('s');
+            }
+            $('#'+input_id).val(data['quantity']);
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').text(data['order_total']);
+            $('.orderitem_quantity_'+id).text(data['quantity']);
+            $('.orderitem_subtotal_'+id).text(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).text(parseInt(data['order_item_quantity']));
+
         });
     });
     $('a.quantity_minus').click(function(){
+        var id = $(this).attr('id');
         var input_id = $(this).prevAll().find('input[type=text]').attr("id");
         var quantity = parseInt($("#"+input_id).val());
+        var store_table = $(this).parents('table.store_table').attr('id');
         var data = {order_item:$(this).attr("id")};
         quantity = quantity - 1;
         if (quantity>=1){
-            $.post('{% url "update_quantity_minus" %}',data,function(data){
-            quantity = quantity.toString();
-            $('#'+input_id).val(quantity);
-            });    
+            $.post('{% url "change_quantity" change='down' %}',data,function(data){
+            
+            }).done(function(data){
+                if (parseInt(data['order_item_quantity']) > 1){
+                $('.quantity_by_price_'+id).html('s');
+            }
+                $('#'+input_id).val(data['quantity']);
+                $('#store_total-'+store_table).html(data['store_order_total']);
+                $('#order_total').text(data['order_total']);
+                $('.orderitem_quantity_'+id).text(data['quantity']);
+                $('.orderitem_subtotal_'+id).text(parseInt(data['discounted_subtotal']));
+                $('.order_item_quantity_'+id).text(parseInt(data['order_item_quantity']));
+            });
         }else return false;
         
     });
     $('a.order-item').click(function(){
-        $(location).attr('href','/order/'+$(this).attr('id')+'/update_cart/');
+        //var order-item-remove = $(this).attr('id');
+        var order_item = parseInt(($(this).attr('id')).split(":")[1]);
+        var order_item_id = $(this).parents('tr.order-items').attr('id');
+        var store_table = $(this).parents('table.store_table').attr('id');
+        var data = {id:parseInt((order_item_id).split("-")[1])};
+        $.post('{% url "update_cart" %}',data,function(data){
+
+        }).done(function(data){
+            if (data['count'] != 0){
+                if (data['store_order_total']!=0){
+                    $('#items-count').text(data['count']);
+                    $('.items-count_cart').text(data['count']);
+                    $('#order_total').text(data['order_total']);
+                    $('#store_total-'+store_table).html(data['store_order_total']);
+                    $('#order_item-'+order_item).remove();    
+                }
+                else
+                {
+                    $('#'+store_table).remove();
+                    $('#items-count').text(data['count']);
+                    $('.items-count_cart').text(data['count']);
+                    $('#order_total').text(data['order_total']);
+                }
+                    
+            }
+            else
+            {
+                window.location.href=('/shop/cart/');
+            }
+            
+            
+        });
     });
 	});
 
