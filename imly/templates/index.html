@@ -26,7 +26,8 @@
     <div class="container-fluid lower_border">   
         <div class="container">
             {% block navigation %}
-            <div class="navbar">
+            <div class="navbar navbar-fixed-top custom_navbar">
+                <div class="container">
                 <div class="navbar-inner">
                   <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
                   <button type="button" class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
@@ -45,11 +46,13 @@
 
                                 </span>
                   </button>
-                  <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" alt="Imly Logo"></a>
+                  <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
                   <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
                   <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
-                        <li><a href="{% url "imly_product_list" %}">Discover Great Food</a></li>
+                        <li><a href="{% url "imly_product_list" %}">Food</a></li>
+                        <li><a href="{% url "imly_store_list" %}">Shops</a></li>
+                        <li><a href="{% url "imly_profiles" %}">Chef Profiles</a></li>
                         {% if user.is_authenticated %}
                             {% if user.store %}
                                 <li><a href="{% url "imly_store_info" %}">Manage Your Shop</a></li>
@@ -59,7 +62,7 @@
                         {% else %}
                             <li><a href="{% url "why_open_your_shop" %}">Open Your Shop</a></li>
                         {% endif %}
-                        <li><a href="{% url "imly_profiles" %}">Chef Profiles</a></li>
+                        
                                           {% if user.is_authenticated %}
                                               
                                               <li class="dropdown"><a class="dropdown-toggle border_right" data-toggle="dropdown" href="#">
@@ -84,6 +87,7 @@
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div><!-- /.navbar-inner -->
+                </div>
             </div><!-- /.navbar -->
             {% endblock navigation %}
         </div> <!-- end of div container -->

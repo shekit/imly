@@ -20,7 +20,7 @@
                                 </span>
                             </button>
                             <div class="logo_city_wrapper" style="position:relative;">
-                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" alt="Imly Logo"></a>
+                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
                             <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
                                         {% if request.city %}
                                                             {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
@@ -33,11 +33,12 @@
                                 
                                 <ul class="nav pull-right">
                                         
-                                    <li><a class="no_border" href="{% url "imly_product_list" %}">Discover Great Food</a></li>
-                                    
+                                    <li><a class="no_border active_top_nav" href="{% url "imly_product_list" %}">Food</a></li>
+                                    <li><a class="no_border" href="{% url "imly_store_list" %}">Shops</a></li>
+                                    <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
                                     {% if user.is_authenticated %}
                                         {% if user.store %}
-                                            <li><a class="no_border"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
+                                            <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Manage your Shop</a></li>
                                         {% else %}
                                             <li><a class="no_border_orange"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                         {% endif %}
@@ -45,7 +46,7 @@
                                         <li class="hidden-phone"><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
                                         <li class="visible-phone"><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
                                     {% endif %}
-                                    <li><a class="no_border"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
+                                    
                                     {% if user.is_authenticated %}
                                         <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
                                         {% if user.userprofile.first_name %}
