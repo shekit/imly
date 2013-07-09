@@ -68,19 +68,6 @@
     <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
 {% endif %}
     
-    {% if is_paginated %}
-        <div class="pagination pagination-centered">
-            <ul>
-                {% if page_obj.has_previous %}
-                    <li><a href="{% url "imly_profiles" %}?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
-                {% endif %}
-                    <li class="active"><span>Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span></li>
-                {% if page_obj.has_next %}
-                    <li><a href="{% url "imly_profiles" %}?page={{ page_obj.next_page_number }}">&raquo;</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    {% endif %}
 
 
 {% endblock profile_content %}

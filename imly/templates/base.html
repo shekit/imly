@@ -20,7 +20,7 @@
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
         {% block extra_head %}
 		
-		{% endblock extra_head%}
+		{% endblock extra_head %}
     </head>
     
     <body>
@@ -57,7 +57,7 @@
                 {% block sidebar_nav %}
 
                     <div class="well sidebar-nav">
-
+                        {% comment %}
                         <div class="span12">
                             <ul class="inline text-center food_chef">
                                 <li><a href="#" class="food food_chef_active">Food</a></li>
@@ -65,7 +65,8 @@
                                 <hr class="hr_less_margin">
                             </ul>
                         </div>
-                        
+                        {% endcomment %}
+                    
                         {% include "sidebar_nav.html" %}
                     </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
