@@ -271,13 +271,14 @@ $(document).ready(function(){
             url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
-                $('#items-count').text(response['count']);
+                $('#items-count').html(response['count']);
                 $('.dropDowncart').empty();
-                $('.dropDowncart').append('<li>' + response['product'] + '</li>');
-                $('.dropDowncart').append('<li><img src="'+response['image']+'"/></li>');
-                $('.dropDowncart').append('<li>' + response['store'] + '</li>');
-                $('.dropDowncart').append('<li>' + response['quantity'] + '</li>');
-                $('.dropDowncart').slideDown(500).delay(5000).slideUp(500);
+                $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                $('.dropDowncart').append('</ul></li>');
+                $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
             }
         });
         return false;
