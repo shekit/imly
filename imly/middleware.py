@@ -16,6 +16,6 @@ class SelectCityMiddleware(object):
         try:
             http_host = request.META.get('HTTP_HOST', 'imly.in')
             request.city = City.objects.get(slug=http_host.split('.')[0])
-         #   raise request.city
         except:
-            request.city = None
+            request.city = City.default()
+#        raise request.city
