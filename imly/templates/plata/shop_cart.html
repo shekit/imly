@@ -87,9 +87,9 @@
                                                         <ul class="unstyled">
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
-                                                            <li><small>Quantity:</small> <small class="muted"><i>({{ orderitemform.instance.product.items_in_stock }} left for today)</i></small><li>
+                                                            <li><small>Quantity:</small> <small class="muted"><i>(<span id="orderitem_items_in_stock-{{orderitemform.instance.id}}">{{ orderitemform.instance.product.items_in_stock }}</span> left for today)</i></small><li>
 
-                                                            <li>{{ orderitemform.id }}{% form_item_plain orderitemform.quantity %}<a class="quantity_plus" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" id="{{orderitemform.instance.id}}">-</a></li>
+                                                            <li>{{ orderitemform.id }}<span id="order_quantity-{{orderitemform.instance.id}}" class="order_quantity">{% form_item_plain orderitemform.quantity %}</span><a class="quantity_plus" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" id="{{orderitemform.instance.id}}">-</a></li>
 
                                                             
                                                         </ul>
@@ -97,7 +97,7 @@
                                                 </ul>
                                                 <ul class="unstyled visible-phone cart_ul">
                                                     <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span></b></li>
-                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
+                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item|floatformat:0 }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
                                                     <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
 
@@ -116,7 +116,7 @@
                                             {% else %}
                                                 {{ orderitemform.instance.product.quantity_unit }}s
                                             {% endifequal %}
-                                            <span class="muted">x</span><span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span>{% quantity_by_price orderitemform.instance %}<span class="quantity_by_price_{{orderitemform.instance.id}}"></span></p></td>
+                                            <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
                                             <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p><p class="text-center"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></p></td>
                                         </tr>
                                     </table>
@@ -189,29 +189,78 @@ function update_store_order(field, store_order_id, parameter){
 		keyboard: false,
 		show: true,
 		});
+
 	}
+    $('.required input').change(function(){
+        var id=parseInt($(this).parents('span.order_quantity').attr('id').split("-")[1]);
+        var quantity = parseInt($(this).val());
+        var items_in_stock = parseInt($('#orderitem_items_in_stock-'+id).text());
+        var store_table = $(this).parents('table.store_table').attr('id');
+
+        if (quantity == 0){
+            $(this).val(1);
+            data = {id:id,quantity:1};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            });
+        }else if(quantity > items_in_stock){
+            $(this).val(items_in_stock);
+            data = {id:id,quantity:items_in_stock};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            });
+        }else{
+            data = {id:id,quantity:quantity};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']+'s'));
+            });
+        }
+    });
     $('a.quantity_plus').click(function(){
         var id = $(this).attr('id');
+        var items_in_stock = parseInt($('#orderitem_items_in_stock-'+id).text());
         var input_id = $(this).prev().find('input[type=text]').attr("id");
         var quantity = parseInt($("#"+input_id).val());
         var store_table = $(this).parents('table.store_table').attr('id');
         var data = {order_item:$(this).attr("id")};
+        if (quantity == items_in_stock){
+            return false
+        }else{
         $.post('{% url "change_quantity" change='up' %}',data,function(data){
             //quantity = quantity + 1;
             //quantity = quantity.toString();
             
         }).done(function(data){
             if (parseInt(data['order_item_quantity']) > 1){
-                $('.quantity_by_price_'+id).html('s');
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
             }
             $('#'+input_id).val(data['quantity']);
             $('#store_total-'+store_table).html(data['store_order_total']);
-            $('#order_total').text(data['order_total']);
-            $('.orderitem_quantity_'+id).text(data['quantity']);
-            $('.orderitem_subtotal_'+id).text(parseInt(data['discounted_subtotal']));
-            $('.order_item_quantity_'+id).text(parseInt(data['order_item_quantity']));
+            $('#order_total').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
 
         });
+    }
     });
     $('a.quantity_minus').click(function(){
         var id = $(this).attr('id');
@@ -224,15 +273,15 @@ function update_store_order(field, store_order_id, parameter){
             $.post('{% url "change_quantity" change='down' %}',data,function(data){
             
             }).done(function(data){
-                if (parseInt(data['order_item_quantity']) > 1){
-                $('.quantity_by_price_'+id).html('s');
+                if (parseInt(data['order_item_quantity']) == 1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
             }
                 $('#'+input_id).val(data['quantity']);
                 $('#store_total-'+store_table).html(data['store_order_total']);
-                $('#order_total').text(data['order_total']);
-                $('.orderitem_quantity_'+id).text(data['quantity']);
-                $('.orderitem_subtotal_'+id).text(parseInt(data['discounted_subtotal']));
-                $('.order_item_quantity_'+id).text(parseInt(data['order_item_quantity']));
+                $('#order_total').html(data['order_total']);
+                $('.orderitem_quantity_'+id).html(data['quantity']);
+                $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+                $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
             });
         }else return false;
         

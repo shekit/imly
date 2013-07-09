@@ -5,7 +5,7 @@ from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, St
 from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
-from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity
+from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
 from imly.views.tags import add_tag, remove_tag
 from imly.sitemaps import all_sitemaps as sitemaps
 from plata.contact.models import Contact
@@ -125,6 +125,7 @@ urlpatterns += patterns('',
     url(r'^order/(?P<pk>\d+)/update-store-orders/$', update_store_orders_for_order, name='update_store_orders_for_order'),
     url(r'^orderitem/remove/$',update_cart,name='update_cart'),
     url(r'^orderitem/change_quantity/(?P<change>up|down)/$',change_quantity,name='change_quantity'),
+    url(r'^orderitem/change_quantity/text/$',change_quantity_text,name='change_quantity_text'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<store_slug>[-\w]+)/(?P<slug>[-\w]+)/$", ProductDetail.as_view(), name="imly_product_detail"),

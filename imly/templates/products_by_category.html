@@ -122,6 +122,7 @@ $(document).ready(function(){
             success:function(response){
                 //alert(response['product'])
                 $('#items-count').text(response['count']);
+                $('#items-count_cart').html(response['count']);
                 $('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
                 $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
