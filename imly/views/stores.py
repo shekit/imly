@@ -245,6 +245,23 @@ def add_order(request, store_slug, product_slug):
         
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
 
+def one_step_checkout(request):
+    order = plata.shop_instance().order_from_request(request)
+    checkout_response = plata.shop_instance().checkout(request, order)
+    confirmation_response = plata.shop_instance().confirmation(request,order)
+    if request.method == "POST":
+        orderform_kwargs = {
+            'prefix': 'order',
+            'instance': order,
+            'request': request,
+            'shop': plata.shop_instance(),
+            }
+        if checkout_response.status_code == 200 or confirmation_response.status_code == 200:
+            orderform = plata.shop_instance().checkout_form(request, order)(request.POST, **orderform_kwargs)
+            return render(request, "one_step_checkout.html", locals())
+    return render(request, "one_step_checkout.html", locals())
+
+
 class OrderList(ListView):
     #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
     model = OrderItem

@@ -1,0 +1,117 @@
+{% extends base_template|default:"base_cart.html" %}
+
+{% load i18n plata_tags %}
+
+{% block title %}Imly | {% trans "Checkout" %}{% endblock %}
+
+{% block location_search_bar %}
+    
+{% endblock location_search_bar %}
+
+{% block cart_content %}
+<h2>{% trans "Checkout" %}</h2>
+
+<form method="post" action=".">
+{% csrf_token %}
+<input type="hidden" name="_checkout" value="1" />
+
+{% form_errors orderform %}
+
+<table class="table table-order">
+<tr><td colspan="2">
+<legend class="orange">{% trans "Billing address" %}</legend>
+</td></tr>
+
+{% if orderform.create_account %}
+    {% form_item orderform.create_account %}
+    <p class="muted"><small>Create an account for faster checkout</small></p>
+{% endif %}
+
+{# {% form_item orderform.billing_company %} #}
+{% form_item orderform.billing_first_name %}
+{% form_item orderform.billing_last_name %}
+{% form_item orderform.email %}
+{# {% form_item orderform.billing_phone_number %} #}
+{% form_item orderform.billing_address %}
+{% form_item orderform.billing_phone_number %}
+{% form_item orderform.billing_zip_code %}
+{% form_item orderform.billing_city %}
+{% form_item orderform.billing_country %}
+
+<tr><td colspan="2">
+<legend class="orange">{% trans "Shipping address" %}</legend>
+</td></tr>
+
+<tr><td colspan="2">
+        <p>{% form_item_plain orderform.shipping_same_as_billing %}
+        <small>{{ orderform.shipping_same_as_billing.label_tag }}</small></p>
+</td></tr>
+
+{# {% form_item orderform.shipping_company %} #}
+{% form_item orderform.shipping_first_name %}
+{% form_item orderform.shipping_last_name %}
+{# {% form_item orderform.shipping_phone_number %} #}
+{% form_item orderform.shipping_address %}
+{% form_item orderform.shipping_phone_number %}
+{% form_item orderform.shipping_zip_code %}
+{% form_item orderform.shipping_city %}
+{% form_item orderform.shipping_country %}
+
+<!-- <tr><td colspan="2">
+<h2>{% trans "Notes" %}</h2>
+</td></tr> -->
+{# {% form_item orderform.notes %} #}
+<tr>
+    <td></td>
+    <td><button class="btn btn-success btn-large" type="submit">{% trans "Submit" %}</button></td>
+</tr>
+</table>
+</form>
+{% endblock cart_content %}
+
+
+{% block shop_info %}
+                
+{% endblock shop_info %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+	$(document).ready(function(){
+		if ($('#id_order-shipping_same_as_billing').is(':checked'));
+		{
+			$('#id_order-shipping_first_name').prop("disabled",true);
+			$('#id_order-shipping_last_name').prop("disabled",true);
+			$('#id_order-shipping_address').prop("disabled",true);
+			$('#id_order-shipping_phone_number').prop("disabled",true);
+			$('#id_order-shipping_zip_code').prop("disabled",true);
+			$('#id_order-shipping_city').prop("disabled",true);
+			$('#id_order-shipping_country').prop("disabled",true);
+		}
+
+		$('#id_order-shipping_same_as_billing').change(function(){
+			if ($(this).is(':checked'))
+			{
+				$('#id_order-shipping_first_name').prop("disabled",true);
+				$('#id_order-shipping_last_name').prop("disabled",true);
+				$('#id_order-shipping_address').prop("disabled",true);
+				$('#id_order-shipping_phone_number').prop("disabled",true);
+				$('#id_order-shipping_zip_code').prop("disabled",true);
+				$('#id_order-shipping_city').prop("disabled",true);
+				$('#id_order-shipping_country').prop("disabled",true);
+			}
+			else
+			{
+				$('#id_order-shipping_first_name').prop("disabled",false);
+				$('#id_order-shipping_last_name').prop("disabled",false);
+				$('#id_order-shipping_address').prop("disabled",false);
+				$('#id_order-shipping_phone_number').prop("disabled",false);
+				$('#id_order-shipping_zip_code').prop("disabled",false);
+				$('#id_order-shipping_city').prop("disabled",false);
+				$('#id_order-shipping_country').prop("disabled",false);
+			}
+		});
+		
+	});
+</script>            
+{% endblock extra_javascript %}
+
