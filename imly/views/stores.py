@@ -238,7 +238,7 @@ def add_order(request, store_slug, product_slug):
                 else:
                     raise
             #return redirect("plata_shop_cart")
-            data = {"product":product.name,"store":product.store.name,"quantity":quantity,"image":product.image_thumbnail_mini.url}
+            data = {"count":order.items.count(),"product":product.name.lower(),"store":product.store.name.lower(),"quantity":quantity,"image":product.image_thumbnail_mini.url}
             return HttpResponse(simplejson.dumps(data),mimetype="application/json")
     else:
         form = OrderItemForm()

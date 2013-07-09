@@ -7,6 +7,7 @@ from plata.shop.models import Order, OrderItem
 from django.db.models import Sum
 from imly.models import StoreOrder 
 from django.views.decorators.csrf import csrf_exempt
+import json as simplejson
 
 class UserOrders(ListView):
     model = Order
@@ -56,25 +57,42 @@ def update_store_orders_for_order(request, pk):
         StoreOrder.update_for_order(order)
         return redirect('/shop/cart/')
 
-def update_cart(request,pk):
-    oi = OrderItem.objects.get(pk=pk)
-    order = oi.order
+@csrf_exempt
+def update_cart(request):
+    oi_id = request.POST.get('id')
+    oi = OrderItem.objects.get(pk=oi_id)
     oi.delete()
+    order = oi.order
+    store_order = StoreOrder.objects.get(order=order,store=oi.product.store)
+    order.save()
     order.recalculate_total()
-    return redirect('/shop/cart/')
+    try:
+        store_order = StoreOrder.objects.get(order=order,store=oi.product.store)
+        store_order_total = store_order.store_total
+    except StoreOrder.DoesNotExist:
+        store_order_total = 0
+    data = {"count":order.items.count(),"order_total":str(order.total),"store_order_total":store_order_total}
+    return HttpResponse(simplejson.dumps(data),mimetype="application/json")
 
 @csrf_exempt
-def update_quantity_plus(request):
-    oi_id = request.POST.getlist('order_item')[0]
+def change_quantity(request,change):
+    oi_id = request.POST.get('order_item')
     oi = OrderItem.objects.get(pk=oi_id)
-    oi.quantity = oi.quantity + 1
+    change_value = change == 'up' and 1 or -1
+    oi.quantity = oi.quantity + change_value
     oi.save()
-    return HttpResponse('Success')
+    oi.order.save()
+    oi.order.recalculate_total()
+    store_order = StoreOrder.objects.get(store=oi.product.store,order=oi.order)
+    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":str(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total}
+    return HttpResponse(simplejson.dumps(data),mimetype="application/json")
 
 @csrf_exempt
 def update_quantity_minus(request):
-    oi_id = request.POST.getlist('order_item')[0]
+    oi_id = request.POST.get('order_item')
     oi = OrderItem.objects.get(pk=oi_id)
     oi.quantity = oi.quantity - 1
+    oi.discounted_subtotal
     oi.save()
-    return HttpResponse('Success')
+    data = {"quantity":oi.quantity}
+    return HttpResponse(simplejson.dumps(data),mimetype="application/json")

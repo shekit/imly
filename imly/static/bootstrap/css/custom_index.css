@@ -9,6 +9,7 @@ html,body
 
 body {
     font-size: 13px;
+    padding-top:55px;
 }
 
 .index_view_more {
@@ -50,6 +51,12 @@ legend {
 
     .navbar {
 	margin-bottom: 0px;
+	background: #ffffff;
+    }
+    
+    .custom_navbar {
+	border-bottom:1px solid #e5e5e5;
+	box-shadow: 0px 0px 4px #ccc;
     }
     
     .lower_border, .lower_border2 {
@@ -65,7 +72,7 @@ legend {
     
     .navbar .navbar-inner {
 	border: 0;
-	background: white;
+	background: #ffffff;
 	 -webkit-box-shadow: none;
 	 -moz-box-shadow: none;
 		  box-shadow: none;
@@ -73,12 +80,12 @@ legend {
     }
 
     .navbar .brand {
-	padding:4px 20px 4px;
+	padding:3px 20px 3px;
     }
     
     /* Navbar links: increase padding for taller navbar */
     .navbar .nav > li > a {
-      padding: 25px 20px;
+      padding: 19px 19px;
       color: #333;
       border-left: 1px solid #e5e5e5;
       text-shadow: none;
@@ -99,7 +106,6 @@ legend {
     }
     
     .navbar .nav > li > a:hover {
-      padding: 25px 20px;
       color: #fff;
       background: #f05a28;
     }
@@ -962,10 +968,16 @@ input.large_location_search {
 @media (max-width: 767px) {
     
     body {
-    padding-right: 10px;
-    padding-left: 10px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top:0px;
     }
-    
+        
+    .custom_navbar {
+	border: none;
+	box-shadow: none;
+    }
+
     .nav-collapse.collapse ul li {
 	border-bottom: 1px solid #e5e5e5;
     }
@@ -978,8 +990,8 @@ input.large_location_search {
     
     
     .navbar .navbar-inner {
-	padding-right:0px;
-	padding-left:0px;
+	padding-right:10px;
+	padding-left:10px;
     }
     
     .navbar-inner {

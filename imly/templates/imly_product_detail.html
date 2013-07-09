@@ -358,6 +358,7 @@ $(document).ready(function(){
             url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
+                $('#items-count').text(response['count']);
                 $('.dropDowncart').empty();
                 $('.dropDowncart').append('<li>' + response['product'] + '</li>');
                 $('.dropDowncart').append('<li><img src="'+response['image']+'"/></li>');
