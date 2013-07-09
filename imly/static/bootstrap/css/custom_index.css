@@ -128,6 +128,26 @@ legend {
 	color:#ff3600;
 	background:  #fff;
     }
+    
+        .navbar .nav > li > a.active_top_nav {
+	cursor: default;
+	color: #f05a28;
+	text-decoration: none;
+	background-color: #f7f7f7;
+	-webkit-box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+	-moz-box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+	box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+    }
+    
+    .navbar .nav > li > a.active_top_nav:hover {
+	cursor: default;
+	color: #f05a28;
+	text-decoration: none;
+	background-color: #f7f7f7;
+	-webkit-box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+	-moz-box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+	box-shadow: inset 0 2px 7px rgba(0, 0, 0, 0.125);
+    }
 
     .dropdown-menu > li > a:hover, .dropdown-menu > li > a:focus {
 	color: #ffffff;
@@ -782,8 +802,8 @@ ul.errorlist > li {
 
 .select_city {
     position: absolute;
-    top: 23px;
-    left:90px;
+    top: 18px;
+    left:80px;
     color: #ff7752;
     border: 1px solid #ddd;
     padding: 0px 5px;
@@ -1026,6 +1046,17 @@ input.large_location_search {
       *background-color: #666;
     }
     
+    .navbar .nav > li > a.active_top_nav {
+	-webkit-box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+	-moz-box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+	box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+    }
+    
+    .navbar .nav > li > a.active_top_nav:hover {
+	-webkit-box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+	-moz-box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+	box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
+    }
     
     .open_your_shop_mobile{
 

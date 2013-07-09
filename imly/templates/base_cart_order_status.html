@@ -2,7 +2,8 @@
 
 {% block navigation %}
                 
-                <nav class="navbar">
+                <nav class="navbar navbar-fixed-top custom_navbar">
+                    <div class="container">
                     <div class="navbar-inner">
                         <div class="container">
                             <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
@@ -10,7 +11,7 @@
                                 <span class="icon-bar"></span>
                                 <span class="icon-bar"></span>
                             </a>
-                            <a href="#" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_with_beta.png" alt="Imly Logo"></a>
+                            <a href="#" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
                             <div class="nav-collapse">
                                 
                                 <ul class="nav pull-right">
@@ -19,7 +20,7 @@
                             </div> <!-- end of nav-collapse div -->
                         </div><!-- end of container --> 
                     </div> <!-- end of navbar-inner --> 
-
+                    </div>
                 </nav> <!-- end of navbar -->               
             {% endblock navigation %}
 
