@@ -18,4 +18,3 @@ class SelectCityMiddleware(object):
             request.city = City.objects.get(slug=http_host.split('.')[0])
         except:
             request.city = City.default()
-#        raise request.city
