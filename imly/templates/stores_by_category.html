@@ -52,7 +52,7 @@
                                     {% endfor %}
                                 </ul>
                                 
-                            <li class="nav-header selected_nav_header visible-desktop">You have selected:</li>
+                            <li class="nav-header selected_nav_header visible-desktop" style="margin-top:0px;">You have selected:</li>
                                 <ul class="inline tags_for_product_home_inverted visible-desktop">
                                     {% ifequal super_category category %}
                                         <li><a href="{% url "imly_store_list" %}">{{ super_category.name|capfirst }} <span class="small">&times;</span></a></li>
