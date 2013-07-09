@@ -453,6 +453,10 @@ class City(geo_models.Model):
     def __unicode__(self):
         return self.name
 
+    @staticmethod
+    def default():
+        return City.objects.get(slug="mumbai")
+
 class Special(models.Model):
     title = models.CharField(max_length = 100)
     slug = AutoSlugField(populate_from = 'title')
