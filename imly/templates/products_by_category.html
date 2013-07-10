@@ -86,7 +86,7 @@
                     <form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                         {% csrf_token %}
                         <input type="hidden" name="quantity" value="1">
-                        <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                        <input type="submit" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                     </form>
                     {% else %}
                         <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
@@ -126,7 +126,7 @@ $(document).ready(function(){
 
                 $('#items-count_cart').html(response['count']);
 
-                $('#items-count')[0].innerHTML = response['count'];
+                $('#items-count').html(response['count']);
 
                 $('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
