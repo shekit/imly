@@ -126,7 +126,7 @@ $(document).ready(function(){
 
                 $('#items-count_cart').html(response['count']);
 
-                $('#items-count').html(response['count']);
+                $('#items-count')[0].innerHTML = response['count'];
 
                 $('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');

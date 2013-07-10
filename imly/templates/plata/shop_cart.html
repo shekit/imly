@@ -209,6 +209,11 @@ function update_store_order(field, store_order_id, parameter){
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
             });
         }else if(quantity > items_in_stock){
             $(this).val(items_in_stock);
@@ -221,6 +226,11 @@ function update_store_order(field, store_order_id, parameter){
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
             });
         }else{
             data = {id:id,quantity:quantity};
@@ -231,7 +241,13 @@ function update_store_order(field, store_order_id, parameter){
             $('#order_total').html(data['order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
-            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']+'s'));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
+
             });
         }
     });
