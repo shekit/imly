@@ -18,7 +18,7 @@
         
         <br>
         
-        <form method="post" action="{% url "imly_one_step_checkout" %}" onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
+        <form method="post" action="{% url 'imly_one_step_checkout' %}" onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
                     <ul class="messages unstyled">

@@ -251,13 +251,21 @@ def add_order(request, store_slug, product_slug):
 def one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    request.user = request.user
-    orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
-    form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
+    try:
+        order.validate(order.VALIDATE_CART)
+    except ValidationError, e:
+        for message in e.messages:
+            messages.error(request, message)
+        return HttpResponseRedirect(reverse('plata_shop_cart'))
+    if '_checkout' in request.POST:
+        orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
+    else:
+        orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
-        checkout_response = shop.checkout(request, order)
-        confirmation_response = shop.confirmation(request,order)
-        return confirmation_response
+        shop.checkout(request, order)
+        return shop.confirmation(request,order)
     return render(request, "one_step_checkout.html", locals())
 
 
