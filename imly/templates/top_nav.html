@@ -57,7 +57,7 @@
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}(<span id="items-count_cart">{{ plata.order.items.count }}</span>){% endif %}</a></li>
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart (<span id="items-count_cart">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a></li>
                                                 <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
@@ -72,10 +72,13 @@
                                                             {% endifequal %}</li>
                                         <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
-                                    <li class="border_right"><a class="items_in_cart {% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}(<span id="items-count">{{ plata.order.items.count }}</span>){% endif %}</a>
+
+                                    <li class="border_right"><a class="items_in_cart {% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a>
+                                        <div class="hidden-phone">
                                         <div class="dropdown_div">
                                         <div class="dropDowncart_triangle"></div>
                                         <ul class="inline dropDowncart"></ul>
+                                        </div>
                                         </div>
                                     </li>
                                     
@@ -84,5 +87,10 @@
                             </div> <!-- end of nav-collapse div -->
 
                     </div> <!-- end of navbar-inner --> 
-</div>
+                    </div>
+                    <div class="visible-phone">
+                    <div class="dropdown_div">
+                                        <p class="text-center">Item added to cart</p>
+                    </div>
+                    </div>
                 </nav> <!-- end of navbar -->
