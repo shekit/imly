@@ -13,9 +13,12 @@ from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 import plata
+from plata.shop.forms import ConfirmationForm
 from plata.shop.models import OrderItem, Order
+from plata.contact.forms import CheckoutForm
 from imly.utils import tracker
 import json as simplejson
+
 
 
 def home_page(request):
@@ -244,6 +247,28 @@ def add_order(request, store_slug, product_slug):
         form = OrderItemForm()
         
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
+
+def one_step_checkout(request):
+    shop = plata.shop_instance()
+    order = shop.order_from_request(request)
+    try:
+        order.validate(order.VALIDATE_CART)
+    except ValidationError, e:
+        for message in e.messages:
+            messages.error(request, message)
+        return HttpResponseRedirect(reverse('plata_shop_cart'))
+    if '_checkout' in request.POST:
+        orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
+    else:
+        orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(**{"order":order,"request":request, "shop":shop})
+    if form.is_valid() and orderform.is_valid():
+        shop.checkout(request, order)
+        return shop.confirmation(request,order)
+    return render(request, "one_step_checkout.html", locals())
+
+
 
 class OrderList(ListView):
     #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order

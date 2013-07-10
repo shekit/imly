@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout
 from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city
@@ -121,6 +121,7 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
+    url(r"^order/one-step-checkout/$", one_step_checkout, name="imly_one_step_checkout"),
     url(r'^storeorder$', update_store_order, name='update_store_order'),
     url(r'^order/(?P<pk>\d+)/update-store-orders/$', update_store_orders_for_order, name='update_store_orders_for_order'),
     url(r'^orderitem/remove/$',update_cart,name='update_cart'),
