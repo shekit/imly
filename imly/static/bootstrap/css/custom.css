@@ -1564,6 +1564,27 @@ td.less_padding_inner_td input[type=text]{
 	box-shadow: inset 0 0px 7px rgba(0, 0, 0, 0.125);
     }
     
+    .dropdown_div {
+	display: none;
+	position:fixed;
+	left:50%;
+	top:15%;
+	width:200px;
+	height:20px;
+	margin-left:-100px;
+	margin-top:-10px;
+	z-index:1500;
+	padding:3px 5px;
+	color: #ffffff;
+	border:2px solid #fff;
+	border-radius: 15px;
+	background: #ff7752;
+	background: rgba(240,90,40,0.8);
+	box-shadow: 0px 0px 6px #666;
+	text-shadow: 1px 1px rgba(0,0,0,0.250)
+	
+    }
+    
     .login_modal {
 	width:450px;
 	margin-left:auto;

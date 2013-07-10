@@ -73,9 +73,11 @@
                                         <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                     {% endif %}
                                     <li class="border_right"><a class="items_in_cart {% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> {% if plata.order %}(<span id="items-count">{{ plata.order.items.count }}</span>){% endif %}</a>
-                                        <div class="dropdown_div">
-                                        <div class="dropDowncart_triangle"></div>
-                                        <ul class="inline dropDowncart"></ul>
+                                        <div class="hidden-phone">
+                                                            <div class="hidden-phone dropdown_div">
+                                                            <div class="dropDowncart_triangle"></div>
+                                                            <ul class="inline dropDowncart"></ul>
+                                                            </div>
                                         </div>
                                     </li>
                                     
@@ -84,5 +86,10 @@
                             </div> <!-- end of nav-collapse div -->
 
                     </div> <!-- end of navbar-inner --> 
-</div>
+                    </div>
+                    <div class="visible-phone">
+                    <div class="dropdown_div">
+                                        <p class="text-center">Item added to cart</p>
+                    </div>
+                    </div>
                 </nav> <!-- end of navbar -->
