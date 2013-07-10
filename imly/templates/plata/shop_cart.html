@@ -100,7 +100,7 @@
                                                     <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span></b></li>
                                                     <li><b>{{ orderitemform.instance.product.quantity_per_item|floatformat:0 }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
-                                                    <li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>
+                                                    {% comment %}<li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>{% endcomment %}
 
                                                     <li><small class="muted"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></small>
 
@@ -118,7 +118,10 @@
                                                 {{ orderitemform.instance.product.quantity_unit }}s
                                             {% endifequal %}
                                             <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
-                                            <td class="less_padding_inner_td hidden-phone" width="70"><p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p><p class="text-center"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70">
+                                                {% comment %}<p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p>{% endcomment %}
+                                                <p class="text-center"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></p>
+                                            </td>
                                         </tr>
                                     </table>
                                 </td>
