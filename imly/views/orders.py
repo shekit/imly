@@ -84,15 +84,18 @@ def change_quantity(request,change):
     oi.order.save()
     oi.order.recalculate_total()
     store_order = StoreOrder.objects.get(store=oi.product.store,order=oi.order)
-    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":str(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total}
+    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":str(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total,"quantity_by_price":oi.product.quantity_unit()}
     return HttpResponse(simplejson.dumps(data),mimetype="application/json")
 
 @csrf_exempt
-def update_quantity_minus(request):
-    oi_id = request.POST.get('order_item')
+def change_quantity_text(request):
+    oi_id = request.POST.get('id')
     oi = OrderItem.objects.get(pk=oi_id)
-    oi.quantity = oi.quantity - 1
-    oi.discounted_subtotal
+    change = request.POST.get('quantity')
+    oi.quantity = int(change)
     oi.save()
-    data = {"quantity":oi.quantity}
+    oi.order.save()
+    oi.order.recalculate_total()
+    store_order = StoreOrder.objects.get(store=oi.product.store,order=oi.order)
+    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":int(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total,"quantity_by_price":oi.product.quantity_unit()}
     return HttpResponse(simplejson.dumps(data),mimetype="application/json")

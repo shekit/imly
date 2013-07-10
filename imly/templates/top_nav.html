@@ -57,7 +57,7 @@
                                         {% endif %}
                                         </a>
                                             <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}({{ plata.order.items.count }}){% endif %}</a></li>
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart {% if plata.order %}(<span id="items-count_cart">{{ plata.order.items.count }}</span>){% endif %}</a></li>
                                                 <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
                                                 <li class="divider"></li>
                                                 <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>

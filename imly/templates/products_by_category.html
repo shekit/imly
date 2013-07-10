@@ -8,6 +8,7 @@
                     
                     <div class="well sidebar-nav">
                         
+                        {% comment %}
                         <div class="span12">
                             <ul class="inline text-center food_chef">
                                 <li><a href="#" class="food food_chef_active">Food</a></li>
@@ -15,7 +16,8 @@
                                 <hr class="hr_less_margin">
                             </ul>
                         </div>
-                        
+                        {% endcomment %}
+                    
                         {% include "sidebar_nav.html" %}
                     </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
@@ -121,7 +123,11 @@ $(document).ready(function(){
             url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
-                $('#items-count').text(response['count']);
+
+                $('#items-count_cart').html(response['count']);
+
+                $('#items-count')[0].innerHTML = response['count'];
+
                 $('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
                 $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
