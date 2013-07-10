@@ -111,7 +111,7 @@
                                             <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span><br><br>
-                                            {{ orderitemform.instance.product.quantity_per_item|floatformat:"0" }} 
+                                            {{ orderitemform.instance.product.quantity_per_item }}
                                             {% ifequal orderitemform.instance.product.quantity_per_item 1 %}
                                                 {{ orderitemform.instance.product.quantity_unit }}
                                             {% else %}
@@ -194,13 +194,19 @@ function update_store_order(field, store_order_id, parameter){
 		});
 
 	}
+    $('.required input').keypress(function(evt){
+        var charCode = (evt.which)?evt.which:evt.keyCode;
+        if (charCode>31 && (charCode<48||charCode>57))
+        {
+            return false;
+        }
+    });
     $('.required input').change(function(){
         var id=parseInt($(this).parents('span.order_quantity').attr('id').split("-")[1]);
         var quantity = parseInt($(this).val());
         var items_in_stock = parseInt($('#orderitem_items_in_stock-'+id).text());
         var store_table = $(this).parents('table.store_table').attr('id');
-
-        if (quantity == 0){
+        if (quantity <= 0){
             $(this).val(1);
             data = {id:id,quantity:1};
             $.post('{% url "change_quantity_text" %}',data,function(data){

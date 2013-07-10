@@ -2,9 +2,7 @@ from datetime import date, timedelta
 from django.http import HttpResponse
 from django.views.generic import ListView, DetailView
 from django.shortcuts import redirect
-from django.core.urlresolvers import reverse
 from plata.shop.models import Order, OrderItem
-from django.db.models import Sum
 from imly.models import StoreOrder 
 from django.views.decorators.csrf import csrf_exempt
 import json as simplejson
@@ -97,5 +95,5 @@ def change_quantity_text(request):
     oi.order.save()
     oi.order.recalculate_total()
     store_order = StoreOrder.objects.get(store=oi.product.store,order=oi.order)
-    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":int(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total,"quantity_by_price":oi.product.quantity_unit()}
+    data = {"quantity":oi.quantity,"discounted_subtotal":str(oi.quantity * oi.unit_price),"order_item_quantity":str(oi.quantity * oi.product.quantity_per_item),"order_total":str(oi.order.total),"store_order_total":store_order.store_total,"quantity_by_price":oi.product.quantity_unit()}
     return HttpResponse(simplejson.dumps(data),mimetype="application/json")
