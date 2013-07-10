@@ -13,9 +13,12 @@ from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 import plata
+from plata.shop.forms import ConfirmationForm
 from plata.shop.models import OrderItem, Order
+from plata.contact.forms import CheckoutForm
 from imly.utils import tracker
 import json as simplejson
+
 
 
 def home_page(request):
@@ -246,20 +249,17 @@ def add_order(request, store_slug, product_slug):
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
 
 def one_step_checkout(request):
-    order = plata.shop_instance().order_from_request(request)
-    checkout_response = plata.shop_instance().checkout(request, order)
-    confirmation_response = plata.shop_instance().confirmation(request,order)
-    if request.method == "POST":
-        orderform_kwargs = {
-            'prefix': 'order',
-            'instance': order,
-            'request': request,
-            'shop': plata.shop_instance(),
-            }
-        if checkout_response.status_code == 200 or confirmation_response.status_code == 200:
-            orderform = plata.shop_instance().checkout_form(request, order)(request.POST, **orderform_kwargs)
-            return render(request, "one_step_checkout.html", locals())
+    shop = plata.shop_instance()
+    order = shop.order_from_request(request)
+    request.user = request.user
+    orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
+    form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
+    if form.is_valid() and orderform.is_valid():
+        checkout_response = shop.checkout(request, order)
+        confirmation_response = shop.confirmation(request,order)
+        return confirmation_response
     return render(request, "one_step_checkout.html", locals())
+
 
 
 class OrderList(ListView):

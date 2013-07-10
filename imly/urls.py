@@ -7,11 +7,11 @@ from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfil
 from imly.views.places import set_location, unset_location, set_city
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity
 from imly.views.tags import add_tag, remove_tag
-from imly.views.shop import ImlyShop as Shop
 from imly.sitemaps import all_sitemaps as sitemaps
 from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
+from plata.shop.views import Shop
 
 shop = Shop(
     contact_model=Contact,

@@ -61,6 +61,16 @@
 <h2>{% trans "Notes" %}</h2>
 </td></tr> -->
 {# {% form_item orderform.notes %} #}
+{% form_errors form %}
+
+<table>
+{% form_item form.terms_and_conditions %}
+{% form_item form.payment_method %}
+<tr>
+    <td></td>
+    <td><button type="submit" class="btn btn-success btn-large">{% trans "Confirm Order" %}</button></td>
+</tr>
+</table>
 <tr>
     <td></td>
     <td><button class="btn btn-success btn-large" type="submit">{% trans "Submit" %}</button></td>
