@@ -1,0 +1,26 @@
+Hi {{ storeorder.order.billing_first_name }},<br/><br/>
+
+We hope you enjoyed the food you ordered from <b>{{ storeorder.store.name }}</b> (by {% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %})<br/><br/>
+
+We want to know how you felt?<br/><br/>
+
+Did the food leave you licking your fingers and craving for more? Or was there room for improvement?<br/><br/>
+
+Either way, your feedback will really help <b>{% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %}</b> and Imly serve you better next time.
+<br/>So please follow the links, login and spare a few minutes to review the dish(es) below: 
+
+
+<ol>
+{% for item in items %}
+	<li>{{item.product.name}} - <a href="http://{{site.domain}}/{{item.product.store.slug}}/{{item.product.slug}}">Review</a></li>
+{% endfor %}
+</ol>
+
+Thanks!<br/>
+The Imly Team<br/><br/>
+
+Call us: +91 9920190624<br/>
+Visit our website <a href="http://imly.in">imly.in</a><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
+

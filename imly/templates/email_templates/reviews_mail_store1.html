@@ -1,0 +1,20 @@
+{% load imly_tags %}
+Hi Chef {{ review.content_object.store.owner.userprofile.first_name }},<br/><br/>
+
+Your dish - {{ review.content_object.name }} was just reviewed!
+
+The buyer <b>{{ review.user.first_name }}</b> gave the following rating and comments:<br/>
+
+<b>Rating : {% for i in review.score|loop_int %}<span style="color:orange;"><font size="6"><sub> * </sub></font></span> {% endfor %}</b><br/><br/>
+<b>Review :</b><br/>{{review.content}}<br/><br/>
+
+You can view the review on your product page by clicking <a href="http://{{site.domain}}/{{review.content_object.store.slug}}/{{review.content_object.slug}}">here</a>.<br/><br/>
+
+Cook on!<br/>
+
+The Imly Team<br/><br/>
+
+Special Chef Helpline: +91 9820072565<br/>
+Visit our website <a href="http://imly.in">imly.in</a><br/>
+Like us on <a href="https://facebook.com/imly.in">Facebook</a><br/>
+Follow us on <a href="https://twitter.com/imly_in">Twitter</a>
