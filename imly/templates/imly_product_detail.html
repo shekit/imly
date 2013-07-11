@@ -150,6 +150,7 @@
                                         <li>{{ tag }}</li>
                                     {% endfor %}
                                     </ul>
+                                    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
                             </div>
                         </div>
                         <span class="visible-phone">
@@ -368,7 +369,10 @@ $(document).ready(function(){
                 $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                 $('.dropDowncart').append('</ul></li>');
                 $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
-            }else{alert('Quantity exceed.');}
+            }else{
+                $("#exceed_stock_"+response["product_slug"]).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+            }
             }
         });
         return false;
