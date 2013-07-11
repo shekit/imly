@@ -18,7 +18,7 @@
         
         <br>
         
-        <form method="post" action="." onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
+        <form method="post" action="{% url 'imly_one_step_checkout' %}" onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
                     <ul class="messages unstyled">
@@ -159,7 +159,7 @@
         {% endfor %}
 
             <ul class="inline text-right checkout_mobile">
-				{% request_update_cart plata.order %}
+				{# % request_update_cart plata.order % #}
                 <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
                 <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
                 <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
