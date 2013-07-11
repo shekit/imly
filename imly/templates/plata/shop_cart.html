@@ -161,8 +161,8 @@
             <ul class="inline text-right checkout_mobile">
 				{# % request_update_cart plata.order % #}
                 <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
-                <li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>
-                <li><input type="submit" class="btn btn-success" name="checkout" value="{% trans "Checkout" %}" /></li>
+                {#<li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>#}
+                <li><input type="submit" class="btn btn-custom" name="checkout" value="{% trans "Checkout" %}" /></li>
             </ul>
 
         </form>
