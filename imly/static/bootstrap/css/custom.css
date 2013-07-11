@@ -1375,6 +1375,14 @@ td.less_padding_inner_td input[type=text]{
     margin-top: 63px;
 }
 
+.table th.checkout_th {
+    padding:2px 5px;    
+}
+
+.pick_delivery_details{
+    font-weight: normal;
+}
+
 .shipping_address {
     display: none;
 }
