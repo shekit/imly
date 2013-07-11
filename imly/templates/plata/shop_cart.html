@@ -102,7 +102,7 @@
                                                     </li>
                                                     {% comment %}<li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>{% endcomment %}
 
-                                                    <li><small class="muted"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></small>
+                                                    <li><small class="muted"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></small>
 
                                                 </ul>
                                                 
@@ -120,7 +120,7 @@
                                             <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
                                             <td class="less_padding_inner_td hidden-phone" width="70">
                                                 {% comment %}<p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p>{% endcomment %}
-                                                <p class="text-center"><a class="order-item" id="order-item-remove:{{orderitemform.instance.id}}" >Remove</a></p>
+                                                <p class="text-center"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></p>
                                             </td>
                                         </tr>
                                     </table>
@@ -313,7 +313,8 @@ function update_store_order(field, store_order_id, parameter){
     });
     $('a.order-item').click(function(){
         //var order-item-remove = $(this).attr('id');
-        var order_item = parseInt(($(this).attr('id')).split(":")[1]);
+        var id = $(this).attr('id');
+        var order_item = parseInt(id.split("-")[1]);
         var order_item_id = $(this).parents('tr.order-items').attr('id');
         var store_table = $(this).parents('table.store_table').attr('id');
         var data = {id:parseInt((order_item_id).split("-")[1])};
@@ -326,7 +327,7 @@ function update_store_order(field, store_order_id, parameter){
                     $('.items-count_cart').text(data['count']);
                     $('#order_total').text(data['order_total']);
                     $('#store_total-'+store_table).html(data['store_order_total']);
-                    $('#order_item-'+order_item).remove();    
+                    $('#order_item-'+order_item).remove();
                 }
                 else
                 {
