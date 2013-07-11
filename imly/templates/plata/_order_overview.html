@@ -1,4 +1,5 @@
 {% load i18n %}
+{% comment %}
 {% with order.addresses as addresses %}
 
 <legend class="orange">{% trans "Address Details" %}</legend>
@@ -12,31 +13,62 @@
     {% with addresses.shipping as address %}{% include "plata/_address.html" %}{% endwith %}
     </li>
 </ul>
-{% endwith %}
+{% endwith %}{% endcomment %}
 
-<legend class="orange">{% trans "Order Details" %}</legend>
-
-<legend class="legend">{% trans "Order items" %}</legend>
+<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} {{ order.total|floatformat:2 }}</span></legend>
 
 <div class="row-fluid">
-    <div class="span8">
-        <table class="table table-striped table-bordered">
-        <tr>
-            <th>Item Name</th>
-            <th>Quantity * Price</th>
-            <th>Subtotal</th>
-        </tr>
-        {% for item in order.items.all %}
-        <tr>
-            <td>{{ item.product }}</td>
-            <td>{{ item.quantity }} * {{ item.currency }} {{ item.unit_price|floatformat:2 }}</td>
-            <td>{{ item.currency }} {{ item.discounted_subtotal|floatformat:2 }}</td>
-        </tr>
-        {% endfor %}
+    <div class="span12">
+        {% load imly_tags %}
+            {% for store in order.storeorder_set.all %}
+        {% if store.store_items %}
+        <table class="table table-bordered store_table_checkout" id="{{store.store.slug}}">
+
+            <tr class="shop_cart_header">
+
+                <th colspan="3">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name|lower|title }}</a>
+				
+                                {% store_amend_geo store.store %}
+                        <br>
+                        {% if request.session.place_slug %}
+
+                                <span class="cart_mobile" style="font-weight: normal;"><small>
+
+                                
+                            
+                                {% if store.store.delivers %}
+                                    Delivers to you
+                                {% else %}
+                                    {% if store.store.pick_up %}
+                                        Pick up near*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}
+                                    {% endif %}
+
+                                {% endif %}
+                                </small>
+                                </span>
+                        {% else %}
+                            {% if store.store.pick_up %}
+                                <span class="cart_mobile"><small>Pick-up near*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}</small></span>
+                            {% endif %}
+                        {% endif %}
+                        <span class="cart_mobile" style="font-weight: normal;"><small>&nbsp;|&nbsp;{{ store.delivered_on|date:"F j"}}&nbsp;|&nbsp;{{ store.display_order_time }}</small></span>
+                </th>
+            </tr>
+            {% for item in order.items.all %}
+                {% ifequal item.product.store.pk store.store.id %}
+                    <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.quantity }} &times; {{ item.currency }} {{ item.unit_price|floatformat:2 }}</td>
+                    <td>{{ item.currency }} {{ item.discounted_subtotal|floatformat:2 }}</td>
+                    </tr>
+                {% endifequal %}
+            {% endfor %}
+                
         </table>
+        {% endif %}
+        {% endfor %}
+        
     </div>
-    
-    <div class="span4"></div>
 </div>
 
 
@@ -58,7 +90,6 @@
 {% empty %}
     {% trans "No discounts" %}
 {% endfor %}
-{% endcomment %}
 
 <legend class="legend">{% trans "Total" %}</legend>
 <div class="row-fluid">
@@ -85,4 +116,4 @@
     
     <div class="span6"></div>
 </div>
-
+{% endcomment %}

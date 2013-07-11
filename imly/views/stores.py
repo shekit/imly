@@ -25,7 +25,7 @@ def home_page(request):
     bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False,is_flag = False)[:4]
     featured_stores = Store.objects.filter(is_featured=True)[:4]
     recently_added = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[:8]
-    recently_bought = Product.objects.filter(orderitem__order__status=Order.IMLY_CONFIRMED).order_by("-orderitem__order__confirmed")[:8]
+    recently_bought = Product.objects.filter(orderitem__order__status__gte=0).order_by("-orderitem__order__created")[:8]
 
     try:
         special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
@@ -262,7 +262,7 @@ def one_step_checkout(request):
         form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
     else:
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
-        form = ConfirmationForm(**{"order":order,"request":request, "shop":shop})
+        form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
         shop.checkout(request, order)
         return shop.confirmation(request,order)
