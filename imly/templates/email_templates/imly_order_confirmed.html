@@ -18,14 +18,14 @@ Order number: {{storeorder.order}}<br/>
 		<th style="border:1px solid;padding:0.2em;">Quantity</th>
 		<th style="border:1px solid;padding:0.2em;">
 			{% if not storeorder.pick_up %}
-				Deivery
+				Delivery
 			{% else %}
 				Pick up
 			{% endif %}
 			</th>
 		<th style="border:1px solid;padding:0.2em;">
 			{% if not storeorder.pick_up %}
-				Delivered Date
+				Delivery on
 			{% else %}
 				Pick up Date
 			{% endif %}

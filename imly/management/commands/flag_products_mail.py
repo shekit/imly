@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from imly.models import Product
+from imly.models import Product,Store
 from django.template.loader import get_template
 from django.template import Context
 from django.core.mail import EmailMessage

@@ -271,7 +271,7 @@ $(document).ready(function(){
             url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
-
+            if (response['success']==true){
 
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
@@ -282,6 +282,7 @@ $(document).ready(function(){
                 $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                 $('.dropDowncart').append('</ul></li>');
                 $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
+            }else{alert("Quantity Exceed.");}
             }
         });
         return false;

@@ -218,16 +218,20 @@ def add_order(request, store_slug, product_slug):
     shop = plata.shop_instance()
     
     product = get_object_or_404(Product, slug=product_slug, store__slug=store_slug)
+
     
     if request.method == "POST":
         form = OrderItemForm(data=request.POST)
         
         if form.is_valid():
             order = shop.order_from_request(request,create=True)
+            stock_change = product.stock_change(order)
             quantity = form.cleaned_data["quantity"]
-            if quantity > product.items_in_stock:
-                messages.error(request, "I can only make %d more %ss today" %(product.items_in_stock, product.name)) 
-                return render(request, "imly_product_detail.html", {"object":product, "form":form})
+            if quantity > stock_change:
+                data = {"success":False}
+                '''messages.error(request, "I can only make %d more %ss today" %(product.items_in_stock, product.name))
+                return render(request, "imly_product_detail.html", {"object":product, "form":form})'''
+                return HttpResponse(simplejson.dumps(data),mimetype="application/json")
             order.modify_item(product, relative=form.cleaned_data["quantity"])
             
             try:
@@ -238,7 +242,7 @@ def add_order(request, store_slug, product_slug):
                 else:
                     raise
             #return redirect("plata_shop_cart")
-            data = {"count":order.items.count(),"product":product.name.lower(),"items_in_stock":product.items_in_stock - quantity,"store":product.store.name.lower(),"quantity":quantity,"image":product.image_thumbnail_mini.url}
+            data = {"success":True,"count":order.items.count(),"product":product.name.lower(),"items_in_stock":product.items_in_stock - quantity,"store":product.store.name.lower(),"quantity":quantity,"image":product.image_thumbnail_mini.url}
             return HttpResponse(simplejson.dumps(data),mimetype="application/json")
     else:
         form = OrderItemForm()
