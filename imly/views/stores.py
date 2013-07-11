@@ -255,6 +255,8 @@ def add_order(request, store_slug, product_slug):
 def one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
+    if not order or not order.items.count():
+        return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
