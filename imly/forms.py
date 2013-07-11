@@ -208,7 +208,7 @@ class ProductForm(forms.ModelForm):
         }
         
 class OrderItemForm(forms.Form):
-    quantity = forms.IntegerField(initial=1, min_value=1, max_value=50)
+    quantity = forms.IntegerField(initial=1, min_value=1)
             
     """
     def __init__(self,*args,**kwargs):
