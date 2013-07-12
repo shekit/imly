@@ -632,7 +632,7 @@
 						<p>The link to your store is:<a href="http://imly.in/{{store.slug}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">www.imly.in/{{store.slug}}</a></p>
 						
 						{% if store.owner.userprofile %}
-							<p>The link to your chef profile is:<a href="http://imly.in/profiles/{{ store.owner.userprofile.slug }}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">www.imly.in/profiles/{{ store.owner.userprofile.slug }}</a></p>
+							<p>The link to your chef profile is:<a href="http://imly.in/chefs/{{ store.owner.userprofile.slug }}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">www.imly.in/chefs/{{ store.owner.userprofile.slug }}</a></p>
 						{% else %}
 							<p>You are yet to setup your chef profile so we encourage you to do the same by clicking <a href="http://imly.in/account/create-profile/" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">here</a></p>
 						{% endif %}
