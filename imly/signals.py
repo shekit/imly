@@ -38,7 +38,7 @@ def anonymous_checkout_created_account(sender, user, password, **kwargs):
     	site = Site.objects.get(pk=settings.SITE_ID)
     	path = reverse("account_reset_password_from_key",kwargs=dict(uidb36=int_to_base36(user.id),key=temp_key))
     	url = 'http://%s%s' %(site.domain,path)
-        msg = EmailMessage("Password for Account.",get_template('email_templates/anonymous_checkout_created_account.html').render(Context({'user':user,'password':password,'password_reset_url':url})),settings.ADMIN_EMAIL,[user.email],bcc=[settings.ADMIN_EMAIL])
+        msg = EmailMessage("Your imly.in password",get_template('email_templates/anonymous_checkout_created_account.html').render(Context({'user':user,'password':password,'password_reset_url':url})),settings.ADMIN_EMAIL,[user.email],bcc=[settings.ADMIN_EMAIL])
         msg.content_subtype = "html"
         msg.send()
 
@@ -49,7 +49,7 @@ def reviewed_mail(sender,instance,created,**kwargs):
 		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_admin.html').render(Context({'review':instance, 'site': site})),settings.ADMIN_EMAIL,[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
-		msg = EmailMessage("Reviews",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.SIGNUP_EMAIL,[instance.content_object.store.owner.email])
+		msg = EmailMessage("You just got a review!",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.SIGNUP_EMAIL,[instance.content_object.store.owner.email])
 		msg.content_subtype = "html"
 		msg.send()
 		
@@ -70,7 +70,7 @@ def sign_up_email(sender,instance,created,**kwargs):
                 product4 = Product.objects.is_approved().filter(is_bestseller=True, is_flag=False)[3]
                 product5 = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[0]
                 product6 = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[1]
-		msg = EmailMessage("Welcome to Imly.",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance, 'product1':product1,'product2':product2,'product3':product3,'product4':product4,'product5':product5,'product6':product6, 'site':site})),settings.SIGNUP_EMAIL,[instance.email])
+		msg = EmailMessage("Welcome to Imly!",get_template('email_templates/user_sign_up_email.html').render(Context({'user':instance, 'product1':product1,'product2':product2,'product3':product3,'product4':product4,'product5':product5,'product6':product6, 'site':site})),settings.SIGNUP_EMAIL,[instance.email])
 		msg.content_subtype = "html"
 		msg.send()
 
@@ -114,10 +114,10 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 				for detail in storeorder.order.items.all():
 					if detail.product.store == store:
 						product_detail.append(detail)
-			msg=EmailMessage("New Order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),settings.ORDERS_EMAIL,[store.owner.email],bcc=[settings.ADMIN_EMAIL])
+			msg=EmailMessage("You got a new order - %s" %(instance._order_id),get_template('email_templates/imly_order_confirmed.html').render(Context({'store':store,'storeorder':storeorder,'product_detail':product_detail,'buyer_info':instance})),settings.ORDERS_EMAIL,[store.owner.email],bcc=[settings.ADMIN_EMAIL])
 			msg.content_subtype = "html"
 			msg.send()
-		msg = EmailMessage("Order %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),settings.ORDERS_EMAIL,[instance.email],bcc=[settings.ADMIN_EMAIL])
+		msg = EmailMessage("Your Imly order - %s." % (instance._order_id),get_template('email_templates/imly_order_confirmed_buyer.html').render(Context({'order':instance})),settings.ORDERS_EMAIL,[instance.email],bcc=[settings.ADMIN_EMAIL])
 		msg.content_subtype = "html"
 		msg.send()
 		post_save.disconnect(imly_confirmed_send_mail_store_owner,sender=Order)
@@ -157,14 +157,14 @@ def send_store_mail(sender,instance,created, **kwargs):
     	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_admin.html').render(Context({'store':instance})),instance.owner.email,[settings.STORE_EMAIL])
     	msg.content_subtype = "html"
     	msg.send()
-    	msg=EmailMessage("Store added.",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
+    	msg=EmailMessage("Your shop will be reviewed soon!",get_template('email_templates/imly_store_created_owner.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
     	msg.content_subtype = "html"
     	msg.send()
 
 @receiver(post_save,sender=Store)
 def store_approved_email(sender,instance,created,**kwargs):
 	if instance.is_approved and not instance.data.get('email',''):# and Site.objects.get_current().domain == 'imly.in':
-		msg=EmailMessage("Store Approved.",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
+		msg=EmailMessage("Your shop's been approved!",get_template('email_templates/imly_store_confirmed.html').render(Context({'store':instance})),settings.STORE_EMAIL,[instance.owner.email],bcc=[settings.ADMIN_EMAIL])
 		msg.content_subtype = 'html'
 		msg.send()
 		post_save.disconnect(store_approved_email,sender=Store)

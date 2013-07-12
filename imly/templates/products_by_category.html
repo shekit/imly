@@ -69,7 +69,7 @@
                         {% if not object.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
-                        
+                        <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
                     </div>
                 </a>
                 <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
@@ -125,18 +125,27 @@ $(document).ready(function(){
             url:form.attr('action'),
             success:function(response){
                 //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
 
-                $('#items-count_cart').html(response['count']);
+                    $('#items-count').html(response['count']);
 
-                $('#items-count').html(response['count']);
+                    $('.dropDowncart').empty();
+                    $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                    $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                    $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                    $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                    $('.dropDowncart').append('</ul></li>');
+                    $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+                }else{
+                    
+                    
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+                    
+                    }
 
-                $('.dropDowncart').empty();
-                $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
-                $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
-                $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
-                $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
-                $('.dropDowncart').append('</ul></li>');
-                $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
+
             }
         });
         return false;

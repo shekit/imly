@@ -1,0 +1,18 @@
+Hi chef {% if store.owner.userprofile %}
+			{{ store.owner.userprofile.first_name }}
+		{% else %}
+			{{store.owner.username}}
+		{% endif %},<br/><br/>
+
+<b>Flagged Products.</b>
+<table>
+	<tr><th>Flagged Products</th><th>Reason for flagged</th></tr>
+{% for product in store.product_set.all %}
+	{% if product.is_flag %}
+		<tr>
+			<td>{{product.name}}</td>
+			<td>{{product.flag_reason}}</td>
+		<tr>
+	{% endif %}
+{% endfor %}
+</table>

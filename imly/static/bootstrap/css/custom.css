@@ -38,6 +38,28 @@ body {
 	text-shadow:none;
     }
 
+/* removing rounded corners of form elements */
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+}
 
 /* navbar styling */
     .navbar {
@@ -638,6 +660,29 @@ transition: all 0.2s ease-in-out;
     left:-1px;
 }
 
+.exceed_stock {
+    position: absolute;
+    top:50%;
+    left:50%;
+    background: red;
+    color:white;
+    width: 150px;
+    height:20px;
+    margin-left:-80px;
+    margin-top:-10px;
+    display: none;
+    padding:0px 3px;
+    color: #ffffff;
+    border:2px solid #fff;
+    border-radius: 15px;
+    background: #ff7752;
+    background: rgba(240,90,40,0.8);
+    box-shadow: 0px 0px 6px #666;
+    text-shadow: 1px 1px rgba(0,0,0,0.250);
+    z-index: 1500;
+    font-size:11px;
+}
+
 .all_out {
     font-weight:300;
     margin-top:70px;
@@ -790,11 +835,7 @@ h1.store_name_with_cover_photo{
 	margin-left: 0px;
 }
 
-/* getting rid of borders in the shipping/billing information form */
-.table-order th,
-.table-order td {
-	border-top: none;
-}
+
 
 /* customizing tables */
 td.center_aligned_td, th.center_aligned_th {
@@ -1254,6 +1295,10 @@ ul.city_ul a:hover {
     margin-bottom: 50px;
 }
 
+.store_table_checkout {
+    margin-bottom: 20px;
+}
+
 .shop_cart_header {
     
     background: #e9e9e9;
@@ -1368,7 +1413,40 @@ td.less_padding_inner_td input[type=text]{
 
 #id_order-billing_address, #id_order-shipping_address {
     height: 60px;
-    width:350px;
+    width:280px;
+}
+
+.checkout_summary {
+    margin-top: 63px;
+}
+
+.table th.checkout_th {
+    padding:2px 5px;    
+}
+
+.pick_delivery_details{
+    font-weight: normal;
+}
+
+.shipping_address {
+    display: none;
+}
+
+/* getting rid of borders in the shipping/billing information form */
+.table-order th,
+.table-order td {
+	border-top: none;
+	padding: 3px;
+}
+
+.checkout_terms_payment {
+    display: none;
+}
+
+.shipping_same_as_billing {
+    background: #e5e5e5;
+    border:1px solid #ccc;
+    padding:5px 7px;
 }
 
 /* SIGN OUT PAGE */

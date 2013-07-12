@@ -150,6 +150,7 @@
                                         <li>{{ tag }}</li>
                                     {% endfor %}
                                     </ul>
+                                    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
                             </div>
                         </div>
                         <span class="visible-phone">
@@ -213,7 +214,7 @@
                 {% csrf_token %}
                     {{ form.as_p }}
                     <br>
-                    <input type="submit" class="btn btn-success btn-custom btn-large" value="Order Now">
+                    <input type="submit" class="btn btn-custom btn-large" value="Order Now">
                 </form>
                 {% else %}
                     <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
@@ -358,7 +359,7 @@ $(document).ready(function(){
             url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
-
+            if(response['success']==true){
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
                 $('.dropDowncart').empty();
@@ -367,7 +368,11 @@ $(document).ready(function(){
                 $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
                 $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                 $('.dropDowncart').append('</ul></li>');
-                $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
+                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+            }else{
+                $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+            }
             }
         });
         return false;

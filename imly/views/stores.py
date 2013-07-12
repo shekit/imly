@@ -25,7 +25,7 @@ def home_page(request):
     bestselling_products = Product.objects.filter(is_bestseller=True, is_deleted=False,is_flag = False)[:4]
     featured_stores = Store.objects.filter(is_featured=True)[:4]
     recently_added = Product.objects.is_approved().filter(is_deleted=False, is_flag=False).order_by("-date_created")[:8]
-    recently_bought = Product.objects.filter(orderitem__order__status=Order.IMLY_CONFIRMED).order_by("-orderitem__order__confirmed")[:8]
+    recently_bought = Product.objects.filter(orderitem__order__status__gte=0).order_by("-orderitem__order__created")[:8]
 
     try:
         special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
@@ -221,16 +221,20 @@ def add_order(request, store_slug, product_slug):
     shop = plata.shop_instance()
     
     product = get_object_or_404(Product, slug=product_slug, store__slug=store_slug)
+
     
     if request.method == "POST":
         form = OrderItemForm(data=request.POST)
         
         if form.is_valid():
             order = shop.order_from_request(request,create=True)
+            stock_change = product.stock_change(order)
             quantity = form.cleaned_data["quantity"]
-            if quantity > product.items_in_stock:
-                messages.error(request, "I can only make %d more %ss today" %(product.items_in_stock, product.name)) 
-                return render(request, "imly_product_detail.html", {"object":product, "form":form})
+            if quantity > stock_change:
+                data = {"success":False,"product_slug":product.slug}
+                '''messages.error(request, "I can only make %d more %ss today" %(product.items_in_stock, product.name))
+                return render(request, "imly_product_detail.html", {"object":product, "form":form})'''
+                return HttpResponse(simplejson.dumps(data),mimetype="application/json")
             order.modify_item(product, relative=form.cleaned_data["quantity"])
             
             try:
@@ -241,7 +245,7 @@ def add_order(request, store_slug, product_slug):
                 else:
                     raise
             #return redirect("plata_shop_cart")
-            data = {"count":order.items.count(),"product":product.name.lower(),"items_in_stock":product.items_in_stock - quantity,"store":product.store.name.lower(),"quantity":quantity,"image":product.image_thumbnail_mini.url}
+            data = {"success":True,"count":order.items.count(),"product":product.name.lower(),"product_slug":product.slug, "items_in_stock":product.items_in_stock - quantity,"store":product.store.name.lower(),"quantity":quantity,"image":product.image_thumbnail_mini.url}
             return HttpResponse(simplejson.dumps(data),mimetype="application/json")
     else:
         form = OrderItemForm()
@@ -251,6 +255,8 @@ def add_order(request, store_slug, product_slug):
 def one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
+    if not order or not order.items.count():
+        return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
@@ -262,7 +268,7 @@ def one_step_checkout(request):
         form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
     else:
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
-        form = ConfirmationForm(**{"order":order,"request":request, "shop":shop})
+        form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
         shop.checkout(request, order)
         return shop.confirmation(request,order)

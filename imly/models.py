@@ -19,6 +19,7 @@ from markdown import markdown
 import uuid
 from imly.managers import StoreManager, ProductManager, SpecialManager
 from imly.utils import geocode
+from plata.shop.models import OrderItem
 from imly_project.settings import PROJECT_DIR,STATIC_ROOT
 from imly_project import settings
 from plata.fields import JSONField
@@ -321,6 +322,14 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     @property
     def store_order_count(self):
         return self.orderitem_set.filter(order__status = Order.IMLY_CONFIRMED).count()
+
+    def stock_change(self,order):
+        try:
+            order_item = order.items.get(product=self)
+            return self.items_in_stock - order_item.quantity
+        except OrderItem.DoesNotExist:
+            return self.items_in_stock
+
 
     def save(self, *args, **kwargs):
         # setting the capacity of product on change of capacity per day

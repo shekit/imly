@@ -9,6 +9,7 @@
 {% endblock location_search_bar %}
 
 {% block cart_content %}
+    <div class="span7">
 <h2>{% trans "Checkout" %}</h2>
 
 <form method="post" action=".">
@@ -24,8 +25,8 @@
 
 {% if orderform.create_account %}
     {% form_item orderform.create_account %}
-    <p class="muted"><small>Create an account for faster checkout</small></p>
 {% endif %}
+
 
 {# {% form_item orderform.billing_company %} #}
 {% form_item orderform.billing_first_name %}
@@ -37,16 +38,15 @@
 {% form_item orderform.billing_zip_code %}
 {% form_item orderform.billing_city %}
 {% form_item orderform.billing_country %}
+</table>
 
+<p><span class="shipping_same_as_billing"><span class="orange">{% trans "Shipping address" %}</span> same as billing address?{% form_item_plain orderform.shipping_same_as_billing %}</span></p>
+
+<div class="shipping_address">
+<table class="table table-order">
 <tr><td colspan="2">
 <legend class="orange">{% trans "Shipping address" %}</legend>
 </td></tr>
-
-<tr><td colspan="2">
-        <p>{% form_item_plain orderform.shipping_same_as_billing %}
-        <small>{{ orderform.shipping_same_as_billing.label_tag }}</small></p>
-</td></tr>
-
 {# {% form_item orderform.shipping_company %} #}
 {% form_item orderform.shipping_first_name %}
 {% form_item orderform.shipping_last_name %}
@@ -63,26 +63,38 @@
 {# {% form_item orderform.notes %} #}
 {% form_errors form %}
 
-<table>
-{% form_item form.terms_and_conditions %}
-{% form_item form.payment_method %}
-<tr>
-    <td></td>
-    <td><button type="submit" class="btn btn-success btn-large">{% trans "Confirm Order" %}</button></td>
-</tr>
 </table>
-<tr>
-    <td></td>
-    <td><button class="btn btn-success btn-large" type="submit">{% trans "Submit" %}</button></td>
-</tr>
-</table>
+</div>
+</div> <!-- end of span7 -->
+
+<div class="span5">
+{% include "plata/_order_overview.html" %}            
+<p class="text-center" style="padding:0px 10px;background: #fff;color:#999;text-shadow: 1px 1px #fff;">Pay in Cash</p>
+<div class="row-fluid">
+    <div class="span12">    
+        <button type="submit" class="btn btn-success btn-large btn-block btn-custom">{% trans "Confirm Order" %}</button>
+    </div>
+</div>
+
+<div class="row-fluid">
+    <br>
+    <p class="text-right"><small class="muted">*Exact pick-up addresses will be shared after purchase</small></p>
+    <br><br>
+</div>
+
+
+    <div class="checkout_terms_payment">
+    <table class="table table-order">
+    {% form_item form.terms_and_conditions %}
+    {% form_item form.payment_method %}
+    </table>
+    </div>
+
+
 </form>
+</div>
 {% endblock cart_content %}
 
-
-{% block shop_info %}
-                
-{% endblock shop_info %}
 
 {% block extra_javascript %}
 <script type="text/javascript">
@@ -101,6 +113,7 @@
 		$('#id_order-shipping_same_as_billing').change(function(){
 			if ($(this).is(':checked'))
 			{
+                                $(".shipping_address").slideUp();
 				$('#id_order-shipping_first_name').prop("disabled",true);
 				$('#id_order-shipping_last_name').prop("disabled",true);
 				$('#id_order-shipping_address').prop("disabled",true);
@@ -108,9 +121,10 @@
 				$('#id_order-shipping_zip_code').prop("disabled",true);
 				$('#id_order-shipping_city').prop("disabled",true);
 				$('#id_order-shipping_country').prop("disabled",true);
+                                return;
 			}
-			else
-			{
+			
+                                $(".shipping_address").slideDown();
 				$('#id_order-shipping_first_name').prop("disabled",false);
 				$('#id_order-shipping_last_name').prop("disabled",false);
 				$('#id_order-shipping_address').prop("disabled",false);
@@ -118,9 +132,12 @@
 				$('#id_order-shipping_zip_code').prop("disabled",false);
 				$('#id_order-shipping_city').prop("disabled",false);
 				$('#id_order-shipping_country').prop("disabled",false);
-			}
+			
 		});
 		
+                $("#id_order-billing_country").val("India");
+                //$('#id_payment_method')[0].selectedIndex=1;
+                //$("#id_terms_and_conditions").attr("checked",true);
 	});
 </script>            
 {% endblock extra_javascript %}
