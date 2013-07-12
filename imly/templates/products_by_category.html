@@ -87,7 +87,7 @@
                     <form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                         {% csrf_token %}
                         <input type="hidden" name="quantity" value="1">
-                        <input type="submit" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                        <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                     </form>
                     {% else %}
                         <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
@@ -117,11 +117,12 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
-    $('form').submit(function(){
+    $('.submit-btn').click(function(){
+		var form = $(this).parent();
         $.ajax({
-            data:$(this).serialize(),
-            type:$(this).attr('method'),
-            url:$(this).attr('action'),
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
             success:function(response){
                 //alert(response['product'])
 
