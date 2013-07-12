@@ -214,7 +214,7 @@
                 {% csrf_token %}
                     {{ form.as_p }}
                     <br>
-                    <input type="submit" class="btn btn-custom btn-large" value="Order Now">
+                    <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
                 </form>
                 {% else %}
                     <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
@@ -352,11 +352,12 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
-    $('#order_form').submit(function(){
+    $('.submit-btn').click(function(){
+        var form = $(this).parent();
         $.ajax({
-            data:$(this).serialize(),
-            type:$(this).attr('method'),
-            url:$(this).attr('action'),
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
             success:function(response){
                 //alert(response['product'])
             if(response['success']==true){
