@@ -619,18 +619,18 @@
                                         <tr>
                                             <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #888888;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;font-weight: 300;">
                                                 {% load imly_tags %}
-						<h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 18px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Hi Chef {{ review.content_object.store.owner.userprofile.first_name }},</h1>
+						<h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 18px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Hi Chef {{ review.content_object.store.owner.userprofile.first_name }},</h1><br/>
                                                 
 						
 
 						<p>Your dish - {{ review.content_object.name }} was just reviewed!</p>
 						
-						<p>The buyer <b>{{ review.user.first_name }}</b> gave the following rating and comments:</p>
+						<p><b>{{ review.user.first_name }}</b> gave your dish the following rating:</p>
 						
 						<p><b>Rating : {% for i in review.score|loop_int %}<span style="color:#f05a28;font-size:32px"><sub> * </sub></span> {% endfor %}</b></p>
 						<p><b>Review :</b><br/>{{review.content}}</p>
 						
-						<p>You can view the review on your product page by clicking <a href="http://{{site.domain}}/{{review.content_object.store.slug}}/{{review.content_object.slug}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">here</a>.</p><br/>
+						<p>Check out the review on your product page by clicking <a href="http://{{site.domain}}/{{review.content_object.store.slug}}/{{review.content_object.slug}}" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">here</a>.</p><br/>
 						
 						<p>Cook on!</p>
                                             </td>

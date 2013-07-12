@@ -11,7 +11,7 @@
         {% if empty %}
         <br><br><br><br>
         <h2 class="muted text-center">Your Cart is Empty :(</h2>
-        <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-success">Start Shopping!</a></p>
+        <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-custom">Start Shopping!</a></p>
         <br><br>
         {% else %}
         <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
