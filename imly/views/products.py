@@ -4,14 +4,14 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.db.models import Q
 from imly.forms import ProductForm, OrderItemForm, UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
-from imly.models import Product, Category, Store, Tag, Location, UserProfile, Special
+from imly.models import Product, Category, Store, Tag, Location, UserProfile, Special, City
 from reviews.forms import ReviewedItemForm
 from reviews.models import ReviewedItem
 from django.core.urlresolvers import reverse
 from django.views.generic.edit import ModelFormMixin
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import Point, MultiPolygon
 from django.contrib.gis.measure import D
 from imly.utils import tracker
 # how to put products by location?
@@ -65,8 +65,24 @@ class ProductList(ListView):
 
     def get_queryset(self):
         products = Product.objects.is_approved().filter(is_deleted=False,is_flag=False)
-        if self.request.city:
-            products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get("bingeo")
+            user_point = Point(*user_point)
+            products = products.distance(user_point).order_by("distance")
+        if self.request.GET.get('delivers', None):
+            if self.request.session.get('place_slug', None):
+                try:
+                    pilot_city = City.objects.get(slug="fbn-pilot")
+                    if user_point.within(pilot_city.enclosing_geometry):
+                        products = products.filter(store__pick_up_point__within=MultiPolygon(pilot_city.enclosing_geometry, self.request.city.enclosing_geometry))
+                    else:
+                        products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)                    
+                except City.DoesNotExist:
+                    pass # no pilot city found
+            else:
+                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)                    
+        else:        
+             products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
@@ -79,10 +95,6 @@ class ProductList(ListView):
             products = products.distinct()
             for tag in self.tags:
                 products &= tag.product_set.distinct()
-        if self.request.session.get("place_slug",""):
-            user_point = self.request.session.get("bingeo")
-            user_point = Point(*user_point)
-            products = products.distance(user_point).order_by("distance")
         return products.distinct()
 
     def get_context_data(self, **kwargs):
