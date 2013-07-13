@@ -7,7 +7,7 @@ from datetime import date,timedelta
 
 class Command(BaseCommand):
 	def handle(self,*args,**options):
-		for store in Store.objects.filter(product__is_flag=True,product__date_created__startswith=date.today()):
+		for store in Store.objects.filter(product__is_flag=True,product__updated__startswith=date.today()):
 			msg = EmailMessage("Flagged Products",get_template('email_templates/flag_products_mail.html').render(Context({'store':store})),settings.ADMIN_EMAIL,[store.owner.email],bcc=[settings.ADMIN_EMAIL])
 			msg.content_subtype = "html"
 			msg.send()
