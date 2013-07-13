@@ -212,7 +212,7 @@
                     {% endif %}
                 <form id="order_form" method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                 {% csrf_token %}
-                    {{ form }} <a class="quantity_plus">+</a> <a class="quantity_minus">-</a>
+                    {{ form }} <a class="quantity_plus" >+</a> <a class="quantity_minus">-</a>
                     <br>
                     <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
                 </form>
@@ -295,7 +295,7 @@
     
     <div class="row-fluid">
         <a name="reviews"></a><h4 class="product_detail_header_dark">Reviews:</h4>
-        <br>
+        
         {% if user.is_authenticated %}
         <form method="post" action="{% url "submit_product_review" %}">
             {% csrf_token %}

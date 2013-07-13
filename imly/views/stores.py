@@ -8,9 +8,9 @@ from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.core.urlresolvers import reverse
 from django.db.models import Q, F
-from imly.models import Category, Store, Product, Location, Tag, StoreOrder, Special
+from imly.models import Category, Store, Product, Location, Tag, StoreOrder, Special, City
 from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
-from django.contrib.gis.geos import Point
+from django.contrib.gis.geos import Point, MultiPolygon
 from django.contrib.gis.measure import D
 import plata
 from plata.shop.forms import ConfirmationForm
@@ -18,6 +18,7 @@ from plata.shop.models import OrderItem, Order
 from plata.contact.forms import CheckoutForm
 from imly.utils import tracker
 import json as simplejson
+from datetime import date
 
 
 
@@ -62,8 +63,24 @@ class StoreList(ListView):
     
     def get_queryset(self):        
         stores = Store.objects.filter(is_approved=True)
-        if self.request.city:
-            stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry) | stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get('bingeo')
+            user_point = Point(*user_point)
+            stores = stores.distance(user_point).order_by('distance')
+        if self.request.GET.get('delivers', None):
+            if self.request.session.get('place_slug', None):
+                try:
+                    pilot_city = City.objects.get(slug="fbn-pilot")
+                    if user_point.within(pilot_city.enclosing_geometry):
+                        stores = stores.filter(pick_up_point__within=MultiPolygon(pilot_city.enclosing_geometry, self.request.city.enclosing_geometry))
+                    else:
+                        stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry)
+                except City.DoesNotExist:
+                    pass # no pilot city found
+            else:
+                stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry)
+        else:        
+            stores = stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
         stores = stores.distinct()
         self.category=None
         if "category_slug" in self.kwargs:
@@ -76,10 +93,6 @@ class StoreList(ListView):
         if self.tags:
             for tag in self.tags:
                 stores &= tag.store_set.distinct()
-        if self.request.session.get("place_slug",""):
-            user_point = self.request.session.get('bingeo')
-            user_point = Point(*user_point)
-            stores = stores.distance(user_point).order_by('distance')
         return stores
     
     def get_context_data(self, **kwargs):
@@ -255,7 +268,7 @@ def add_order(request, store_slug, product_slug):
 def one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    if not order or not order.items.count():
+    if not order or not order.items.count() or order.created.date() < date.today(): #added last part to check for stale orders in cart
         return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)

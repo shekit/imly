@@ -200,8 +200,10 @@ def quantity_by_price(order_item):
 @register.inclusion_tag('imly/modal_update_cart.html')
 def request_update_cart(order):
     if order.created.date() < datetime.datetime.now().date():
+        
         for store_order in order.storeorder_set.all():
+            
             delivered_on_from_today = datetime.datetime.now() + datetime.timedelta(days=store_order.delivery_lead)
             if store_order.delivered_on.date() < delivered_on_from_today.date():
-                 return { 'request_update': True, 'order': order }
+                return { 'request_update': True, 'order': order }
     return { 'request_update': False }
