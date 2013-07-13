@@ -40,7 +40,7 @@
                                     {% endif %}
                                 {% endif %}
                                     
-                                    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+                                    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png" alt="or"></p>
                                     <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
                                         {% csrf_token %}
                                         {% load widget_tweaks %}
