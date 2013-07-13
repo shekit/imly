@@ -1162,7 +1162,8 @@ select.location_list {
 }
 
 #id_quantity {
-    width:115px;
+    width:30px;
+    margin-top: 6px;
 }
 
 /* customizing the This Item is: Tags in the product_detail page */
