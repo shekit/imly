@@ -7,7 +7,7 @@
     {% load imly_tags %}
     <div class="well shop_info hidden-phone">
         {% if request.user.is_staff and not object.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
-        <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name|lower|title }}</a></h4>
+        <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}"><span class="store_name">{{ object.store.name|lower|title }}</span></a></h4>
         <small class="muted"> by
                                             {% if object.store.owner.userprofile %}
                                                 <a class="sub_text" href="{% url "chef_profile" object.store.owner.userprofile.slug %}"><u>{{ object.store.owner.userprofile.first_name|lower|title }} {{ object.store.owner.userprofile.last_name|lower|title }}</u></a>
@@ -141,7 +141,7 @@
                                 </small></p>
                             {% endif %}
                             <div class="sold_out">
-                                <img src="{{ object.image_thumbnail_large.url }}" alt="{{ object.name }}">
+                                <img src="{{ object.image_thumbnail_large.url }}" class="product_image" alt="{{ object.name }}">
                                 {% if not object.items_in_stock %}
                                     <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image_product_detail">
                                 {% endif %}
@@ -192,7 +192,7 @@
         </div>
         
         <div class="span4 product_detail_mobile">
-            <h2>{{ object.name|lower|title }}</h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name|lower|title }}</a></small>
+            <h2><span class="product_name">{{ object.name|lower|title }}</span></h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name|lower|title }}</a></small>
             <br><br>
             {% if object.quantity_per_item == 1 %}
                 <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> per {{ object.get_quantity_by_price_display }}</small></h4>
@@ -387,22 +387,31 @@ $(document).ready(function(){
     });
     $('.submit-btn').click(function(){
         var form = $(this).parent();
+        var product_url = $('.product_image').attr('src');
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + product_url.replace('large','mini') + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + $('#id_quantity').val() + ' &times; ' + '<span class="dropDowncart_product_name">' + $('.product_name').text() + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+        $('.submit-btn').attr('disabled',true);
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
-            url:form.attr('action'),
+            url:form.attr('action'),            
             success:function(response){
                 //alert(response['product'])
             if(response['success']==true){
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
-                $('.dropDowncart').empty();
+                /*$('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
                 $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
                 $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
                 $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                 $('.dropDowncart').append('</ul></li>');
-                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);*/
             }else{
                 $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
                     //alert("Quantity exceed.");

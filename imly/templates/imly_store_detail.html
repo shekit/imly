@@ -229,6 +229,9 @@
                         {% if product.items_in_stock %}
                             <form method="post" action="{% url "imly_add_order" product.store.slug product.slug %}">
                             {% csrf_token %}
+                                <input type="hidden" name="image_url" value={{product.image_thumbnail_mini.url}}>
+                                <input type="hidden" name="product_name" value={{product.name|title}}>
+                                <input type="hidden" name="store_name" value={{product.store.name|title}}>
                                 <input type="hidden" name="quantity" value="1">
                                 <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                             </form>
@@ -264,8 +267,19 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.submit-btn').submit(function(){
+    $('.submit-btn').click(function(){
         var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
@@ -276,13 +290,13 @@ $(document).ready(function(){
 
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
-                $('.dropDowncart').empty();
+                /*$('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
                 $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
                 $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
                 $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                 $('.dropDowncart').append('</ul></li>');
-                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);*/
             }else{
                 $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
                     //alert("Quantity exceed.");
