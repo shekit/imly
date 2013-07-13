@@ -1410,6 +1410,17 @@ td.less_padding_inner_td input[type=text]{
     cursor: pointer;
 }
 
+/* stale cart modal */
+
+.stale_cart_heading {
+    padding:5px 15px;
+}
+
+.stale_cart_footer{
+    padding-top:9px;
+    padding-bottom:0px;
+}
+
 /* CHECKOUT PAGES */
 
 #id_order-billing_address, #id_order-shipping_address {
