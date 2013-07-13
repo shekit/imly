@@ -87,7 +87,7 @@
                     <form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                         {% csrf_token %}
                         <input type="hidden" name="quantity" value="1">
-                        <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                        <input type="submit" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                     </form>
                     {% else %}
                         <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
@@ -117,12 +117,11 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
-    $('.submit-btn').click(function(){
-		var form = $(this).parent();
+    $('form').submit(function(){
         $.ajax({
-            data:form.serialize(),
-            type:form.attr('method'),
-            url:form.attr('action'),
+            data:$(this).serialize(),
+            type:$(this).attr('method'),
+            url:$(this).attr('action'),
             success:function(response){
                 //alert(response['product'])
                 if(response['success'] == true){
@@ -136,11 +135,11 @@ $(document).ready(function(){
                     $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
                     $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
                     $('.dropDowncart').append('</ul></li>');
-                    $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+                    $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);
                 }else{
                     
                     
-                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    $("#exceed_stock_"+response["product_slug"]).fadeIn(200).delay(1200).fadeOut(200);
                     //alert("Quantity exceed.");
                     
                     }

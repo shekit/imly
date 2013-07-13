@@ -194,7 +194,6 @@ legend {
     width:100%;
     border-bottom: none;
     border-top:none;
-    top:70px;
     margin-left: auto;
     margin-right:auto;
     z-index:30;
@@ -205,6 +204,12 @@ legend {
 .greyed {
     color:#999;
 }
+
+.custom_carousel {
+    margin-bottom:0px;    
+    
+}
+
 .hero_carousel1{
     background: url("../img/car8.jpg") no-repeat;
     background-position: 50% top;

@@ -486,8 +486,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 }
 
 .tags_for_product_home > li > a {
-	background: #e6e6e6;
-	
+	background: #e5e5e5;
 	border-radius: 4px;
 	color:#F05A28;
 	padding: 2px 5px;
@@ -518,7 +517,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 }
 
 .tags_for_product_home_inverted > li > a:hover {
-	background: #e6e6e6;
+	background: #e5e5e5;
 	border-radius: 4px;
 	color:#F05A28;
 	text-decoration: none;
@@ -1162,7 +1161,8 @@ select.location_list {
 }
 
 #id_quantity {
-    width:115px;
+    width:30px;
+    margin-top: 6px;
 }
 
 /* customizing the This Item is: Tags in the product_detail page */
@@ -1407,6 +1407,17 @@ td.less_padding_inner_td input[type=text]{
     text-decoration: none;
     color: #ff7752;
     cursor: pointer;
+}
+
+/* stale cart modal */
+
+.stale_cart_heading {
+    padding:5px 15px;
+}
+
+.stale_cart_footer{
+    padding-top:9px;
+    padding-bottom:0px;
 }
 
 /* CHECKOUT PAGES */

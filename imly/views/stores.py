@@ -18,6 +18,7 @@ from plata.shop.models import OrderItem, Order
 from plata.contact.forms import CheckoutForm
 from imly.utils import tracker
 import json as simplejson
+from datetime import date
 
 
 
@@ -267,7 +268,7 @@ def add_order(request, store_slug, product_slug):
 def one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    if not order or not order.items.count():
+    if not order or not order.items.count() or order.created.date() < date.today(): #added last part to check for stale orders in cart
         return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)

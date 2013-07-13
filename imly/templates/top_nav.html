@@ -36,7 +36,7 @@
                                         
                                     <li><a class="no_border {% current 'imly_products_by_category' %} {% current 'imly_product_list' %} {% current 'imly_product_detail' %}" href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url 'imly_product_list' %}{% endif %}">Food</a></li>
                                     <li><a class="no_border {% current 'imly_stores_by_category' %} {% current 'imly_store_list' %} {% current 'imly_store_detail' %}" href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Shops</a></li>
-                                    <li><a class="no_border {% current 'imly_profiles' %} {% current 'chef_profile' %}"  href="{% url "imly_profiles" %}">Chef Profiles</a></li>
+                                    <li><a class="no_border {% current 'imly_profiles' %} {% current 'chef_profile' %}"  href="{% url "imly_profiles" %}">Chefs</a></li>
                                     {% if user.is_authenticated %}
                                         {% if user.store %}
                                             <li><a class="no_border_orange {% current 'imly_store_info' %} {% current 'imly_store_create' %} {% current 'imly_store_edit' %} {% current 'imly_store_products' %} {% current 'imly_product_add' %} {% current 'imly_product_edit' %} {% current 'imly_product_delete' %} {% current 'imly_store_orders' %} {% current 'imly_my_profile' %} {% current 'imly_create_profile' %} {% current 'imly_profile_edit' %}"  href="{% url "imly_store_products" %}">Manage your Shop</a></li>
