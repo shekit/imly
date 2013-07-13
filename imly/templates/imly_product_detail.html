@@ -212,7 +212,7 @@
                     {% endif %}
                 <form id="order_form" method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
                 {% csrf_token %}
-                    {{ form.as_p }}
+                    {{ form }} <a class="quantity_plus">+</a> <a class="quantity_minus">-</a>
                     <br>
                     <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
                 </form>
@@ -266,7 +266,7 @@
             <ul class="unstyled text-center  product_detail_order">
                 <li><h4 class="product_detail_header">Orders Left Today</h4></li>
                 <li>
-                    <b>{{ object.items_in_stock }}</b>
+                    <b><span id="items_in_stock">{{ object.items_in_stock }}</span></b>
                 </li>
             </ul>
         </div>
@@ -352,6 +352,39 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
+    $('#id_quantity').keypress(function(evt){
+       var charCode =  (evt.which)?evt.which:evt.keyCode;
+       if (charCode>31 && (charCode <48 || charCode>57))
+       {
+            return false;
+       }
+    });
+    $('a.quantity_plus').click(function(){
+        var quantity = parseInt($('#id_quantity').val());
+        var items_in_stock = parseInt($('#items_in_stock').text());
+        if (quantity >= items_in_stock)
+        {
+            return false;
+        }
+        else
+        {
+            quantity = quantity + 1;
+            $('#id_quantity').val(quantity);
+        }
+    });
+    $('a.quantity_minus').click(function(){
+        var quantity = parseInt($('#id_quantity').val());
+        var items_in_stock = parseInt($('#items_in_stock').text());
+        if (quantity <= 1)
+        {
+            return false;
+        }
+        else
+        {
+            quantity = quantity - 1;
+            $('#id_quantity').val(quantity);
+        }
+    });
     $('.submit-btn').click(function(){
         var form = $(this).parent();
         $.ajax({
