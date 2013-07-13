@@ -18,15 +18,34 @@
                     {% endcomment %}
                 
                     <div class="well sidebar-nav">
-                        {% comment %}
                         <div class="span12">
                             <ul class="inline text-center food_chef">
-                                <li><a href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url "imly_product_list" %}{% endif %}" class="food food_chef_inactive">Food</a></li>
-                                <li><a href="#" class="chef food_chef_active">Shop</a></li>
+                                {% if request.session.delivery and not request.session.pick_up %}
+                                    <li><a href="javascript:;" class="food food_chef_active">Delivery</a></li>
+                                    <li><a href="{% url "set_pick_up" %}" class="chef food_chef_inactive">Pick-Up</a></li>
+                                {% elif request.session.pick_up and not request.session.delivery %}
+                                    <li><a href="{% url "set_delivery" %}" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% else %}
+                                    <li><a href="javascript:;" id="delivery_location_not_set" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% endif %}
                                 <hr class="hr_less_margin">
                             </ul>
                         </div>
-                        {% endcomment %}
+                        
+                        <div class="modal hide fade stale_cart_modal" id="delivery_modal">
+                          <div class="modal-header tip_modal_heading stale_cart_heading">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h3 class="text-center tip_modal_heading">Tell us where you are</h3>
+                          </div>
+                          <div class="modal-body">
+                            <p class="text-center">Enter your location to check which chefs deliver to you</p>
+                          </div>
+                          <div class="modal-footer stale_cart_footer">
+                            <p class="text-center"><button class="btn btn-custom" data-dismiss="modal" aria-hidden="true">Ok, Got it!</button></p>
+                          </div>
+                        </div>
                     
                         {% load imly_tags %}
 
@@ -202,3 +221,17 @@
 
 {% endblock content %}
 
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $("#delivery_location_not_set").on("click",function(){
+        $("#delivery_modal").modal();
+    });
+    
+    $("#delivery_modal").on("hidden", function(){
+        $(".large_location_search").focus(); 
+    });
+});
+</script>   
+{% endblock extra_javascript %}

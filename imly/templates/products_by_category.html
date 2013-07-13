@@ -8,15 +8,37 @@
                     
                     <div class="well sidebar-nav">
                         
-                        {% comment %}
+                        
                         <div class="span12">
                             <ul class="inline text-center food_chef">
-                                <li><a href="#" class="food food_chef_active">Food</a></li>
-                                <li><a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}" class="chef food_chef_inactive">Shop</a></li>
+                                {% if request.session.delivery and not request.session.pick_up %}
+                                    <li><a href="javascript:;" class="food food_chef_active">Delivery</a></li>
+                                    <li><a href="{% url "set_pick_up" %}" class="chef food_chef_inactive">Pick-Up</a></li>
+                                {% elif request.session.pick_up and not request.session.delivery %}
+                                    <li><a href="{% url "set_delivery" %}" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% else %}
+                                    <li><a href="javascript:;" id="delivery_location_not_set" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% endif %}
                                 <hr class="hr_less_margin">
                             </ul>
                         </div>
-                        {% endcomment %}
+                        
+                        <div id="delivery_modal" class="modal fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-header tip_modal_header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                <h3 id="myModalLabel_tip" class="text-center city_modal_heading">Where are you?</h3>
+                            </div>
+                          <div class="modal-body">
+                            <p class="text-center">Enter your location in the box</p>
+                            <p class="text-center">to see which chefs deliver to you!</p>
+                            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/delivery_location.png" alt="Close this window and enter your location in the box"></p>
+                          </div>
+                          <div class="modal-footer delivery_location_footer">
+                            <p class="text-center"><button class="btn btn-custom" data-dismiss="modal" aria-hidden="true">Ok, Got it!</button></p>
+                          </div>
+                        </div>
                     
                         {% include "sidebar_nav.html" %}
                     </div> <!-- end of well sidebar-nav -->
@@ -163,6 +185,14 @@ $(document).ready(function(){
             }
         });
         return false;
+    });
+    
+    $("#delivery_location_not_set").on("click",function(){
+        $("#delivery_modal").modal();
+    });
+    
+    $("#delivery_modal").on("hidden", function(){
+        $(".large_location_search").focus(); 
     });
 });
 </script>   

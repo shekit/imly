@@ -14,7 +14,7 @@ def set_location(request):
                 return redirect('/not-in-city/')  #redirect if place not within city limits
             request.session['bingeo'] = result[1]
             display_place_slug = place_slug.split(",")[0]
-            request.session["place_slug"], request.session["display_place_slug"] = place_slug, display_place_slug
+            request.session["place_slug"], request.session["display_place_slug"], request.session["delivery"], request.session["pick_up"] = place_slug, display_place_slug , True , False
         else:
             return redirect("/no-such-place/")            
         if "/no-such-place/" in request.referer:
@@ -30,6 +30,11 @@ def unset_location(request):
         request.session.pop("place_slug")
         request.session.pop("display_place_slug")
         request.session.pop("bingeo")
+        request.session.pop("delivery")
+    except KeyError:
+        pass
+    try:
+        request.session.pop("pick_up")
     except KeyError:
         pass
     return redirect(request.referer)
@@ -53,4 +58,20 @@ def set_city(request, slug):
     if "/will-be-there-soon/" in request.referer:
         return redirect("/food/")
     return redirect(request.GET.get("next", request.referer))
+
+def set_delivery(request):
+    try:
+        request.session.pop("pick_up")
+    except KeyError:
+        pass
+    request.session["delivery"] = request.path.startswith("/delivery")
+    return redirect(request.referer)
+
+def set_pick_up(request):
+    try:
+        request.session.pop("delivery")
+    except KeyError:
+        pass
+    request.session["pick_up"] = request.path.startswith("/pick-up")
+    return redirect(request.referer)
     

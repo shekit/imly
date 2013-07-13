@@ -4,7 +4,7 @@ from imly.models import Product, Store, Category, Location
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout
 from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
-from imly.views.places import set_location, unset_location, set_city
+from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
 from imly.views.tags import add_tag, remove_tag
 from imly.sitemaps import all_sitemaps as sitemaps
@@ -79,6 +79,8 @@ urlpatterns += patterns('',
     url(r'^set_city/(?P<slug>[-\w]+)/$', set_city, name='imly_set_city'),
     url(r"^add-tag/(?P<slug>[-\w]+)/$", add_tag, name="add_tag"),
     url(r"^remove-tag/(?P<slug>[-\w]+)/$", remove_tag, name="remove_tag"),
+    url(r"^delivery/$", set_delivery, name="set_delivery"),
+    url(r"^pick-up/$", set_pick_up, name="set_pick_up"),
     #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
     #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
     #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),

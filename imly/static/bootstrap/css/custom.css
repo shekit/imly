@@ -387,12 +387,12 @@ ul.food_chef > li {
 
 .food {
 
-    padding: 5px 20px;
+    padding: 5px 14px;
     border-radius: 4px 0px 0px 4px;
 }
 
 .chef {
-    padding: 5px 20px;
+    padding: 5px 14px;
     border-radius: 0px 4px 4px 0px;
 }
 
@@ -425,6 +425,11 @@ ul.food_chef > li {
     box-shadow: inset 0px 0px 5px #e2e2e2;
 }
 
+.delivery_location_footer {
+    background: white;
+    padding-top:10px;
+    padding-bottom:0px;
+}
 
 .sidebar-nav {
 	padding: 9px 0;
