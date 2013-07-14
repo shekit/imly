@@ -212,6 +212,15 @@
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ product.slug }}" class="exceed_stock">I can't make more today</div>
+                    
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ product.store.slug }}/{{ product.slug }}/" addthis:title="Check out {{ product.name|title }} only on imly.in! Drooool...">
+                    <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                    <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                    <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                    </div>
+                    <!-- AddThis Button END -->
+                    
                     </div>
                 </a>
 
@@ -305,6 +314,16 @@ $(document).ready(function(){
         });
         return false;
     });
+    
+    
+    $(".thumbnail_custom").hover(
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideDown(300);
+        },
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideUp(300);
+        }
+    );
 });
 </script>   
 {% endblock extra_javascript %}

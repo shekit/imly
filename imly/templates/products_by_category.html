@@ -25,7 +25,7 @@
                             </ul>
                         </div>
                         
-                        <div id="delivery_modal" class="modal fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div id="delivery_modal" class="modal hide fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-header tip_modal_header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3 id="myModalLabel_tip" class="text-center city_modal_heading">Where are you?</h3>
@@ -92,8 +92,18 @@
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+                    
+                    <!-- AddThis Button BEGIN -->
+                    <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
+                    <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                    <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                    <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
                     </div>
+                    <!-- AddThis Button END -->
+                    </div>
+
                 </a>
+
                 <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
                 <div class="thumbnail_info_wrapper">
                     <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
@@ -194,6 +204,16 @@ $(document).ready(function(){
     $("#delivery_modal").on("hidden", function(){
         $(".large_location_search").focus(); 
     });
+    
+    $(".thumbnail_custom").hover(
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideDown(300);
+        },
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideUp(300);
+        }
+    );
+    
 });
 </script>   
 {% endblock extra_javascript %}

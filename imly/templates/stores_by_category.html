@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Imly | Chefs{% endblock title %}
+{% block title %}Imly | Shops{% endblock title %}
 
 
                 {% block sidebar_nav %}
@@ -34,7 +34,7 @@
                             </ul>
                         </div>
                         
-                        <div id="delivery_modal" class="modal fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div id="delivery_modal" class="modal hide fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
                             <div class="modal-header tip_modal_header">
                                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                                 <h3 id="myModalLabel_tip" class="text-center city_modal_heading">Where are you?</h3>
@@ -192,10 +192,34 @@
                                 </small></p>
                             {% endif %}
                         {% if object.logo %}
-                            <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></a>
+                            <a href="{% url "imly_store_detail" object.slug %}">
+                                <div class="sold_out">
+                                    <img src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}">
+                                        <!-- AddThis Button BEGIN -->
+                                        <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.slug }}/" addthis:title="Check out chef {{ object.owner.first_name }}'s shop '{{ object.name|title }}' on imly.in! Amazing!">
+                                        <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                                        <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                                        <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                                        </div>
+                                        <!-- AddThis Button END -->
+                                </div>
+                            </a>
                         {% else %}
                             {% with object.product_set.all|first as product %}
-                                <a href="{% url "imly_store_detail" object.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
+                                <a href="{% url "imly_store_detail" object.slug %}">
+                                    <div class="sold_out">
+                                        <img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}">
+                                        
+                                            <!-- AddThis Button BEGIN -->
+                                            <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.slug }}" addthis:title="Check out chef {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}'s{% else %}{{ object.owner.username }}'s{% endif %} shop '{{ object.name|title }}' on imly.in! Amazing!">
+                                            <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                                            <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                                            <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                                            </div>
+                                            <!-- AddThis Button END -->
+                                            
+                                    </div>
+                                </a>
                             {% endwith %}
                         {% endif %}
                     
@@ -234,6 +258,15 @@ $(document).ready(function(){
     $("#delivery_modal").on("hidden", function(){
         $(".large_location_search").focus(); 
     });
+    
+    $(".thumbnail_custom").hover(
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideDown(300);
+        },
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideUp(300);
+        }
+    );
 });
 </script>   
 {% endblock extra_javascript %}

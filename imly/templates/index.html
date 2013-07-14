@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<meta name="google-site-verification" content="TM0PA9SNMaBm8WQvOoO_M5se6dt72LVlD9eD1WaFKi4" />
-        <title>{% block title %}Imly: An online marketplace to buy and sell homemade food{% endblock title %}</title>
+        <title>{% block title %}Imly - An online marketplace to buy and sell homemade food{% endblock title %}</title>
 		<meta name="description" content="Imly is a marketplace to discover great home chefs, a place to buy unique homemade delicacies being served fresh from kitchens across your city.">
 		<meta name="keywords" content="Imly,homemade food, gourmet, mumbai food, local, delivered,bangalore">
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
@@ -16,9 +16,9 @@
         <![endif]-->
         <link rel="shortcut icon" type="image/ico" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
 		<meta property="og:url" content="http://imly.in">
-		<meta property="og:title" content="Imly: the online marketplace to buy and sell homemade fool">
+		<meta property="og:title" content="Imly.in - the online marketplace to buy and sell homemade food">
 		<meta property="og:type" content="website"/>
-		<meta property="og:image" content="https://imly.s3.amazonaws.com/bootstrap/img/car10.jpg"/>
+		<meta property="og:image" content="https://imly.s3.amazonaws.com/bootstrap/img/fb_og_image.png"/>
     </head>
     
     
@@ -426,8 +426,13 @@
                         
         })
       }(window.jQuery)
+      
     </script>
 
+    {% block extra_javascript %}
+            
+        {% endblock extra_javascript %}
+    
         <!-- UserVoice JavaScript SDK (only needed once on a page) -->
         <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
         
