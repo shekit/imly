@@ -76,7 +76,7 @@ class ProductList(ListView):
                     if user_point.within(pilot_city.enclosing_geometry):
                         products = products.filter(Q(store__pick_up_point__within=pilot_city.enclosing_geometry)| Q(store__delivery_locations__location__within=self.request.city.enclosing_geometry))
                     else:
-                        products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry).filter(store__delivery_locations__location__distance_lte=(user_point, D(km=7)))
+                        products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry).filter(store__delivery_locations__location__distance_lte=(user_point, D(km=3)))
                 except City.DoesNotExist:
                     pass # no pilot city found
 #            else:
