@@ -1,7 +1,7 @@
 from django import template
 from django.core import urlresolvers
 from django.contrib.gis.geos import Point
-from imly.models import Category, Tag, Location, Store, Product, StoreOrder, Special
+from imly.models import Category, Tag, Location, Store, Product, StoreOrder, Special, City
 from django.contrib.gis.measure import D
 import datetime
 
@@ -134,12 +134,17 @@ class StoreAmendGeo(template.Node):
         if session.get('bingeo', None):
             user_point = Point(*session['bingeo'])
             store.distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None            
+            pilot_city = City.objects.get(slug="fbn-pilot")
+            if user_point.within(pilot_city.enclosing_geometry) and store.pick_up_point.within(pilot_city.enclosing_geometry):
+                store.delivers = True
+                return ''
             try:
                 if store.delivery_locations.count():
                     distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
                     store.delivers = distance.km < 3
             except AttributeError:
                 store.delivers = False
+                
         return ''
 
 def do_store_amend_geo(parser, token):

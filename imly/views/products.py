@@ -24,7 +24,7 @@ def coming_soon(request):
 class SpecialList(ListView):
     model = Product
     template_name = 'special_products.html'
-    
+
     def get_queryset(self):
         special = get_object_or_404(Special, slug=self.kwargs['slug'], active=True)
         self.request.special = special
@@ -32,24 +32,24 @@ class SpecialList(ListView):
         if self.request.city:
             products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         return products.distinct()
-    
+
 class ProductReview(CreateView):
     form_class = ReviewedItemForm
     model = ReviewedItem
     template_name = "imly_product_detail.html"
-    
+
     def get_success_url(self):
         reviewed_item = self.object
         tracker.add_event('review-created', {'product': self.object.content_object.slug, 'store': self.object.content_object.store.slug})
         return reverse("imly_product_detail", args = (reviewed_item.content_object.store.slug,reviewed_item.content_object.slug,))
-    
+
     def form_valid(self,form):
         reviewed_item = form.save(commit=False)
         reviewed_item.user = self.request.user
         reviewed_item.content_object = Product.objects.get(slug=self.request.POST.get("product_slug"), store__slug=self.request.POST.get('store_slug'))
         self.object = form.save()
         return super(ModelFormMixin,self).form_valid(form)
-    
+
     def get_context_data(self, **kwargs):
         context = super(ProductReview, self).get_context_data(**kwargs)
         context["review_form"] = self.get_form(self.get_form_class())
@@ -74,21 +74,21 @@ class ProductList(ListView):
                 try:
                     pilot_city = City.objects.get(slug="fbn-pilot")
                     if user_point.within(pilot_city.enclosing_geometry):
-                        products = products.filter(store__pick_up_point__within=MultiPolygon(pilot_city.enclosing_geometry, self.request.city.enclosing_geometry))
+                        products = products.filter(store__pick_up_point__within=pilot_city.enclosing_geometry) | products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)
                     else:
-                        products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)                    
+                        products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)
                 except City.DoesNotExist:
                     pass # no pilot city found
             else:
-                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)                    
-        else:        
+                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)
+        else:
              products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             products = products.filter(category=self.category).distinct() if self.category.super_category else products.filter(category__in=self.category.sub_categories.all()).distinct()
         try:
-            self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[])) 
+            self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
             self.tags = []
         if self.tags:
@@ -109,20 +109,20 @@ class ProductCreate(CreateView):
     model = Product
     template_name = "product_create.html"
     success_url = "/account/store/products/"
-    
+
     # done to check whether product name exists since store of product is needed..
     def get_form(self, form_class):
         form = super(ProductCreate, self).get_form(form_class)
         form.instance.store = self.request.user.store
         return form
 
-    
+
 class ProductEdit(UpdateView):
     form_class = ProductForm
     model = Product
     template_name = "product_edit.html"
     success_url = "/account/store/products/"
-    
+
     def get(self,request,*args, **kwargs):
         if self.get_object().store.owner != self.request.user:
             return HttpResponseForbidden()
@@ -131,7 +131,7 @@ class ProductEdit(UpdateView):
 class ProductDelete(DeleteView):
     model = Product
     success_url = "/account/store/products/"
-    
+
     def delete(self, request, *args, **kwargs):
         store = self.request.user.store
         self.object = self.get_object()
@@ -156,14 +156,14 @@ def activate_product(request,product_id):
     return HttpResponseRedirect("/account/store/products/")
 
 class ProductsByAccount(ListView):
-    
+
     model = Product
     template_name = "manage_products.html"   #was product_list.html
-    
-    
+
+
     def get_queryset(self):
         return self.request.user.store.product_set.all()
-    
+
     def get_context_data(self, **kwargs):
         context = super(ProductsByAccount,self).get_context_data(**kwargs)
         context["active_items"] = self.request.user.store.product_set.filter(is_deleted=False,is_flag=False)
@@ -174,12 +174,12 @@ class ProductsByAccount(ListView):
         except IndexError:
             pass
         return context
-    
+
 class ProductDetail(DetailView):
-    
+
     model = Product
     template_name = "imly_product_detail.html"
-    
+
     def get_context_data(self, **kwargs):
         context = super(ProductDetail, self).get_context_data(**kwargs)
         context["form"] = OrderItemForm()
@@ -188,12 +188,12 @@ class ProductDetail(DetailView):
         context["product_count"] = self.get_object().store.product_set.filter(is_flag=False).count()
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
-            
+
             user_point = Point(*user_point)
             print user_point
             store_point = self.get_object().store.pick_up_point
         return context
-    
+
     def get_queryset(self):
         store = get_object_or_404(Store, slug=self.kwargs["store_slug"])
         return store.product_set.all()
