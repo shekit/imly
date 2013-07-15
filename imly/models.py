@@ -386,6 +386,7 @@ class StoreOrder(models.Model):
     delivered_on = models.DateTimeField(default=date.today())
     delivered_by_product_lead = models.DateTimeField(default=date.today())
     delivery_lead = models.IntegerField(default=0) 
+    delivery_charges = models.IntegerField(default=0)
     order_time = models.IntegerField(choices= TimeChoices, default=3)
     pick_up = models.BooleanField(default=True)
     store_total = models.FloatField(default=0.0)

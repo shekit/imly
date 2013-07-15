@@ -13,10 +13,7 @@ def set_location(request):
             try:
                 user_point = Point(*result[1])
                 pilot_city = City.objects.get(slug="fbn-pilot")
-                if user_point.within(pilot_city.enclosing_geometry):
-                    request.session['fbn_pilot'] = True
-                else:
-                    request.session['fbn_pilot'] = False
+                request.session['fbn_pilot'] = user_point.within(pilot_city.enclosing_geometry)
             except:
                 pass
             if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):

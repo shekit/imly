@@ -283,12 +283,21 @@ def one_step_checkout(request):
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
+        _update_delivery_charges(order, request)
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "one_step_checkout.html", locals())
 
-
-
+def _update_delivery_charges(order, request):
+    if request.session.get('fbn_pilot', None):
+        pilot_city = City.objects.get(slug="fbn-pilot")
+        user_point = Point(*request.session['bingeo'])
+        for store in order.store_set.filter(pick_up_point__within=pilot_city.enclosing_geometry):
+            user_store_distance = user_point.distance(store.pick_up_point)
+            store_order = order.storeorder_set.get(store=store)
+            store_order.delivery_charges = user_store_distance <= D(km=5) and 100 or user_store_distance <= D(km=10) and 150
+            store_order.save()
+        
 class OrderList(ListView):
     #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
     model = OrderItem
