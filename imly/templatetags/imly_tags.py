@@ -184,7 +184,8 @@ def store_delivery_charges(context,store):
     store_point = store.pick_up_point
     pilot_city = City.objects.get(slug="fbn-pilot")
     user_point = Point(*session['bingeo'])
-    distance = store.distance(user_point)[0].distance.km or None
+    distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
+    charges = None
     if fbn_pilot and store_point.within(pilot_city.enclosing_geometry):
         if distance <= 5:
             charges = 100
