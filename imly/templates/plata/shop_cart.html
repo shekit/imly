@@ -142,6 +142,19 @@
 					<li><br></li>
 
                     <li><h3 class="muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
+                    <li>{% if request.session.place_slug %}
+                    {% if request.session.fbn_pilot and store.store.distance <= 5 %}
+                        <b>INR 100</b>
+                    {% elif request.session.fbn_pilot and store.store.distance > 5 and store.store.distance <= 10 %}
+                        <b>INR 150</b>
+                    {% elif request.session.fbn_pilot and store.store.distance > 10 and store.store.distance <= 15 %}
+                        <b>INR 200</b>
+                    {% elif request.session.fbn_pilot and store.store.distance > 15 and store.store.distance <= 20 %}
+                        <b>INR 250</b>
+                    {% elif request.session.fbn_pilot and store.store.distance > 20 %}
+                        <b>INR 300</b>                    
+                    {% endif %}
+                    {% endif %}
                     <li><small class="muted">Pay in Cash<br>
                     {% if not store.store.delivers %}
                         {% if store.store.pick_up %}
