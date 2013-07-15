@@ -177,6 +177,27 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag('imly/delivery_charges.html',takes_context=True)
+def store_delivery_charges(context,store):
+    session = context['request'].session
+    fbn_pilot = session.get("fbn_pilot",[])
+    store_point = store.pick_up_point
+    pilot_city = City.objects.get(slug="fbn-pilot")
+    user_point = Point(*session['bingeo'])
+    distance = store.distance(user_point)[0].distance.km or None
+    if fbn_pilot and store_point.within(pilot_city.enclosing_geometry):
+        if distance <= 5:
+            charges = 100
+        elif distance > 5 and distance <=10:
+            charges = 150
+        elif distance > 10 and distance <= 15:
+            charges = 200
+        elif distance > 15 and distance <= 20:
+            charges = 250
+        else:
+            charges = 300
+    return {'charges':charges}
+
 @register.inclusion_tag('imly/store_order_options.html')
 def store_order_options(store_order, request):
     return {'store_order': store_order,
