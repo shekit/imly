@@ -36,11 +36,11 @@
 
                                 
                             
-                                {% if store.store.delivers %}
-                                    Delivers to you
+                                {% if not store.pick_up %}
+                                    Delivery Selected
                                 {% else %}
-                                    {% if store.store.pick_up %}
-                                        Pick up near*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}
+                                    {% if store.pick_up %}
+                                        Pick-up Selected*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}
                                     {% endif %}
 
                                 {% endif %}
@@ -52,6 +52,7 @@
                             {% endif %}
                         {% endif %}
                         <span class="cart_mobile pick_delivery_details"><small>|&nbsp;{{ store.delivered_on|date:"F j"}}&nbsp;|&nbsp;{{ store.display_order_time }}</small></span>
+                        
                 </th>
             </tr>
             {% for item in order.items.all %}
@@ -63,6 +64,14 @@
                     </tr>
                 {% endifequal %}
             {% endfor %}
+            {% if not store.pick_up %}
+                            {% if request.session.place_slug %}
+                                <tr>
+                                    <th colspan="2"><span style="font-weight: normal;font-style: italic;color:#ff7752;">Delivery Charge</span></th>
+                                    <th colspan="1"><span style="font-weight: normal;">{% store_delivery_charges store.store %}</span></th>
+                                </tr>                      
+                            {% endif %}
+            {% endif %}
                 
         </table>
         {% endif %}

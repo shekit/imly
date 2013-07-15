@@ -139,14 +139,15 @@
 
                     <li class="muted"><small>I want my order on:</small></li>
 					{% store_order_options store request %}
-					<li><br></li>
+					
 
                     <li><h3 class="muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
-                    <li>
+                    <li class="delivery_hide_show">
                     {% if request.session.place_slug %}
-                        {% store_delivery_charges store.store %}                        
+                        <span class="orange">+ {% store_delivery_charges store.store %} Delivery</span>                      
                     {% endif %}
-                    <li><small class="muted">Pay in Cash<br>
+                    </li>
+                    <li><small class="muted">
                     {% if not store.store.delivers %}
                         {% if store.store.pick_up %}
                             Exact address shared after purchase
@@ -199,7 +200,49 @@ function update_store_order(field, store_order_id, parameter){
 		show: true,
 		});
 
-	}
+                }
+            
+            $(".cart_delivery_section").each(function(){
+                if($(this).find(".delivery_radio_button").is(":checked")){
+                    $(this).find(".delivery_hide_show").css({"display": "block"})
+                }
+            });
+            
+            //if($(".cart_delivery_section").find(".delivery_radio_button").is(":checked")){
+              //  $(".delivery_hide_show").css({"display":"block"})
+            //}
+            
+            // NOT WORKING
+            //$(".delivery_radio_button").each(function(){
+              //  if($(this).is(":checked")){
+                //$(".delivery_radio_button").parents("td").find(".delivery_hide_show").css({"display":"block"})
+            //}
+
+            //});
+
+
+        
+            $(".delivery_radio_button").click(function(){
+                if($(this).is(":checked")){
+                    $(this).parents("td").find(".delivery_hide_show").fadeIn(200);
+                    return;
+                }
+                
+                $(this).parents("td").find(".delivery_hide_show").fadeOut(200);
+                
+            });
+            
+            $(".pick_up_radio_button").click(function(){
+                if($(this).is(":checked")){
+                    $(this).parents("td").find(".delivery_hide_show").fadeOut(200);
+                    return;
+                }
+                
+                $(this).parents("td").find(".delivery_hide_show").fadeIn(200);
+                
+            });
+        
+        
     $('.required input').keypress(function(evt){
         var charCode = (evt.which)?evt.which:evt.keyCode;
         if (charCode>31 && (charCode<48||charCode>57))

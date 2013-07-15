@@ -133,7 +133,7 @@ class StoreAmendGeo(template.Node):
         store.distance, store.delivers = None, False
         if session.get('bingeo', None):
             user_point = Point(*session['bingeo'])
-            store.distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None            
+            store.distance = store.pick_up_location and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None            
             pilot_city = City.objects.get(slug="fbn-pilot")
             if user_point.within(pilot_city.enclosing_geometry) and store.pick_up_point.within(pilot_city.enclosing_geometry):
                 store.delivers = True
@@ -184,7 +184,7 @@ def store_delivery_charges(context,store):
     store_point = store.pick_up_point
     pilot_city = City.objects.get(slug="fbn-pilot")
     user_point = Point(*session['bingeo'])
-    distance = store.pick_up and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
+    distance = store.pick_up_location and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
     charges = 0
     if fbn_pilot and store_point.within(pilot_city.enclosing_geometry):
         if distance <= 5:

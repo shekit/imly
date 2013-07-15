@@ -12,7 +12,7 @@
 </li>
 <li>
     <label class="radio inline">
-    <input type="radio" name="pick_up_{{ store_order.pk }}" id="optionsRadios1" value="1" {% if store_order.pick_up %}checked="checked"{% endif %} onchange="update_store_order(this, {{store_order.id}}, 'pick_up')">
+    <input type="radio" class="pick_up_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios1" value="1" {% if store_order.pick_up %}checked="checked"{% endif %} onchange="update_store_order(this, {{store_order.id}}, 'pick_up')">
     Pick-up
     </label>
 </li>
@@ -22,14 +22,15 @@
 	{% if store_order.store.delivers %}
 	<li>
 	    <label class="radio inline">
-	    <input type="radio" name="pick_up_{{ store_order.pk }}" id="optionsRadios2" value="0" onchange="update_store_order(this, {{store_order.id}}, 'pick_up')" {% if not store_order.pick_up %}checked="checked"{%endif%}>
+	    <input type="radio" class="delivery_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios2" value="0" onchange="update_store_order(this, {{store_order.id}}, 'pick_up')" {% if not store_order.pick_up %}checked="checked"{%endif%}>
 	    Delivery
 	    </label>    
 	</li>
 	{% endif %}
 {% endif %}
 
-<br><li>
+
+<li style="margin-top:10px;">
 	<small class="muted">Send a note to the chef:</small><br>
 	<textarea class="note_to_chef" row="9" cols="30" placeholder="e.g make it less spicy" onchange="update_store_order(this, {{store_order.id}}, 'note')"></textarea>
 </li>

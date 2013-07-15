@@ -1453,6 +1453,10 @@ td.less_padding_inner_td input[type=text]{
     cursor: pointer;
 }
 
+.delivery_hide_show {
+    display: none;
+}
+
 /* stale cart modal */
 
 .stale_cart_heading {

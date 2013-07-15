@@ -153,7 +153,7 @@
                                     {% endfor %}
                                     </ul>
                                     <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
-                                    <div id="item_added_to_cart" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+                                    <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                             </div>
                         </div>
                         <span class="visible-phone">
@@ -362,6 +362,7 @@ $(document).ready(function(){
             return false;
        }
     });
+    
     $('a.quantity_plus').click(function(){
         var quantity = parseInt($('#id_quantity').val());
         var items_in_stock = parseInt($('#items_in_stock').text());
@@ -408,7 +409,7 @@ $(document).ready(function(){
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
                 
-                $('#item_added_to_cart').stop(true,true).fadeIn(200).delay(4000).hover(
+                $('#item_added_'+response["product_slug"]).stop(true,true).fadeIn(200).delay(4000).hover(
         function(){
             $(this).stop(true,false);
             
