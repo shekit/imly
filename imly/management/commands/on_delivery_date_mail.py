@@ -17,6 +17,6 @@ class Command(BaseCommand):
 			msg = EmailMessage("Reminder: Order due today",get_template('email_templates/reminder_delivery_store.html').render(Context({'store':storeorder.store,'product_detail':product_detail,'storeorder':storeorder})),settings.ORDERS_EMAIL,[storeorder.store.owner.email],bcc=[settings.ADMIN_EMAIL])
 			msg.content_subtype = "html"
 			msg.send()
-			msg = EmailMessage("Reminder: Order due today",get_template('email_templates/reminder_delivery_buyer.html').render(Context({'order':storeorder.order,'store':storeorder.store})),settings.ORDERS_EMAIL,[storeorder.order.email],bcc=[settings.ADMIN_EMAIL])
+			msg = EmailMessage("Reminder: Order due today",get_template('email_templates/reminder_delivery_buyer.html').render(Context({'order':storeorder.order,'store':storeorder.store,'store_total':storeorder.store_total})),settings.ORDERS_EMAIL,[storeorder.order.email],bcc=[settings.ADMIN_EMAIL])
 			msg.content_subtype = "html"
 			msg.send()

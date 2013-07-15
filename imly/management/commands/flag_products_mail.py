@@ -4,6 +4,7 @@ from django.template.loader import get_template
 from django.template import Context
 from django.core.mail import EmailMessage
 from datetime import date,timedelta
+from django.conf import settings
 
 class Command(BaseCommand):
 	def handle(self,*args,**options):

@@ -235,7 +235,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     HOUR = 1
     DAY = 2
     LEAD_TIME_CHOICES = (
-        (HOUR, "hour"),
+        #(HOUR, "hour"),
         (DAY, "day"),
     )
     

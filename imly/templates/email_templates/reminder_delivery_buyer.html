@@ -701,7 +701,7 @@
 								<b>Your special request:</b>{{storeorder.note}}<br>
 						{% endif %}
 						{% endfor %}<br/><br/>
-						<h3>Your order total is <b>{{ order.currency }} {{order.subtotal}}</b></h3><br/>
+						<h3>You have to pay {{store.name|title}}: <b>{{ order.currency }} {{store_total}}</b></h3><br/>
 						<p>Keep eating and ordering!</p><br/>
                                             </td>
                                         </tr>
