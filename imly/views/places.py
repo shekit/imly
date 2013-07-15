@@ -10,6 +10,15 @@ def set_location(request):
         tracker.add_event('set-location', {'location': place_slug})
         result = geocode(place_slug)
         if result: 
+            try:
+                user_point = Point(*result[1])
+                pilot_city = City.objects.get(slug="fbn-pilot")
+                if user_point.within(pilot_city.enclosing_geometry):
+                    request.session['fbn_pilot'] = True
+                else:
+                    request.session['fbn_pilot'] = False
+            except:
+                pass
             if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):
                 return redirect('/not-in-city/')  #redirect if place not within city limits
             request.session['bingeo'] = result[1]
@@ -31,6 +40,10 @@ def unset_location(request):
         request.session.pop("display_place_slug")
         request.session.pop("bingeo")
         request.session.pop("delivery")
+    except KeyError:
+        pass
+    try:
+        request.session.pop("fbn_pilot")
     except KeyError:
         pass
     try:
