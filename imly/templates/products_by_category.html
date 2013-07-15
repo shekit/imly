@@ -62,7 +62,7 @@
                                 
                                 
                                 <span class="pull-right">
-                                {% if object.store.delivers %}
+                                {% if request.session.delivery %} {# Was this earlier - {% if object.store.delivers %} #}
                                     Delivers to you &nbsp;
                                 {% else %}
                                     {% if object.store.pick_up %}

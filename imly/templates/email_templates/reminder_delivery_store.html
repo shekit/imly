@@ -692,7 +692,9 @@
 							</tr>
 						{% endfor %}
 					</table><br/>
-					
+					{% if not storeorder.pick_up %}
+						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p><br/>
+					{% endif %}
 					{% if storeorder.note %}
 						<b>Your customer has requested:</b>{{storeorder.note}}<br/>
 					{% endif %}

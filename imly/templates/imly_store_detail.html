@@ -20,7 +20,12 @@
                 {% if request.session.place_slug %}
                     {% store_amend_geo object %}
                     {% if object.delivers %}
-                        Chef delivers to you :) Additional charges may apply
+                        Chef delivers to you :) <br><b>{% store_delivery_charges object %}</b>
+                                        {% ifnotequal charges 0 %}
+                                            Delivery Charge
+                                        {% else %}
+                                            Additional charges may apply
+                                        {% endifnotequal %}
                     {% else %}
                         Sorry, chef can't deliver :(
                     {% endif %}
@@ -35,7 +40,12 @@
                     <li><span class="delivery_area_info">Delivers to:</span>
                     {% if request.session.place_slug %}
                         {% if object.delivers %}
-                            Chef delivers to you :) Additional charges may apply
+                            Chef delivers to you :)<br><b>{% store_delivery_charges object %}</b>
+                                        {% ifnotequal charges 0 %}
+                                            Delivery Charge
+                                        {% else %}
+                                            Additional charges may apply
+                                        {% endifnotequal %}
                         {% else %}
                             Sorry, chef can't deliver :(
                         {% endif %}
@@ -119,7 +129,12 @@
                 <li><span class="delivery_area_info">Delivers to:</span>
                 {% if request.session.place_slug %}
                     {% if object.delivers %}
-                        Chef delivers to you :) Additional charges may apply
+                        Chef delivers to you :)<br><b>{% store_delivery_charges object %}</b>
+                                        {% ifnotequal charges 0 %}
+                                            Delivery Charge
+                                        {% else %}
+                                            Additional charges may apply
+                                        {% endifnotequal %}
                     {% else %}
                         Sorry, chef can't deliver :(
                     {% endif %}
@@ -140,7 +155,12 @@
                     <li><span class="delivery_area_info">Delivers to:</span>
                     {% if request.session.place_slug %}
                     {% if object.delivers %}
-                        Chef delivers to you :) Additional charges may apply
+                        Chef delivers to you :)<br><b>{% store_delivery_charges object %}</b>
+                                        {% ifnotequal charges 0 %}
+                                            Delivery Charge
+                                        {% else %}
+                                            Additional charges may apply
+                                        {% endifnotequal %}
                     {% else %}
                         Sorry, chef can't deliver :(
                     {% endif %}

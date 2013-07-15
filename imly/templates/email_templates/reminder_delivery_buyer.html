@@ -698,10 +698,14 @@
 						{% endifequal %}
 						<br/>
 						{% if storeorder.note %}
-								<b>Your special request:</b>{{storeorder.note}}<br>
+								<b>Your special request:</b>{{storeorder.note}}<br/>
+						{% endif %}
+						{% if not storeorder.pick_up and storeorder.delivery_charges %}
+						<b>Additional Delivery Charge: </b>{{ storeorder.delivery_charges }}<br/>
 						{% endif %}
 						{% endfor %}<br/><br/>
 						<h3>You have to pay {{store.name|title}}: <b>{{ order.currency }} {{store_total}}</b></h3><br/>
+						
 						<p>Keep eating and ordering!</p><br/>
                                             </td>
                                         </tr>

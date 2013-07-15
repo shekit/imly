@@ -169,7 +169,7 @@
                         {% endif %}
                                 
                                 <span class="pull-right">
-                                {% if object.delivers %}
+                                {% if request.session.delivery %} {# Was this earlier {% if object.delivers %} #}
                                     Delivers to you &nbsp;
                                 {% else %}
                                     {% if object.pick_up %}
