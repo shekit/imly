@@ -13,6 +13,21 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
+    {% if form.errors %}
+        <div class="row-fluid">
+            <div class="span12">
+                <p class="custom_error_heading">Oops! ERRORS in your form! Please scroll down and correct them.</p>
+                <!--<ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li class="custom_form_errors"><span class="orange"><em>Required</em></span> - {{field.label_tag}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>-->
+            </div>
+        </div>
+
+    {% endif %}
     <h4 class="form_heading">Create Your Shop</h4>
     <br>
         {% load crispy_forms_tags %}
@@ -78,7 +93,32 @@
 {% endblock shop_info %}
 
 {% block extra_javascript %}
-<script>
+<script type="text/javascript">
+
+$(document).ready(function(){
+    
+                            //script to show fields in store edit/create if checkbox is already ticked
+                        if($("#id_provide_delivery").is(":checked")){
+                            $(".delivery_areas").css({"display":"block"})
+                            $(".delivery_location_form").css({"display":"block"})
+                        }
+                        else{
+                            $(".delivery_areas").css({"display":"none"})
+                            $(".delivery_location_form").css({"display":"none"})
+                        }
+                
+                        //script to hide/reveal fields in store edit/create if checkbox is checked/unchecked
+                
+                        $("#id_provide_delivery").change(function (){
+                            if($(this).is(":checked")){
+                                $(".delivery_areas").slideDown();
+                                $(".delivery_location_form").slideDown();
+                                return;
+                            }
+                                $(".delivery_areas").slideUp();
+                                $(".delivery_location_form").slideUp();
+        
+                        });
     
 	var default_bounds = new google.maps.LatLngBounds(
 		new google.maps.LatLng(19.26, 72.98),
@@ -130,7 +170,7 @@
            }
         });
         
-        
+});     
 </script>
 
 {% endblock extra_javascript %}

@@ -17,6 +17,21 @@
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
+    {% if form.errors %}
+        <div class="row-fluid">
+            <div class="span12">
+                <p class="custom_error_heading">Oops! ERRORS in your form! Please scroll down and correct them.</p>
+                <!--<ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li class="custom_form_errors"><span class="orange"><em>Required</em></span> - {{field.label_tag}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>-->
+            </div>
+        </div>
+
+    {% endif %}
    <h4 class="form_heading">Add a Product</h4>
    <br>
     

@@ -42,7 +42,7 @@
 					{% store_amend_geo store.store %}
 
                         {% if request.session.place_slug %}
-                                {% if store.store.pick_up %}
+                                {% if store.store.pick_up_location %}
                                 <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
 
                                     {% if store.store.distance < 1 %}
@@ -60,6 +60,8 @@
                                 {% else %}
                                     {% if store.store.pick_up %}
                                         Pick up required near: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}&nbsp;
+                                    {% else %}
+                                        No pick-up available. No delivery to your location.
                                     {% endif %}
 
                                 {% endif %}

@@ -1223,8 +1223,19 @@ ol.tips > li{
 }
 
 /* showing/hiding delivery/pickup divs in store create/edit form */
-.pick_up{
-    display:none;
+
+.custom_error_heading {
+    font-size: 16px;
+    font-weight: bold;
+    background: #f05a28;
+    color: #ffffff;
+    padding:3px 5px;
+    margin-bottom: 10px;
+}
+
+.custom_form_errors > label {
+    font-size: 13px;
+    color: #999;
 }
 
 .delivery_areas {

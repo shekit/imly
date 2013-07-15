@@ -131,9 +131,9 @@ class Store(geo_models.Model):
     
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
-    pick_up = models.BooleanField(default=False)
-    pick_up_address = models.TextField(blank=True)
-    pick_up_location = models.CharField(max_length=255,blank=True)
+    pick_up = models.BooleanField(default=True)
+    pick_up_address = models.TextField()
+    pick_up_location = models.CharField(max_length=255)
     pick_up_landmark = models.CharField(max_length=100,blank=True)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)

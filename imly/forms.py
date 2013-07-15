@@ -27,7 +27,10 @@ class StoreForm(forms.ModelForm):
     
     def __init__(self,*args,**kwargs):
         super(StoreForm,self).__init__(*args,**kwargs)
+        self.fields["pick_up"].label = "Do you provide pick up from the above address?"
         self.fields["provide_delivery"].label = "Provide Delivery?"
+        self.fields["pick_up_address"].label = "Your Address"
+        self.fields["pick_up_location"].label = "Area/Locality"
         self.fields["pick_up_landmark"].label = "Landmark Nearby"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
@@ -48,13 +51,14 @@ class StoreForm(forms.ModelForm):
             ),
             Fieldset(
                 "Delivery/Pick-Up Details",
-                "pick_up",
                 Div(
-                    Field("pick_up_address",rows="4", placeholder="Only shared with confirmed buyers. Not displayed on imly :)"),
+                    HTML("<p style='font-weight:400; font-size:14px;'>We need your address for our <span class='orange'>location based searching.</span><br>It's safe with us and won't be displayed.</p><br>"),
+                    Field("pick_up_address",rows="4", placeholder="Only shared with confirmed buyers in case of pick-up. Not displayed on imly :)"),
                     Field("pick_up_location",placeholder="e.g Breach Candy etc"),
                     Field("pick_up_landmark"),
                     css_class="pick_up"
                 ),
+                "pick_up",
                 "provide_delivery",
 
                 ),
@@ -83,12 +87,12 @@ class StoreForm(forms.ModelForm):
 
                         
         if pick_up_checkbox and not (pick_up_address and pick_up_location):
-            msg = u"Please enter your complete pick up point details"
+            msg = u"Please enter your complete pick up point details above"
             self._errors["pick_up"] = self.error_class([msg])
         
-        elif (pick_up_address or pick_up_location) and not pick_up_checkbox:
-            msg = u"You have entered pick up details. Please check this box or remove the details"
-            self._errors["pick_up"] = self.error_class([msg])
+        #elif (pick_up_address or pick_up_location) and not pick_up_checkbox:
+         #   msg = u"You have entered pick up details. Please check this box or remove the details"
+          #  self._errors["pick_up"] = self.error_class([msg])
             
         #elif delivery_checkbox and not delivery_areas:
          #   msg = u"Please select your areas of delivery"
