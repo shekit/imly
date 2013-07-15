@@ -194,42 +194,7 @@
                             window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
                         });
                         
-                        //script to show fields in store edit/create if checkbox is already ticked
-                        if($("#id_pick_up").is(":checked")){
-                            $(".pick_up").css({"display":"block"})
-                        }
-                        else{
-                            $(".pick_up").css({"display":"none"})
-                        }
-                        if($("#id_provide_delivery").is(":checked")){
-                            $(".delivery_areas").css({"display":"block"})
-                            $(".delivery_location_form").css({"display":"block"})
-                        }
-                        else{
-                            $(".delivery_areas").css({"display":"none"})
-                            $(".delivery_location_form").css({"display":"none"})
-                        }
-                
-                        //script to hide/reveal fields in store edit/create if checkbox is checked/unchecked
-                        $("#id_pick_up").change(function (){
-                            if($(this).is(":checked")){
-                                $(".pick_up").slideDown();
-                                return;
-                            }
-                                $(".pick_up").slideUp();
-        
-                        });
-                
-                        $("#id_provide_delivery").change(function (){
-                            if($(this).is(":checked")){
-                                $(".delivery_areas").slideDown();
-                                $(".delivery_location_form").slideDown();
-                                return;
-                            }
-                                $(".delivery_areas").slideUp();
-                                $(".delivery_location_form").slideUp();
-        
-                        });
+
                         $(".give_us_a_tip").click(function(){
                             $("#tip").modal();
                             $('#tip_form')[0].reset();

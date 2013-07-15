@@ -51,7 +51,7 @@
         </ul>
     </span>
         {% if request.session.place_slug %}
-            {% if object.pick_up %}
+            {% if object.pick_up_location %}
                                 {% store_amend_geo object %}
                                 
                                 <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
@@ -94,7 +94,7 @@
             
             {% if request.session.place_slug %}
                                 {% store_amend_geo object %}
-                                {% if object.pick_up %}
+                                {% if object.pick_up_location %}
                                 <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
                                 
                                     {% if object.distance < 1 %}

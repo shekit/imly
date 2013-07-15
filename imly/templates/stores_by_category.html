@@ -154,8 +154,9 @@
                 <li class="span4">
                     <div class="thumbnail thumbnail_custom">
                     {% if request.session.place_slug %}
-                        {% if object.pick_up %}
-                                {% store_amend_geo object %}
+                        {% store_amend_geo object %}
+                        {% if object.pick_up_location %}
+                                
                                 
                                 <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
                                 
@@ -173,6 +174,8 @@
                                 {% else %}
                                     {% if object.pick_up %}
                                     Pick up required &nbsp;
+                                    {% else %}
+                                    No delivery/pick-up &nbsp;  
                                     {% endif %}
                                 {% endif %}
                                 </span>

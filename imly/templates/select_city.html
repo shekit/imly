@@ -8,7 +8,9 @@
         <ul class="unstyled text-center city_ul">
             
         {% for city in cities %}
+            {% ifnotequal city.name "fbn-pilot" %}
             <li><a href="{% url "imly_set_city" city.slug %}">{{ city.name|capfirst }}</a></li>
+            {% endifnotequal %}
         {% endfor %}
             <!--<li><a href="{% url "imly_set_city" "all" %}">Show me food everywhere!</a></li>-->
             <li><a href="{% url "imly_dont_see_city" %}">I don't see my city</a></li>
