@@ -153,6 +153,7 @@
                                     {% endfor %}
                                     </ul>
                                     <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+                                    <div id="item_added_to_cart" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                             </div>
                         </div>
                         <span class="visible-phone">
@@ -397,7 +398,6 @@ $(document).ready(function(){
         $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
         $('.dropDowncart').append('</ul></li>');
         $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
-        $('.submit-btn').attr('disabled',true);
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
@@ -407,6 +407,16 @@ $(document).ready(function(){
             if(response['success']==true){
                 $('#items-count_cart').html(response['count']);
                 $('#items-count').html(response['count']);
+                
+                $('#item_added_to_cart').stop(true,true).fadeIn(200).delay(4000).hover(
+        function(){
+            $(this).stop(true,false);
+            
+        },
+        function(){
+            $(this).fadeOut(200);
+        }
+    ).fadeOut(200);
                 /*$('.dropDowncart').empty();
                 $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
                 $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
