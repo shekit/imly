@@ -674,12 +674,15 @@
 											<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
 											<b><u>Address:</u></b><br>
 											{{ storeorder.order.billing_address }}<br/>
-											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}
+											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
+											Delivery by <b>Fly By Knight</b>
+											
 										{% else %}
 											<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
 											<b><u>Address:</u></b><br>
 											{{storeorder.order.shipping_address}}<br/>
-											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}
+											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
+											Delivery by <b>Fly By Knight</b>
 										{% endif %}
 									{% else %}
 										{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
@@ -696,7 +699,9 @@
 						{% endfor %}
 					</table><br/><br/>
 					{% if not storeorder.pick_up %}
-						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p><br/>
+						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p>
+						<p>A <b>FLY BY KNIGHT</b> representative will collect the food from you.</p>
+						<p>The amount will be paid to you at the end of the 2 week pilot.</p><br/>
 					{% endif %}
 					
 					{% if storeorder.note %}
