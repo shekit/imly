@@ -172,10 +172,12 @@
                                 {% if request.session.delivery %} {# Was this earlier {% if object.delivers %} #}
                                     Delivers to you &nbsp;
                                 {% else %}
-                                    {% if object.pick_up %}
+                                    {% if object.pick_up and object.delivers %}
+                                    Pick up/Delivery &nbsp;
+                                    {% elif object.pick_up %}
                                     Pick up required &nbsp;
                                     {% else %}
-                                    No delivery/pick-up &nbsp;  
+                                    Unavailable &nbsp;  
                                     {% endif %}
                                 {% endif %}
                                 </span>
