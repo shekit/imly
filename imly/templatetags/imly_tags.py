@@ -177,6 +177,15 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag('imly/delivery_charges_mail.html')
+def delivery_charges_mail(order):
+    storeorder = order.storeorder_set.filter(pick_up = False,delivery_charges__gt = 0)
+    delivery_charges = 0
+    for sto in storeorder:
+        delivery_charges = delivery_charges + sto.delivery_charges
+    return {'delivery_charges':delivery_charges,'order':order}
+
+
 @register.inclusion_tag('imly/delivery_charges.html',takes_context=True)
 def store_delivery_charges(context,store):
     session = context['request'].session

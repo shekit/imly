@@ -292,10 +292,9 @@ def _update_delivery_charges(order, request):
     if request.session.get('fbn_pilot', None):
         pilot_city = City.objects.get(slug="fbn-pilot")
         user_point = Point(*request.session['bingeo'])
-        for store in order.store_set.filter(pick_up_point__within=pilot_city.enclosing_geometry):
-            user_store_distance = user_point.distance(store.pick_up_point)
+        for store in order.store_set.filter(pick_up_point__within=pilot_city.enclosing_geometry).distance(user_point):
             store_order = order.storeorder_set.get(store=store)
-            store_order.delivery_charges = user_store_distance <= D(km=5) and 100 or user_store_distance <= D(km=10) and 150 or user_store_distance <= D(km=15) and 200 or user_store_distance <= D(km=20) and 250 or user_store_distance <= D(km=30) and 300
+            store_order.delivery_charges = store.distance <= D(km=5) and 100 or store.distance <= D(km=10) and 150 or store.distance <= D(km=15) and 200 or store.distance <= D(km=20) and 250 or store.distance <= D(km=30) and 300
             store_order.save()
         
 class OrderList(ListView):
