@@ -683,7 +683,7 @@
 						{% endfor %}
 					
 						
-						<h3>The total to be collected is: <b>{{ order.currency }} {{order.subtotal}} for the food {% delivery_charges_mail order %}</b>.</h3><br/>
+						<h3>The total to be collected is: <b>{{ order.currency }} {% fbn_order_total order %} for the food {% delivery_charges_mail order %}</b>.</h3><br/>
 						
 						Thank you!<br/>
 						

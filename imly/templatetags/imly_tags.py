@@ -177,6 +177,14 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag('imly/fbn_order_totol.html')
+def fbn_order_total(order):
+    storeorders = order.storeorder_set.filter(pick_up = False,delivery_charges__gt = 0)
+    order_total = 0
+    for storeorder in storeorders:
+        order_total = order_total + storeorder.store_total
+    return {'order_total':order_total}
+
 @register.inclusion_tag('imly/delivery_charges_mail.html')
 def delivery_charges_mail(order):
     storeorder = order.storeorder_set.filter(pick_up = False,delivery_charges__gt = 0)
