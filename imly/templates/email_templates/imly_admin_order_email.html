@@ -68,5 +68,8 @@ Order no is:{{order}}<br/><br/>
 {% if storeorder.note %}
 		<p><b>{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}} has requested:</b> {{storeorder.note}}</p><br/><br/>
 {% endif %}
+{% if not storeorder.pick_up and storeorder.delivery_charges %}
+	Delivery charges : {{storeorder.delivery_charges}}
+{% endif %}
 
 {% endfor %}<br/><br/>

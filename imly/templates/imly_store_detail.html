@@ -232,8 +232,9 @@
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ product.slug }}" class="exceed_stock">I can't make more today</div>
+                        <div class="hidden-desktop">
                         <div id="item_added_{{ product.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
-                    
+                        </div>
                     <!-- AddThis Button BEGIN -->
                     <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ product.store.slug }}/{{ product.slug }}/" addthis:title="Check out {{ product.name|title }} only on imly.in! Drooool...">
                     <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
@@ -311,7 +312,9 @@ $(document).ready(function(){
         $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
         $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
         $('.dropDowncart').append('</ul></li>');
-        $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
+        
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
