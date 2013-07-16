@@ -681,8 +681,8 @@
 								
 								<td style="border:1px solid;padding:0.2em;">
 								
-										{% if storeorder.order.shipping_same_as_billing %}
-											<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
+										{% if order.shipping_same_as_billing %}
+											<u>{{ order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
 											{{ storeorder.order.billing_address }}<br/>
 											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
 										{% else %}
