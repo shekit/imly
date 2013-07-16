@@ -693,7 +693,7 @@
 										{% endif %}
 								{% endif %}
 								</td>
-								<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}{% if not storeorder.pick_up and storeorder.delivery_charges %}<br/><br/><u>Charge: </u>{{ storeorder.delivery_charges }}{% endif %}</td>
+								<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}{% if not storeorder.pick_up and storeorder.delivery_charges %}<br/><br/><u>Charge: </u>INR {{ storeorder.delivery_charges }}{% endif %}</td>
 								<td style="border:1px solid;padding:0.2em;">{{ storeorder.order.currency }} {{ storeorder.store_total }}</td>
 							</tr>
 								

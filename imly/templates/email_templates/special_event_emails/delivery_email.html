@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Remember your order</title>
+        <title>Happiness is now home delivered</title>
         <style type="text/css">
 			/* ///////// CLIENT-SPECIFIC STYLES ///////// */
 			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
@@ -426,7 +426,7 @@
 
 /* /\/\/\/\/\/\/\/\/ MOBILE STYLES /\/\/\/\/\/\/\/\/ */
 
-            @media only screen and (max-width: 640px){
+            @media only screen and (max-width: 480px){
 				/* /\/\/\/\/\/\/ CLIENT-SPECIFIC MOBILE STYLES /\/\/\/\/\/\/ */
 				body, table, td, p, a, li, blockquote{-webkit-text-size-adjust:none !important;} /* Prevent Webkit platforms from changing default text sizes */
                 body{width:100% !important; min-width:100% !important;} /* Prevent iOS Mail from adding padding to the body */
@@ -600,7 +600,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: none;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;text-align: left;vertical-align: middle;">
-                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade">
+                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -609,7 +609,7 @@
                             </tr>
 				<tr style="height:20px;border:1px solid #f5f5f5;">
 					<td style="color:#f5f5f5;font-size:14px;">
-						Imly doesn't want you to miss your food!
+						Delivery between Bandra and Colaba!
 					</td>
 				</tr>
                         	<tr style="border-left:5px solid #f05a28;">
@@ -618,96 +618,16 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateBody" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #888888;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;font-weight: 300;">
-                                                {% load imly_tags %}
-						<h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 18px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Hi {{ order.billing_first_name }},</h1>
+                                                <h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 24px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Great News!</h1>
+                                                <p>Happiness is now <b>home delivered</b>!</p>
+						<p>If you live between Bandra and Colaba in Mumbai, you are in for a treat! Imly is providing home delivery of your favourite dishes at a nominal cost for the next 2 weeks.</p>
                                                 
-						<p>A friendly reminder from Imly that you have an order due today.</p>
 						
-						<p>Your order number is: {{order}} </p>
-						<p>Order placed on: {{ storeorder.order.confirmed.date }}</p>
+						<p>If you are not within the happiness zone, fret not! Post this 2 week pilot we will be looking to extend the happiness zone to cover many more areas and make home delivery a regular option for all.</p>
+                                                
 						
-						<p>Your order details are:</p>
-					
-						{% for storeorder in order.storeorder_set.all %}
-						{% ifequal storeorder.store store  %}
-						<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
-							
-							<tr><th colspan="3" style="background: #e5e5e5;"><strong>Your order from: <span style="color:#f05a28;">{{ storeorder.store.name }}</span></strong></th></tr>
-							
-							<tr>
-							<th style="border:1px solid;padding:0.2em;">Items</th>
-							<th style="border:1px solid;padding:0.2em;">
-								{% if storeorder.pick_up %}
-									Pick-up Details
-								{% else %}
-									Delivery Details
-								{% endif %}</th>
-							<th style="border:1px solid;padding:0.2em;">
-								{% if storeorder.pick_up %}
-									Order to be Picked up on
-								{% else %}
-									Order will be Delivered on
-								{% endif %}</th>
-							
-							</tr>
-							<tr>
-								<td style="border:1px solid;padding:0.2em;">
-									<table style="border:none;border-spacing:0;border-collapse:collapse;">
-										{% for orderitem in storeorder.order.items.all %}
-											{% if orderitem.product.store == storeorder.store %}
-												
-													<tr style="border-bottom:1px solid #ccc;">
-														<td style="border-right:1px solid #ccc;padding:5px;">{{orderitem.product.name}}</td>
-														<td style="border-right:1px solid #ccc;padding:5px;">
-															{{orderitem.product.quantity_per_item}}
-															{% ifequal orderitem.product.quantity_per_item 1 %}
-																{{orderitem.product.quantity_unit}}
-															{% else %}
-																{{orderitem.product.quantity_unit}}s
-															{% endifequal %} x {{orderitem.quantity}} = {% order_item_quantity orderitem %} {% quantity_by_price orderitem %}
-														</td>
-														<td style="padding:5px;">{{ storeorder.order.currency }} {{ orderitem.subtotal|floatformat:"0" }}</td>
-													</tr>
-												
-											{% endif %}
-										{% endfor %}
-									</table>
-								</td>
-								<td style="border:1px solid;padding:0.2em;">
-								{% if storeorder.pick_up %}
-										{{storeorder.store.pick_up_address}}<br/>
-										{{storeorder.store.pick_up_location}}<br/>
-										<b>Landmark nearby:</b>{{storeorder.store.pick_up_landmark}}<br/>
-								{% else %}
-										{% if storeorder.order.shipping_same_as_billing %}
-											<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
-											{{ storeorder.order.billing_address }}<br/>
-											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
-										{% else %}
-											<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
-											{{storeorder.order.shipping_address}}<br/>
-											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
-										{% endif %}
-								{% endif %}
-								</td>
-								<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}</td>
-								
-							</tr>
-								
-						</table>
-						{% endifequal %}
-						<br/>
-						{% if storeorder.note %}
-								<b>Your special request:</b>{{storeorder.note}}<br/>
-						{% endif %}
-						{% if not storeorder.pick_up and storeorder.delivery_charges %}
-						<b>Additional Delivery Charge: </b>INR {{ storeorder.delivery_charges }}<br/>
-						{% endif %}
-						{% endfor %}<br/><br/>
-						<h3>You have to pay {{store.name|title}}: <b>{{ order.currency }} {{store_total}}</b></h3><br/>
-						
-						<p>Keep eating and ordering!</p><br/>
-                                            </td>
+						<p>So head on over to <a href="http://imly.in/food/" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #EB4102;font-weight: normal;text-decoration: underline;">imly.in</a>, enter your area to see which chefs deliver to you and start ordering!</p>
+                                                </td>
                                         </tr>
                                     </table>
                                     <!-- // END BODY -->
@@ -715,30 +635,92 @@
                             </tr>
 				<tr style="height:20px; border:1px solid #f5f5f5; border-bottom: 1px solid #ccc;">
 					<td style="color:#f5f5f5;font-size:14px;">
-						Imly thanks you!
+						Imly loves you!
 					</td>
 				</tr>
-                        	
+                        	<tr style="border-left:5px solid #f05a28;">
+                            	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+                                	<!-- BEGIN COLUMNS // -->
+                                    <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateColumns" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: 1px solid #CCCCCC;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
+					<tr style="border-top:1px solid #ffffff;">
+						<td style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
+							<h2 style="padding-left: 20px;padding-top: 20px;display: block;font-family: Helvetica,Arial,sans-serif;font-size: 20px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #404040;">300+ dishes to choose from!</h2>
+						</td>
+					</tr>
+                                    	<tr mc:repeatable>
+						<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 200px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
+                                                	<tr>
+                                                    	<td class="leftColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+                                                        	<a href="http://imly.in/dips-sauces-dressings-seasonings/"><img src="https://imly.s3.amazonaws.com/regular/images/dips-sauces-dressings-seasonings/5d795f58-bacc-4dd8-9a02-f9c4aaeb14bd.jpg" alt="Mexican 7 layered dip" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline; border:1px solid #e5e5e5;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td valign="top" class="leftColumnContent" mc:edit="left_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+								<a href="http://imly.in/kosmic-kitchen/"><img src="https://imly.s3.amazonaws.com/regular/images/kosmic-kitchen/31fbc6ec-ef41-4b93-9f09-7fa85e6a21cf.jpg" alt="Bacon Wrapped Prawns" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline;border:1px solid #e5e5e5;" class="columnImage" mc:label="left_column_image" mc:edit="left_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+						
+                                        	<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 200px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
+                                                	<tr>
+                                                    	<td class="centerColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+                                                        	<a href="http://imly.in/cupshup-n-more/"><img src="https://imly.s3.amazonaws.com/regular/images/cupshup-n-more/d3f2c1cb-f663-4df8-8468-58fe0cb30d4f.jpg" alt="Cupcakes" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;border:1px solid #e5e5e5;" class="columnImage" mc:label="center_column_image" mc:edit="center_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td valign="top" class="centerColumnContent" mc:edit="center_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+								<a href="http://imly.in/sugar-rush/"><img src="https://imly.s3.amazonaws.com/regular/images/sugar-rush/6e29be76-bd1d-4dce-8042-beb604cadcf9.jpg" alt="Philadelphia Cheesecake" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;border:1px solid #e5e5e5;" class="columnImage" mc:label="center_column_image" mc:edit="center_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        	<td align="center" valign="top" class="templateColumnContainer" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;width: 200px;">
+                                            	<table border="0" cellpadding="20" cellspacing="0" width="100%" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;border-collapse: collapse;">
+                                                	<tr>
+                                                    	<td class="rightColumnContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+                                                        	<a href="http://imly.in/the-gourmet-catering-co/"><img src="https://imly.s3.amazonaws.com/regular/images/the-gourmet-catering-co/065e077f-e712-42cd-b383-a7f73e2cad13.jpg" alt="Pizza" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline;border:1px solid #e5e5e5;" class="columnImage" mc:label="right_column_image" mc:edit="right_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                    	<td valign="top" class="rightColumnContent" mc:edit="right_column_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 14px;line-height: 150%;padding-top: 0;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
+								<a href="http://imly.in/ann-dias/"><img src="https://imly.s3.amazonaws.com/regular/images/ann-dias/50b7d996-c697-42c0-9cc3-6469951d5cb9.jpg" alt="Goan Prawn Curry" style="max-width: 160px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;display: inline;border:1px solid #e5e5e5;" class="columnImage" mc:label="right_column_image" mc:edit="right_column_image"/></a>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- // END COLUMNS -->
+                                </td>
+                            </tr>
+				<tr style="height:20px;border:1px solid #f5f5f5;">
+					<td style="color:#f5f5f5;font-size:14px;">
+						Imly is different!
+					</td>
+				</tr>
                         	<tr>
                             	<td align="center" valign="top" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;">
                                 	<!-- BEGIN FOOTER // -->
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F1F1F1;border-top: 1px solid #cccccc;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="footerContent" mc:edit="footer_content00" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td valign="top" class="footerContent" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content01">
                                                 
                                                 <strong>Contact us:</strong>
-                                                <br>
+                                                <br/>
                                                 +91 9920190624
-						<br>
-						<br>
+						<br/>
+						<br/>
 						<em>Cooked with love by <a href="http://imly.in">imly.in</a></em>
                                                 
-                                                <br>
+                                                <br/>
                                             </td>
                                         </tr>
 
