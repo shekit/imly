@@ -682,9 +682,7 @@
 											<b><u>Address:</u></b><br>
 											{{storeorder.order.shipping_address}}<br/>
 											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
-											{% if not storeorder.pick_up and storeorder.delivery_charges %}
-												Delivery by <b>Fly By Knight</b>
-											{% endif %}
+											
 										{% endif %}
 									{% else %}
 										{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
