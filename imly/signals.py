@@ -103,6 +103,19 @@ def imly_order_place_send_email_admin(sender,instance,**kwargs):
 		instance.data['paid'] = 'PAID'
 		instance.save()
 		post_save.connect(imly_order_place_send_email_admin,sender=Order)
+
+@receiver(post_save,sender=Order)
+def imly_fly_by_night(sender,instance,**kwargs):
+	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_fly_by_knight',''):
+		storeorder = instance.storeorder_set.filter(pick_up = False,delivery_charges__gt=0)
+		if storeorder:
+			msg = EmailMessage("New Imly.in Order",get_template('email_templates/fly_by_knight.html').render(Context({'storeorders':storeorder,'order':instance})),settings.ORDERS_EMAIL,['manish.kansara07@gmail.com'],bcc=[settings.ADMIN_EMAIL])
+			msg.content_subtype = "html"
+			msg.send()
+			post_save.disconnect(imly_fly_by_night,sender=Order)
+			instance.data['imly_fly_by_knight'] = 'send'
+			instance.save()
+			post_save.connect(imly_fly_by_night,sender=Order)
     
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):

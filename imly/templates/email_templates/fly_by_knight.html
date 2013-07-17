@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>You got an order!</title>
+        <title>Imly Order</title>
         <style type="text/css">
 			/* ///////// CLIENT-SPECIFIC STYLES ///////// */
 			#outlook a{padding:0;} /* Force Outlook to provide a "view in browser" message */
@@ -609,7 +609,7 @@
                             </tr>
 				<tr style="height:20px;border:1px solid #f5f5f5;">
 					<td style="color:#f5f5f5;font-size:14px;">
-						You got an order!
+						Imly thanks you!
 					</td>
 				</tr>
                         	<tr style="border-left:5px solid #f05a28;">
@@ -619,99 +619,74 @@
                                         <tr>
                                             <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #888888;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;font-weight: 300;">
                                                 <h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 18px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">
-							Hi Chef {% if storeorder.store.owner.userprofile %}
-								{{ storeorder.store.owner.userprofile.first_name }}
-							{% else %}
-								{{storeorder.store.owner.username}}
-							{% endif %},
+							Hi Neha,
 						</h1>
 						
 						
 
-						<p>Congratulations, you have received an order through your store on Imly! Your order details are as follows:</p>
+						<p>An order has been placed. The entire delivery charge needs to be collected from the buyer and not the chef. The order details are as follows:</p>
 						
 						
-						<p>Your order number is: {{storeorder.order}} </p>
-						<p>Order placed on: {{ storeorder.order.confirmed.date }}</p>
 						
-						<p>Your order details are:</p>
+						<p>Order placed on: {{ order.confirmed.date }}</p>
+						
+						<p>Address and order details are:</p>
 						{% load imly_tags %}
-						
+						{% for storeorder in storeorders %}
 						<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
-						<tr>
-							<th style="border:1px solid;padding:0.2em;">S.No</th>
-							<th style="border:1px solid;padding:0.2em;">You have to make</th>
-							<th style="border:1px solid;padding:0.2em;">Quantity</th>
-							<th style="border:1px solid;padding:0.2em;">
-								{% if not storeorder.pick_up %}
-									Delivery
-								{% else %}
-									Pick up
-								{% endif %}
-								</th>
-							<th style="border:1px solid;padding:0.2em;">
-								{% if not storeorder.pick_up %}
-									Delivery on
-								{% else %}
-									Pick up Date
-								{% endif %}
-							</th>
-						</tr>
-						{% for product in product_detail %}
+							
+							<tr><th colspan="4" style="background: #e5e5e5;"><strong><span style="color:#f05a28;">Order Details</span></strong></th></tr>
+							
 							<tr>
-								<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
-								<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
+							<th style="border:1px solid;padding:0.2em;">Pick Up Address</th>
+							<th style="border:1px solid;padding:0.2em;">Delivery Address</th>
+							<th style="border:1px solid;padding:0.2em;">
+								
+									Order to be Delivered on
+								</th>
+							<th style="border:1px solid;padding:0.2em;">Delivery Charges</th>
+							</tr>
+							<tr>
+								
 								<td style="border:1px solid;padding:0.2em;">
-									{{product.product.quantity_per_item}}
-									{% ifequal product.product.quantity_per_item 1 %}
-										{{product.product.quantity_unit}}
-									{% else %}
-										{{product.product.quantity_unit}}s
-									{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}</td>
+										{% if storeorder.store.owner.userprofile %}<u>{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}</u>{% else %}<u>{{ storeorder.store.name }}</u> {% endif %}
+										{{storeorder.store.pick_up_address}}<br/>
+										{{storeorder.store.pick_up_location}}<br/>
+										<b>Landmark nearby:</b>{{storeorder.store.pick_up_landmark}}<br/>
+								
+					
+								
+								</td>
 								<td style="border:1px solid;padding:0.2em;">
-									{% if not storeorder.pick_up %}
+								
 										{% if storeorder.order.shipping_same_as_billing %}
 											<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
-											<b><u>Address:</u></b><br>
 											{{ storeorder.order.billing_address }}<br/>
 											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
-											Delivery by <b>Fly By Knight</b>
-											
 										{% else %}
 											<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
-											<b><u>Address:</u></b><br>
 											{{storeorder.order.shipping_address}}<br/>
 											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
-											Delivery by <b>Fly By Knight</b>
 										{% endif %}
-									{% else %}
-										{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
-										{{storeorder.order.billing_phone_number}}<br/>
-										<b>Buyer will pick up.</b>
-									{% endif %}
-								</td>
-								<td style="border:1px solid;padding:0.2em;">
-									<b>Date:</b>{{storeorder.delivered_on.date}}<br>
-									<b>Time:</b>{{storeorder.display_order_time}}
-								</td>
 								
+								</td>
+								<td style="border:1px solid;padding:0.2em;"><u>Date: </u>{{storeorder.delivered_on.date}}<br/><u>Time: </u> {{storeorder.display_order_time}}<br/></td>
+								<td style="border:1px solid;padding:0.2em;">
+									<u>Delivery Charges:</u><br/>
+									
+									{{storeorder.order.currency}} {{ storeorder.delivery_charges }}</td>
 							</tr>
+								
+						</table>
+						
+						<br/>
 						{% endfor %}
-					</table><br/><br/>
-					{% if not storeorder.pick_up %}
-						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p>
-						<p>A <b>FLY BY KNIGHT</b> representative will collect the food from you.</p>
-						<p>The amount will be paid to you at the end of the 2 week pilot.</p><br/>
-					{% endif %}
 					
-					{% if storeorder.note %}
-						<p><b>Your customer has requested:</b>{{storeorder.note}}</p><br/>
-					{% endif %}
-					<h3>Your order total is <b>{{storeorder.order.currency}} {{storeorder.store_total}}</b></h3> <br/>
-					
-					<p>Cook on!</p><br/>
-					
-					
+						
+						<h3>The total to be collected is: <b>{{ order.currency }} {% fbn_order_total order %} for the food {% delivery_charges_mail order %}</b>.</h3><br/>
+						
+						Thank you!<br/>
+						
                                             </td>
                                         </tr>
                                     </table>
@@ -730,7 +705,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F1F1F1;border-top: 1px solid #cccccc;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="footerContent" mc:edit="footer_content00" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
                                             </td>
                                         </tr>
                                         <tr>
