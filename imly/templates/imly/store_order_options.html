@@ -16,6 +16,9 @@
     Pick-up
     </label>
 </li>
+{% if not request.session.place_slug %}
+<li>Check Delivery</li>
+{% endif %}
 {% load imly_tags %}
 {% if request.session.place_slug %}
 	{% store_amend_geo store_order.store %}
@@ -26,6 +29,8 @@
 	    Delivery
 	    </label>    
 	</li>
+	{% else %}
+		No Delivery
 	{% endif %}
 {% endif %}
 

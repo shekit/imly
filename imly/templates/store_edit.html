@@ -109,6 +109,16 @@
 {% endblock shop_info %}            
 {% block extra_javascript %}
 <script type="text/javascript">
+    
+            
+                
+        function mark_to_delete(dl_id){
+            var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
+            $("#"+formfield_id).prop("checked",true);
+            $("#selected_location_"+ dl_id).hide();
+            return false;
+        }
+        
     $(document).ready(function(){
         
                         //script to show fields in store edit/create if checkbox is already ticked
@@ -158,14 +168,7 @@ google.maps.event.addListener(autocomplete_delivery, 'place_changed', function()
             $('#delivery_locator').val('');
             $('#delivery_locator').focus();},10);
     });
-        
-                
-        function mark_to_delete(dl_id){
-            var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
-            $("#"+formfield_id).prop("checked",true);
-            $("#selected_location_"+ dl_id).hide();
-            return false;
-        }
+
     $(".delivery_location input[type=text]").each(function(index,input){
            var count = $(input).attr("id").split("-")[1];
            var short_name = $(input).attr("value").split(",")[0];
