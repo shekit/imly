@@ -659,9 +659,9 @@
 							<td style="border:1px solid;padding:0.2em;">
 								<table style="border:none;border-spacing:0;border-collapse:collapse;">
 									{% for product in product_detail %}
-										<tr>
-											<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
-											<td style="border:1px solid;padding:0.2em;">
+										<tr style="border-bottom:1px solid #ccc;">
+											<td style="border-right:1px solid #ccc;padding:5px;">{{product.product.name}}</td>
+											<td style="border-right:1px solid #ccc;padding:5px;">
 												{{product.product.quantity_per_item}}
 												{% ifequal product.product.quantity_per_item 1 %}
 													{{product.product.quantity_unit}}
@@ -669,7 +669,7 @@
 													{{product.product.quantity_unit}}s
 												{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}
 											</td>
-											<td style="border:1px solid;padding:0.2em;">{{storeorder.order.currency}} {{product.subtotal|floatformat:"0"}}</td>
+											<td style="padding:5px;">{{storeorder.order.currency}} {{product.subtotal|floatformat:"0"}}</td>
 										</tr>
 									{% endfor %}
 								</table>

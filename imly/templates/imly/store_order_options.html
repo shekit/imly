@@ -17,7 +17,8 @@
     </label>
 </li>
 {% if not request.session.place_slug %}
-<li>Check Delivery</li>
+
+<li class="check_delivery_li"><a href="javascript:;" class="delivery_location_not_set check_delivery_cart">Check Delivery</a></li>
 {% endif %}
 {% load imly_tags %}
 {% if request.session.place_slug %}
@@ -30,7 +31,10 @@
 	    </label>    
 	</li>
 	{% else %}
-		No Delivery
+		<li class="check_delivery_li">
+			<small class="orange">No Delivery at your location :(</small>
+		</li>
+		
 	{% endif %}
 {% endif %}
 

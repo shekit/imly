@@ -297,11 +297,21 @@
         </div>
         </div>
     </div>
+    <br><br>
+    {% if object.category.super_category.slug == "desserts" %}
+        {% if object.category.slug == "cakes" or object.category.slug == "3d-cakes" or object.category.slug == "wedding-cakes" %}
+            <strong>Imly Tip:</strong> Want something written on your cake? Or have something in mind? Mention it in the <span class="orange">Note to the Chef</span> during checkout.
+        {% elif object.category.slug == "cupcakes" %}
+            <strong>Imly Tip:</strong> Want different flavours in your box? Mention it in the <span class="orange">Note to the Chef</span> during checkout.
+        {% else %}
+            <strong>Imly Tip:</strong> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout.
+        {% endif %}
+    {% else %}
+            <strong>Imly Tip:</strong> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout.
+    {% endif %}
 
-    
     {% if object.description %}
     <br>
-        <br>
         <div class="row-fluid">
             <div class="span12">
                 <span style="font-weight: 600;">Description :</span>{{ object.description_html|safe }}

@@ -1463,6 +1463,19 @@ td.less_padding_inner_td input[type=text]{
     display: none;
 }
 
+.check_delivery_cart {
+    color: #ff7752;
+    text-decoration: underline;
+}
+
+.check_delivery_cart:hover {
+    color: #f05a28;
+}
+
+.check_delivery_li {
+    margin-top: 8px;
+}
+
 /* stale cart modal */
 
 .stale_cart_heading {
