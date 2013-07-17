@@ -45,6 +45,17 @@
         
         {% paginate object_list %}
         {% for object in object_list %}
+		{% if foorloop.first %}
+		{% block extra_head %}
+		<meta property="og:title" content="{{ object.store.name }}: {{ object.name }}"/>
+		<meta property="og:type" content="imly:product"/>
+		<meta property="og:category" content="Food"/>
+		<meta property="og:image" content="{{ object.image_thumbnail.url }}"/>
+		<meta property="og:site_name" content="imly.in"/>
+		<meta property="og:url" content="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/"/>
+		<meta property="og:description" content="Check out {{ object.name|title }} on imly.in! Drooool..."/>
+		{% endblock extra_head %}
+		{% endif %}
         {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
         <li class="span4">
             <div class="thumbnail thumbnail_custom">
@@ -219,6 +230,10 @@ $(document).ready(function(){
     $("#delivery_modal").on("hidden", function(){
         $(".large_location_search").focus(); 
     });
+	
+	if(window.location.hash == '#delivery'){
+		$("#delivery_modal").modal();
+	}
     
     $(".thumbnail_custom").hover(
         function(){
