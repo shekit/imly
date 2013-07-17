@@ -298,27 +298,25 @@
         </div>
     </div>
     <br><br>
-    {% if object.category.super_category.slug == "desserts" %}
-        {% if object.category.slug == "cakes" or object.category.slug == "3d-cakes" or object.category.slug == "wedding-cakes" %}
-            <strong>Imly Tip:</strong> Want something written on your cake? Or have something in mind? Mention it in the <span class="orange">Note to the Chef</span> during checkout.
-        {% elif object.category.slug == "cupcakes" %}
-            <strong>Imly Tip:</strong> Want different flavours in your box? Mention it in the <span class="orange">Note to the Chef</span> during checkout.
-        {% else %}
-            <strong>Imly Tip:</strong> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout.
-        {% endif %}
-    {% else %}
-            <strong>Imly Tip:</strong> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout.
-    {% endif %}
-
     {% if object.description %}
-    <br>
         <div class="row-fluid">
-            <div class="span12">
-                <span style="font-weight: 600;">Description :</span>{{ object.description_html|safe }}
+            <div class="span12 product_detail_description">
+                <span class="product_detail_description_header">Description</span>{{ object.description_html|safe }}
             </div>
         </div>
     {% endif %}
-
+    
+    {% if object.category.super_category.slug == "desserts" %}
+        {% if object.category.slug == "cakes" or object.category.slug == "3d-cakes" or object.category.slug == "wedding-cakes" %}
+            <span class="label custom_label">Imly Tip</span> Want something written on your cake? Or have something in mind? Mention it in the <span class="orange">Note to the Chef</span> during checkout
+        {% elif object.category.slug == "cupcakes" %}
+            <span class="label custom_label">Imly Tip</span> Want different flavours in your box? Mention it in the <span class="orange">Note to the Chef</span> during checkout
+        {% else %}
+            <span class="label custom_label">Imly Tip</span> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout
+        {% endif %}
+    {% else %}
+            <span class="badge custom_label"><span class="icon-thumbs-up icon-white"></span></span> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout
+    {% endif %}
     <a class="btn btn-block btn-custom btn-custom-mobile visible-phone" href="{% url "imly_store_detail" object.store.slug %}"><small>More from {{ object.store.name|lower|title }}</small></a>
     
     <div class="row-fluid">

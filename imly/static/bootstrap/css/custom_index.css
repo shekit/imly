@@ -225,6 +225,31 @@ legend {
     background-position: 50% top;
 }
 
+.announcement_wrapper {
+    position: absolute;
+    top:5px;
+}
+
+.announcement {
+    background: #333;
+    background: rgba(0,0,0,0.6);
+    padding: 15px 50px 7px 50px;
+    border: 1px solid #fff;
+    border-radius: 0px 0px 5px 5px;
+    box-shadow: inset 0px 0px 1px #000;
+}
+
+.announcement_message{
+    font-size: 14px;
+    color: #fff;
+    text-shadow: 0px 0px 2px #000;
+}
+
+.announcement_message:hover {
+    color: #f05a28;
+    text-decoration: none;
+}
+
     .carousel-control {
       height: 80px;
       margin-top: 0;
