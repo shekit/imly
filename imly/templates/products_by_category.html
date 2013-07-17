@@ -228,7 +228,10 @@ $(document).ready(function(){
     });
     
     $("#delivery_modal").on("hidden", function(){
-        $(".large_location_search").focus(); 
+        $(".large_location_search").focus();
+        if(window.location.hash == "#delivery"){
+            window.location.hash = "";
+        }
     });
 	
 	if(window.location.hash == '#delivery'){
