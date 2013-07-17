@@ -1276,6 +1276,15 @@ div.store_form > legend {
     font-size:14px;
 }
 
+
+/* delivery modal */
+
+.delivery_modal_pilot_info {
+     background: #f05a28;
+     color: #fff;
+     padding:5px 0px;
+     border-radius: 5px;
+}
 /* MODAL SIGNUP WINDOW */
 .login_modal {
     width:450px;
