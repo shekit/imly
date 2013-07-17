@@ -682,7 +682,9 @@
 											<b><u>Address:</u></b><br>
 											{{storeorder.order.shipping_address}}<br/>
 											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
-											Delivery by <b>Fly By Knight</b>
+											{% if not storeorder.pick_up and storeorder.delivery_charges %}
+												Delivery by <b>Fly By Knight</b>
+											{% endif %}
 										{% endif %}
 									{% else %}
 										{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
@@ -698,7 +700,7 @@
 							</tr>
 						{% endfor %}
 					</table><br/><br/>
-					{% if not storeorder.pick_up %}
+					{% if not storeorder.pick_up and storeorder.delivery_charges %}
 						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p>
 						<p>A <b>FLY BY KNIGHT</b> representative will collect the food from you.</p>
 						<p>The amount will be paid to you at the end of the 2 week pilot.</p><br/>
