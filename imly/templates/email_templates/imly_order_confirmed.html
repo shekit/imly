@@ -639,9 +639,7 @@
 						
 						<table style="border:1px solid;border-spacing:0;border-collapse:collapse;">
 						<tr>
-							<th style="border:1px solid;padding:0.2em;">S.No</th>
-							<th style="border:1px solid;padding:0.2em;">You have to make</th>
-							<th style="border:1px solid;padding:0.2em;">Quantity</th>
+							<th style="border:1px solid;padding:0.2em;">Item Details</th>
 							<th style="border:1px solid;padding:0.2em;">
 								{% if not storeorder.pick_up %}
 									Delivery
@@ -657,49 +655,55 @@
 								{% endif %}
 							</th>
 						</tr>
-						{% for product in product_detail %}
-							<tr>
-								<td style="border:1px solid;padding:0.2em;">{{forloop.counter}}</td>
-								<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
-								<td style="border:1px solid;padding:0.2em;">
-									{{product.product.quantity_per_item}}
-									{% ifequal product.product.quantity_per_item 1 %}
-										{{product.product.quantity_unit}}
+						<tr>
+							<td style="border:1px solid;padding:0.2em;">
+								<table style="border:none;border-spacing:0;border-collapse:collapse;">
+									{% for product in product_detail %}
+										<tr>
+											<td style="border:1px solid;padding:0.2em;">{{product.product.name}}</td>
+											<td style="border:1px solid;padding:0.2em;">
+												{{product.product.quantity_per_item}}
+												{% ifequal product.product.quantity_per_item 1 %}
+													{{product.product.quantity_unit}}
+												{% else %}
+													{{product.product.quantity_unit}}s
+												{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}
+											</td>
+											<td style="border:1px solid;padding:0.2em;">{{storeorder.order.currency}} {{product.subtotal|floatformat:"0"}}</td>
+										</tr>
+									{% endfor %}
+								</table>
+							</td>			
+							<td style="border:1px solid;padding:0.2em;">
+								{% if not storeorder.pick_up %}
+									{% if storeorder.order.shipping_same_as_billing %}
+										<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
+										<b><u>Address:</u></b><br>
+										{{ storeorder.order.billing_address }}<br/>
+										{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>			
 									{% else %}
-										{{product.product.quantity_unit}}s
-									{% endifequal %} x {{product.quantity}} = {% order_item_quantity product %} {% quantity_by_price product %}</td>
-								<td style="border:1px solid;padding:0.2em;">
-									{% if not storeorder.pick_up %}
-										{% if storeorder.order.shipping_same_as_billing %}
-											<u>{{ storeorder.order.billing_first_name }} {{ storeorder.order.billing_last_name }}</u><br/>{{ storeorder.order.billing_phone_number }}<br/>
-											<b><u>Address:</u></b><br>
-											{{ storeorder.order.billing_address }}<br/>
-											{{ storeorder.order.billing_city }}-{{ storeorder.order.billing_zip_code }}<br/>
-											Delivery by <b>Fly By Knight</b>
-											
-										{% else %}
-											<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
-											<b><u>Address:</u></b><br>
-											{{storeorder.order.shipping_address}}<br/>
-											{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
-											Delivery by <b>Fly By Knight</b>
-										{% endif %}
-									{% else %}
-										{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
-										{{storeorder.order.billing_phone_number}}<br/>
-										<b>Buyer will pick up.</b>
+										<u>{{storeorder.order.shipping_first_name}} {{storeorder.order.shipping_last_name}}</u><br/>{{storeorder.order.shipping_phone_number}}<br/>
+										<b><u>Address:</u></b><br>
+										{{storeorder.order.shipping_address}}<br/>
+										{{storeorder.order.shipping_city}}-{{storeorder.order.shipping_zip_code}}<br/>
+
 									{% endif %}
-								</td>
-								<td style="border:1px solid;padding:0.2em;">
-									<b>Date:</b>{{storeorder.delivered_on.date}}<br>
-									<b>Time:</b>{{storeorder.display_order_time}}
-								</td>
+								{% else %}
+									{{storeorder.order.billing_first_name}} {{storeorder.order.billing_last_name}}<br/>
+									{{storeorder.order.billing_phone_number}}<br/>
+									<b>Buyer will pick up.</b>
+								{% endif %}
+							</td>
+							<td style="border:1px solid;padding:0.2em;">
+								<b>Date:</b>{{storeorder.delivered_on.date}}<br>
+								<b>Time:</b>{{storeorder.display_order_time}}
+							</td>
 								
-							</tr>
-						{% endfor %}
+						</tr>
+						
 					</table><br/><br/>
-					{% if not storeorder.pick_up %}
-						<p>Please keep the food ready <b>one hour before</b>the above mentioned time to cater for delivery.</p>
+					{% if not storeorder.pick_up and storeorder.delivery_charges %}
+						<p>Please keep the food ready <b>one hour before</b> the above mentioned time to cater for delivery.</p>
 						<p>A <b>FLY BY KNIGHT</b> representative will collect the food from you.</p>
 						<p>The amount will be paid to you at the end of the 2 week pilot.</p><br/>
 					{% endif %}
