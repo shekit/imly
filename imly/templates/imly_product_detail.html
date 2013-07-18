@@ -2,6 +2,12 @@
 
 {% block title %}Imly | {{ object.store.name|lower|title }} | {{ object.name|lower|title }}{% endblock title %}
 
+{% block extra_head %}
+<meta property="og:url" content="{% url 'imly_product_detail' object.store.slug object.slug %}">
+<meta property="og:title" content="{{object.store}}: {{object}} - Imly.in">
+<meta property="og:type" content="product"/>
+<meta property="og:image" content="{{object.image_thumbnail_large.url}}"/>
+{% endblock extra_head %}
 {% block shop_info %}
 
     {% load imly_tags %}
@@ -120,7 +126,7 @@
 {% block shop_product_content %}
 
     {% load imly_tags %}
-    <div class="row-fluid" itemscope itemtype="http://data-vocabulary.org/Product">
+    <div class="row-fluid">
         <div class="span8">
                 <ul class="thumbnails">
                     <li class="span12">
@@ -217,14 +223,12 @@
         </div>
         
         <div class="span4 product_detail_mobile">
-            <h2><span class="product_name" itemprop="name">{{ object.name|lower|title }}</span></h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}" itemprop="brand">{{ object.store.name|lower|title }}</a></small>
+            <h2><span class="product_name">{{ object.name|lower|title }}</span></h2><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name|lower|title }}</a></small>
             <br><br>
-			<div itemprop="offerDetails">
             {% if object.quantity_per_item == 1 %}
-                <h4 itemscope itemtype="http://￿/Offer"><span itemprop="currency">{{ object.currency }}</span><span itemprop="price"> {{ object.get_price.unit_price|floatformat:"0" }}</span><small> per {{ object.get_quantity_by_price_display }}</small></h4>
+                <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> per {{ object.get_quantity_by_price_display }}</small></h4>
             {% else %}
-                <h4 itemscope itemtype="http://data-vocabulary.org/Offer"><span itemprop="currency">{{ object.currency }}</span> <span itemprop="price">{{ object.get_price.unit_price|floatformat:"0" }}</span><small> for {{object.quantity_per_item|floatformat:"0"}} {{ object.get_quantity_by_price_display }}s</small></h4>
-			</div>	
+                <h4>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> for {{object.quantity_per_item|floatformat:"0"}} {{ object.get_quantity_by_price_display }}s</small></h4>
             {% endif %}
             {% if object.store.is_open %}
                 {% if object.items_in_stock %}
@@ -256,7 +260,7 @@
     <div class="row-fluid">
         <div class="row-fluid">
         <div class="span4">
-            <ul class="unstyled text-center product_detail_rating" >
+            <ul class="unstyled text-center product_detail_rating">
                 <li><h4 class="product_detail_header">Rating</h4></li>
                 <li>
                     {% if object.reviews.count %}
@@ -303,7 +307,7 @@
     {% if object.description %}
         <div class="row-fluid">
             <div class="span12 product_detail_description">
-                <span class="product_detail_description_header">Description</span><div itemprop="description">{{ object.description_html|safe }}</div>
+                <span class="product_detail_description_header">Description</span>{{ object.description_html|safe }}
             </div>
         </div>
     {% endif %}
