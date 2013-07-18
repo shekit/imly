@@ -94,6 +94,13 @@
 
 {% block extra_javascript %}
 <script type="text/javascript">
+                
+        function mark_to_delete(dl_id){
+            var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
+            $("#"+formfield_id).prop("checked",true);
+            $("#selected_location_"+ dl_id).hide();
+            return false;
+        }
 
 $(document).ready(function(){
     
@@ -152,13 +159,7 @@ $(document).ready(function(){
                 
 	});
         
-                
-        function mark_to_delete(dl_id){
-            var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
-            $("#"+formfield_id).prop("checked",true);
-            $("#selected_location_"+ dl_id).hide();
-            return false;
-        }
+
         
        $(".delivery_location input[type=text]").each(function(index,input){
            var count = $(input).attr("id").split("-")[1];

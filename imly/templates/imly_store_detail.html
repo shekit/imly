@@ -351,6 +351,9 @@ $(document).ready(function(){
         });
         return false;
     });
+    $('form .submit-btn').click(function(){
+    	ga('send', 'event', 'order', 'click', 'order from store');
+    })
     
     
     $(".thumbnail_custom").hover(

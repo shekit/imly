@@ -864,6 +864,22 @@ h1.store_name_with_cover_photo{
     text-decoration: none;
 }
 
+.custom_label {
+    background: #f05a28;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.product_detail_description {
+    margin-bottom: 15px;
+}
+
+.product_detail_description_header {
+    color: #999;
+    font-size: 17.5px;
+    font-weight: 300;
+}
+
 /* overriding checkbox properties for delete checkbox in shopping cart to be properly aligned */
 .checkbox {
 	padding-left: 0;
@@ -1260,6 +1276,15 @@ div.store_form > legend {
     font-size:14px;
 }
 
+
+/* delivery modal */
+
+.delivery_modal_pilot_info {
+     background: #f05a28;
+     color: #fff;
+     padding:5px 0px;
+     border-radius: 5px;
+}
 /* MODAL SIGNUP WINDOW */
 .login_modal {
     width:450px;
@@ -1461,6 +1486,19 @@ td.less_padding_inner_td input[type=text]{
 
 .delivery_hide_show {
     display: none;
+}
+
+.check_delivery_cart {
+    color: #ff7752;
+    text-decoration: underline;
+}
+
+.check_delivery_cart:hover {
+    color: #f05a28;
+}
+
+.check_delivery_li {
+    margin-top: 8px;
 }
 
 /* stale cart modal */

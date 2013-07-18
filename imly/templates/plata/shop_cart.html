@@ -7,6 +7,7 @@
 {% block active_cart %}active_top_nav{% endblock active_cart %}
 
 {% block cart_content %}
+     {% include "delivery_modal.html" %}
     <div class="row-fluid">
         {% if empty %}
         <br><br><br><br>
@@ -219,7 +220,13 @@ function update_store_order(field, store_order_id, parameter){
             //}
 
             //});
-
+                $(".delivery_location_not_set").on("click",function(){
+                    $("#delivery_modal").modal();
+                });
+                
+                $("#delivery_modal").on("hidden", function(){
+                    $(".large_location_search").focus(); 
+                });
 
         
             $(".delivery_radio_button").click(function(){
@@ -396,7 +403,9 @@ function update_store_order(field, store_order_id, parameter){
         });
     });
 	});
-
+	$('.check_delivery_cart').click(function(){
+		ga('send', 'event', 'delivery', 'click', "set in cart");
+	})
     function sync_notes(){
         $('textarea').each(function(){ 
             $(this).change()
