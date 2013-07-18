@@ -247,6 +247,11 @@
             {% else %}
                 <h4 class="muted all_out">Sorry, I am out on <span class="orange">vacation</span>.<br><br>I will be back soon.</span></h4>
             {% endif %}
+            {% if request.user.is_authenticated %}
+                {% wish_product object.slug object.store.slug %}                    
+            {% else %}
+                <a href="#myModal" role="button" data-toggle="modal">Like</a>
+            {% endif %}
         </div>
     </div>
 
@@ -377,6 +382,20 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
+    $('.product_wish').click(function(){
+        var raw_id = $(this).attr('id')
+        var product = raw_id.split("_")[1]
+        var store = raw_id.split("_")[2]
+        var user = raw_id.split("_")[3]
+        var data = {store_slug:store,product_slug:product,user_id:user};
+        $.post('{% url "wishlist" %}',data,function(data){
+
+        }).done(function(data){
+            $('#product_'+product+'_'+store+'_'+user).remove();
+        });
+        
+    });
+    
     $('#id_quantity').keypress(function(evt){
        var charCode =  (evt.which)?evt.which:evt.keyCode;
        if (charCode>31 && (charCode <48 || charCode>57))

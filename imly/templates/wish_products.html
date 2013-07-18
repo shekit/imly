@@ -1,0 +1,148 @@
+{% extends "base_store_manage.html" %}
+{% block title %}Imly | Wish Products{% endblock title %}
+
+{% block manage_store_navigation %}
+	<li class="active"><a href="#">My Wish List</a></li>
+    <li class="disabled"><a href="#">My Order's</a></li>
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+
+	<div class="row-fluid">
+	{% if wish_products %}
+	<div class="span12">
+        <table class="table table-striped table-bordered clearfix">
+            <thead>
+        	    <tr>
+                    <th>Product Image</th>
+                    <th>Name</th>
+                    <th>Store name</th>
+                    <th>Price</th>
+                    <th>Order</th>
+                    <th>Remove wish</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for wish in wish_products %}
+            {% if wish.is_active %}
+            	<tr id="{{wish.product.slug}}">
+            		<td><a href="{% url "imly_product_detail" wish.product.store.slug wish.product.slug %}"><img class="img-polaroid img-rounded" src="{{ wish.product.image_thumbnail_mini.url }}" alt="{{ wish.product.name }}" width="100" height="80"></a></td>
+            		<td>{{wish.product.name|lower|title}}</td>
+            		<td><a href="{% url "imly_store_detail" wish.product.store.slug %}">{{wish.product.store.name}}</a></td>
+            		<td>{{wish.product.currency}} {{wish.product.get_price.unit_price|floatformat:"0"}}
+            		<small class="muted">
+                        {% if wish.product.quantity_per_item == 1 %}
+                            /{{ wish.product.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ wish.product.quantity_per_item }} {{ wish.product.get_quantity_by_price_display }}s
+                        {% endif %} 
+                        </small></td>
+                    <td>{% if wish.product.items_in_stock %}
+                    	<form method="post" action="{% url "imly_add_order" wish.product.store.slug wish.product.slug %}">
+                        	{% csrf_token %}
+                        	<input type="hidden" name="image_url" value="{{wish.product.image_thumbnail_mini.url}}">
+                        	<input type="hidden" name="product_name" value="{{wish.product.name|title}}">
+                        	<input type="hidden" name="store_name" value="{{wish.product.store.name|title}}">
+                        	<input type="hidden" name="product_slug" value="{{ wish.product.slug }}">
+                        	<input type="hidden" name="quantity" value="1">
+                        	<input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                    	</form>
+                    	{% else %}
+                        	<small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                    	{% endif %}</td>
+                    <td><small class="muted"><a class="order-item" id="{{wish.product.slug}}_{{wish.product.store.slug}}_{{request.user.id}}" >Remove</a></td>
+            	</tr>
+            {% endif %}
+            {% endfor %}
+    	    </tbody>
+    	</table>
+    </div>
+   	{% else %}
+		There is no  wish list belongs to you please like the product.
+	
+	{% endif %}
+	</div>
+{% endblock shop_content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('a.order-item').click(function(){
+		var id = $(this).attr('id');
+		var product_slug = id.split('_')[0];
+		var store_slug = id.split('_')[1];
+		var user_id = id.split('_')[2];
+		var data = {store_slug:store_slug,product_slug:product_slug,user_id:user_id};
+		$.post('{% url "remove_wish" %}',data,function(data){
+
+		}).done(function(data){
+			if (data['count'] != 0){
+				$('#'+product_slug).remove();
+			}
+			else
+			{	
+				
+				window.location.href=('/wishlist/');
+			}
+			
+		});
+	});
+    $('.submit-btn').click(function(){
+        var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        var product_slug = form.find('input[name=product_slug]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
+
+                    $('#items-count').html(response['count']);
+                    
+                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
+        function(){
+            $(this).stop(true,false);
+            
+        },
+        function(){
+            $(this).fadeOut(200);
+        }
+    ).fadeOut(200);
+
+                    /*$('.dropDowncart').empty();
+                    $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                    $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                    $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                    $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                    $('.dropDowncart').append('</ul></li>');
+                    $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);*/
+                }else{
+                    
+                    
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+                    
+                    }
+
+
+            }
+        });
+        return false;
+    });
+});
+</script>   
+{% endblock extra_javascript %}

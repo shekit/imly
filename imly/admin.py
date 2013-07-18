@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis import admin as gadmin
-from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation, City, Special
+from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation, City, Special,Wish
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
@@ -59,6 +59,9 @@ class ProductAdmin(admin.ModelAdmin):
         if ordering:
             qs=qs.order_by(*ordering)
         return qs
+
+class WishAdmin(admin.ModelAdmin):
+    list_display = ['product','user','is_active','created','updated']
     
 class ChefTipAdmin(admin.ModelAdmin):
     
@@ -80,6 +83,7 @@ class CityGeoAdmin(gadmin.OSMGeoAdmin):
     default_lon=98.962880
     default_lat=20.5936840
     
+admin.site.register(Wish,WishAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Tag, TagAdmin)
 admin.site.register(Location, LocationAdmin)

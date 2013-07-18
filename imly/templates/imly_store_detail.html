@@ -240,6 +240,11 @@
                     <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
                     <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
                     <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                    {% if request.user.is_authenticated %}
+                        {% wish_product product.slug product.store.slug %}                    
+                    {% else %}
+                        <a href="#myModal" role="button" data-toggle="modal">Like</a>
+                    {% endif %}
                     </div>
                     <!-- AddThis Button END -->
                     
@@ -299,6 +304,20 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
+$('.product_wish').click(function(){
+        var raw_id = $(this).attr('id')
+        var product = raw_id.split("_")[1]
+        var store = raw_id.split("_")[2]
+        var user = raw_id.split("_")[3]
+        var data = {store_slug:store,product_slug:product,user_id:user};
+        $.post('{% url "wishlist" %}',data,function(data){
+
+        }).done(function(data){
+            $('#product_'+product+'_'+store+'_'+user).remove();
+        });
+        
+    });
+    
     $('.submit-btn').click(function(){
         var form = $(this).parent();
         var product_name = form.find('input[name=product_name]').val();

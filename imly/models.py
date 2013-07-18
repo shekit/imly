@@ -274,6 +274,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG",options={'quality':92}, processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
+    user = models.ManyToManyField(User, through='Wish')
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True)
     is_featured= models.BooleanField(default=False)
@@ -488,4 +489,13 @@ class Special(models.Model):
 
     def __unicode__(self):
         return self.title
-        
+
+class Wish(models.Model):
+    product = models.ForeignKey(Product)
+    user = models.ForeignKey(User)
+    is_active = models.BooleanField(default = True)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s like %s" % (self.user, self.product)

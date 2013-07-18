@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404, render, render_to_response, redi
 from django.db.models import Q
 from imly.forms import ProductForm, OrderItemForm, UserProfileForm
 from django.http import HttpResponseForbidden,HttpResponse, HttpResponseRedirect
-from imly.models import Product, Category, Store, Tag, Location, UserProfile, Special, City
+from imly.models import Product, Category, Store, Tag, Location, UserProfile, Special, City, Wish
 from reviews.forms import ReviewedItemForm
 from reviews.models import ReviewedItem
 from django.core.urlresolvers import reverse
@@ -14,6 +14,9 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.gis.geos import Point, MultiPolygon
 from django.contrib.gis.measure import D
 from imly.utils import tracker
+from django.contrib.auth.models import User
+from django.template import RequestContext
+import json as simplejson
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -233,3 +236,25 @@ def unsubscribe_event(request,event_slug,product_slug):
     event.products.remove(product)
     event.save()
     return redirect('imly_store_products')
+
+@csrf_exempt
+def wish_product(request):
+    product = Product.objects.get(slug = request.POST.get('product_slug'),store=Store.objects.get(slug = request.POST.get('store_slug')))
+    Wish.objects.create(user=User.objects.get(pk=request.POST.get('user_id')),product=product)
+    return HttpResponse("success");
+
+@csrf_exempt
+@login_required
+def remove_product(request):
+    product = Product.objects.get(slug = request.POST.get('product_slug'),store=Store.objects.get(slug = request.POST.get('store_slug')))
+    user = User.objects.get(pk=request.POST.get('user_id'))
+    wish = Wish.objects.get(user=user,product=product,is_active=True)
+    wish.is_active = False
+    wish.save()
+    data = {'count':user.wish_set.exclude(is_active = False).count()}
+    return HttpResponse(simplejson.dumps(data),mimetype="application/json")
+
+@login_required
+def wishlist(request):
+    wish_products = Wish.objects.filter(user=request.user,is_active = True)
+    return render_to_response('wish_products.html',locals(),RequestContext(request))

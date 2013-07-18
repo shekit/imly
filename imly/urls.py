@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout
-from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
+from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
@@ -128,6 +128,9 @@ urlpatterns += patterns('',
     url(r'^orderitem/remove/$',update_cart,name='update_cart'),
     url(r'^orderitem/change_quantity/(?P<change>up|down)/$',change_quantity,name='change_quantity'),
     url(r'^orderitem/change_quantity/text/$',change_quantity_text,name='change_quantity_text'),
+    url(r'^wish_product/$',wish_product,name='wishlist'),
+    url(r'^wish_remove_product/$',remove_product,name='remove_wish'),
+    url(r'^wishlist/$',wishlist,name='show_wishlist'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
