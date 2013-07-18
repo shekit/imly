@@ -120,7 +120,7 @@
 {% block shop_product_content %}
 
     {% load imly_tags %}
-    <div class="row-fluid" itemscope itemtype="http://schema.org/Product">
+    <div class="row-fluid" itemscope itemtype="http://data-vocabulary.org/Product">
         <div class="span8">
                 <ul class="thumbnails">
                     <li class="span12">
@@ -221,9 +221,9 @@
             <br><br>
 			<div itemprop="offerDetails">
             {% if object.quantity_per_item == 1 %}
-                <h4 itemscope itemtype="http://schema.org/Offer"><span itemprop="currency">{{ object.currency }}</span><span itemprop="price"> {{ object.get_price.unit_price|floatformat:"0" }}</span><small> per {{ object.get_quantity_by_price_display }}</small></h4>
+                <h4 itemscope itemtype="http://￿/Offer"><span itemprop="currency">{{ object.currency }}</span><span itemprop="price"> {{ object.get_price.unit_price|floatformat:"0" }}</span><small> per {{ object.get_quantity_by_price_display }}</small></h4>
             {% else %}
-                <h4 itemscope itemtype="http://schema.org/Offer"><span itemprop="currency">{{ object.currency }}</span> <span itemprop="price">{{ object.get_price.unit_price|floatformat:"0" }}</span><small> for {{object.quantity_per_item|floatformat:"0"}} {{ object.get_quantity_by_price_display }}s</small></h4>
+                <h4 itemscope itemtype="http://data-vocabulary.org/Offer"><span itemprop="currency">{{ object.currency }}</span> <span itemprop="price">{{ object.get_price.unit_price|floatformat:"0" }}</span><small> for {{object.quantity_per_item|floatformat:"0"}} {{ object.get_quantity_by_price_display }}s</small></h4>
 			</div>	
             {% endif %}
             {% if object.store.is_open %}
