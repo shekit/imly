@@ -225,8 +225,11 @@ $(document).ready(function(){
     
     $("#delivery_location_not_set").on("click",function(){
         $("#delivery_modal").modal();
+		ga('send', 'event', 'delivery', 'click', "filter in nav browser");
     });
-    
+    $('form .submit-btn').click(function(){
+    	ga('send', 'event', 'order', 'click', 'order from listing');
+    })
     $("#delivery_modal").on("hidden", function(){
         $(".large_location_search").focus();
         if(window.location.hash == "#delivery"){
@@ -246,6 +249,11 @@ $(document).ready(function(){
             $(this).find(".custom_addthis").stop(true,false).slideUp(300);
         }
     );
+	{% if category %}
+    ga('send', 'event', 'category', 'browse', '{{ category }}');
+    {% else %}
+	ga('send', 'event', 'category', 'browse', 'all');
+	{% end %}
     
 });
 </script>   

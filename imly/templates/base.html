@@ -25,6 +25,20 @@
 		<meta property="og:type" content="website"/>
 		<meta property="og:image" content="https://imly.s3.amazonaws.com/bootstrap/img/imly_logo.png"/>
 		{% endblock extra_head %}
+        <!-- GOOGLE ANALYTICS CODE -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        
+          ga('create', 'UA-41246832-1', 'imly.in');
+          ga('send', 'pageview');
+		  {% block extra_google_tracking %}
+		  
+		  {% endblock extra_google_tracking %}
+        </script>
+		
     </head>
     
     <body>
@@ -282,17 +296,6 @@
         }]);
         </script>
         
-        <!-- GOOGLE ANALYTICS CODE -->
-        <script>
-          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
-          ga('create', 'UA-41246832-1', 'imly.in');
-          ga('send', 'pageview');
-        
-        </script>
 		<!-- begin olark code -->
 		<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
 		f[z]=function(){
