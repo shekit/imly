@@ -241,7 +241,6 @@ def add_order(request, store_slug, product_slug):
 
         if form.is_valid():
             order = shop.order_from_request(request,create=True)
-            _track_order(request, order)
             stock_change = product.stock_change(order)
             quantity = form.cleaned_data["quantity"]
             if quantity > stock_change:
@@ -265,14 +264,6 @@ def add_order(request, store_slug, product_slug):
         form = OrderItemForm()
 
     return render(request, "imly_product_detail.html", {"object":product, "form":form})
-
-def _track_order(request, order):
-    order_id = request.session.get('order_id', None)
-    if order_id and order.pk != order_id:
-        orders = request.session.get('orders', [])
-        orders.append(order_id)
-        request.session['orders'] = orders
-    request.session['order_id'] = order.pk
 
 def one_step_checkout(request):
     shop = plata.shop_instance()
