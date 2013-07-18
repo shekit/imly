@@ -1,6 +1,6 @@
 {% extends "base_store_product.html" %}
 
-{% block title %}Imly | {{ object.store.name|lower|title }} | {{ object.name|lower|title }}{% endblock title %}
+{% block title %}{{ object.store.name|lower|title }}: {{ object.name|lower|title }} | Imly.in{% endblock title %}
 
 {% block extra_head %}
 <meta property="og:url" content="{% url 'imly_product_detail' object.store.slug object.slug %}">
