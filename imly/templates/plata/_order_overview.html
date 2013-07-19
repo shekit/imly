@@ -16,7 +16,7 @@
 </ul>
 {% endwith %}{% endcomment %}
 
-<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{% order_total_checkout order %}</span></legend>
+<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} {{ order.total|floatformat:0 }}</span></legend>
 
 <div class="row-fluid">
     <div class="span12">
