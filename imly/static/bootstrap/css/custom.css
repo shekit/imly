@@ -1611,7 +1611,32 @@ td.less_padding_inner_td input[type=text]{
     color: #999;
 }
 
+/* wishlist */
 
+.wishlist, .product_wish {
+    padding-top: 3px;
+    padding-right:6px;
+}
+
+.wishlist_heart {
+    width:17px;
+    height:16px;
+    background: url("../img/wishlist_hearts.png");
+    background-position: top;
+    cursor: pointer;
+}
+
+.wishlist_heart:hover {
+    background-position: bottom;
+}
+
+.already_wishlisted {
+    width:17px;
+    height:16px;
+    background: url("../img/wishlist_hearts.png");
+    background-position: bottom;
+    cursor: default;
+}
 
 /* MEDIA QUERIES */
 

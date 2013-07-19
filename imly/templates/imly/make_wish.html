@@ -1,5 +1,5 @@
 {% if wish %}
-	U already like
+	<a href="javascript:;" class="wishlist pull-right"><div class="already_wishlisted"></div></a>
 {% else %}
-	<a id="product_{{product_slug}}_{{store_slug}}_{{user_id}}" class="product_wish">Like</a>
+	<a id="product_{{product_slug}}_{{store_slug}}_{{user_id}}" class="product_wish pull-right"><div class="wishlist_heart"></div></a>
 {% endif %}

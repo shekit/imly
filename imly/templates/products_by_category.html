@@ -95,7 +95,9 @@
                     {% if request.user.is_authenticated %}
                         {% wish_product object.slug object.store.slug %}                    
                     {% else %}
-                        <a href="#myModal" role="button" data-toggle="modal">Like</a>
+                        
+                        <a href="#myModal" role="button" data-toggle="modal" class="wishlist pull-right"><div class="wishlist_heart"></div></a>
+                        
                     {% endif %}
                     </div>
                     <!-- AddThis Button END -->
@@ -165,7 +167,7 @@ $(document).ready(function(){
         $.post('{% url "wishlist" %}',data,function(data){
 
         }).done(function(data){
-            $('#product_'+product+'_'+store+'_'+user).remove();
+            $('#product_'+product+'_'+store+'_'+user + " .wishlist_heart").css({"background-position":"bottom"});
         });
         
     });
