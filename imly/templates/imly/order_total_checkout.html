@@ -1,0 +1,5 @@
+{% if charges %}
+	{{ order.currency }} {{order_total|floatformat:0}}
+{% else %}
+	{{ order.currency }} {{ order_total|floatformat:0 }}
+{% endif %}
