@@ -177,6 +177,31 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag('imly/order_total_checkout.html',takes_context=True)
+def order_total_checkout(context,order):
+    session = context['request'].session
+    fbn_pilot = session.get("fbn_pilot",[])
+    pilot_city = City.objects.get(slug="fbn-pilot")
+    user_point = Point(*session['bingeo'])
+    charges = 0
+    order_total = 0
+    for store in order.store_set.all():
+        store_point = store.pick_up_point
+        distance = store.pick_up_location and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None
+        if fbn_pilot and store_point.within(pilot_city.enclosing_geometry):
+            if distance <= 5:
+                charges = charges + 100
+            elif distance > 5 and distance <=10:
+                charges = charges + 150
+            elif distance > 10 and distance <= 15:
+                charges = charges + 200
+            elif distance > 15 and distance <= 20:
+                charges = charges + 250
+            else:
+                charges = charges + 300    
+    order_total = order.total + charges
+    return {'order_total':order_total,'order':order,'charges':charges}
+
 @register.inclusion_tag('imly/fbn_order_totol.html')
 def fbn_order_total(order):
     storeorders = order.storeorder_set.filter(pick_up = False,delivery_charges__gt = 0)

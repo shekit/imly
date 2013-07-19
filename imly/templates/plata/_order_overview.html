@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load imly_tags %}
 {% comment %}
 {% with order.addresses as addresses %}
 
@@ -15,11 +16,10 @@
 </ul>
 {% endwith %}{% endcomment %}
 
-<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} {{ order.total|floatformat:2 }}</span></legend>
+<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{% order_total_checkout order %}</span></legend>
 
 <div class="row-fluid">
     <div class="span12">
-        {% load imly_tags %}
             {% for store in order.storeorder_set.all %}
         {% if store.store_items %}
         <table class="table table-bordered store_table_checkout" id="{{store.store.slug}}">
