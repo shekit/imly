@@ -248,13 +248,17 @@ def wish_product(request):
 def remove_product(request):
     product = Product.objects.get(slug = request.POST.get('product_slug'),store=Store.objects.get(slug = request.POST.get('store_slug')))
     user = User.objects.get(pk=request.POST.get('user_id'))
+    store = product.store
     wish = Wish.objects.get(user=user,product=product,is_active=True)
     wish.is_active = False
     wish.save()
-    data = {'count':user.wish_set.exclude(is_active = False).count()}
+    data = {'count':user.wish_set.exclude(is_active = False).count(), "store_wish_count":store.product_set.filter(wish__in=Wish.objects.filter(user=user, is_active=True)).count()}
     return HttpResponse(simplejson.dumps(data),mimetype="application/json")
 
 @login_required
 def wishlist(request):
     wish_products = Wish.objects.filter(user=request.user,is_active = True)
+    store_set=set()
+    for wish in wish_products:
+        store_set.add(wish.product.store)
     return render_to_response('wish_products.html',locals(),RequestContext(request))
