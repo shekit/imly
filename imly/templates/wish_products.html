@@ -21,7 +21,7 @@
 		<table class="table table-bordered store_table" id="wish_store_{{store.slug}}">
 
 		    <tr class="shop_cart_header">
-			<th colspan="3">Your wishes from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name|lower|title }}</a></th>
+			<th colspan="3">Your favs from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name|lower|title }}</a></th>
 		    </tr>
 		    {% for product in store.product_set.all %}
 			{% wished_products store.slug product.slug %}

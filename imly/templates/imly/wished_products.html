@@ -18,7 +18,7 @@
                                 </li>
                         </ul>	
 		</td>
-		<td>{% if product.items_in_stock %}
+		<td width="40">{% if product.items_in_stock %}
                     	<form method="post" action="{% url "imly_add_order" product.store.slug product.slug %}">
                         	{% csrf_token %}
                         	<input type="hidden" name="image_url" value="{{ product.image_thumbnail_mini.url }}">
@@ -29,10 +29,10 @@
                         	<input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                     	</form>
                     	{% else %}
-                        	<small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        	<small class="ultra_small muted pull-right text-center">Fresh batch tomorrow</small>
                     	{% endif %}
 		</td>
-		<td><small class="muted"><a class="order-item" id="{{ product.slug }}_{{ product.store.slug }}_{{ user_id }}" >Unwish</a></td>
+		<td width="70"><small class="muted"><a class="order-item" id="{{ product.slug }}_{{ product.store.slug }}_{{ user_id }}" >Unfavourite</a></td>
             	
 	</tr>
 

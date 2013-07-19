@@ -86,7 +86,9 @@
                         <div class="hidden-desktop">
                         <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                         </div>
-                    
+                        <div>
+                        <div id="item_wished_{{ object.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
+                        </div>
                     <!-- AddThis Button BEGIN -->
                     <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
                     <div class="pull-left">
@@ -170,7 +172,17 @@ $(document).ready(function(){
 
         }).done(function(data){
             $('#product_'+product+'_'+store+'_'+user + " .wishlist_heart").css({"background-position":"bottom"});
-        });
+            
+            $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
+            function(){
+                $(this).stop(true,false);
+            
+            },
+            function(){
+                $(this).fadeOut(200);
+            }
+            ).fadeOut(200);
+            });
         
     });
         

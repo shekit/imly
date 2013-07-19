@@ -166,7 +166,27 @@
                                     <div class="hidden-desktop">
                                     <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                                     </div>
+                                    <div>
+                                    <div id="item_wished_{{ object.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
                                     </div>
+                                <!-- AddThis Button BEGIN -->
+                                <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
+                                <div class="pull-left">
+                                <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                                <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                                <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                                </div>
+                                {% if request.user.is_authenticated %}
+                                    {% wish_product object.slug object.store.slug %}                    
+                                {% else %}
+                                    
+                                    <a href="#myModal" role="button" data-toggle="modal" class="wishlist pull-right"><div class="wishlist_heart"></div></a>
+                                    
+                                {% endif %}
+                                </div>
+                                <!-- AddThis Button END -->
+                            </div>
+
                         </div>
                         <span class="visible-phone">
                             <ul class="unstyled">
@@ -246,11 +266,6 @@
                 {% endif %}
             {% else %}
                 <h4 class="muted all_out">Sorry, I am out on <span class="orange">vacation</span>.<br><br>I will be back soon.</span></h4>
-            {% endif %}
-            {% if request.user.is_authenticated %}
-                {% wish_product object.slug object.store.slug %}                    
-            {% else %}
-                <a href="#myModal" role="button" data-toggle="modal">Like</a>
             {% endif %}
         </div>
     </div>
@@ -391,7 +406,18 @@ $(document).ready(function(){
         $.post('{% url "wishlist" %}',data,function(data){
 
         }).done(function(data){
-            $('#product_'+product+'_'+store+'_'+user).remove();
+            $('#product_'+product+'_'+store+'_'+ user + " .wishlist_heart").css({"background-position":"bottom"});
+            
+            $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
+            function(){
+                $(this).stop(true,false);
+            
+            },
+            function(){
+                $(this).fadeOut(200);
+            }
+            ).fadeOut(200);
+            
         });
         
     });
@@ -476,6 +502,15 @@ $(document).ready(function(){
         });
         return false;
     });
+    
+    $(".sold_out").hover(
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideDown(300);
+        },
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideUp(300);
+        }
+    );
 });
 </script> 
 {% endblock extra_javascript %}
