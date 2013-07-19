@@ -376,8 +376,7 @@ class StoreOrder(models.Model):
         (4, ('3pm - 4pm')),
         (5, ('4pm - 5pm')),
         (6, ('5pm - 6pm')),
-        (7, ('6pm - 7pm')),
-        (8, ('Anytime')),
+        (7, ('Anytime')),
         )
     
     store = models.ForeignKey(Store)
