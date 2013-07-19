@@ -177,6 +177,19 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag("imly/wished_products.html", takes_context=True)
+def wished_products(context, store_slug, product_slug):
+    user= context["request"].user
+    product = Product.objects.get(slug=product_slug, store= Store.objects.get(slug=store_slug))
+    is_wish = False
+    try:
+        if user.wish_set.get(product=product, is_active=True):
+            is_wish = True
+    except:
+        pass
+    return {"wish":is_wish, "product":product,"user_id":user.id}
+        
+
 @register.inclusion_tag('imly/make_wish.html',takes_context=True)
 def wish_product(context,product_slug,store_slug):
     user = context['request'].user
