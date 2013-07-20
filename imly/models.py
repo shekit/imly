@@ -370,15 +370,13 @@ class StoreOrder(models.Model):
     TimeChoices = (
         
         
-        (1, ('11am - 12pm')),
-        (2, ('12pm - 1pm')),
-        (3, ('1pm - 2pm')),
-        (4, ('2pm - 3pm')),
-        (5, ('3pm - 4pm')),
-        (6, ('4pm - 5pm')),
-        (7, ('5pm - 6pm')),
-        (8, ('6pm - 7pm')),
-        (9, ('Anytime')),
+        (1, ('12pm - 1pm')),
+        (2, ('1pm - 2pm')),
+        (3, ('2pm - 3pm')),
+        (4, ('3pm - 4pm')),
+        (5, ('4pm - 5pm')),
+        (6, ('5pm - 6pm')),
+        (7, ('Anytime')),
         )
     
     store = models.ForeignKey(Store)
