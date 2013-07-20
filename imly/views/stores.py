@@ -67,12 +67,12 @@ class StoreList(ListView):
             user_point = self.request.session.get('bingeo')
             user_point = Point(*user_point)
             stores = stores.distance(user_point).order_by('distance')
-        if self.request.GET.get('delivery', None):
+        if self.request.session.get('delivery', None):
             if self.request.session.get('place_slug', None):
                 try:
                     pilot_city = City.objects.get(slug="fbn-pilot")
                     if user_point.within(pilot_city.enclosing_geometry):
-                        stores = stores.filter(Q(pick_up_point__within=pilot_city.enclosing_geometry)| Q(delivery_locations__location__within=self.request.city.enclosing_geometry, delivery_locations__location__distance_lte=(user_point, D(km=3))))
+                        stores = stores.filter(Q(pick_up_point__within=pilot_city.enclosing_geometry)| (Q(delivery_locations__location__within=self.request.city.enclosing_geometry) & Q(delivery_locations__location__distance_lte=(user_point, D(km=3)))))
                     else:
                         stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry).filter(delivery_locations__location__distance_lte=(user_point, D(km=3)))
                 except City.DoesNotExist:
