@@ -219,6 +219,7 @@ INSTALLED_APPS = (
     'django_comments',
     'autoslug',
     'endless_pagination',
+    'forum',
     #'djangoratings',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
