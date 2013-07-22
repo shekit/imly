@@ -2,7 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
-from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation
+from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation, Recipe, RecipeStep
 from imly.fields import GroupedModelChoiceField
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
@@ -210,6 +210,39 @@ class ProductForm(forms.ModelForm):
         widgets = {
             "tags": MyCheckboxSelectMultiple(),
         }
+        
+class RecipeForm(forms.ModelForm):
+    def __init__(self,*args,**kwargs):
+        super(RecipeForm,self).__init__(*args,**kwargs)
+        self.helper = FormHelper(self)
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                "",
+                "prep_time",
+                "prep_time_choices",
+                "chef_note",
+                "ingredients",
+                ),
+            
+        )
+
+        
+    class Meta:
+        model = Recipe
+        exclude = ["slug","product","store", "category", "created","updated"]
+        fields = ("name","prep_time","prep_time_choices", "chef_note", "ingredients")
+        widgets = {
+            "delivery_areas": MyCheckboxSelectMultiple(),
+        }
+        
+class RecipeStepForm(forms.ModelForm):
+    class Meta:
+        model = RecipeStep
+        fields = ('description', )
+        exclude = ("recipe",)
+        
+RecipeStepFormSet = inlineformset_factory(Recipe, RecipeStep, RecipeStepForm, extra=3)
         
 class OrderItemForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1)

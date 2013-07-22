@@ -262,3 +262,4 @@ def wishlist(request):
     for wish in wish_products:
         store_set.add(wish.product.store)
     return render_to_response('wish_products.html',locals(),RequestContext(request))
+    

@@ -7,6 +7,7 @@ from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfil
 from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
 from imly.views.tags import add_tag, remove_tag
+from imly.views.recipes import RecipeList, RecipeDetail, EditRecipe, AddRecipe
 from imly.sitemaps import all_sitemaps as sitemaps
 from plata.contact.models import Contact
 from plata.discount.models import Discount
@@ -122,6 +123,13 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
+    url(r"^recipes/$", RecipeList.as_view(), name = "imly_recipe_list"),
+    url(r"^account/store/recipe/add", AddRecipe.as_view(), name = "imly_recipe_add"),
+    url(r"^account/store/recipe/edit", EditRecipe.as_view(), name = "imly_recipe_edit"),
+    url(r"^recipe/(?P<slug>[-\w]+)/$", RecipeDetail.as_view(), name="imly_recipe_detail")
+                        )
+
+urlpatterns += patterns('',
     url(r"^checkout/$", one_step_checkout, name="imly_one_step_checkout"),
     url(r'^storeorder$', update_store_order, name='update_store_order'),
     url(r'^order/(?P<pk>\d+)/update-store-orders/$', update_store_orders_for_order, name='update_store_orders_for_order'),
@@ -130,7 +138,7 @@ urlpatterns += patterns('',
     url(r'^orderitem/change_quantity/text/$',change_quantity_text,name='change_quantity_text'),
     url(r'^wish_product/$',wish_product,name='wishlist'),
     url(r'^wish_remove_product/$',remove_product,name='remove_wish'),
-    url(r'^wishlist/$',wishlist,name='show_wishlist'),
+    url(r'^favourites/$',wishlist,name='show_wishlist'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),

@@ -1,0 +1,79 @@
+{% extends "base_store_manage.html" %}
+
+{% block title %}Add a Recipe{% endblock title %}
+
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li class="active"><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    {% if user.userprofile %}
+                    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+    {% endif %}
+
+                
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+    {% if form.errors %}
+        <div class="row-fluid">
+            <div class="span12">
+                <p class="custom_error_heading">Oops! ERRORS in your form! Please scroll down and correct them.</p>
+                <!--<ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li class="custom_form_errors"><span class="orange"><em>Required</em></span> - {{field.label_tag}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>-->
+            </div>
+        </div>
+
+    {% endif %}
+   <h4 class="form_heading">Add a Recipe</h4>
+   <br>
+    
+        <div class="row-fluid">
+            
+            <div class="span12">
+                {% load crispy_forms_tags %}
+                <form enctype="multipart/form-data" method="post" action="">
+                    {% crispy form %}
+                    
+                    
+                    <label for="delivery_location_formset"><span style="font-weight: 500">Delivery Areas</span></label>
+            <fieldset class="formset" id="delivery_location_formset">
+                
+                {{ recipe_step_form.management_form }}
+                            <div class="delivery_locations">
+                {% for form in recipe_step_form %}
+                                    <div class="delivery_location">
+                                        {{form}}
+                                    </div>
+                {% endfor %}
+                            </div>
+    
+            </fieldset>
+                    <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
+                    <input type="submit" class="btn btn-success" value="Submit Recipe">
+
+                </form>
+            </div>
+    
+        </div>
+
+
+           
+{% endblock shop_content %}
+              
+
+{% block shop_info %}
+       
+{% endblock shop_info %}            
+
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}

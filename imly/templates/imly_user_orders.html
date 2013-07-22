@@ -1,8 +1,14 @@
 {% extends "base_store_manage.html" %}
-{% block title %}Imly | User orders{% endblock title %}
+{% block title %}Imly | My orders{% endblock title %}
+
+{% block manage_store_heading %}
+            <h3 style="line-height:24px;">My Orders<br><small class="muted">
+            All that I have tried</small></h3>
+{% endblock manage_store_heading %}
+
 {% block manage_store_navigation %}
-    <li><a href="{% url "show_wishlist" %}">My Wish List</a></li>
-    <li class="active"><a href="#">My Order's</a></li>
+    <li><a href="{% url "show_wishlist" %}">My Favourites</a></li>
+    <li class="active"><a href="#">My Orders</a></li>
 {% endblock manage_store_navigation %}
 
 {% block shop_content %}
@@ -12,23 +18,25 @@
 
             <div class="span12">
                 {% if pending_order %}
-                    <h4 class="muted"><span class="orange">Pending</span> orders</h4>
+                    <h4 class="muted"><span class="orange">PENDING</span> orders</h4>
                         {% with pending_order as order %}
                             {% include '_user_orders.html' %}
                         {% endwith %}
                 {% endif %}
 
                 {% if past_order %}
-                    <h4 class="muted"><span class="orange">Past</span> orders</h4>
+                    <h4 class="muted"><span class="orange">PAST</span> orders</h4>
                         {% with past_order as order %}
                             {% include '_user_orders.html' %}
                         {% endwith %}
                 {% endif %}
             </div>
         {% else %}
-
-            <h2 class="muted text-center">You have not shopping yet from imly.<br>
-                please go throgh site.<br>Click Order button to buy.</h2>
+            <br><br>
+            <h3 class="muted text-center">
+		You have not ordered anything from Imly yet.<br>
+		Try something today. You'll love it! 
+	    </h3>
         {% endif %}
 
     

@@ -201,7 +201,7 @@
                                 <a href="{% url "imly_store_detail" object.slug %}">
                                     <div class="sold_out">
                                         <img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}">
-                                        
+                                        <div class="visible-desktop">
                                             <!-- AddThis Button BEGIN -->
                                             <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.slug }}" addthis:title="Check out chef {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}'s{% else %}{{ object.owner.username }}'s{% endif %} shop '{{ object.name|title }}' on imly.in! Amazing!">
                                                 <div class="pull-left">
@@ -211,7 +211,7 @@
                                                 </div>
                                             </div>
                                             <!-- AddThis Button END -->
-                                            
+                                        </div>   
                                     </div>
                                 </a>
                             {% endwith %}
