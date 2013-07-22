@@ -338,4 +338,3 @@ ENDLESS_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2
 # tracking settings
 TRACK_AJAX_REQUESTS = TRACK_PAGEVIEWS = True
 BROKER_URL = 'redis://localhost:6379/0'
-APP_METRICS_BACKEND='app_metrics.backends.redis'
