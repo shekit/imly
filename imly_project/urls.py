@@ -16,7 +16,8 @@ urlpatterns = patterns('',
 
     # Uncomment the next line to enable the admin:
     url(r'^nimda/', include(admin.site.urls)),
-    url(r'^community/', include('forum.urls')),
+    #url(r'^community/', include('forum.urls')),
+    url(r'^tracking/', include('tracking.urls')),
     url(r"", include("allauth.urls")),
     url(r"", include("imly.urls")),
     url(r'^robots\.txt$', TemplateView.as_view(template_name='robots.txt', content_type='text/plain')),

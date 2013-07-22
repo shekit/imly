@@ -133,6 +133,7 @@ TEMPLATE_LOADERS = (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -219,11 +220,18 @@ INSTALLED_APPS = (
     'django_comments',
     'autoslug',
     'endless_pagination',
-    'forum',
+    'actstream',
+    'tracking',
+    'djcelery',
+    'app_metrics',
     #'djangoratings',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
 )
+
+ACTSTREAM_SETTINGS = {
+    'MODELS': ('auth.user', 'auth.group', 'imly.product', 'imly.store', 'imly.user_profile', 'tracking.visitor'),
+}
 
 MESSAGE_STORAGE = "django.contrib.messages.storage.session.SessionStorage"
 
@@ -326,3 +334,8 @@ ENDLESS_PAGINATION_PREVIOUS_LABEL = "&laquo;"
 ENDLESS_PAGINATION_NEXT_LABEL = "&raquo;"
 ENDLESS_PAGINATION_DEFAULT_CALLABLE_EXTREMES = 2
 ENDLESS_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2
+
+# tracking settings
+TRACK_AJAX_REQUESTS = TRACK_PAGEVIEWS = True
+BROKER_URL = 'redis://localhost:6379/0'
+APP_METRICS_BACKEND='app_metrics.backends.redis'
