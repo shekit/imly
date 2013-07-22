@@ -12,7 +12,20 @@ class UserOrders(ListView):
     template_name = 'imly_user_orders.html'
 
     def get_queryset(self):
-        return Order.objects.filter(user=self.request.user, confirmed__gte=date.today()).order_by('confirmed')
+        return Order.objects.filter(user=self.request.user, status=Order.IMLY_CONFIRMED)
+
+    def get_context_data(self,**kwargs):
+        context = super(UserOrders,self).get_context_data(**kwargs)
+        qs = self.get_queryset()
+        context['past_order'] = []
+        context['pending_order'] = []
+        for order in qs:
+            for storeorder in order.storeorder_set.all():
+                if storeorder.delivered_on.date() < date.today():
+                    context['past_order'].append(storeorder)
+                if storeorder.delivered_on.date() >= date.today():
+                    context['pending_order'].append(storeorder)
+        return context
 
 class UserOrder(DetailView):
     model = Order
