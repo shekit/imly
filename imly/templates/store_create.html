@@ -94,6 +94,50 @@
 
 {% block extra_javascript %}
 <script type="text/javascript">
+
+var default_bounds = new google.maps.LatLngBounds(
+        new google.maps.LatLng(19.26, 72.98),
+        new google.maps.LatLng(18.89, 72.775)); 
+    var google_map_api_options = {
+        bounds: default_bounds,
+        componentRestrictions: {country: 'in'}
+    };
+    
+    $('#id_pick_up_location').keypress(function(event) { return event.keyCode != 13; });
+
+    var autocomplete_pick_up = new google.maps.places.Autocomplete(document.getElementById('id_pick_up_location'), google_map_api_options);
+        
+    $('#delivery_locator').keypress(function(event) { return event.keyCode != 13; });
+
+    var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
+
+    google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
+        var count = $('.delivery_locations').children().length;
+        var markup = $('#delivery_location_template').html()
+        var name = $('#delivery_locator').val();
+        var short_name = name.split(",").slice(0,1)
+        var compiled = _.template(markup, {id: count, name: name});
+        $('div.delivery_locations').append(compiled);
+        $('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
+        $(".selected_locations").append("<li class='selected_location_margin_bottom' id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
+                //$(".delivery_location").hide();
+        setTimeout(function(){
+            $('#delivery_locator').val('');
+            $('#delivery_locator').focus();},50);
+                
+    });
+        
+
+        
+       $(".delivery_location input[type=text]").each(function(index,input){
+           var count = $(input).attr("id").split("-")[1];
+           var short_name = $(input).attr("value").split(",")[0];
+           var input_id = $(input).attr("id").split("-");
+           var checkbox_id = input_id[0] + "-" + input_id[1] + "-DELETE";
+           if(!$("#"+checkbox_id).attr("checked")){
+                $(".selected_locations").append("<li class='selected_location_margin_bottom' id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
+           }
+        });
                 
         function mark_to_delete(dl_id){
             var formfield_id = "id_delivery_locations-" + dl_id + "-DELETE";
@@ -127,49 +171,7 @@ $(document).ready(function(){
         
                         });
     
-	var default_bounds = new google.maps.LatLngBounds(
-		new google.maps.LatLng(19.26, 72.98),
-		new google.maps.LatLng(18.89, 72.775)); 
-	var google_map_api_options = {
-		bounds: default_bounds,
-		componentRestrictions: {country: 'in'}
-	};
-    
-    $('#id_pick_up_location').keypress(function(event) { return event.keyCode != 13; });
-
-	var autocomplete_pick_up = new google.maps.places.Autocomplete(document.getElementById('id_pick_up_location'), google_map_api_options);
-	    
-    $('#delivery_locator').keypress(function(event) { return event.keyCode != 13; });
-
-	var autocomplete_delivery = new google.maps.places.Autocomplete(document.getElementById('delivery_locator'), google_map_api_options);
-
-	google.maps.event.addListener(autocomplete_delivery, 'place_changed', function(){
-		var count = $('.delivery_locations').children().length;
-		var markup = $('#delivery_location_template').html()
-        var name = $('#delivery_locator').val();
-        var short_name = name.split(",").slice(0,1)
-		var compiled = _.template(markup, {id: count, name: name});
-		$('div.delivery_locations').append(compiled);
-		$('#id_delivery_locations-TOTAL_FORMS').attr('value', count + 1);
-        $(".selected_locations").append("<li class='selected_location_margin_bottom' id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
-                //$(".delivery_location").hide();
-        setTimeout(function(){
-            $('#delivery_locator').val('');
-            $('#delivery_locator').focus();},50);
-                
-	});
-        
-
-        
-       $(".delivery_location input[type=text]").each(function(index,input){
-           var count = $(input).attr("id").split("-")[1];
-           var short_name = $(input).attr("value").split(",")[0];
-           var input_id = $(input).attr("id").split("-");
-           var checkbox_id = input_id[0] + "-" + input_id[1] + "-DELETE";
-           if(!$("#"+checkbox_id).attr("checked")){
-                $(".selected_locations").append("<li class='selected_location_margin_bottom' id='selected_location_" + count + "'><a class='each_location' onclick='mark_to_delete("+ count + ")'" + "'>" + short_name + " &times;"+"</a>" +"</li>");
-           }
-        });
+	
         
 });     
 </script>
