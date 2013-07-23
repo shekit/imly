@@ -177,6 +177,15 @@ def current_url_equals(context, url_name, **kwargs):
                 return False
     return matches
 
+@register.inclusion_tag('imly/price_filter.html',takes_context=True)
+def price_filter(context):
+    value = None
+    session = context['request'].session
+    if session.get("value",[]):
+        value = session.get("value",[])
+    return {'value':value}
+
+
 @register.inclusion_tag('imly/order_total_checkout.html',takes_context=True)
 def order_total_checkout(context,order):
     session = context['request'].session

@@ -43,20 +43,28 @@
 
 {% block extra_javascript %}
 <script type="text/javascript">
-$('#slider-range-min').slider({ 
-    range:"min",
-    value:37,
+    var value = parseInt($('#filter_by_price').text())
+    $('#slider-range-min').slider({ 
+    value:value,
     min:50,
     max:4800,
-    change: function(event,ui){
+    step:50,
+    slide: function(event,ui){
         console.log(ui.value);
+        $('#filter_by_price').html(ui.value);
+        try{
+            window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
+        }catch(e){
+            window.location.href=window.location.href + '?value=' + ui.value;    
+        }
         //.get()
-        window.location.href=window.location.href + '?value=' + ui.value;
+        
     }
     
-});
+});$('#slider-range-min').slider("value",value);
+
 $(document).ready(function(){
-    
+        
         
     $('.submit-btn').click(function(){
         var form = $(this).parent();
