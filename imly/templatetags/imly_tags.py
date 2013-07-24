@@ -183,6 +183,8 @@ def price_filter(context):
     session = context['request'].session
     if session.get("value",[]):
         value = session.get("value",[])
+    else:
+        value = 0
     return {'value':value}
 
 

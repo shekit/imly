@@ -65,14 +65,19 @@ class ProductList(ListView):
 
     def get_queryset(self):
         products = Product.objects.is_approved().filter(is_deleted=False,is_flag=False)
-        '''if self.request.session.get('value',None):
-            products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')'''
         if self.request.GET.get('value',None):
             if self.request.session.get('value',None):
+                self.request.session.pop('value')
+                self.request.session['value'] = self.request.GET.get('value',[])
+                products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
+            else:
                 self.request.session['value'] = self.request.GET.get('value',[])
                 products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
         else:
-            products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')
+            try:
+                products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')
+            except:
+                pass
         if self.request.session.get("place_slug",""):
             user_point = self.request.session.get("bingeo")
             user_point = Point(*user_point)

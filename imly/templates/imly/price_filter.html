@@ -1,5 +1,5 @@
-{% if value %}
+{% ifnotequal value 0 %}
 {{value}}
 {% else %}
-ALL
-{% endif %}
+{{value}} No Price set
+{% endifnotequal %}
