@@ -39,38 +39,41 @@
             
             <div class="span12">
                 {% load crispy_forms_tags %}
-                <form enctype="multipart/form-data" method="post" action="">
+                <form method="post">
                     {% crispy form %}
                     
                     
                     <label for="ingredient_formset"><span style="font-weight: 500">Ingredients:</span></label><br>
             <fieldset class="formset" id="ingredient_formset">
-                
                 {{ recipe_ingredient_form.management_form }}
                             <div class="ingredients">
                                 {% for form in recipe_ingredient_form %}
+                                    {{ form.id }}
                                     <div class="row-fluid">
                                                     <div class="ingredient">
                                                         {% crispy form %}
+                                                        <input id="id_steps-<%= form.instance.id %>-id" type="hidden" name="steps-<%= form.instance.id %>-id">
                                                     </div>
                                     </div>
                                 {% endfor %}
                             </div>
-                
             </fieldset>
             <a href="javascript:;" class="add_more_ingredients order-item">+ Add another Ingredient</a>
             <br><br>
             <label for="recipe_step_formset"><span style="font-weight: 500">Preparation Steps:</span></label><br>
             <fieldset class="formset" id="recipe_step_formset">
+                
                 {{ recipe_step_form.management_form }}
                             <div class="recipe_steps">
                                 {% for form in recipe_step_form %}
+                                    {{ form.id }}
                                     <div class="row-fluid">
                                                     <div class="span1">
                                                         <span class="muted">Step</span> <span class="orange recipe_step_number">{{ forloop.counter }}</span>
                                                     </div>
                                                     <div class="span11 recipe_step">
                                                         {% crispy form %}
+                                                        
                                                     </div>
                                     </div>
                                 {% endfor %}
@@ -78,6 +81,10 @@
             </fieldset>
             <a href="javascript:;" class="add_more_steps order-item">+ Add another Step</a>
             
+                    <br><br><br>
+                    <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
+                    <input type="submit" class="btn btn-success" value="Add Recipe">
+
             <script type="text/html" id="recipe_ingredient_template">
                 <div class="row-fluid">
                     <div class="span2 ingredient_set">
@@ -91,14 +98,9 @@
                     <div class="controls">
                     <select class="input-small select" id="id_recipeingredient_set-<%= id %>-quantity_type" name="recipeingredient_set-<%= id %>-quantity_type">
                         <option value="" selected="selected">---------</option>
-                        <option value="1">grams</option>
-                        <option value="2">kgs</option>
-                        <option value="3">ounce</option>
-                        <option value="4">litre</option>
-                        <option value="5">ml</option>
-                        <option value="6">to taste</option>
-                        <option value="7">pinch</option>
-                        <option value="8">piece</option>
+                        {% for quantity_type in quantity_types %}
+                            <option value="{{ quantity_type.value }}">{{ quantity_type.name }}</option>
+                        {% endfor %}
                         </select>
                     </div>
                     </div>
@@ -108,12 +110,9 @@
                     <div class="controls">
                         <select class="ingredient_list select" id="id_recipeingredient_set-<%= id %>-ingredient" name="recipeingredient_set-<%= id %>-ingredient">
                         <option value="" selected="selected">---------</option>
-                        <option value="1">Sugar</option>
-                        <option value="2">Coffee</option>
-                        <option value="3">Meat</option>
-                        <option value="4">Chicken</option>
-                        <option value="5">Ham</option>
-                        <option value="6">Chocolate</option>
+                        {% for ingredient in ingredients %}
+                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                        {% endfor %}
                         </select>
                     </div>
                     </div>
@@ -144,10 +143,7 @@
                     </div>
 
 		</script>
-                    <br><br><br>
-                    <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
-                    <input type="submit" class="btn btn-success" value="Add Recipe">
-
+                    
                 </form>
             </div>
     

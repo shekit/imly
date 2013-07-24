@@ -91,14 +91,9 @@
                     <div class="controls">
                     <select class="input-small select" id="id_recipeingredient_set-<%= id %>-quantity_type" name="recipeingredient_set-<%= id %>-quantity_type">
                         <option value="" selected="selected">---------</option>
-                        <option value="1">grams</option>
-                        <option value="2">kgs</option>
-                        <option value="3">ounce</option>
-                        <option value="4">litre</option>
-                        <option value="5">ml</option>
-                        <option value="6">to taste</option>
-                        <option value="7">pinch</option>
-                        <option value="8">piece</option>
+                        {% for quantity_type in quantity_types %}
+                            <option value="{{ quantity_type.value }}">{{ quantity_type.name }}</option>
+                        {% endfor %}
                         </select>
                     </div>
                     </div>
@@ -108,12 +103,9 @@
                     <div class="controls">
                         <select class="ingredient_list select" id="id_recipeingredient_set-<%= id %>-ingredient" name="recipeingredient_set-<%= id %>-ingredient">
                         <option value="" selected="selected">---------</option>
-                        <option value="1">Sugar</option>
-                        <option value="2">Coffee</option>
-                        <option value="3">Meat</option>
-                        <option value="4">Chicken</option>
-                        <option value="5">Ham</option>
-                        <option value="6">Chocolate</option>
+                        {% for ingredient in ingredients %}
+                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                        {% endfor %}
                         </select>
                     </div>
                     </div>

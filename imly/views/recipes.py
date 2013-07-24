@@ -1,4 +1,4 @@
-from imly.models import Recipe, Product
+from imly.models import Recipe, Product, Ingredient, RecipeIngredient
 from imly.forms import RecipeForm, RecipeStepForm, RecipeStepFormSet, RecipeIngredientFormSet, RecipeIngredientFormSetEdit, RecipeStepFormSetEdit
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -38,6 +38,8 @@ class AddRecipe(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AddRecipe, self).get_context_data(**kwargs)
+        context["ingredients"] = Ingredient.objects.all()
+        context["quantity_types"] = [{"value":qc[0], "name":qc[1]} for qc in RecipeIngredient.INGREDIENT_QUANTITY_CHOICES]
         context["product"] = Product.objects.get(slug=self.kwargs["slug"],store=self.request.user.store)
         if self.request.POST:
             context["recipe_step_form"] = RecipeStepFormSet(self.request.POST)
@@ -62,9 +64,24 @@ class EditRecipe(UpdateView):
             return HttpResponseForbidden()
         return super(EditRecipe,self).get(request,*args, **kwargs)
     
+    def post(self, request, *args, **kwargs):
+        super_return = super(EditRecipe, self).post(request, *args, **kwargs)
+        recipe = self.get_object()
+        recipe_step_formset = RecipeStepFormSetEdit(self.request.POST,instance=recipe)
+        recipe_ingredient_formset = RecipeIngredientFormSetEdit(self.request.POST,instance=recipe)
+        if recipe_step_formset.is_valid() and recipe_ingredient_formset.is_valid() :
+            recipe_step_formset.save()
+            recipe_ingredient_formset.save()
+            return super_return
+        
+        else:
+            return self.form_invalid()
+        
     def get_context_data(self, **kwargs):
         context = super(EditRecipe, self).get_context_data(**kwargs)
         context["product"] = Product.objects.get(slug=self.kwargs["slug"],store=self.request.user.store)
+        context["ingredients"] = Ingredient.objects.all()
+        context["quantity_types"] = [{"value":qc[0], "name":qc[1]} for qc in RecipeIngredient.INGREDIENT_QUANTITY_CHOICES]
         recipe = self.get_object()
         if self.request.POST:
             context["recipe_step_form"] = RecipeStepFormSetEdit(self.request.POST,queryset=recipe.steps.all(),instance=recipe)

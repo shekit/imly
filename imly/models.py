@@ -508,9 +508,10 @@ class RecipeIngredient(models.Model):
         (3, "ounce"),
         (4, "litre"),
         (5, "ml"),
-        (6, "to taste"),
+        (6, "spoons"),
         (7, "pinch"),
         (8, "piece"),
+        
     )
     
     quantity = models.FloatField()
