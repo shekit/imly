@@ -68,11 +68,8 @@ class ProductList(ListView):
         if self.request.GET.get('value',None):
             if self.request.session.get('value',None):
                 self.request.session.pop('value')
-                self.request.session['value'] = self.request.GET.get('value',[])
-                products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
-            else:
-                self.request.session['value'] = self.request.GET.get('value',[])
-                products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
+            self.request.session['value'] = self.request.GET.get('value',[])
+            products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
         else:
             try:
                 products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')
