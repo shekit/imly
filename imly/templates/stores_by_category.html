@@ -201,15 +201,17 @@
                                 <a href="{% url "imly_store_detail" object.slug %}">
                                     <div class="sold_out">
                                         <img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}">
-                                        
+                                        <div class="visible-desktop">
                                             <!-- AddThis Button BEGIN -->
                                             <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.slug }}" addthis:title="Check out chef {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}'s{% else %}{{ object.owner.username }}'s{% endif %} shop '{{ object.name|title }}' on imly.in! Amazing!">
+                                                <div class="pull-left">
                                             <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
                                             <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
                                             <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                                                </div>
                                             </div>
                                             <!-- AddThis Button END -->
-                                            
+                                        </div>   
                                     </div>
                                 </a>
                             {% endwith %}

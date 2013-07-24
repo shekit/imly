@@ -730,18 +730,18 @@ transition: all 0.2s ease-in-out;
 	position: absolute;
 	bottom:0px;
 	padding: 2px 2px 4px 2px;
-	background: #e5e5e5;
-	background: rgba(255,255,255,.700);
+	background: #333;
+	background: rgba(0,0,0,.600);
 	width: 100%;
-	-moz-box-shadow: 0px 0px 2px rgba(255,255,255,0.5), inset 0px -2px 4px #333;
-	-webkit-box-shadow: 0px 0px 2px rgba(255,255,255,0.5), inset 0px -2px 4px #333;
-	box-shadow: 0px 0px 2px rgba(0,0,0,0.5), inset 0px -4px 3px -3px #c6c6c6;
+	-moz-box-shadow: 0px 0px 2px rgba(255,255,255,0.5), inset 0px -2px 4px #000;
+	-webkit-box-shadow: 0px 0px 2px rgba(255,255,255,0.5), inset 0px -2px 4px #000;
+	box-shadow: 0px 0px 2px rgba(0,0,0,0.5), inset 0px -4px 3px -3px #000;
     }
     
     .custom_addthis_share_button {
-	-moz-box-shadow: 0px 0px 1px #ccc;
-	-webkit-box-shadow: 0px 0px 1px #ccc;
-	box-shadow: 0px 0px 1px #ccc;
+	-moz-box-shadow: 0px 0px 1px #000;
+	-webkit-box-shadow: 0px 0px 1px #000;
+	box-shadow: 0px 0px 1px #000;
     }
     
     .no_search_results {
@@ -1649,7 +1649,44 @@ td.less_padding_inner_td input[type=text]{
     color: #999;
 }
 
+/* wishlist */
 
+.wishlist, .product_wish {
+    padding-top: 3px;
+    padding-right:6px;
+}
+
+.wishlist_heart {
+    width:17px;
+    height:16px;
+    background: url("../img/wishlist_hearts.png");
+    background-position: top;
+    cursor: pointer;
+}
+
+.wishlist_heart:hover {
+    background-position: bottom;
+}
+
+.already_wishlisted {
+    width:17px;
+    height:16px;
+    background: url("../img/wishlist_hearts.png");
+    background-position: bottom;
+    cursor: default;
+}
+
+/* recipe form */
+
+.recipe_step_number {
+    position: relative;
+    font-size: 36px;
+    top:14px;
+}
+
+.ingredient_set > .control-group {
+    margin-bottom: 5px;
+}
 
 /* MEDIA QUERIES */
 

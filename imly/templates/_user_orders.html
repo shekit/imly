@@ -1,0 +1,44 @@
+<table class="table table-striped table-bordered clearfix">
+                    <tr>
+                        <th style="background: #e5e5e5;">S.No</th>
+                        <th style="background: #e5e5e5;">Order No.</th>
+                        <th style="background: #e5e5e5;">Details</th>
+                        <th style="background: #e5e5e5;">Store Info</th>
+						<th style="background: #e5e5e5;">Pickup/Delivery</th>
+                        <th style="background: #e5e5e5;">Your Request</th>
+                        <th style="background: #e5e5e5;">Total</th>
+                        
+                    </tr>
+                    {% for object in order %}
+                   		<tr>
+                   			<td>{{forloop.counter}}</td>
+                   			<td>{{object.order.order_id}}</td>
+                   			<td>{% for item in object.order.items.all %}
+                   					{% ifequal item.order.user request.user %}
+                   						{{item.quantity}} {{item.product.name}}<small class="muted"><i>({{ item.product.quantity_per_item }} {{ item.product.get_quantity_by_price_display }})</i></small><br>
+                   					{% endifequal %}
+                   				{% endfor %}
+                   			</td>
+                   			<td>{% for item in object.order.items.all %}
+                   					{% ifequal item.order.user request.user %}
+                   						{{item.product.store.name}}<br/>
+                   					{% endifequal %}
+                   				{% endfor %}
+							</td>
+                   			<td>{{ object.display_order_time }}
+							{% if object.pick_up %}
+							Pickup
+							{% else %}
+							Delivery
+							{% endif %}</td>
+                   			<td>{% if object.note %}
+                   					{{object.note}}
+                   				{% else %}
+                   					<small class="muted">No special request</small>
+                   				{% endif %}
+                   			</td>
+                   			<td>{{object.store_total|floatformat:"2"}}</td>
+
+                   		</tr>
+                   	{% endfor %}
+</table>

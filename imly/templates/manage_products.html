@@ -43,6 +43,7 @@
                             <th>Price</th>
                             <th>Capacity</th>
                             <th>Manage</th>
+                            <th>Recipe</th>
                         </tr>
                     </thead>
                 <tbody id="sortable">
@@ -55,10 +56,10 @@
                             <p><small class="muted"><em>updated {{ object.date_created|date:"F j, Y" }}</em></small></p>
                         </td>
                         <td>{{ object.category }}</td>
-                        <td>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}
+                        <td>{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<br>
                             <small class="muted">
                                 {% if object.quantity_per_item == 1 %}
-                                    /{{ object.get_quantity_by_price_display }}
+                                    per {{ object.get_quantity_by_price_display }}
                                 {% else %}
                                     for {{ object.quantity_per_item }} {{ object.get_quantity_by_price_display }}s
                                 {% endif %} 
@@ -66,18 +67,25 @@
                         </td>
                         <td>{{ object.capacity_per_day }}</td>
                         <td>
-                            <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-small">Edit</a>
-                            <a href="{% url "imly_product_delete" object.id %}" class="btn btn-small">Deactivate</a>
+                            <a href="{% url "imly_product_edit" object.id %}" class="btn btn-primary btn-mini">Edit</a>
+                            <a href="{% url "imly_product_delete" object.id %}" class="btn btn-mini">Deactivate</a>
                             {% if special_event %}
                                 
                                 {% if object in special_event.products.all %}
-                                    <br><br><a href="{% url "imly_unsubscribe_event" special_event.slug object.slug %}" class="btn btn-small btn-custom"><span class="icon-star icon-white"></span> {{ special_event.title }}</a>
+                                    <br><br><a href="{% url "imly_unsubscribe_event" special_event.slug object.slug %}" class="btn btn-mini btn-custom"><span class="icon-star icon-white"></span> {{ special_event.title }}</a>
                                 {% else %}
-                                    <br><br><a href="{% url "imly_special_event" special_event.slug object.slug %}" class="btn btn-small btn-success"><span class="icon-plus icon-white"></span> {{special_event.title}}</a>
+                                    <br><br><a href="{% url "imly_special_event" special_event.slug object.slug %}" class="btn btn-mini btn-success"><span class="icon-plus icon-white"></span> {{special_event.title}}</a>
                                 {% endif %}
 
                             {% endif %}
-
+                            
+                        </td>
+                        <td>
+                            {% if not object.recipe %}
+                                <a href="{% url "imly_recipe_add" object.slug %}" class="btn btn-mini btn-custom">Add Recipe</a>
+                            {% else %}
+                                <a href="{% url "imly_recipe_edit" object.slug %}" class="btn btn-mini">Edit Recipe</a>
+                            {% endif %}
                         </td>
                     </tr>
                 
