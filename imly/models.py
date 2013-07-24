@@ -513,13 +513,15 @@ class RecipeIngredient(models.Model):
         (8, "piece"),
     )
     
-    ingredient_quantity = models.IntegerField(choices = INGREDIENT_QUANTITY_CHOICES)
+    quantity = models.FloatField()
+    quantity_type = models.IntegerField(choices = INGREDIENT_QUANTITY_CHOICES)
     ingredient = models.ForeignKey("Ingredient")
     recipe = models.ForeignKey("Recipe")
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=100)
-    source = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', editable=True, unique=True , max_length=100)
+    source = models.CharField(max_length=100, blank=True)
     
     def __unicode__(self):
         return "%s" % (self.name)
@@ -534,24 +536,22 @@ class Recipe(models.Model):
         (HOURS , "hours"),
     )
 
-    
-    name = models.CharField(max_length=255)
-    slug = AutoSlugField(populate_from='name', editable=True, unique=True)
+
     product = models.OneToOneField(Product)
-    category = models.OneToOneField(Category)
+    category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    user = models.OneToOneField(User)
+    user = models.ForeignKey(User)
     created = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True)
     prep_time = models.FloatField()
     prep_time_choices = models.IntegerField(choices=PREP_TIME_CHOICES, default=MINUTES)
-    chef_note = models.TextField()
+    chef_note = models.TextField(blank=True)
     ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient)
     
     def save(self, *args, **kwargs):
         self.category = self.product.category
-        self.user = self.store.owner
         self.store = self.product.store
+        self.user = self.store.owner
         super(Recipe,self).save(*args, **kwargs)
     
 class RecipeStep(models.Model):

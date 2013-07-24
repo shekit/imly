@@ -43,6 +43,7 @@
                             <th>Price</th>
                             <th>Capacity</th>
                             <th>Manage</th>
+                            <th>Recipe</th>
                         </tr>
                     </thead>
                 <tbody id="sortable">
@@ -77,7 +78,14 @@
                                 {% endif %}
 
                             {% endif %}
-
+                            
+                        </td>
+                        <td>
+                            {% if not object.recipe %}
+                                <a href="{% url "imly_recipe_add" object.slug %}" class="btn btn-small btn-custom">Add Recipe</a>
+                            {% else %}
+                                <a href="{% url "imly_recipe_edit" object.slug %}" class="btn btn-small">Edit Recipe</a>
+                            {% endif %}
                         </td>
                     </tr>
                 

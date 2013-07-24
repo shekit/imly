@@ -2,7 +2,7 @@ from django import forms
 from django.forms.models import inlineformset_factory
 from django.forms.widgets import CheckboxSelectMultiple
 from django.utils.safestring import mark_safe
-from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation, Recipe, RecipeStep
+from imly.models import Store, Product, Category, UserProfile, ChefTip,DeliveryLocation, Recipe, RecipeStep, RecipeIngredient
 from imly.fields import GroupedModelChoiceField
 from django.core.mail import send_mail
 from django.core.exceptions import ValidationError
@@ -166,7 +166,7 @@ class ProductForm(forms.ModelForm):
             Fieldset(
                 "",
                 "name",
-                HTML("<p style='font-weight:500; font-size:14px;'>Your minimum order :</p>"),
+                HTML("<p style='font-weight:500; font-size:14px; color:#f05a28;'>Your minimum order :</p>"),
                 Div(
                     Div(
                         PrependedText("_unit_price","INR", css_class="input-mini"),
@@ -214,15 +214,22 @@ class ProductForm(forms.ModelForm):
 class RecipeForm(forms.ModelForm):
     def __init__(self,*args,**kwargs):
         super(RecipeForm,self).__init__(*args,**kwargs)
+        self.fields["prep_time_choices"].label = "<br>"
         self.helper = FormHelper(self)
         self.helper.form_tag = False
         self.helper.layout = Layout(
             Fieldset(
                 "",
-                "prep_time",
-                "prep_time_choices",
-                "chef_note",
-                "ingredients",
+                Div(
+                    Div(
+                        Field("prep_time",css_class="input-small", placeholder="Time"),
+                        css_class="span2"),
+                    Div(
+                        Field("prep_time_choices", css_class="input-small"),
+                        css_class="span2"),
+                    Div(
+                        css_class="span8"),
+                    css_class="row-fluid"),
                 ),
             
         )
@@ -230,20 +237,72 @@ class RecipeForm(forms.ModelForm):
         
     class Meta:
         model = Recipe
-        exclude = ["slug","product","store", "category", "created","updated"]
-        fields = ("name","prep_time","prep_time_choices", "chef_note", "ingredients")
+        exclude = ["product","store", "category", "created","updated", "chef_note", "ingredients"]
+        fields = ("prep_time","prep_time_choices",)
         widgets = {
             "delivery_areas": MyCheckboxSelectMultiple(),
         }
         
 class RecipeStepForm(forms.ModelForm):
+    
+    def __init__(self, *args, **kwargs):
+        super(RecipeStepForm,self).__init__(*args, **kwargs)
+        self.fields["description"].label = ""
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                "",
+                Field("description",css_class="recipe_step_textarea",rows="3"),
+            )
+        )
+        
     class Meta:
         model = RecipeStep
         fields = ('description', )
         exclude = ("recipe",)
         
-RecipeStepFormSet = inlineformset_factory(Recipe, RecipeStep, RecipeStepForm, extra=3)
+RecipeStepFormSet = inlineformset_factory(Recipe, RecipeStep, RecipeStepForm, extra=4)
+RecipeStepFormSetEdit = inlineformset_factory(Recipe, RecipeStep, RecipeStepForm, extra=0)
+
+class RecipeIngredientForm(forms.ModelForm):
+    
+    def __init__(self,*args,**kwargs):
+        super(RecipeIngredientForm,self).__init__(*args,**kwargs)
+        self.fields["quantity"].label = ""
+        self.fields["quantity_type"].label = ""
+        self.fields["ingredient"].label = ""
+        self.helper = FormHelper()
+        self.helper.form_tag = False
+        self.helper.layout = Layout(
+            Fieldset(
+                "",
+                Div(
+                    Div(
+                        Field("quantity",css_class="input-small",placeholder="Qty"),
+                        css_class="span2 ingredient_set"),
+                    Div(
+                        Field("quantity_type", css_class="input-small"),
+                        css_class="span2 ingredient_set"),
+                    Div(
+                        Field("ingredient", css_class="ingredient_list"),
+                        css_class="span2 ingredient_set"),
+                    Div(
+                        css_class="span6"),
+                    css_class="row-fluid"),
+                ),
+            
+        )
         
+    class Meta:
+        model = RecipeIngredient
+        fields = ("quantity","quantity_type","ingredient",)
+        exclude = ("recipe",)
+
+        
+RecipeIngredientFormSet = inlineformset_factory(Recipe, RecipeIngredient, RecipeIngredientForm, extra=4)
+RecipeIngredientFormSetEdit = inlineformset_factory(Recipe, RecipeIngredient, RecipeIngredientForm, extra=0)
+     
 class OrderItemForm(forms.Form):
     quantity = forms.IntegerField(initial=1, min_value=1)
             

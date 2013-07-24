@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.gis import admin as gadmin
-from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation, City, Special,Wish, Recipe, RecipeStep
+from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserProfile, StoreOrder,DeliveryLocation, City, Special,Wish, Recipe, RecipeStep, Ingredient, RecipeIngredient
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
@@ -64,10 +64,18 @@ class RecipeInline(admin.TabularInline):
     model = RecipeStep
     fields=("description",)
     
+class IngredientInline(admin.TabularInline):
+    model = RecipeIngredient
+    fields = ("quantity","quantity_type", "ingredient",)
+    
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ["name","product","store", "category"]
+    list_display = ["product","store", "category"]
     list_filter = ["store"]
-    inlines = [RecipeInline,]
+    inlines = [IngredientInline,RecipeInline]
+    
+class IngredientAdmin(admin.ModelAdmin):
+    list_display = ["name"]
+    prepopulated_fields = {"slug":("name",)}
 
 class WishAdmin(admin.ModelAdmin):
     list_display = ['product','user','is_active','created','updated']
@@ -104,3 +112,4 @@ admin.site.register(StoreOrder,StoreOrderAdmin)
 gadmin.site.register(City, CityGeoAdmin)
 admin.site.register(Special,SpecialAdmin)
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(Ingredient, IngredientAdmin)

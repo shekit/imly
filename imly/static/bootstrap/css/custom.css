@@ -1638,6 +1638,18 @@ td.less_padding_inner_td input[type=text]{
     cursor: default;
 }
 
+/* recipe form */
+
+.recipe_step_number {
+    position: relative;
+    font-size: 36px;
+    top:14px;
+}
+
+.ingredient_set > .control-group {
+    margin-bottom: 5px;
+}
+
 /* MEDIA QUERIES */
 
 @media (max-width:979px) {
