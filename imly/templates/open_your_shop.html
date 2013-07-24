@@ -13,7 +13,7 @@
                 <p class="text-right open_shop_para">Open your store now. Its Fast, Easy and Free!</p>
                 <li><br><br></li>
                 {% if not user.is_authenticated %}
-                    <li><a class="action_button action_button3 pull-right hand_pointer">Open your Shop</a></li>
+                    <li><a class="action_button action_button3 pull-right hand_pointer open_your_shop">Open your Shop</a></li>
                 {% else %}
                     <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 pull-right">Open your Shop</a></li>
                 {% endif %}
