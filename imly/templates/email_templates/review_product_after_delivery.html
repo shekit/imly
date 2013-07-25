@@ -600,7 +600,7 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateHeader" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #FFFFFF;border-top: none;border-bottom: 1px solid #CCCCCC;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="headerContent" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #505050;font-family: Helvetica;font-size: 20px;font-weight: bold;line-height: 100%;padding-top: 0;padding-right: 0;padding-bottom: 0;padding-left: 0;text-align: left;vertical-align: middle;">
-                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade">
+                                            	<img src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/email_top_logo.png" style="max-width: 600px;-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;" id="headerImage" mc:label="header_image" mc:edit="header_image" mc:allowdesigner mc:allowtext alt="Imly.in - Happiness is homemade"/>
                                             </td>
                                         </tr>
                                     </table>
@@ -620,13 +620,13 @@
                                             <td valign="top" class="bodyContent" mc:edit="body_content" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #888888;font-family: Helvetica Neue,Helvetica,Arial,sans-serif;font-size: 14px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;font-weight: 300;">
                                                 <h1 style="display: block;font-family: Helvetica,Arial,sans-serif;font-size: 18px;font-style: normal;font-weight: bold;line-height: 100%;letter-spacing: normal;margin-top: 0;margin-right: 0;margin-bottom: 10px;margin-left: 0;text-align: left;color: #202020;">Hi {{ storeorder.order.billing_first_name }},</h1>
                                                 
-						<p>We hope you enjoyed the food you ordered from <b>{{ storeorder.store.name }}</b> (by {% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.owner.username }} {% endif %})</p>
+						<p>We hope you enjoyed the food you ordered from <b>{{ storeorder.store.name }}</b> (by {% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.userprofile.first_name }} {{ storeorder.store.owner.userprofile.last_name }}{% else %}{{ storeorder.store.name }} {% endif %})</p>
 						
 						<p>We want to know how you felt?</p>
 						
 						<p>Did the food leave you licking your fingers and craving for more? Or was there room for improvement?</p>
 						
-						<p>Either way, your feedback will really help <b>{% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.first_name }} {{ storeorder.store.owner.last_name }}{% else %}{{ storeorder.store.name }} {% endif %}</b> and Imly serve you better next time.</p>
+						<p>Either way, your feedback will really help <b>{% if storeorder.store.owner.userprofile %}{{ storeorder.store.owner.userprofile.first_name }} {{ storeorder.store.owner.userprofile.last_name }}{% else %}{{ storeorder.store.name }} {% endif %}</b> and Imly serve you better next time.</p>
 						<p>So please follow the links, login and spare a few minutes to review the dish(es) below:</p>
 						
 						<ol>
@@ -653,20 +653,20 @@
                                     <table border="0" cellpadding="0" cellspacing="0" width="100%" id="templateFooter" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;background-color: #F1F1F1;border-top: 1px solid #cccccc;border-collapse: collapse;">
                                         <tr>
                                             <td valign="top" class="footerContent" mc:edit="footer_content00" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-top: 20px;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;">
-                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"></a>
+                                                <a href="http://twitter.com/imly_in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/twitter_chef.png" width="32" height="32" alt="Follow on Twitter" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>&nbsp;&nbsp;&nbsp;<a href="http://www.facebook.com/imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://imly.s3.amazonaws.com/bootstrap/img/facebook_chef.png" width="32" height="32" alt="Friend on Facebook" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>&nbsp;&nbsp;&nbsp;<a href="http://blog.imly.in" style="-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;color: #606060;font-weight: normal;text-decoration: underline;"><img border="0" src="https://s3-ap-southeast-1.amazonaws.com/imly/email+images/tumblr_chef.png" width="32" height="32" alt="Read our Blog" style="-ms-interpolation-mode: bicubic;border: 0;height: auto;line-height: 100%;outline: none;text-decoration: none;"/></a>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td valign="top" class="footerContent" style="padding-top: 20px;-webkit-text-size-adjust: 100%;-ms-text-size-adjust: 100%;mso-table-lspace: 0pt;mso-table-rspace: 0pt;color: #808080;font-family: Helvetica;font-size: 10px;line-height: 150%;padding-right: 20px;padding-bottom: 20px;padding-left: 20px;text-align: left;" mc:edit="footer_content01">
                                                 
                                                 <strong>Contact us:</strong>
-                                                <br>
+                                                <br/>
                                                 +91 9920190624
-						<br>
-						<br>
+						<br/>
+						<br/>
 						<em>Cooked with love by <a href="http://imly.in">imly.in</a></em>
                                                 
-                                                <br>
+                                                <br/>
                                             </td>
                                         </tr>
 
