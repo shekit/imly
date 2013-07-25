@@ -18,6 +18,7 @@
                     {% endcomment %}
                 
                     <div class="well sidebar-nav">
+						{% ifequal request.city.name "Mumbai"%}
                         <div class="span12">
                             <ul class="inline text-center food_chef">
                                 {% if request.session.delivery and not request.session.pick_up %}
@@ -33,6 +34,7 @@
                                 <hr class="hr_less_margin">
                             </ul>
                         </div>
+						{% endifequal %}
                         
                         {% include "delivery_modal.html" %}
                     

@@ -57,8 +57,18 @@
 
                                 </span>
                   </button>
+                <div class="logo_city_wrapper" style="position:relative;">
                   <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
+                  <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
+                                        {% if request.city %}
+                                                            {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
+                                        {% else %}
+                                                            Select City <span class="caret caret_city"></span>
+                                        {% endif %}
+                            </a>
+                </div>
                   <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
+                  
                   <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
                         <li><a href="{% url "imly_product_list" %}">Food</a></li>
@@ -108,9 +118,11 @@
     {% endblock location_search_bar %}
     {% block carousel %}
     <div class="hero-unit hero-unit-float hidden-phone">
+		{% ifequal request.city.name "Mumbai" %}
         <div class="row-fluid announcement_wrapper">
             <p class="text-center"><span class="announcement"><a class="announcement_message" href="{% url "imly_product_list" %}#delivery">Home Delivery! Click to see where we deliver</a></span></p>
         </div>
+		{% endifequal %}
                     <div class="row-fluid">
                         <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" alt="Imly logo"></p>
                     </div>
@@ -183,6 +195,7 @@
             <br>
             {% endif %}
         
+			{% if recently_bought and recently_added %}
             <div class="row-fluid">
                 <div class="span6">
                     <div class="row-fluid">
@@ -224,11 +237,11 @@
                         </div>
                     </div>
                 </div>
-
+				
         </div>
         <br>
         <br>
-            
+		{% endif %}
             {% if bestselling_products %}
             <div class="row-fluid">
                 <div class="span12">
