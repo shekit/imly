@@ -415,27 +415,41 @@
 $(document).ready(function(){
     $('.product_wish').click(function(){
         var raw_id = $(this).attr('id')
+        var clicked = $(this);
         var product = raw_id.split("_")[1]
         var store = raw_id.split("_")[2]
         var user = raw_id.split("_")[3]
         var data = {store_slug:store,product_slug:product,user_id:user};
-        $.post('{% url "wishlist" %}',data,function(data){
+        if (clicked.find('div').hasClass('already_wishlisted'))
+        {
+            $.post('{% url "remove_wish" %}',data,function(data)
+            {
 
-        }).done(function(data){
-            $('#product_'+product+'_'+store+'_'+ user + " .wishlist_heart").css({"background-position":"bottom"});
+            }).done(function(data){
+                //clicked.removeClass('already_wishlisted').addClass('wishlist_heart');
+                $('#product_'+product+'_'+store+'_'+user + " .already_wishlisted").removeClass('already_wishlisted').addClass('wishlist_heart');//css({"background-position":"top"});
+            });    
+        }
+        else
+        {
+            $.post('{% url "wishlist" %}',data,function(data)
+            {
+
+            }).done(function(data){
+                //clicked.removeClass('product_wish').addClass('wishlist');
+                $('#product_'+product+'_'+store+'_'+user + " .wishlist_heart").removeClass('wishlist_heart').addClass('already_wishlisted');//css({"background-position":"bottom"});
             
-            $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
-            function(){
-                $(this).stop(true,false);
+                $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
+                function(){
+                    $(this).stop(true,false);
             
-            },
-            function(){
-                $(this).fadeOut(200);
-            }
-            ).fadeOut(200);
-            
-        });
-        
+                },
+                function(){
+                    $(this).fadeOut(200);
+                }
+                ).fadeOut(200);
+            });    
+        }
     });
     
     $('#id_quantity').keypress(function(evt){
