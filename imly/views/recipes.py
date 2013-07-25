@@ -1,4 +1,4 @@
-from imly.models import Recipe, Product, Ingredient, RecipeIngredient
+from imly.models import Recipe, Product, Ingredient
 from imly.forms import RecipeForm, RecipeStepForm, RecipeStepFormSet, RecipeIngredientFormSet, RecipeIngredientFormSetEdit, RecipeStepFormSetEdit
 from django.views.generic import ListView, DetailView, View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
@@ -38,8 +38,6 @@ class AddRecipe(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super(AddRecipe, self).get_context_data(**kwargs)
-        context["ingredients"] = Ingredient.objects.all()
-        context["quantity_types"] = [{"value":qc[0], "name":qc[1]} for qc in RecipeIngredient.INGREDIENT_QUANTITY_CHOICES]
         context["product"] = Product.objects.get(slug=self.kwargs["slug"],store=self.request.user.store)
         if self.request.POST:
             context["recipe_step_form"] = RecipeStepFormSet(self.request.POST)
@@ -80,15 +78,13 @@ class EditRecipe(UpdateView):
     def get_context_data(self, **kwargs):
         context = super(EditRecipe, self).get_context_data(**kwargs)
         context["product"] = Product.objects.get(slug=self.kwargs["slug"],store=self.request.user.store)
-        context["ingredients"] = Ingredient.objects.all()
-        context["quantity_types"] = [{"value":qc[0], "name":qc[1]} for qc in RecipeIngredient.INGREDIENT_QUANTITY_CHOICES]
         recipe = self.get_object()
         if self.request.POST:
             context["recipe_step_form"] = RecipeStepFormSetEdit(self.request.POST,queryset=recipe.steps.all(),instance=recipe)
-            context["recipe_ingredient_form"] = RecipeIngredientFormSetEdit(self.request.POST,queryset=recipe.recipeingredient_set.all(),instance=recipe)
+            context["recipe_ingredient_form"] = RecipeIngredientFormSetEdit(self.request.POST,queryset=recipe.ingredients.all(),instance=recipe)
         else:
             context["recipe_step_form"] = RecipeStepFormSetEdit(queryset=recipe.steps.all(),instance=recipe)
-            context["recipe_ingredient_form"] = RecipeIngredientFormSetEdit(queryset=recipe.recipeingredient_set.all(),instance=recipe)
+            context["recipe_ingredient_form"] = RecipeIngredientFormSetEdit(queryset=recipe.ingredients.all(),instance=recipe)
         return context
     
 class RecipeDetail(DetailView):
