@@ -238,9 +238,15 @@ def unsubscribe_event(request,event_slug,product_slug):
     return redirect('imly_store_products')
 
 @csrf_exempt
+@login_required
 def wish_product(request):
     product = Product.objects.get(slug = request.POST.get('product_slug'),store=Store.objects.get(slug = request.POST.get('store_slug')))
-    Wish.objects.create(user=User.objects.get(pk=request.POST.get('user_id')),product=product)
+    user=request.user
+    wish, created = user.wish_set.get_or_create(product=product)
+    if not created and not wish.is_active:
+        wish.is_active = True
+        wish.save()
+    #Wish.objects.create(user=User.objects.get(pk=request.POST.get('user_id')),product=product)
     return HttpResponse("success");
 
 @csrf_exempt
@@ -257,7 +263,9 @@ def remove_product(request):
 
 @login_required
 def wishlist(request):
-    wish_products = Wish.objects.filter(user=request.user,is_active = True)
+    #wish_products = Wish.objects.filter(user=request.user,is_active = True)
+    user=request.user
+    wish_products = user.wish_set.filter(is_active = True)
     store_set=set()
     for wish in wish_products:
         store_set.add(wish.product.store)
