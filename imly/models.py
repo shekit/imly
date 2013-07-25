@@ -274,6 +274,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG",options={'quality':92}, processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
+    user = models.ManyToManyField(User, through='Wish')
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     updated = models.DateTimeField(auto_now=True)
     is_featured= models.BooleanField(default=False)
@@ -486,4 +487,73 @@ class Special(models.Model):
 
     def __unicode__(self):
         return self.title
+
+class Wish(models.Model):
+    product = models.ForeignKey(Product)
+    user = models.ForeignKey(User)
+    is_active = models.BooleanField(default = True)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True)
+
+    def __unicode__(self):
+        return "%s like %s" % (self.user, self.product)
+
+class RecipeIngredient(models.Model):
+       
+    INGREDIENT_QUANTITY_CHOICES = (
+        (1, "grams"),
+        (2, "kgs"),
+        (3, "ounce"),
+        (4, "litre"),
+        (5, "ml"),
+        (6, "spoons"),
+        (7, "pinch"),
+        (8, "piece"),
         
+    )
+    
+    quantity = models.FloatField()
+    quantity_type = models.IntegerField(choices = INGREDIENT_QUANTITY_CHOICES)
+    ingredient = models.ForeignKey("Ingredient")
+    recipe = models.ForeignKey("Recipe")
+
+class Ingredient(models.Model):
+    name = models.CharField(max_length=100)
+    slug = AutoSlugField(populate_from='name', editable=True, unique=True , max_length=100)
+    source = models.CharField(max_length=100, blank=True)
+    
+    def __unicode__(self):
+        return "%s" % (self.name)
+
+class Recipe(models.Model):
+    
+    MINUTES = 1
+    HOURS = 2
+    
+    PREP_TIME_CHOICES  = (
+        (MINUTES , "minutes"),
+        (HOURS , "hours"),
+    )
+
+
+    product = models.OneToOneField(Product)
+    category = models.ForeignKey(Category)
+    store = models.ForeignKey(Store)
+    user = models.ForeignKey(User)
+    created = models.DateTimeField(auto_now_add=True, editable=False)
+    updated = models.DateTimeField(auto_now=True)
+    prep_time = models.FloatField()
+    prep_time_choices = models.IntegerField(choices=PREP_TIME_CHOICES, default=MINUTES)
+    chef_note = models.TextField(blank=True)
+    ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient)
+    
+    def save(self, *args, **kwargs):
+        self.category = self.product.category
+        self.store = self.product.store
+        self.user = self.store.owner
+        super(Recipe,self).save(*args, **kwargs)
+    
+class RecipeStep(models.Model):
+    recipe = models.ForeignKey(Recipe, related_name="steps")
+    description = models.TextField()
+    

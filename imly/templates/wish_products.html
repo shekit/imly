@@ -1,0 +1,132 @@
+{% extends "base_store_manage.html" %}
+{% block title %}Imly | My Favourites{% endblock title %}
+
+{% block manage_store_heading %}
+            <h3 style="line-height:24px;">My Favourites<br><small class="muted">
+            All the food I want! All the food I love</small></h3>
+{% endblock manage_store_heading %}
+
+{% block manage_store_navigation %}
+
+	<li class="active"><a href="#">My Favourites</a></li>
+    <!--<li><a href="{% url "imly_user_orders" %}">My Orders</a></li>-->
+
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+	{% load imly_tags %}
+	<div class="row-fluid">
+	    <div class="span12">
+	{% if wish_products %}
+	
+	    {% for store in store_set %}
+		<table class="table table-bordered store_table" id="wish_store_{{store.slug}}">
+
+		    <tr class="shop_cart_header">
+			<th colspan="3">Your favs from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name|lower|title }}</a></th>
+		    </tr>
+		    {% for product in store.product_set.all %}
+			{% wished_products store.slug product.slug %}
+		    {% endfor %}
+		</table>
+	    {% endfor %}
+        
+    
+   	{% else %}
+	    <br><br>
+	    <h3 class="muted text-center">
+		You have not favourited any dishes yet.<br>
+		Start now. Just click the 
+	    </h3>
+	    <div class="already_wishlisted" style="cursor: default;margin-left:50%"></div>
+	{% endif %}
+	    </div>
+	</div>
+{% endblock shop_content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+	$('a.order-item').click(function(){
+		var id = $(this).attr('id');
+		var product_slug = id.split('_')[0];
+		var store_slug = id.split('_')[1];
+		var user_id = id.split('_')[2];
+		var data = {store_slug:store_slug,product_slug:product_slug,user_id:user_id};
+		$.post('{% url "remove_wish" %}',data,function(data){
+
+		}).done(function(data){
+			if (data['count'] != 0){
+			    if(data["store_wish_count"] != 0){
+				$('#'+product_slug).remove();
+			    }
+			    else {
+				$('#wish_store_'+store_slug).remove();
+			    }
+			}
+			else
+			{	
+				window.location.href=('/favourites/');
+			}
+			
+		});
+	});
+    $('.submit-btn').click(function(){
+        var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        var product_slug = form.find('input[name=product_slug]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
+
+                    $('#items-count').html(response['count']);
+                    
+                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
+        function(){
+            $(this).stop(true,false);
+            
+        },
+        function(){
+            $(this).fadeOut(200);
+        }
+    ).fadeOut(200);
+
+                    /*$('.dropDowncart').empty();
+                    $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                    $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                    $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                    $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                    $('.dropDowncart').append('</ul></li>');
+                    $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);*/
+                }else{
+                    
+                    
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+                    
+                    }
+
+
+            }
+        });
+        return false;
+    });
+});
+</script>   
+{% endblock extra_javascript %}

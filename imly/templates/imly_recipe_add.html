@@ -1,0 +1,188 @@
+{% extends "base_store_manage.html" %}
+
+{% block title %}Add a Recipe{% endblock title %}
+
+{% block manage_store_navigation %}
+
+    <li><a href="{% url "imly_store_info" %}">Shop Details</a></li>
+    <li class="active"><a href="{% url "imly_store_products" %}">Product Details</a></li>
+    <li><a href="{% url "imly_store_orders" %}">Order Details</a></li>
+    {% if user.userprofile %}
+                    <li><a href="{% url "imly_my_profile" %}">My Profile</a></li>
+                {% else %}
+                    <li><a href="{% url "imly_create_profile" %}">My Profile</a></li>
+    {% endif %}
+
+                
+{% endblock manage_store_navigation %}
+
+{% block shop_content %}
+    {% if form.errors %}
+        <div class="row-fluid">
+            <div class="span12">
+                <p class="custom_error_heading">Oops! ERRORS in your form! Please scroll down and correct them.</p>
+                <!--<ul>
+                    {% for field in form %}
+                        {% if field.errors %}
+                            <li class="custom_form_errors"><span class="orange"><em>Required</em></span> - {{field.label_tag}}</li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>-->
+            </div>
+        </div>
+
+    {% endif %}
+   <h4 class="form_heading">Add Recipe for: {{ product.name|title }}</h4>
+   <br>
+    
+        <div class="row-fluid">
+            
+            <div class="span12">
+                {% load crispy_forms_tags %}
+                <form enctype="multipart/form-data" method="post" action="">
+                    {% crispy form %}
+                    
+                    
+                    <label for="ingredient_formset"><span style="font-weight: 500">Ingredients:</span></label><br>
+            <fieldset class="formset" id="ingredient_formset">
+                
+                {{ recipe_ingredient_form.management_form }}
+                            <div class="ingredients">
+                                {% for form in recipe_ingredient_form %}
+                                    <div class="row-fluid">
+                                                    <div class="ingredient">
+                                                        {% crispy form %}
+                                                    </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                
+            </fieldset>
+            <a href="javascript:;" class="add_more_ingredients order-item">+ Add another Ingredient</a>
+            <br><br>
+            <label for="recipe_step_formset"><span style="font-weight: 500">Preparation Steps:</span></label><br>
+            <fieldset class="formset" id="recipe_step_formset">
+                {{ recipe_step_form.management_form }}
+                            <div class="recipe_steps">
+                                {% for form in recipe_step_form %}
+                                    <div class="row-fluid">
+                                                    <div class="span1">
+                                                        <span class="muted">Step</span> <span class="orange recipe_step_number">{{ forloop.counter }}</span>
+                                                    </div>
+                                                    <div class="span11 recipe_step">
+                                                        {% crispy form %}
+                                                    </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+            </fieldset>
+            <a href="javascript:;" class="add_more_steps order-item">+ Add another Step</a>
+            
+            <script type="text/html" id="recipe_ingredient_template">
+                <div class="row-fluid">
+                    <div class="span2 ingredient_set">
+                        <div id="div_id_recipeingredient_set-<%= id %>-quantity" class="control-group">
+                        <div class="controls">
+                        <input class="input-small textinput textInput" id="id_recipeingredient_set-<%= id %>-quantity" name="recipeingredient_set-<%= id %>-quantity" placeholder="Qty" type="text" />
+                        </div>
+                    </div></div>
+                    <div class="span2 ingredient_set">
+                    <div id="div_id_recipeingredient_set-<%= id %>-quantity_type" class="control-group">
+                    <div class="controls">
+                    <select class="input-small select" id="id_recipeingredient_set-<%= id %>-quantity_type" name="recipeingredient_set-<%= id %>-quantity_type">
+                        <option value="" selected="selected">---------</option>
+                        {% for quantity_type in quantity_types %}
+                            <option value="{{ quantity_type.value }}">{{ quantity_type.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="span2 ingredient_set">
+                    <div id="div_id_recipeingredient_set-<%= id %>-ingredient" class="control-group">
+                    <div class="controls">
+                        <select class="ingredient_list select" id="id_recipeingredient_set-<%= id %>-ingredient" name="recipeingredient_set-<%= id %>-ingredient">
+                        <option value="" selected="selected">---------</option>
+                        {% for ingredient in ingredients %}
+                            <option value="{{ ingredient.id }}">{{ ingredient.name }}</option>
+                        {% endfor %}
+                        </select>
+                    </div>
+                    </div>
+                    </div>
+                    <div class="span6"></div>
+                    <input id="id_recipeingredient_set-<%= id %>-id" type="hidden" name="recipeingredient_set-<%= id %>-id">
+		    <input id="id_recipeingredient_set-<%= id %>-recipe" type="hidden" name="recipeingredient_set-<%= id %>-recipe">
+                </div>
+
+				
+		</script>
+            
+                <script type="text/html" id="recipe_step_template">
+                    <div class="row-fluid">
+                        <div class="span1">
+                            <span class="muted">Step</span> <span class="orange recipe_step_number"><%= id +1 %></span>
+                        </div>
+                        <div class="span11 recipe_step">
+                            <div id="div_id_steps-<%= id %>-description" class="control-group">
+                            <div class="controls">
+                            <textarea class="recipe_step_textarea" cols="40" id="id_steps-<%= id %>-description" name="steps-<%= id %>-description" rows="3"></textarea>
+                            </div>
+                            </div>
+
+                        </div>
+                        <input id="id_steps-<%= id %>-id" type="hidden" name="steps-<%= id %>-id">
+			<input id="id_steps-<%= id %>-recipe" type="hidden" name="steps-<%= id %>-recipe">
+                    </div>
+
+		</script>
+                    <br><br><br>
+                    <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
+                    <input type="submit" class="btn btn-success" value="Add Recipe">
+
+                </form>
+            </div>
+    
+        </div>
+
+
+           
+{% endblock shop_content %}
+              
+
+{% block shop_info %}
+       
+{% endblock shop_info %}            
+
+{% block extra_head %}
+<link href="{{ STATIC_URL }}select2/select2.css" rel="stylesheet" type="text/css">
+{% endblock extra_head %}
+
+
+{% block extra_javascript %}
+<script src="{{ STATIC_URL }}select2/select2.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){
+    
+    $('.ingredient_list').select2();
+    
+    $(".add_more_ingredients").on("click", function(){
+        var count = $('.ingredients').children().length;
+        var markup = $("#recipe_ingredient_template").html();
+        var compiled = _.template(markup, {id: count});
+	$('div.ingredients').append(compiled);
+	$('#id_recipeingredient_set-TOTAL_FORMS').attr('value', count + 1);
+        $("#id_recipeingredient_set-"+count+"-ingredient").select2();
+    });
+    
+    $(".add_more_steps").on("click",function(){
+        var count = $(".recipe_steps").children().length;
+        var markup = $("#recipe_step_template").html();
+        var compiled = _.template(markup, {id:count});
+        $("div.recipe_steps").append(compiled);
+        $("#id_steps-TOTAL_FORMS").attr("value", count+1);
+    })
+});
+</script>
+{% endblock extra_javascript %}

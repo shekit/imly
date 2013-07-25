@@ -15,7 +15,7 @@
         <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-custom">Start Shopping!</a></p>
         <br><br>
         {% else %}
-        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} {{ order.total|floatformat:"2" }}</span></h3>
+        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total_mobile">{{ order.total|floatformat:"2" }}</span></h3>
         
         <br>
         
@@ -270,6 +270,7 @@ function update_store_order(field, store_order_id, parameter){
             }).done(function(data){
             $('#store_total-'+store_table).html(data['store_order_total']);
             $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -287,6 +288,7 @@ function update_store_order(field, store_order_id, parameter){
             }).done(function(data){
             $('#store_total-'+store_table).html(data['store_order_total']);
             $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -303,6 +305,7 @@ function update_store_order(field, store_order_id, parameter){
             }).done(function(data){
             $('#store_total-'+store_table).html(data['store_order_total']);
             $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -336,6 +339,7 @@ function update_store_order(field, store_order_id, parameter){
             $('#'+input_id).val(data['quantity']);
             $('#store_total-'+store_table).html(data['store_order_total']);
             $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -360,6 +364,7 @@ function update_store_order(field, store_order_id, parameter){
                 $('#'+input_id).val(data['quantity']);
                 $('#store_total-'+store_table).html(data['store_order_total']);
                 $('#order_total').html(data['order_total']);
+                $('#order_total_mobile').html(data['order_total']);
                 $('.orderitem_quantity_'+id).html(data['quantity']);
                 $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
                 $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -382,6 +387,7 @@ function update_store_order(field, store_order_id, parameter){
                     $('#items-count').text(data['count']);
                     $('.items-count_cart').text(data['count']);
                     $('#order_total').text(data['order_total']);
+                    $('#order_total_mobile').html(data['order_total']);
                     $('#store_total-'+store_table).html(data['store_order_total']);
                     $('#order_item-'+order_item).remove();
                 }

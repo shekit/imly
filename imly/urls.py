@@ -2,11 +2,12 @@ from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
 from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout
-from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event
+from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
 from imly.views.tags import add_tag, remove_tag
+from imly.views.recipes import RecipeList, RecipeDetail, EditRecipe, AddRecipe
 from imly.sitemaps import all_sitemaps as sitemaps
 from plata.contact.models import Contact
 from plata.discount.models import Discount
@@ -59,7 +60,7 @@ urlpatterns = patterns('',
     url(r"^account/my-profile/$",login_required(ProfileInfo.as_view()),name='imly_my_profile'),
     url(r"^account/create-profile/$",login_required(ProfileCreate.as_view()),name='imly_create_profile'),
     url(r"^account/edit-profile/$",login_required(EditProfile.as_view()),name='imly_profile_edit'),
-    url(r"^account/orders/(?P<pk>\d+)/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
+    url(r"^account/orders/$",login_required(UserOrders.as_view()),name='imly_user_orders'),
     url(r"^account/store/edit/$", login_required(StoreEdit.as_view()), name="imly_store_edit"),
     url(r"^account/store/orders/$", login_required(StoreOrders.as_view()), name="imly_store_orders"),
     url(r"^account/store/sort-product/$","imly.views.products.sort_product",name="imly_store_sort_product"),
@@ -122,12 +123,22 @@ urlpatterns += patterns('',
 )
 
 urlpatterns += patterns('',
+    url(r"^recipes/$", RecipeList.as_view(), name = "imly_recipe_list"),
+    url(r"^account/store/recipe/add/(?P<slug>[-\w]+)/$", AddRecipe.as_view(), name = "imly_recipe_add"),
+    url(r"^account/store/recipe/edit/(?P<slug>[-\w]+)/$", EditRecipe.as_view(), name = "imly_recipe_edit"),
+    url(r"^recipe/(?P<slug>[-\w]+)/$", RecipeDetail.as_view(), name="imly_recipe_detail")
+                        )
+
+urlpatterns += patterns('',
     url(r"^checkout/$", one_step_checkout, name="imly_one_step_checkout"),
     url(r'^storeorder$', update_store_order, name='update_store_order'),
     url(r'^order/(?P<pk>\d+)/update-store-orders/$', update_store_orders_for_order, name='update_store_orders_for_order'),
     url(r'^orderitem/remove/$',update_cart,name='update_cart'),
     url(r'^orderitem/change_quantity/(?P<change>up|down)/$',change_quantity,name='change_quantity'),
     url(r'^orderitem/change_quantity/text/$',change_quantity_text,name='change_quantity_text'),
+    url(r'^wish_product/$',wish_product,name='wishlist'),
+    url(r'^wish_remove_product/$',remove_product,name='remove_wish'),
+    url(r'^favourites/$',wishlist,name='show_wishlist'),
     url(r'^sitemap.xml$', 'django.contrib.sitemaps.views.index', {'sitemaps': sitemaps}),
     url(r'^sitemap-(?P<section>.+)\.xml$', 'django.contrib.sitemaps.views.sitemap', {'sitemaps': sitemaps}),
     url(r"^(?P<slug>[-\w]+)/$", StoreDetail.as_view() , name="imly_store_detail"),
