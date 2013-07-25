@@ -118,9 +118,11 @@
     {% endblock location_search_bar %}
     {% block carousel %}
     <div class="hero-unit hero-unit-float hidden-phone">
+		{% ifequal request.city.name "Mumbai" %}
         <div class="row-fluid announcement_wrapper">
             <p class="text-center"><span class="announcement"><a class="announcement_message" href="{% url "imly_product_list" %}#delivery">Home Delivery! Click to see where we deliver</a></span></p>
         </div>
+		{% endifequal %}
                     <div class="row-fluid">
                         <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" alt="Imly logo"></p>
                     </div>
@@ -193,6 +195,7 @@
             <br>
             {% endif %}
         
+			{% if recently_bought and recently_added %}
             <div class="row-fluid">
                 <div class="span6">
                     <div class="row-fluid">
@@ -234,11 +237,11 @@
                         </div>
                     </div>
                 </div>
-
+				
         </div>
         <br>
         <br>
-            
+		{% endif %}
             {% if bestselling_products %}
             <div class="row-fluid">
                 <div class="span12">
