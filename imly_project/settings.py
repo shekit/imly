@@ -140,6 +140,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'imly.middleware.RefererMiddleware',
     'imly.middleware.SelectCityMiddleware',
+    'facebook.middleware.SignedRequestMiddleware',
+    'facebook.middleware.AppRequestMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -201,6 +203,8 @@ INSTALLED_APPS = (
     'reviews',
     'imly',
     'plata',
+    'facebook',
+    'facebook.modules.profile.page',
     'plata.product.stock',
     'plata.contact',
     'plata.discount',
@@ -338,3 +342,14 @@ ENDLESS_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2
 # tracking settings
 TRACK_AJAX_REQUESTS = TRACK_PAGEVIEWS = True
 BROKER_URL = 'redis://localhost:6379/0'
+FACEBOOK_APPS = {
+    'name' : {
+            'ID': 486399054777135,
+            'SECRET': '1309418ef8bc76d8518db195647c0bcd',
+            'CANVAS-PAGE': 'https://apps.facebook.com/yourapp',
+            'CANVAS-URL': 'http://www.localdomain:8000/facestore',
+            'SECURE-CANVAS-URL': 'https://www.localdomain:8000/facestore',
+            'REDIRECT-URL': 'http://www.localdomain:8000/facestore/success',
+            'DOMAIN' : 'localdomain:8000',
+    }
+}
