@@ -497,30 +497,11 @@ class Wish(models.Model):
 
     def __unicode__(self):
         return "%s like %s" % (self.user, self.product)
-
-class RecipeIngredient(models.Model):
-       
-    INGREDIENT_QUANTITY_CHOICES = (
-        (1, "grams"),
-        (2, "kgs"),
-        (3, "ounce"),
-        (4, "litre"),
-        (5, "ml"),
-        (6, "spoons"),
-        (7, "pinch"),
-        (8, "piece"),
-        
-    )
     
-    quantity = models.FloatField()
-    quantity_type = models.IntegerField(choices = INGREDIENT_QUANTITY_CHOICES)
-    ingredient = models.ForeignKey("Ingredient")
-    recipe = models.ForeignKey("Recipe")
 
 class Ingredient(models.Model):
-    name = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='name', editable=True, unique=True , max_length=100)
-    source = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=255)
+    recipe = models.ForeignKey("Recipe", related_name="ingredients")
     
     def __unicode__(self):
         return "%s" % (self.name)
@@ -544,8 +525,10 @@ class Recipe(models.Model):
     updated = models.DateTimeField(auto_now=True)
     prep_time = models.FloatField()
     prep_time_choices = models.IntegerField(choices=PREP_TIME_CHOICES, default=MINUTES)
+    cook_time = models.FloatField()
+    cook_time_choices = models.IntegerField(choices=PREP_TIME_CHOICES, default=MINUTES)
+    serves = models.IntegerField(default=1)
     chef_note = models.TextField(blank=True)
-    ingredients = models.ManyToManyField(Ingredient, through=RecipeIngredient)
     
     def save(self, *args, **kwargs):
         self.category = self.product.category

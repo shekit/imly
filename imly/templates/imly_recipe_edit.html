@@ -1,6 +1,6 @@
 {% extends "base_store_manage.html" %}
 
-{% block title %}Add a Recipe{% endblock title %}
+{% block title %}Edit Recipe{% endblock title %}
 
 {% block manage_store_navigation %}
 
@@ -43,7 +43,7 @@
                     {% crispy form %}
                     
                     
-                    <label for="ingredient_formset"><span style="font-weight: 500">Ingredients:</span></label><br>
+                    <label for="ingredient_formset"><span style="font-weight: 500">Ingredients: <small class="muted" style="font-weight: 400;">e.g 500 gms onion diced</small></span></label><br>
             <fieldset class="formset" id="ingredient_formset">
                 {{ recipe_ingredient_form.management_form }}
                             <div class="ingredients">
@@ -52,7 +52,6 @@
                                     <div class="row-fluid">
                                                     <div class="ingredient">
                                                         {% crispy form %}
-                                                        <input id="id_steps-<%= form.instance.id %>-id" type="hidden" name="steps-<%= form.instance.id %>-id">
                                                     </div>
                                     </div>
                                 {% endfor %}
@@ -83,8 +82,23 @@
             
                     <br><br><br>
                     <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
-                    <input type="submit" class="btn btn-success" value="Add Recipe">
-
+                    <input type="submit" class="btn btn-success" value="Edit Recipe">
+                        
+            <script type="text/html" id="recipe_ingredient_template">
+                <div class="row-fluid">
+                    <div class="ingredient_set">
+                    <div id="div_id_ingredients-<%= id %>-name" class="control-group">
+                        <div class="controls">
+                            <input class="textinput textInput" id="id_ingredients-<%= id %>-name" name="ingredients-<%= id %>-name" placeholder="Ingredient" type="text" />
+                        </div>
+                    </div>
+                    </div>
+                    <input id="id_ingredients-<%= id %>-id" type="hidden" name="ingredients-<%= id %>-id">
+		    <input id="id_ingredients-<%= id %>-recipe" type="hidden" name="ingredients-<%= id %>-recipe">
+                
+                </div>
+            </script>
+            {% comment %}
             <script type="text/html" id="recipe_ingredient_template">
                 <div class="row-fluid">
                     <div class="span2 ingredient_set">
@@ -124,19 +138,20 @@
 
 				
 		</script>
-            
+                {% endcomment %}
                 <script type="text/html" id="recipe_step_template">
                     <div class="row-fluid">
                         <div class="span1">
                             <span class="muted">Step</span> <span class="orange recipe_step_number"><%= id +1 %></span>
                         </div>
                         <div class="span11 recipe_step">
+                        <fieldset>
                             <div id="div_id_steps-<%= id %>-description" class="control-group">
                             <div class="controls">
                             <textarea class="recipe_step_textarea" cols="40" id="id_steps-<%= id %>-description" name="steps-<%= id %>-description" rows="3"></textarea>
                             </div>
                             </div>
-
+                        </fieldset>
                         </div>
                         <input id="id_steps-<%= id %>-id" type="hidden" name="steps-<%= id %>-id">
 			<input id="id_steps-<%= id %>-recipe" type="hidden" name="steps-<%= id %>-recipe">
@@ -159,34 +174,38 @@
 {% endblock shop_info %}            
 
 {% block extra_head %}
-<link href="{{ STATIC_URL }}select2/select2.css" rel="stylesheet" type="text/css">
+
 {% endblock extra_head %}
 
 
 {% block extra_javascript %}
-<script src="{{ STATIC_URL }}select2/select2.min.js"></script>
+
 
 <script type="text/javascript">
 $(document).ready(function(){
     
-    $('.ingredient_list').select2();
+    //$('.ingredient_list').select2();
     
     $(".add_more_ingredients").on("click", function(){
-        var count = $('.ingredients').children().length;
+        var count = ($('.ingredients').children().length)/2;
         var markup = $("#recipe_ingredient_template").html();
         var compiled = _.template(markup, {id: count});
 	$('div.ingredients').append(compiled);
-	$('#id_recipeingredient_set-TOTAL_FORMS').attr('value', count + 1);
-        $("#id_recipeingredient_set-"+count+"-ingredient").select2();
+	$('#id_ingredients-TOTAL_FORMS').attr('value', count + 1);
+        //$("#id_recipeingredient_set-"+count+"-ingredient").select2();
     });
     
     $(".add_more_steps").on("click",function(){
-        var count = $(".recipe_steps").children().length;
+        var count = ($(".recipe_steps").children().length)/2;
         var markup = $("#recipe_step_template").html();
         var compiled = _.template(markup, {id:count});
         $("div.recipe_steps").append(compiled);
         $("#id_steps-TOTAL_FORMS").attr("value", count+1);
     })
+    
+    $(".textinput").keypress(function(event){
+       return event.keyCode != 13; 
+    });
 });
 </script>
 {% endblock extra_javascript %}
