@@ -1673,7 +1673,7 @@ td.less_padding_inner_td input[type=text]{
     height:16px;
     background: url("../img/wishlist_hearts.png");
     background-position: bottom;
-    cursor: default;
+    cursor: pointer;
 }
 
 /* recipe form */
