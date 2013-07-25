@@ -69,7 +69,7 @@ class ProductList(ListView):
             user_point = self.request.session.get("bingeo")
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
-        if self.request.session.get('delivery', None):
+        if self.request.session.get('delivery', None) and self.request.city.name=="Mumbai":
             if self.request.session.get('place_slug', None):
                 try:
                     pilot_city = City.objects.get(slug="fbn-pilot")

@@ -67,7 +67,7 @@ class StoreList(ListView):
             user_point = self.request.session.get('bingeo')
             user_point = Point(*user_point)
             stores = stores.distance(user_point).order_by('distance')
-        if self.request.session.get('delivery', None):
+        if self.request.session.get('delivery', None) and self.request.city.name=="Mumbai":
             if self.request.session.get('place_slug', None):
                 try:
                     pilot_city = City.objects.get(slug="fbn-pilot")
@@ -283,6 +283,7 @@ def one_step_checkout(request):
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
+        #if request.session.get('bingeo', None): 
         _update_delivery_charges(order, request)
         shop.checkout(request, order)
         return shop.confirmation(request,order)
