@@ -19,14 +19,49 @@
 	    <div class="span12">
 	{% if wish_products %}
 	
-	    {% for store in store_set %}
+	    {% for store,products in stores.items %}
 		<table class="table table-bordered store_table" id="wish_store_{{store.slug}}">
 
 		    <tr class="shop_cart_header">
 			<th colspan="3">Your favs from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.slug %}">{{ store.name|lower|title }}</a></th>
 		    </tr>
-		    {% for product in store.product_set.all %}
-			{% wished_products store.slug product.slug %}
+		    {% for product in products %}
+			<tr id="{{ product.slug }}">
+        <td>
+            <ul class="inline">
+                <li class="pull-left"><a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img class="img-polaroid" src="{{ product.image_thumbnail_mini.url }}" alt="{{ product.name }}" width="100" height="80"></a></li>
+                                    <li>
+                                        <ul class="unstyled">
+                                                <li><span style="font-size:16px;">{{ product.name|lower|title }}</span></li>
+                                                <li><br></li>      
+                                                <li>{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                            {% if product.quantity_per_item == 1 %}
+                            /{{ product.get_quantity_by_price_display }}
+                            {% else %}
+                            for {{ product.quantity_per_item|floatformat:"0" }} {{ product.get_quantity_by_price_display }}s
+                            {% endif %} 
+                        </small></li>               
+                                        </ul>
+                                </li>
+                        </ul>   
+        </td>
+        <td width="40">{% if product.items_in_stock %}
+                        <form method="post" action="{% url "imly_add_order" product.store.slug product.slug %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="image_url" value="{{ product.image_thumbnail_mini.url }}">
+                            <input type="hidden" name="product_name" value="{{ product.name|title }}">
+                            <input type="hidden" name="store_name" value="{{ product.store.name|title }}">
+                            <input type="hidden" name="product_slug" value="{{ product.slug }}">
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                        </form>
+                        {% else %}
+                            <small class="ultra_small muted pull-right text-center">Fresh batch tomorrow</small>
+                        {% endif %}
+        </td>
+        <td width="70"><small class="muted"><a class="order-item" id="{{ product.slug }}_{{ product.store.slug }}_{{ request.user.id }}" >Unfavourite</a></td>
+                
+    </tr>
 		    {% endfor %}
 		</table>
 	    {% endfor %}
