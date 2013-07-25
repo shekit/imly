@@ -183,6 +183,7 @@
             <br>
             {% endif %}
         
+			{% if recently_bought and recently_added %}
             <div class="row-fluid">
                 <div class="span6">
                     <div class="row-fluid">
@@ -224,11 +225,11 @@
                         </div>
                     </div>
                 </div>
-
+				
         </div>
         <br>
         <br>
-            
+		{% endif %}
             {% if bestselling_products %}
             <div class="row-fluid">
                 <div class="span12">
