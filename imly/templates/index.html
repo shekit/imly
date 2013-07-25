@@ -57,8 +57,18 @@
 
                                 </span>
                   </button>
+                <div class="logo_city_wrapper" style="position:relative;">
                   <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
+                  <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
+                                        {% if request.city %}
+                                                            {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
+                                        {% else %}
+                                                            Select City <span class="caret caret_city"></span>
+                                        {% endif %}
+                            </a>
+                </div>
                   <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
+                  
                   <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
                         <li><a href="{% url "imly_product_list" %}">Food</a></li>
