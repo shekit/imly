@@ -283,8 +283,8 @@ def one_step_checkout(request):
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
-        #if request.session.get('bingeo', None): 
-        _update_delivery_charges(order, request)
+        if request.session.get('bingeo', None): 
+            _update_delivery_charges(order, request)
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "one_step_checkout.html", locals())
