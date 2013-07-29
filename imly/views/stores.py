@@ -68,33 +68,19 @@ class StoreList(ListView):
             user_point = self.request.session.get('bingeo')
             user_point = Point(*user_point)
             stores = stores.distance(user_point).order_by('distance')
-        if self.request.session.get('delivery', None) and self.request.city.name=="Mumbai":
-            if self.request.session.get('place_slug', None):
-                try:
-                    pilot_city = City.objects.get(slug="fbn-pilot")
-                    if user_point.within(pilot_city.enclosing_geometry):
-                        stores = stores.filter(Q(pick_up_point__within=pilot_city.enclosing_geometry)| (Q(delivery_locations__location__within=self.request.city.enclosing_geometry) & Q(delivery_locations__location__distance_lte=(user_point, D(km=3)))))
-                    else:
-                        stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry).filter(delivery_locations__location__distance_lte=(user_point, D(km=3)))
-                except City.DoesNotExist:
-                    pass # no pilot city found
-            #else:
-             #   stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry)
-        else:
-            stores = stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
-        stores = stores.distinct()
+        stores = stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-            stores = stores.filter(categories=self.category).distinct() if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
+            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
             self.tags = []
         if self.tags:
             for tag in self.tags:
-                stores &= tag.store_set.distinct()
-        return stores
+                stores &= tag.store_set
+        return stores.distinct()
 
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
