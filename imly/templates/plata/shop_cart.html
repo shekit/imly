@@ -409,9 +409,6 @@ function update_store_order(field, store_order_id, parameter){
         });
     });
 	});
-	$('.check_delivery_cart').click(function(){
-		ga('send', 'event', 'delivery', 'click', "set in cart");
-	})
     function sync_notes(){
         $('textarea').each(function(){ 
             $(this).change()
