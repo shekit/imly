@@ -127,7 +127,7 @@ urlpatterns += patterns('',
     url(r"^account/store/recipe/add/(?P<slug>[-\w]+)/$", AddRecipe.as_view(), name = "imly_recipe_add"),
     url(r"^account/store/recipe/edit/(?P<slug>[-\w]+)/$", EditRecipe.as_view(), name = "imly_recipe_edit"),
     url(r"^recipe/(?P<slug>[-\w]+)/$", RecipeDetail.as_view(), name="imly_recipe_detail")
-                        )
+)
 
 urlpatterns += patterns('',
     url(r"^checkout/$", one_step_checkout, name="imly_one_step_checkout"),
