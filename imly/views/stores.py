@@ -68,33 +68,19 @@ class StoreList(ListView):
             user_point = self.request.session.get('bingeo')
             user_point = Point(*user_point)
             stores = stores.distance(user_point).order_by('distance')
-        if self.request.session.get('delivery', None) and self.request.city.name=="Mumbai":
-            if self.request.session.get('place_slug', None):
-                try:
-                    pilot_city = City.objects.get(slug="fbn-pilot")
-                    if user_point.within(pilot_city.enclosing_geometry):
-                        stores = stores.filter(Q(pick_up_point__within=pilot_city.enclosing_geometry)| (Q(delivery_locations__location__within=self.request.city.enclosing_geometry) & Q(delivery_locations__location__distance_lte=(user_point, D(km=3)))))
-                    else:
-                        stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry).filter(delivery_locations__location__distance_lte=(user_point, D(km=3)))
-                except City.DoesNotExist:
-                    pass # no pilot city found
-            #else:
-             #   stores = stores.filter(delivery_locations__location__within=self.request.city.enclosing_geometry)
-        else:
-            stores = stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
-        stores = stores.distinct()
+        stores = stores.filter(pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
-            stores = stores.filter(categories=self.category).distinct() if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
+            stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
             self.tags = []
         if self.tags:
             for tag in self.tags:
-                stores &= tag.store_set.distinct()
-        return stores
+                stores &= tag.store_set
+        return stores.distinct()
 
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
@@ -284,20 +270,9 @@ def one_step_checkout(request):
         orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
     if form.is_valid() and orderform.is_valid():
-        if request.session.get('bingeo', None): 
-            _update_delivery_charges(order, request)
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "one_step_checkout.html", locals())
-
-def _update_delivery_charges(order, request):
-    if request.session.get('fbn_pilot', None):
-        pilot_city = City.objects.get(slug="fbn-pilot")
-        user_point = Point(*request.session['bingeo'])
-        for store in order.store_set.filter(pick_up_point__within=pilot_city.enclosing_geometry).distance(user_point):
-            store_order = order.storeorder_set.get(store=store)
-            store_order.delivery_charges = store.distance <= D(km=5) and 100 or store.distance <= D(km=10) and 150 or store.distance <= D(km=15) and 200 or store.distance <= D(km=20) and 250 or store.distance <= D(km=30) and 300
-            store_order.save()
         
 class OrderList(ListView):
     #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order

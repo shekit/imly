@@ -18,26 +18,6 @@
                     {% endcomment %}
                 
                     <div class="well sidebar-nav">
-						{% ifequal request.city.name "Mumbai"%}
-                        <div class="span12">
-                            <ul class="inline text-center food_chef">
-                                {% if request.session.delivery and not request.session.pick_up %}
-                                    <li><a href="javascript:;" class="food food_chef_active">Delivery</a></li>
-                                    <li><a href="{% url "set_pick_up" %}" class="chef food_chef_inactive">Pick-Up</a></li>
-                                {% elif request.session.pick_up and not request.session.delivery %}
-                                    <li><a href="{% url "set_delivery" %}" class="food food_chef_inactive">Delivery</a></li>
-                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
-                                {% else %}
-                                    <li><a href="javascript:;" id="delivery_location_not_set" class="food food_chef_inactive">Delivery</a></li>
-                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
-                                {% endif %}
-                                <hr class="hr_less_margin">
-                            </ul>
-                        </div>
-						{% endifequal %}
-                        
-                        {% include "delivery_modal.html" %}
-                    
                         {% load imly_tags %}
 
                         <ul class="nav nav-list">
