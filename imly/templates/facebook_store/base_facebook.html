@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html xmlns:fb="http://ogp.me/ns/fb#" prefix="og: http://ogp.me/ns#" lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>{% block title %}Imly{% endblock title %}</title>
+        {% load seo %}
+        {% get_metadata %}
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+	<link href="{{ STATIC_URL }}bootstrap/css/facebook_custom.css" rel="stylesheet" type="text/css">
+        <link href="https://plus.google.com/102707005754075691667" rel="publisher" />
+        
+        <!-- HTML5 shim for IE backwards compatibility -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
+		
+        {% block extra_head %}
+        <meta property="og:url" content="http://imly.in">
+		<meta property="og:title" content="Imly.in - the online marketplace to buy and sell homemade food">
+		<meta property="og:type" content="website"/>
+		<meta property="og:image" content="https://imly.s3.amazonaws.com/bootstrap/img/imly_logo.png"/>
+		{% endblock extra_head %}
+        <!-- GOOGLE ANALYTICS CODE -->
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        
+          ga('create', 'UA-41246832-1', 'imly.in');
+          ga('send', 'pageview');
+
+        </script>
+		
+    </head>
+    
+    <body>
+	<div id="wrap">
+        <div id="main" class="container canvas">
+	    <div class="shop_cart text-center"><span class="icon-shopping-cart icon-white"></span></div>
+    
+    <div class="hero-unit hero_unit_custom">
+	{% if store.logo %}
+	<ul class="unstyled text-center">
+	    <li>
+	        <img class="img-polaroid" src="{{ store.logo_thumbnail.url }}" width="150">
+	    </li>
+	    <li>
+		<h3 class="text-center">{{ store.name|lower|title }}</h3>
+	    </li>
+	</ul>
+	{% else %}
+	    <h3 class="text-center">{{ store.name|lower|title }}</h3>
+	{% endif %}
+    
+    </div>
+    
+	{% if special_event and special_products %}
+	<div class="row-fluid special_event">
+	    <legend class="orange"><span class="legend_upper">{{ special_event.title }}</span> <span class="legend_lower">Special</span></legend>
+	    <ul class="thumbnails">
+		{% for object in special_products %}
+		    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+		    <li class="span4">
+			<div class="thumbnail thumbnail_custom">
+			    
+			    <a href="{% url "fb_product_detail" object.store.slug object.slug %}">
+				<div class="sold_out">
+				    <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
+				    {% if not object.items_in_stock %}
+					<img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+				    {% endif %}
+				    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+				    <div class="hidden-desktop">
+					<div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+				    </div>
+	    
+				</div>
+	    
+			    </a>
+	    
+			    <h5 class="less_bottom_margin"><a class="top_text" href="{% url "fb_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
+			    <div class="thumbnail_info_wrapper">
+				<span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
+				    {% if object.quantity_per_item == 1 %}
+					/{{ object.get_quantity_by_price_display }}
+				    {% else %}
+					for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
+				    {% endif %} 
+				</small></span>
+				
+			    {% if object.store.is_open %}
+				{% if object.items_in_stock %}
+				<form method="post" action="{% url "fb_add_order" object.store.slug object.slug %}">
+				    {% csrf_token %}
+				    <input type="hidden" name="image_url" value="{{object.image_thumbnail_mini.url}}">
+				    <input type="hidden" name="product_name" value="{{object.name|title}}">
+				    <input type="hidden" name="store_name" value="{{object.store.name|title}}">
+				    <input type="hidden" name="product_slug" value="{{ object.slug }}">
+				    <input type="hidden" name="quantity" value="1">
+				    <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+				</form>
+				{% else %}
+				    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+				{% endif %}
+			    {% else %}
+				<small class="ultra_small muted pull-right">Chef on vacation</small>
+			    {% endif %}
+			    
+				<div class="clearfix"></div>
+			    </div>
+			    <div class="fb_like_thumbnail">
+				<div class="fb-like" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-send="false" data-layout="button_count" data-width="225" data-show-faces="false" data-font="arial"></div>
+			    </div>
+			</div>
+			
+		    </li>
+		    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+		    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+		{% endfor %}
+	    </ul>
+	</div>
+	{% endif %}
+	    <div class="row-fluid product_list">
+		<ul class="thumbnails">
+		    {% for object in products %}
+		    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+		    <li class="span4">
+			<div class="thumbnail thumbnail_custom">
+			    
+			    <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
+				<div class="sold_out">
+				    <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
+				    {% if not object.items_in_stock %}
+					<img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+				    {% endif %}
+				    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+				    <div class="hidden-desktop">
+					<div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+				    </div>
+	    
+				</div>
+	    
+			    </a>
+	    
+			    <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
+			    <div class="thumbnail_info_wrapper">
+				<span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
+				    {% if object.quantity_per_item == 1 %}
+					/{{ object.get_quantity_by_price_display }}
+				    {% else %}
+					for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
+				    {% endif %} 
+				</small></span>
+				
+			    {% if object.store.is_open %}
+				{% if object.items_in_stock %}
+				<form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
+				    {% csrf_token %}
+				    <input type="hidden" name="image_url" value="{{object.image_thumbnail_mini.url}}">
+				    <input type="hidden" name="product_name" value="{{object.name|title}}">
+				    <input type="hidden" name="store_name" value="{{object.store.name|title}}">
+				    <input type="hidden" name="product_slug" value="{{ object.slug }}">
+				    <input type="hidden" name="quantity" value="1">
+				    <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+				</form>
+				{% else %}
+				    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+				{% endif %}
+			    {% else %}
+				<small class="ultra_small muted pull-right">Chef on vacation</small>
+			    {% endif %}
+			    
+				<div class="clearfix"></div>
+			    </div>
+			    <div class="fb_like_thumbnail">
+				<div class="fb-like" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-send="false" data-layout="button_count" data-width="225" data-show-faces="false" data-font="arial"></div>
+			    </div>
+			</div>
+			
+		    </li>
+		    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+		    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+		    {% endfor %}
+		</ul>
+		
+	    </div>
+	
+        </div> <!-- end of div container canvas-->
+	</div> <!-- end of div wrap -->
+	
+	<footer class="container-fluid footer">
+            <div class="container canvas">
+                <br>
+                {% block footer %}
+                    {% include "facebook_store/footer_facebook.html" %}
+                {% endblock footer %}
+            </div>
+        </footer>
+	<div id="fb-root"></div>
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+	<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=486399054777135";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+        $('.submit-btn').click(function(){
+        var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        var product_slug = form.find('input[name=product_slug]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
+
+                    $('#items-count').html(response['count']);
+                    
+                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
+        function(){
+            $(this).stop(true,false);
+            
+        },
+        function(){
+            $(this).fadeOut(200);
+        }
+    ).fadeOut(200);
+
+                    /*$('.dropDowncart').empty();
+                    $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                    $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                    $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                    $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                    $('.dropDowncart').append('</ul></li>');
+                    $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);*/
+                }else{
+                    
+                    
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+                    
+                    }
+
+
+            }
+        });
+        return false;
+    });
+    });
+</script>
+		
+	<script src="https://connect.facebook.net/en_US/all.js"></script>
+	<script>
+	     window.fbAsyncInit = function() {
+		FB.init({
+		  appId : '486399054777135', //Your facebook APP here
+		  cookie : true // enable cookies to allow the server to access the session
+		});
+	    }
+
+	    window.onload = function() {
+	      FB.Canvas.setAutoGrow(100);
+	    }
+    </script>
+	
+	
+       
+
+    </body>
+</html>

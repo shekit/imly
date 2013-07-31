@@ -1,0 +1,627 @@
+@charset "UTF-8";
+/* CSS Document */
+
+/* TO PREVENT FB SCROLL BAR FROM SHOWING */
+html{
+    overflow: hidden;
+}
+
+body {
+    overflow: hidden;
+    font-size: 13px;
+}
+
+#wrap
+{
+  min-height: 100%;  
+}
+ 
+#main
+{
+    overflow:auto;
+    padding-bottom:80px; /* this needs to be bigger than footer height*/
+}
+ 
+
+/* ADJUSTING WIDTH FOR FB 760px */
+
+.container.canvas {
+  width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+  zoom: 1;
+}
+.container.canvas:before, .container.canvas:after {
+  display: table;
+  content: "";
+  zoom: 1;
+}
+.container.canvas:after {
+  clear: both;
+}
+.container.canvas .row {
+  zoom: 1;
+  margin-left: -20px;
+}
+.container.canvas .row:before, .container.canvas .row:after {
+  display: table;
+  content: "";
+  zoom: 1;
+}
+.container.canvas .row:after {
+  clear: both;
+}
+.container.canvas .row > [class*="span"] {
+  display: inline;
+  float: left;
+  margin-left: 20px;
+}
+.container.canvas .span1 {
+  width: 45px;
+}
+.container.canvas .span2 {
+  width: 110px;
+}
+.container.canvas .span3 {
+  width: 175px;
+}
+.container.canvas .span4 {
+  width: 240px;
+}
+.container.canvas .span5 {
+  width: 305px;
+}
+.container.canvas .span6 {
+  width: 370px;
+}
+.container.canvas .span7 {
+  width: 435px;
+}
+.container.canvas .span8 {
+  width: 500px;
+}
+.container.canvas .span9 {
+  width: 565px;
+}
+.container.canvas .span10 {
+  width: 630px;
+}
+.container.canvas .span11 {
+  width: 695px;
+}
+.container.canvas .span12 {
+  width: 760px;
+}
+.container.canvas .span13 {
+  width: 825px;
+}
+.container.canvas .span14 {
+  width: 890px;
+}
+.container.canvas .span15 {
+  width: 955px;
+}
+.container.canvas .span16 {
+  width: 1020px;
+}
+.container.canvas .span17 {
+  width: 1085px;
+}
+.container.canvas .span18 {
+  width: 1150px;
+}
+.container.canvas .span19 {
+  width: 1215px;
+}
+.container.canvas .span20 {
+  width: 1280px;
+}
+.container.canvas .span21 {
+  width: 1345px;
+}
+.container.canvas .span22 {
+  width: 1410px;
+}
+.container.canvas .span23 {
+  width: 1475px;
+}
+.container.canvas .span24 {
+  width: 1540px;
+}
+.container.canvas .row > .offset1 {
+  margin-left: 85px;
+}
+.container.canvas .row > .offset2 {
+  margin-left: 150px;
+}
+.container.canvas .row > .offset3 {
+  margin-left: 215px;
+}
+.container.canvas .row > .offset4 {
+  margin-left: 280px;
+}
+.container.canvas .row > .offset5 {
+  margin-left: 345px;
+}
+.container.canvas .row > .offset6 {
+  margin-left: 410px;
+}
+.container.canvas .row > .offset7 {
+  margin-left: 475px;
+}
+.container.canvas .row > .offset8 {
+  margin-left: 540px;
+}
+.container.canvas .row > .offset9 {
+  margin-left: 605px;
+}
+.container.canvas .row > .offset10 {
+  margin-left: 670px;
+}
+.container.canvas .row > .offset11 {
+  margin-left: 735px;
+}
+.container.canvas .row > .offset12 {
+  margin-left: 800px;
+}
+.container.canvas .span-one-third {
+  width: 240px;
+}
+.container.canvas .span-two-thirds {
+  width: 500px;
+}
+.container.canvas .row > .offset-one-third {
+  margin-left: 260px;
+}
+.container.canvas .row > .offset-two-thirds {
+  margin-left: 540px;
+}
+.container.canvas input.span1, .container.canvas textarea.span1 {
+  display: inline-block;
+  float: none;
+  width: 35px;
+  margin-left: 0;
+}
+.container.canvas input.span2, .container.canvas textarea.span2 {
+  display: inline-block;
+  float: none;
+  width: 100px;
+  margin-left: 0;
+}
+.container.canvas input.span3, .container.canvas textarea.span3 {
+  display: inline-block;
+  float: none;
+  width: 165px;
+  margin-left: 0;
+}
+.container.canvas input.span4, .container.canvas textarea.span4 {
+  display: inline-block;
+  float: none;
+  width: 230px;
+  margin-left: 0;
+}
+.container.canvas input.span5, .container.canvas textarea.span5 {
+  display: inline-block;
+  float: none;
+  width: 295px;
+  margin-left: 0;
+}
+.container.canvas input.span6, .container.canvas textarea.span6 {
+  display: inline-block;
+  float: none;
+  width: 360px;
+  margin-left: 0;
+}
+.container.canvas input.span7, .container.canvas textarea.span7 {
+  display: inline-block;
+  float: none;
+  width: 425px;
+  margin-left: 0;
+}
+.container.canvas input.span8, .container.canvas textarea.span8 {
+  display: inline-block;
+  float: none;
+  width: 490px;
+  margin-left: 0;
+}
+.container.canvas input.span9, .container.canvas textarea.span9 {
+  display: inline-block;
+  float: none;
+  width: 555px;
+  margin-left: 0;
+}
+.container.canvas input.span10, .container.canvas textarea.span10 {
+  display: inline-block;
+  float: none;
+  width: 620px;
+  margin-left: 0;
+}
+.container.canvas input.span11, .container.canvas textarea.span11 {
+  display: inline-block;
+  float: none;
+  width: 685px;
+  margin-left: 0;
+}
+.container.canvas input.span12, .container.canvas textarea.span12 {
+  display: inline-block;
+  float: none;
+  width: 750px;
+  margin-left: 0;
+}
+.container.canvas input.span13, .container.canvas textarea.span13 {
+  display: inline-block;
+  float: none;
+  width: 815px;
+  margin-left: 0;
+}
+.container.canvas input.span14, .container.canvas textarea.span14 {
+  display: inline-block;
+  float: none;
+  width: 880px;
+  margin-left: 0;
+}
+.container.canvas input.span15, .container.canvas textarea.span15 {
+  display: inline-block;
+  float: none;
+  width: 945px;
+  margin-left: 0;
+}
+.container.canvas input.span16, .container.canvas textarea.span16 {
+  display: inline-block;
+  float: none;
+  width: 1010px;
+  margin-left: 0;
+}
+.container.canvas table .span1 {
+  width: 25px;
+}
+.container.canvas table .span2 {
+  width: 75px;
+}
+.container.canvas table .span3 {
+  width: 125px;
+}
+.container.canvas table .span4 {
+  width: 175px;
+}
+.container.canvas table .span5 {
+  width: 225px;
+}
+.container.canvas table .span6 {
+  width: 275px;
+}
+.container.canvas table .span7 {
+  width: 325px;
+}
+.container.canvas table .span8 {
+  width: 375px;
+}
+.container.canvas table .span9 {
+  width: 425px;
+}
+.container.canvas table .span10 {
+  width: 475px;
+}
+.container.canvas table .span11 {
+  width: 525px;
+}
+.container.canvas table .span12 {
+  width: 575px;
+}
+.container.canvas table .span13 {
+  width: 625px;
+}
+.container.canvas table .span14 {
+  width: 675px;
+}
+.container.canvas table .span15 {
+  width: 725px;
+}
+.container.canvas table .span16 {
+  width: 775px;
+}
+
+/* shop cart */
+.shop_cart{
+    position: absolute;
+    top:0px;
+    right: 20px;
+    width: 50px;
+    height:50px;
+    border-radius: 0px 0px 0px 10px;
+    background: #f05a28;
+}
+
+
+
+
+/* CUSTOM BUTTON */
+
+.btn-custom {
+  color: #ffffff;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+  background-color: #ff7752;
+  *background-color: #f05a28;
+  background-image: -moz-linear-gradient(top, #ff7752, #f05a28);
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ff7752), to(#f05a28));
+  background-image: -webkit-linear-gradient(top, #ff7752, #f05a28);
+  background-image: -o-linear-gradient(top, #ff7752, #f05a28);
+  background-image: linear-gradient(to bottom, #ff7752, #f05a28);
+  background-repeat: repeat-x;
+  border-color: #e86c4b #ea5228 #e5390c;
+  border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffff7752 ', endColorstr='#fff05a28', GradientType=0);
+  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+}
+
+.btn-custom:hover {
+  color: #ffffff;
+  background-color: #f05a28;
+  *background-color: #ee4811;
+}
+
+/* cart */
+
+.cart_nav{
+    
+    padding: 0px 2px;
+}
+
+.cart {
+    width:80px;
+    height:40px;
+    background: #f05a28;
+    border: 1px solid #e5e5e5;
+    border-bottom: none;
+    border-radius: 4px 4px 0px 0px;
+    box-shadow: 0px 0px 4px #ddd;
+}
+
+/* PRODUCT LIST PAGE */
+
+/* hero unit */
+
+
+
+.hero-unit {
+    background: #fff;
+}
+
+.hero_unit_custom {
+    padding: 0px;
+    background-position: 50% 50%;
+    background: #fff;
+}
+
+.bordered_right {
+    border-right:1px solid #e5e5e5;    
+}
+
+.no_cover_photo {
+    height:70px;
+    background: url("../img/store_cover_photo_lightest.png");
+    background-position: 50% 50%;
+    border:1px solid #e5e5e5;
+
+}
+
+.no_cover_photo > p {
+    color: #f05a28;
+    background: white;
+}
+
+h1.store_name {
+    font-size: 36px;
+    margin-top:5px;
+}
+
+    
+h1.store_name_with_cover_photo{
+    color: #fff;
+    text-shadow: 0px 0px 4px #000;
+}
+
+.bottom_margin {
+    border-bottom: 1px solid #f05a28;
+}
+
+/* thumbnails */
+
+.product_list {
+    border-top: 1px solid #e5e5e5;
+    padding-top:30px;
+}
+
+.row-fluid .thumbnails{
+    text-align: center;
+    margin-left:3px;
+}
+
+.thumbnail_custom {
+
+padding: 0px;
+-webkit-border-radius: 0px 0px 5px 5px;
+-moz-border-radius: 0px 0px 5px 5px;
+border-radius: 0px 0px 5px 5px;
+-webkit-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+-moz-box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+box-shadow: 0 0px 0px rgba(0, 0, 0, 0.055);
+-webkit-transition: all 0.2s ease-in-out;
+-moz-transition: all 0.2s ease-in-out;
+-o-transition: all 0.2s ease-in-out;
+transition: all 0.2s ease-in-out;
+}
+
+.thumbnail_custom:hover {
+    border: 1px solid #bbb;
+}
+
+.thumbnail_info_wrapper {
+    padding:3px;
+}
+
+.location_distance {
+    margin:0px;
+}
+
+.sold_out {
+    position:relative;
+    overflow: hidden;
+}
+
+.sold_out_image {
+    position: absolute;
+    top:-1px;
+    left:-1px;
+}
+
+.sold_out_image_product_detail {
+    position: absolute;
+    top:-1px;
+    left:-1px;
+}
+
+.less_bottom_margin{
+    margin:3px 0px;
+}
+
+.ultra_small {
+    font-size: 75%;
+}
+
+.fb_like_thumbnail {
+    padding-top:5px;
+    border-radius: 0px 0px 4px 4px;
+    background: #f8f8f8;
+    border-top:1px solid #e5e5e5;
+}
+
+.exceed_stock , .item_added {
+    position: absolute;
+    top:50%;
+    left:50%;
+    background: red;
+    color:white;
+    width: 150px;
+    height:20px;
+    margin-left:-80px;
+    margin-top:-10px;
+    display: none;
+    padding:0px 3px;
+    color: #ffffff;
+    border:2px solid #fff;
+    border-radius: 15px;
+    background: #ff7752;
+    background: rgba(240,90,40,0.8);
+    box-shadow: 0px 0px 6px #666;
+    text-shadow: 1px 1px rgba(0,0,0,0.250);
+    z-index: 1500;
+    font-size:11px;
+}
+
+.item_added_link {
+    color:#fff;
+}
+
+.item_added_link:hover {
+    color:#fff;
+}
+
+.all_out {
+    font-weight:300;
+    margin-top:70px;
+}
+/* adding margin to each row of 3 thumbnails so rows have space between them */
+.margined {
+	margin-bottom: 30px;
+}
+
+.top_text {
+    color: #333;
+    font-weight: 500;
+}
+
+.top_text:hover {
+    color:#333;
+    text-decoration: underline;
+}
+
+
+.sub_text {
+    color: #999999;
+}
+    
+.sub_text:hover {
+    color: #f05a28;
+}
+
+/* FOOTER */
+
+.footer 
+{
+    position: relative;
+    margin-top: -80px; /* negative value of footer height */
+    height: 80px;
+    clear:both;
+    border-top: 1px solid #f05a28;
+} 
+
+a.give_us_a_tip{
+	background: #FF7752;
+	border: 1px solid #F05A28;
+	border-radius: 5px;
+	color:white;
+	padding: 5px 8px;
+}
+
+a.give_us_a_tip:hover {
+	background: white;
+	border: 1px solid #F05A28;
+	border-radius: 5px;
+	color:#F05A28;
+	text-decoration: none;
+}
+
+a.give_us_a_tip2 {
+	background: #f05a28;
+}
+
+a.give_us_a_tip2:hover {
+    background: #ff7752;
+    color: #fff;
+}
+
+.margin_for_footer_button {
+    margin-top: 14px;
+}
+
+/* Special event section */
+.orange {
+    color: #f05a28;
+}
+
+legend {
+    border-bottom: 1px solid #e5e5e5;
+    border-top: 1px solid #e5e5e5;
+    line-height:20px;
+    font-size: 16px;
+    text-align: center;
+}
+
+.legend_lower {
+    color:#301208;
+}
+    
+.legend_upper {
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.special_event {
+}
+
+/* facebook like button */
+
+.fb_like_thumbnail {
+
+}
