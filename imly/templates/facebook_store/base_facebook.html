@@ -39,13 +39,12 @@
     <body>
 	<div id="wrap">
         <div id="main" class="container canvas">
-	    <div class="shop_cart text-center"><span class="icon-shopping-cart icon-white"></span></div>
-    
+	    
     <div class="hero-unit hero_unit_custom">
 	{% if store.logo %}
 	<ul class="unstyled text-center">
 	    <li>
-	        <img class="img-polaroid" src="{{ store.logo_thumbnail.url }}" width="150">
+	        <a href="{% url "facestore_landing_page" %}"><img class="img-polaroid" src="{{ store.logo_thumbnail.url }}" width="150"></a>
 	    </li>
 	    <li>
 		<h3 class="text-center">{{ store.name|lower|title }}</h3>
@@ -57,136 +56,37 @@
     
     </div>
     
-	{% if special_event and special_products %}
-	<div class="row-fluid special_event">
-	    <legend class="orange"><span class="legend_upper">{{ special_event.title }}</span> <span class="legend_lower">Special</span></legend>
-	    <ul class="thumbnails">
-		{% for object in special_products %}
-		    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-		    <li class="span4">
-			<div class="thumbnail thumbnail_custom">
-			    
-			    <a href="{% url "fb_product_detail" object.store.slug object.slug %}">
-				<div class="sold_out">
-				    <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
-				    {% if not object.items_in_stock %}
-					<img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
-				    {% endif %}
-				    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
-				    <div class="hidden-desktop">
-					<div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
-				    </div>
-	    
-				</div>
-	    
-			    </a>
-	    
-			    <h5 class="less_bottom_margin"><a class="top_text" href="{% url "fb_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
-			    <div class="thumbnail_info_wrapper">
-				<span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
-				    {% if object.quantity_per_item == 1 %}
-					/{{ object.get_quantity_by_price_display }}
-				    {% else %}
-					for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
-				    {% endif %} 
-				</small></span>
-				
-			    {% if object.store.is_open %}
-				{% if object.items_in_stock %}
-				<form method="post" action="{% url "fb_add_order" object.store.slug object.slug %}">
-				    {% csrf_token %}
-				    <input type="hidden" name="image_url" value="{{object.image_thumbnail_mini.url}}">
-				    <input type="hidden" name="product_name" value="{{object.name|title}}">
-				    <input type="hidden" name="store_name" value="{{object.store.name|title}}">
-				    <input type="hidden" name="product_slug" value="{{ object.slug }}">
-				    <input type="hidden" name="quantity" value="1">
-				    <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
-				</form>
-				{% else %}
-				    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
-				{% endif %}
-			    {% else %}
-				<small class="ultra_small muted pull-right">Chef on vacation</small>
-			    {% endif %}
-			    
-				<div class="clearfix"></div>
-			    </div>
-			    <div class="fb_like_thumbnail">
-				<div class="fb-like" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-send="false" data-layout="button_count" data-width="225" data-show-faces="false" data-font="arial"></div>
-			    </div>
-			</div>
-			
-		    </li>
-		    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-		    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
-		{% endfor %}
-	    </ul>
-	</div>
-	{% endif %}
-	    <div class="row-fluid product_list">
-		<ul class="thumbnails">
-		    {% for object in products %}
-		    {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-		    <li class="span4">
-			<div class="thumbnail thumbnail_custom">
-			    
-			    <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
-				<div class="sold_out">
-				    <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
-				    {% if not object.items_in_stock %}
-					<img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
-				    {% endif %}
-				    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
-				    <div class="hidden-desktop">
-					<div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
-				    </div>
-	    
-				</div>
-	    
-			    </a>
-	    
-			    <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
-			    <div class="thumbnail_info_wrapper">
-				<span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
-				    {% if object.quantity_per_item == 1 %}
-					/{{ object.get_quantity_by_price_display }}
-				    {% else %}
-					for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
-				    {% endif %} 
-				</small></span>
-				
-			    {% if object.store.is_open %}
-				{% if object.items_in_stock %}
-				<form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
-				    {% csrf_token %}
-				    <input type="hidden" name="image_url" value="{{object.image_thumbnail_mini.url}}">
-				    <input type="hidden" name="product_name" value="{{object.name|title}}">
-				    <input type="hidden" name="store_name" value="{{object.store.name|title}}">
-				    <input type="hidden" name="product_slug" value="{{ object.slug }}">
-				    <input type="hidden" name="quantity" value="1">
-				    <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
-				</form>
-				{% else %}
-				    <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
-				{% endif %}
-			    {% else %}
-				<small class="ultra_small muted pull-right">Chef on vacation</small>
-			    {% endif %}
-			    
-				<div class="clearfix"></div>
-			    </div>
-			    <div class="fb_like_thumbnail">
-				<div class="fb-like" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-send="false" data-layout="button_count" data-width="225" data-show-faces="false" data-font="arial"></div>
-			    </div>
-			</div>
-			
-		    </li>
-		    {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-		    {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
-		    {% endfor %}
-		</ul>
-		
-	    </div>
+    {% block top_nav %}
+    <div class="row-fluid">
+		<nav class="navbar custom_navbar">
+                    <div class="container canvas">
+                    <div class="navbar-inner">
+                            <a href="{% url "facestore_landing_page" %}" class="brand">&laquo; All Dishes</a>
+                            
+                                {% load url from future %}
+                                {% load imly_tags %}
+                                <ul class="nav pull-right">
+
+                                    <li><a class="items_in_cart" href="#"><span class="icon-shopping-cart"></span> Cart &raquo;</a>
+                                    </li>  
+                                </ul>
+                             <!-- end of nav-collapse div -->
+
+                    </div> <!-- end of navbar-inner --> 
+                    </div>
+                    <!--<div class="visible-phone">
+                    <div class="dropdown_div">
+                                        <p class="text-center">Item added to cart</p>
+                    </div>
+                    </div>-->
+                </nav> <!-- end of navbar -->
+
+    </div>
+    {% endblock top_nav %}
+
+    {% block main_content %}
+
+    {% endblock main_content %}
 	
         </div> <!-- end of div container canvas-->
 	</div> <!-- end of div wrap -->
@@ -209,7 +109,22 @@
   js = d.createElement(s); js.id = id;
   js.src = "//connect.facebook.net/en_US/all.js#xfbml=1&appId=486399054777135";
   fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
+}(document, 'script', 'facebook-jssdk'));
+</script>
+		
+<!--<script src="https://connect.facebook.net/en_US/all.js"></script>-->
+<script>
+	    /*window.fbAsyncInit = function() {
+		FB.init({
+		  appId : '486399054777135', //Your facebook APP here
+		  cookie : true // enable cookies to allow the server to access the session
+		});
+	    }*/
+
+	    window.onload = function() {
+	      FB.Canvas.setAutoGrow(100);
+	    }
+</script>
 
 <script type="text/javascript">
     $(document).ready(function(){
@@ -271,20 +186,9 @@
     });
     });
 </script>
-		
-	<script src="https://connect.facebook.net/en_US/all.js"></script>
-	<script>
-	     window.fbAsyncInit = function() {
-		FB.init({
-		  appId : '486399054777135', //Your facebook APP here
-		  cookie : true // enable cookies to allow the server to access the session
-		});
-	    }
-
-	    window.onload = function() {
-	      FB.Canvas.setAutoGrow(100);
-	    }
-    </script>
+{% block extra_javascript %}
+    
+{% endblock extra_javascript %}
 	
 	
        

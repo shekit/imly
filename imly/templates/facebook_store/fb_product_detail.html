@@ -1,1 +1,111 @@
-{{ object.name }} 123
+{% extends "facebook_store/base_facebook.html" %}
+
+{% block main_content %}
+
+<div class="row-fluid top_border">
+        <div class="span8">
+                <ul class="thumbnails">
+                    <li class="no_left_margin">
+                        <div class="thumbnail">
+                            <div class="sold_out">
+                                <img src="{{ object.image_thumbnail_large.url }}" class="product_image" alt="{{ object.name }}">
+                                {% if not object.items_in_stock %}
+                                    <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image_product_detail">
+                                {% endif %}
+                                    <ul class="inline tags_for_product text-center"  style="margin-top:4px;">
+                                    {% for tag in object.tags.all %}
+                                        <li>{{ tag }}</li>
+                                    {% endfor %}
+                                    </ul>
+                                    <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+                                    <div class="hidden-desktop">
+                                        <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+                                    </div>
+                            </div>
+
+                        </div>
+                    </li>
+                </ul>       
+        </div>
+        
+        <div class="span4 product_detail_mobile">
+            <h3><span class="product_name">{{ object.name|lower|title }}</span></h3>{% if special_event %}<small class="muted"></small>
+            <br><br>
+            {% if object.quantity_per_item == 1 %}
+                <h4 class="product_price">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> per {{ object.get_quantity_by_price_display }}</small></h4>
+            {% else %}
+                <h4 class="product_price">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> for {{object.quantity_per_item|floatformat:"0"}} {{ object.get_quantity_by_price_display }}s</small></h4>
+            {% endif %}
+            {% if object.store.is_open %}
+                {% if object.items_in_stock %}
+                    {% if messages %}
+                        <ul class="messages unstyled">
+                            {% for message in messages %}
+                                {% if "error" in message.tags %}
+                                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
+                    {% endif %}
+                <form id="order_form" method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
+                {% csrf_token %}
+                    {{ form }} <a class="quantity_plus" >+</a> <a class="quantity_minus">-</a>
+                    <br>
+                    <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
+                </form>
+                {% else %}
+                    <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
+                {% endif %}
+            {% else %}
+                <h4 class="muted all_out">Sorry, I am out on <span class="orange">vacation</span>.<br><br>I will be back soon.</span></h4>
+            {% endif %}
+	    <div class="fb-like" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-width="225" data-layout="button_count" data-show-faces="false" data-send="false"></div>
+        </div>
+    </div>
+
+    
+    <div class="row-fluid">
+        <div class="row-fluid">
+        
+        <div class="span6 bordered_left_right">
+            <ul class="unstyled text-center product_detail_prep">
+                <li><h4 class="product_detail_header">Preparation Time</h4></li>
+                <li>
+                    <b>
+                    {% if object.lead_time == 1 %}
+                        {{ object.lead_time }} {{ object.get_lead_time_unit_display }}
+                    {% else %}
+                        {{ object.lead_time }} {{ object.get_lead_time_unit_display }}s
+                    {% endif %}
+                    </b>
+                </li>
+            </ul>
+        </div>
+        
+        <div class="span6">
+            <ul class="unstyled text-center  product_detail_prep">
+                <li><h4 class="product_detail_header">Pre-Orders Left Today</h4></li>
+                <li>
+                    <b><span id="items_in_stock">{{ object.items_in_stock }}</span></b>
+                </li>
+            </ul>
+        </div>
+        </div>
+    </div>
+    <br><br>
+    {% if object.description %}
+        <div class="row-fluid">
+            <div class="span12 product_detail_description">
+                <span class="product_detail_description_header">Description</span>{{ object.description_html|safe }}
+            </div>
+        </div>
+    {% endif %}
+    
+    <div class="row-fluid">
+	<div class="fb-comments" data-href="http://imly.in/{{ object.store.slug }}/{{ object.slug }}" data-width="760"></div>
+    </div>
+{% endblock main_content %}
+
+{% block extra_javascript %}
+    
+{% endblock extra_javascript %}
