@@ -47,11 +47,11 @@
 	        <a href="{% url "facestore_landing_page" %}"><img class="img-polaroid" src="{{ store.logo_thumbnail.url }}" width="150"></a>
 	    </li>
 	    <li>
-		<h3 class="text-center">{{ store.name|lower|title }}</h3>
+		<h3 class="text-center store_name">{{ store.name|lower|title }}</h3>
 	    </li>
 	</ul>
 	{% else %}
-	    <h3 class="text-center">{{ store.name|lower|title }}</h3>
+	    <h3 class="text-center store_name">{{ store.name|lower|title }}</h3>
 	{% endif %}
     
     </div>
@@ -114,15 +114,16 @@
 		
 <!--<script src="https://connect.facebook.net/en_US/all.js"></script>-->
 <script>
-	    /*window.fbAsyncInit = function() {
+	    window.fbAsyncInit = function() {
 		FB.init({
 		  appId : '486399054777135', //Your facebook APP here
 		  cookie : true // enable cookies to allow the server to access the session
 		});
-	    }*/
+	    }
 
 	    window.onload = function() {
-	      FB.Canvas.setAutoGrow(100);
+	        FB.Canvas.setAutoGrow(100);
+		FB.Canvas.scrollTo(0,0);
 	    }
 </script>
 

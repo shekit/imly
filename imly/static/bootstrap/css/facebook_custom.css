@@ -321,19 +321,6 @@ body {
   width: 775px;
 }
 
-/* shop cart */
-.shop_cart{
-    position: absolute;
-    top:0px;
-    right: 20px;
-    width: 50px;
-    height:50px;
-    border-radius: 0px 0px 0px 10px;
-    background: #f05a28;
-}
-
-
-
 
 /* CUSTOM BUTTON */
 
@@ -360,21 +347,8 @@ body {
   *background-color: #ee4811;
 }
 
-/* cart */
-
-.cart_nav{
-    
-    padding: 0px 2px;
-}
-
-.cart {
-    width:80px;
-    height:40px;
-    background: #f05a28;
-    border: 1px solid #e5e5e5;
-    border-bottom: none;
-    border-radius: 4px 4px 0px 0px;
-    box-shadow: 0px 0px 4px #ddd;
+.store_name {
+    font-weight: 200;
 }
 
 /* navbar styling */
@@ -702,6 +676,42 @@ li.no_left_margin {
 
 .product_price{
     font-weight: 300;    
+}
+
+.custom_label {
+    background: #f05a28;
+    font-weight: 500;
+    text-shadow: none;
+}
+
+.quantity_plus, .quantity_minus {
+    padding:0px 5px 2px 5px;
+    margin-top:-10px;
+    color: #f05a28;
+    font-size: 16px;
+    text-shadow: none;
+    border: 1px solid #e5e5e5;
+    line-height: 0px;
+    border-radius: 0px;
+    cursor: pointer;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: moz-none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.quantity_minus {
+    padding:0px 7px 2px 7px;
+    margin-left: 4px;
+}
+
+.quantity_plus:hover, .quantity_minus:hover {
+    text-decoration: none;
+    color: #ff7752;
+    background: #f5f5f5;
+    cursor: pointer;
 }
 
 .sold_out_image_product_detail {

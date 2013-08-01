@@ -43,6 +43,13 @@ class FBProductDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(FBProductDetail,self).get_context_data(**kwargs)
+        try:
+            special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
+            if special_event:
+                context["special_event"] = special_event
+                context["special_product"] = self.get_object().special_set.filter(slug=special_event.slug)
+        except IndexError:
+            pass
         context["store"] = self.get_object().store
         return context
         

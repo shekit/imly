@@ -6,7 +6,7 @@
         <div class="span8">
                 <ul class="thumbnails">
                     <li class="no_left_margin">
-                        <div class="thumbnail">
+                        <div class="thumbnail thumbnail_custom">
                             <div class="sold_out">
                                 <img src="{{ object.image_thumbnail_large.url }}" class="product_image" alt="{{ object.name }}">
                                 {% if not object.items_in_stock %}
@@ -29,7 +29,7 @@
         </div>
         
         <div class="span4 product_detail_mobile">
-            <h3><span class="product_name">{{ object.name|lower|title }}</span></h3>{% if special_event %}<small class="muted"></small>
+            <h3><span class="product_name">{{ object.name|lower|title }}</span></h3>{% if special_event and special_product %}<small class="label custom_label"><span class="icon-star icon-white"></span> {{ special_event.title }} Special</small>{% endif %}
             <br><br>
             {% if object.quantity_per_item == 1 %}
                 <h4 class="product_price">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small> per {{ object.get_quantity_by_price_display }}</small></h4>
