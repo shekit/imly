@@ -135,9 +135,6 @@ class StoreAmendGeo(template.Node):
             user_point = Point(*session['bingeo'])
             store.distance = store.pick_up_location and Store.objects.filter(pk=store.pk).distance(user_point)[0].distance.km or None            
             pilot_city = City.objects.get(slug="fbn-pilot")
-            if user_point.within(pilot_city.enclosing_geometry) and store.pick_up_point.within(pilot_city.enclosing_geometry):
-                store.delivers = True
-                return ''
             try:
                 if store.delivery_locations.count():
                     distance = store.delivery_locations.distance(user_point).order_by('distance')[0].distance
