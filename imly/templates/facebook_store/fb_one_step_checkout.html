@@ -8,7 +8,7 @@
 
 {% block main_content %}
 
-{% if order.orderitems.count == 0 %}
+{% if order.items.count == 0 %}
     <div class="row-fluid">
         <div class="span12 text-center">
             <h4 class="muted">You have no items in your cart :(</h4>
@@ -78,7 +78,7 @@
     </div> <!-- end of span7 -->
     
     <div class="span7">
-    {% include "facebook_store/_fb_order_overview.html" %}            
+    {% include "facebook_store/_fb_cart.html" %}            
     <p class="text-center muted">Pay in Cash</p>
     <div class="row-fluid">
             
@@ -357,7 +357,7 @@
             }
             else
             {
-                window.location.href=('/shop/cart/');
+                window.location.href=('/facestore/facebook/checkout/');
             }
             
             

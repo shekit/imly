@@ -46,6 +46,7 @@ class FBProductDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(FBProductDetail,self).get_context_data(**kwargs)
+        context["form"] = OrderItemForm()
         try:
             special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
             if special_event:
@@ -108,14 +109,14 @@ def fb_one_step_checkout(request):
     store = Store.objects.get(page=page)
     OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
     orderitemformset=OrderItemFormset(instance=order)
-    if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
-        return redirect(reverse('plata_shop_cart'))
+    #if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
+     #   return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
         for message in e.messages:
             messages.error(request, message)
-        return HttpResponseRedirect(reverse('plata_shop_cart'))
+        return HttpResponseRedirect(reverse('fb_checkout'))
     if '_checkout' in request.POST:
         orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
