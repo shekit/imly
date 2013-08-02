@@ -2,91 +2,106 @@
 
 {% load i18n plata_tags %}
 
+{% block all_dishes %}
+    &laquo; Keep Shopping
+{% endblock all_dishes %}
 
 {% block main_content %}
-<div class="span5 no_margin_left">
-<h4>{% trans "Checkout" %}</h4>
-
-<form method="post" action=".">
-{% csrf_token %}
-<input type="hidden" name="_checkout" value="1" />
-
-{% form_errors orderform %}
-
-
-<legend class="orange text-left">{% trans "Billing address" %}</legend>
-
-<div style="display: none;">
-{% if orderform.create_account %}
-    {% form_item orderform.create_account %}
-{% endif %}
-</div>
-
-{# {% form_item orderform.billing_company %} #}
-{% form_item orderform.billing_first_name %}
-{% form_item orderform.billing_last_name %}
-{% form_item orderform.email %}
-{# {% form_item orderform.billing_phone_number %} #}
-{% form_item orderform.billing_address %}
-{% form_item orderform.billing_phone_number %}
-{% form_item orderform.billing_zip_code %}
-{% form_item orderform.billing_city %}
-{% form_item orderform.billing_country %}
-
-
-<p><span class="shipping_same_as_billing"><span class="orange">{% trans "Shipping address" %}</span> same as billing address?{% form_item_plain orderform.shipping_same_as_billing %}</span></p>
-
-<div class="shipping_address">
-<table class="table table-order">
-<tr><td colspan="2">
-<legend class="orange text-left">{% trans "Shipping address" %}</legend>
-</td></tr>
-{# {% form_item orderform.shipping_company %} #}
-{% form_item orderform.shipping_first_name %}
-{% form_item orderform.shipping_last_name %}
-{# {% form_item orderform.shipping_phone_number %} #}
-{% form_item orderform.shipping_address %}
-{% form_item orderform.shipping_phone_number %}
-{% form_item orderform.shipping_zip_code %}
-{% form_item orderform.shipping_city %}
-{% form_item orderform.shipping_country %}
-
-<!-- <tr><td colspan="2">
-<h2>{% trans "Notes" %}</h2>
-</td></tr> -->
-{# {% form_item orderform.notes %} #}
-{% form_errors form %}
-
-</table>
-</div>
-</div> <!-- end of span7 -->
-
-<div class="span7">
-{% include "facebook_store/_fb_order_overview.html" %}            
-<p class="text-center muted">Pay in Cash</p>
-<div class="row-fluid">
+{% if order.orderitems.count == 0 %}
+    <div class="row-fluid">
+        <div class="span12 text-center">
+            <h4 class="muted">You have no items in your cart :(</h4>
+            <a href="{% url "facestore_landing_page" %}" class="btn btn-custom">Start Shopping</a>
+        </div>
         
-        <button type="submit" class="btn btn-success btn-large btn-block btn-custom">{% trans "Confirm Order" %}</button>
+    <br><br><br><br><br><br><br><br><br><br><br><br>
+    </div>
     
-</div>
-
-<div class="row-fluid">
-    <br>
-    <p class="text-right"><small class="muted">*Exact pick-up addresses will be shared after purchase</small></p>
-    <br><br>
-</div>
-
-
-    <div class="checkout_terms_payment">
+{% else %}
+    <div class="span5 no_margin_left">
+    <h4>{% trans "Checkout" %}</h4>
+    
+    <form method="post" action=".">
+    {% csrf_token %}
+    <input type="hidden" name="_checkout" value="1" />
+    
+    {% form_errors orderform %}
+    
+    
+    <legend class="orange text-left">{% trans "Billing address" %}</legend>
+    
+    <div style="display: none;">
+    {% if orderform.create_account %}
+        {% form_item orderform.create_account %}
+    {% endif %}
+    </div>
+    
+    {# {% form_item orderform.billing_company %} #}
+    {% form_item orderform.billing_first_name %}
+    {% form_item orderform.billing_last_name %}
+    {% form_item orderform.email %}
+    {# {% form_item orderform.billing_phone_number %} #}
+    {% form_item orderform.billing_address %}
+    {% form_item orderform.billing_phone_number %}
+    {% form_item orderform.billing_zip_code %}
+    {% form_item orderform.billing_city %}
+    {% form_item orderform.billing_country %}
+    
+    
+    <p><span class="shipping_same_as_billing"><span class="orange">{% trans "Shipping address" %}</span> same as billing address?{% form_item_plain orderform.shipping_same_as_billing %}</span></p>
+    
+    <div class="shipping_address">
     <table class="table table-order">
-    {% form_item form.terms_and_conditions %}
-    {% form_item form.payment_method %}
+    <tr><td colspan="2">
+    <legend class="orange text-left">{% trans "Shipping address" %}</legend>
+    </td></tr>
+    {# {% form_item orderform.shipping_company %} #}
+    {% form_item orderform.shipping_first_name %}
+    {% form_item orderform.shipping_last_name %}
+    {# {% form_item orderform.shipping_phone_number %} #}
+    {% form_item orderform.shipping_address %}
+    {% form_item orderform.shipping_phone_number %}
+    {% form_item orderform.shipping_zip_code %}
+    {% form_item orderform.shipping_city %}
+    {% form_item orderform.shipping_country %}
+    
+    <!-- <tr><td colspan="2">
+    <h2>{% trans "Notes" %}</h2>
+    </td></tr> -->
+    {# {% form_item orderform.notes %} #}
+    {% form_errors form %}
+    
     </table>
     </div>
-
-
-</form>
-</div>
+    </div> <!-- end of span7 -->
+    
+    <div class="span7">
+    {% include "facebook_store/_fb_order_overview.html" %}            
+    <p class="text-center muted">Pay in Cash</p>
+    <div class="row-fluid">
+            
+            <button type="submit" class="btn btn-success btn-large btn-block btn-custom">{% trans "Confirm Order" %}</button>
+        
+    </div>
+    
+    <div class="row-fluid">
+        <br>
+        <p class="text-right"><small class="muted">*Exact pick-up addresses will be shared after purchase</small></p>
+        <br><br>
+    </div>
+    
+    
+        <div class="checkout_terms_payment">
+        <table class="table table-order">
+        {% form_item form.terms_and_conditions %}
+        {% form_item form.payment_method %}
+        </table>
+        </div>
+    
+    
+    </form>
+    </div>
+{% endif %}
 {% endblock main_content %}
 
 
