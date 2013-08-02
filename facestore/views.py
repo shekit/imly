@@ -33,7 +33,7 @@ def home(request):
                 products = products.exclude(special=special_event)
             except IndexError:
                 pass
-            return render(request, "facebook_store/base_facebook.html", locals())
+            return render(request, "facebook_store/fb_product_list.html", locals())
     else:
         return HttpResponse('oye, some wanderer on net, get lost you troll')
 
@@ -41,6 +41,18 @@ class FBProductDetail(DetailView):
     model = Product
     template_name = "facebook_store/fb_product_detail.html"
     
+    def get_context_data(self, **kwargs):
+        context = super(FBProductDetail,self).get_context_data(**kwargs)
+        try:
+            special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
+            if special_event:
+                context["special_event"] = special_event
+                context["special_product"] = self.get_object().special_set.filter(slug=special_event.slug)
+        except IndexError:
+            pass
+        context["store"] = self.get_object().store
+        return context
+        
     def get_queryset(self):
         store = get_object_or_404(Store,slug=self.kwargs["store_slug"])
         return store.product_set.all()
