@@ -750,3 +750,75 @@ ul.tags_for_product li {
 	padding-bottom: 5px;
     }
 
+/* CHECKOUT PAGE */
+
+
+#id_order-billing_address, #id_order-shipping_address {
+    height: 60px;
+    width:206px;
+}
+
+.no_margin_left {
+    margin-left: 0px;
+}
+
+.checkout_summary {
+    margin-top: 39px;
+}
+
+.table th.checkout_th {
+    padding:2px 5px;    
+}
+
+.pick_delivery_details{
+    font-weight: normal;
+}
+
+.shipping_address {
+    display: none;
+}
+
+/* getting rid of borders in the shipping/billing information form */
+.table-order th,
+.table-order td {
+	border-top: none;
+	padding: 3px;
+}
+
+.checkout_terms_payment {
+    display: none;
+}
+
+.shipping_same_as_billing {
+    background: #e5e5e5;
+    border:1px solid #ccc;
+    padding:5px 7px;
+}
+
+/* removing rounded corners of form elements */
+select,
+textarea,
+input[type="text"],
+input[type="password"],
+input[type="datetime"],
+input[type="datetime-local"],
+input[type="date"],
+input[type="month"],
+input[type="time"],
+input[type="week"],
+input[type="number"],
+input[type="email"],
+input[type="url"],
+input[type="search"],
+input[type="tel"],
+input[type="color"],
+.uneditable-input {
+  -webkit-border-radius: 0px;
+     -moz-border-radius: 0px;
+          border-radius: 0px;
+}
+
+label {
+    font-size: 13px;
+    margin-bottom: 0px;
+}
