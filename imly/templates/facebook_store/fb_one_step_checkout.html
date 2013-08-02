@@ -7,12 +7,14 @@
 {% endblock all_dishes %}
 
 {% block main_content %}
-{% if order.orderitems.count == 0 %}
+
+{% if order.items.count == 0 %}
     <div class="row-fluid">
         <div class="span12 text-center">
             <h4 class="muted">You have no items in your cart :(</h4>
             <a href="{% url "facestore_landing_page" %}" class="btn btn-custom">Start Shopping</a>
         </div>
+
         
     <br><br><br><br><br><br><br><br><br><br><br><br>
     </div>
@@ -76,7 +78,7 @@
     </div> <!-- end of span7 -->
     
     <div class="span7">
-    {% include "facebook_store/_fb_order_overview.html" %}            
+    {% include "facebook_store/_fb_cart.html" %}            
     <p class="text-center muted">Pay in Cash</p>
     <div class="row-fluid">
             
@@ -147,7 +149,227 @@
                 $("#id_order-billing_country").val("India");
                 //$('#id_payment_method')[0].selectedIndex=1;
                 //$("#id_terms_and_conditions").attr("checked",true);
+
+        if(document.getElementById('cart-update-modal')){
+		$('#cart-update-modal').modal({
+		keyboard: false,
+		show: true,
+		});
+
+                }
+            
+            $(".cart_delivery_section").each(function(){
+                if($(this).find(".delivery_radio_button").is(":checked")){
+                    $(this).find(".delivery_hide_show").css({"display": "block"})
+                }
+            });
+            
+            //if($(".cart_delivery_section").find(".delivery_radio_button").is(":checked")){
+              //  $(".delivery_hide_show").css({"display":"block"})
+            //}
+            
+            // NOT WORKING
+            //$(".delivery_radio_button").each(function(){
+              //  if($(this).is(":checked")){
+                //$(".delivery_radio_button").parents("td").find(".delivery_hide_show").css({"display":"block"})
+            //}
+
+            //});
+                $(".delivery_location_not_set").on("click",function(){
+                    $("#delivery_modal").modal();
+                });
+                
+                $("#delivery_modal").on("hidden", function(){
+                    $(".large_location_search").focus(); 
+                });
+
+        
+            $(".delivery_radio_button").click(function(){
+                if($(this).is(":checked")){
+                    $(this).parents("td").find(".delivery_hide_show").fadeIn(200);
+                    return;
+                }
+                
+                $(this).parents("td").find(".delivery_hide_show").fadeOut(200);
+                
+            });
+            
+            $(".pick_up_radio_button").click(function(){
+                if($(this).is(":checked")){
+                    $(this).parents("td").find(".delivery_hide_show").fadeOut(200);
+                    return;
+                }
+                
+                $(this).parents("td").find(".delivery_hide_show").fadeIn(200);
+                
+            });
+        
+        
+    $('.required input').keypress(function(evt){
+        var charCode = (evt.which)?evt.which:evt.keyCode;
+        if (charCode>31 && (charCode<48||charCode>57))
+        {
+            return false;
+        }
+    });
+    $('.required input').change(function(){
+        var id=parseInt($(this).parents('span.order_quantity').attr('id').split("-")[1]);
+        var quantity = parseInt($(this).val());
+        var items_in_stock = parseInt($('#orderitem_items_in_stock-'+id).text());
+        var store_table = $(this).parents('table.store_table').attr('id');
+        if (quantity <= 0){
+            $(this).val(1);
+            data = {id:id,quantity:1};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
+            });
+        }else if(quantity > items_in_stock){
+            $(this).val(items_in_stock);
+            data = {id:id,quantity:items_in_stock};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
+            });
+        }else{
+            data = {id:id,quantity:quantity};
+            $.post('{% url "change_quantity_text" %}',data,function(data){
+
+            }).done(function(data){
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            if (data['order_item_quantity']>1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }else{
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
+
+            });
+        }
+    });
+    $('a.quantity_plus').click(function(){
+        var id = $(this).attr('id');
+        var items_in_stock = parseInt($('#orderitem_items_in_stock-'+id).text());
+        var input_id = $(this).prev().find('input[type=text]').attr("id");
+        var quantity = parseInt($("#"+input_id).val());
+        var store_table = $(this).parents('table.store_table').attr('id');
+        var data = {order_item:$(this).attr("id")};
+        if (quantity == items_in_stock){
+            return false
+        }else{
+        $.post('{% url "change_quantity" change='up' %}',data,function(data){
+            //quantity = quantity + 1;
+            //quantity = quantity.toString();
+            
+        }).done(function(data){
+            if (parseInt(data['order_item_quantity']) > 1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']+'s');
+            }
+            $('#'+input_id).val(data['quantity']);
+            $('#store_total-'+store_table).html(data['store_order_total']);
+            $('#order_total').html(data['order_total']);
+            $('#order_total_mobile').html(data['order_total']);
+            $('.orderitem_quantity_'+id).html(data['quantity']);
+            $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+            $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+
+        });
+    }
+    });
+    $('a.quantity_minus').click(function(){
+        var id = $(this).attr('id');
+        var input_id = $(this).prevAll().find('input[type=text]').attr("id");
+        var quantity = parseInt($("#"+input_id).val());
+        var store_table = $(this).parents('table.store_table').attr('id');
+        var data = {order_item:$(this).attr("id")};
+        quantity = quantity - 1;
+        if (quantity>=1){
+            $.post('{% url "change_quantity" change='down' %}',data,function(data){
+            
+            }).done(function(data){
+                if (parseInt(data['order_item_quantity']) == 1){
+                $('.quantity_by_price_'+id).html(data['quantity_by_price']);
+            }
+                $('#'+input_id).val(data['quantity']);
+                $('#store_total-'+store_table).html(data['store_order_total']);
+                $('#order_total').html(data['order_total']);
+                $('#order_total_mobile').html(data['order_total']);
+                $('.orderitem_quantity_'+id).html(data['quantity']);
+                $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
+                $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
+            });
+        }else return false;
+        
+    });
+    $('a.order-item').click(function(){
+        //var order-item-remove = $(this).attr('id');
+        var id = $(this).attr('id');
+        var order_item = parseInt(id.split("-")[1]);
+        var order_item_id = $(this).parents('tr.order-items').attr('id');
+        var store_table = $(this).parents('table.store_table').attr('id');
+        var data = {id:parseInt((order_item_id).split("-")[1])};
+        $.post('{% url "update_cart" %}',data,function(data){
+
+        }).done(function(data){
+            if (data['count'] != 0){
+                if (data['store_order_total']!=0){
+                    $('#items-count').text(data['count']);
+                    $('.items-count_cart').text(data['count']);
+                    $('#order_total').text(data['order_total']);
+                    $('#order_total_mobile').html(data['order_total']);
+                    $('#store_total-'+store_table).html(data['store_order_total']);
+                    $('#order_item-'+order_item).remove();
+                }
+                else
+                {
+                    $('#'+store_table).remove();
+                    $('#items-count').text(data['count']);
+                    $('.items-count_cart').text(data['count']);
+                    $('#order_total').text(data['order_total']);
+                }
+                    
+            }
+            else
+            {
+                window.location.href=('/facestore/facebook/checkout/');
+            }
+            
+            
+        });
+    });
 	});
+	function sync_notes(){
+        $('textarea').each(function(){ 
+            $(this).change()
+        });
+    }
+    setTimeout(sync_notes, 1000);
 </script>            
 {% endblock extra_javascript %}
 

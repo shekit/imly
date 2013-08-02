@@ -11,6 +11,7 @@ from imly.forms import OrderItemForm
 import plata
 from plata.shop.models import OrderItem, Order
 from plata.shop.forms import ConfirmationForm
+from django.forms.models import inlineformset_factory
 from plata.contact.forms import CheckoutForm
 import json as simplejson
 
@@ -46,6 +47,7 @@ class FBProductDetail(DetailView):
     
     def get_context_data(self, **kwargs):
         context = super(FBProductDetail,self).get_context_data(**kwargs)
+        context["form"] = OrderItemForm()
         try:
             special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
             if special_event:
@@ -102,15 +104,20 @@ def fb_add_order(request, store_slug, product_slug):
 def fb_one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    store = order.storeorder_set.get(order=order).store
-    if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
-        return redirect(reverse('plata_shop_cart'))
+    #store = order.storeorder_set.get(order=order).store
+    page_info=request.fb_session.signed_request['page']
+    page = Page.objects.get(pk=page_info['id'])
+    store = Store.objects.get(page=page)
+    OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
+    orderitemformset=OrderItemFormset(instance=order)
+    #if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
+     #   return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
         for message in e.messages:
             messages.error(request, message)
-        return HttpResponseRedirect(reverse('plata_shop_cart'))
+        return HttpResponseRedirect(reverse('fb_checkout'))
     if '_checkout' in request.POST:
         orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
@@ -121,4 +128,3 @@ def fb_one_step_checkout(request):
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "facebook_store/fb_one_step_checkout.html", locals())
-    

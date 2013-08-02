@@ -111,5 +111,98 @@
 {% endblock main_content %}
 
 {% block extra_javascript %}
+    <script type="text/javascript">
+$(document).ready(function()
+{
+    $('#id_quantity').keypress(function(evt)
+    {
+       var charCode =  (evt.which)?evt.which:evt.keyCode;
+       if (charCode>31 && (charCode <48 || charCode>57))
+       {
+            return false;
+       }
+    });
     
+    $('a.quantity_plus').click(function()
+    {
+        var quantity = parseInt($('#id_quantity').val());
+        var items_in_stock = parseInt($('#items_in_stock').text());
+        if (quantity >= items_in_stock)
+        {
+            return false;
+        }
+        else
+        {
+            quantity = quantity + 1;
+            $('#id_quantity').val(quantity);
+        }
+    });
+    $('a.quantity_minus').click(function()
+    {
+        var quantity = parseInt($('#id_quantity').val());
+        var items_in_stock = parseInt($('#items_in_stock').text());
+        if (quantity <= 1)
+        {
+            return false;
+        }
+        else
+        {
+            quantity = quantity - 1;
+            $('#id_quantity').val(quantity);
+        }
+    });
+    $('.submit-btn').click(function()
+    {
+        var form = $(this).parent();
+        var product_url = $('.product_image').attr('src');
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + product_url.replace('large','mini') + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + $('#id_quantity').val() + ' &times; ' + '<span class="dropDowncart_product_name">' + $('.product_name').text() + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
+        
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),            
+            success:function(response){
+                //alert(response['product'])
+            if(response['success']==true)
+            {
+                $('#items-count_cart').html(response['count']);
+                $('#items-count').html(response['count']);
+                
+                $('#item_added_'+response["product_slug"]).stop(true,true).fadeIn(200).delay(4000).hover(
+        function()
+        {
+            $(this).stop(true,false);
+            
+        },
+        function()
+        {
+            $(this).fadeOut(200);
+        }
+    ).fadeOut(200);
+                /*$('.dropDowncart').empty();
+                $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
+                $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+                $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
+                $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
+                $('.dropDowncart').append('</ul></li>');
+                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);*/
+            }
+            else
+            {
+                $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                    //alert("Quantity exceed.");
+            }
+        }
+    });
+        return false;
+});
+});
+</script>
 {% endblock extra_javascript %}
