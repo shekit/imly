@@ -61,7 +61,7 @@
 		<nav class="navbar custom_navbar">
                     <div class="container canvas">
                     <div class="navbar-inner">
-                            <a href="{% url "facestore_landing_page" %}" class="brand">&laquo; All Dishes</a>
+                            <a href="{% url "facestore_landing_page" %}" class="brand">{% block all_dishes %}All Dishes{% endblock all_dishes %}</a>
                             
                                 {% load url from future %}
                                 {% load imly_tags %}
