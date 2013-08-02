@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
@@ -24,7 +25,7 @@ def home(request):
             store = request.user.store
             store.page=page
             store.save()
-            return HttpResponse('imly store just added')
+            return redirect("http://facebook.com/pages/imly/"+page_info['id']+'?id='+page_info['id']+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
         else:
             page = Page.objects.get(pk=page_info['id'])
             store = Store.objects.get(page=page)

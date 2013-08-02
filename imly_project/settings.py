@@ -344,7 +344,7 @@ ENDLESS_PAGINATION_DEFAULT_CALLABLE_AROUNDS = 2
 TRACK_AJAX_REQUESTS = TRACK_PAGEVIEWS = True
 BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_APPS = {
-    'name' : {
+    'facestore' : {
             'ID': 486399054777135,
             'SECRET': '1309418ef8bc76d8518db195647c0bcd',
             'CANVAS-PAGE': 'https://apps.facebook.com/yourapp',
