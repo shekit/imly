@@ -10,6 +10,7 @@ from imly.forms import OrderItemForm
 import plata
 from plata.shop.models import OrderItem, Order
 from plata.shop.forms import ConfirmationForm
+from django.forms.models import inlineformset_factory
 from plata.contact.forms import CheckoutForm
 import json as simplejson
 
@@ -101,7 +102,12 @@ def fb_add_order(request, store_slug, product_slug):
 def fb_one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    store = order.storeorder_set.get(order=order).store
+    #store = order.storeorder_set.get(order=order).store
+    page_info=request.fb_session.signed_request['page']
+    page = Page.objects.get(pk=page_info['id'])
+    store = Store.objects.get(page=page)
+    OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
+    orderitemformset=OrderItemFormset(instance=order)
     if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
         return redirect(reverse('plata_shop_cart'))
     try:
@@ -120,4 +126,3 @@ def fb_one_step_checkout(request):
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "facebook_store/fb_one_step_checkout.html", locals())
-    

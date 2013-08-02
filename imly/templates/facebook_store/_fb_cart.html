@@ -1,0 +1,179 @@
+
+{% load i18n plata_tags %}
+{% load imly_tags %}
+
+     
+    <div class="row-fluid">
+        
+        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total_mobile">{{ order.total|floatformat:"2" }}</span></h3>
+        
+        <br>
+        
+        {{ orderitemformset.management_form }}
+                
+                {% if messages %}
+                    <ul class="messages unstyled">
+                        {% for message in messages %}
+                            {% if "error" in message.tags %}
+                                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                            {% endif %}
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+                
+        {% form_errors orderitemformset %}
+        
+        {% for store in order.storeorder_set.all %}
+        {% if store.store_items %}
+        <table class="table table-bordered store_table" id="{{store.store.slug}}">
+
+            <tr class="shop_cart_header">
+
+                <th colspan="2">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name|lower|title }}</a>
+					{% store_amend_geo store.store %}
+
+                        {% if request.session.place_slug %}
+                                {% if store.store.pick_up_location %}
+                                <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
+
+                                    {% if store.store.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ store.store.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                {% endif %}
+
+                                    &nbsp;|&nbsp;
+                                
+                            
+                                {% if store.store.delivers %}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if store.store.pick_up %}
+                                        Pick up required near: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}&nbsp;
+                                    {% else %}
+                                        No pick-up available. No delivery to your location.
+                                    {% endif %}
+
+                                {% endif %}
+                                </span>
+                        {% else %}
+                            {% if store.store.pick_up %}
+                                <span class="pull-right cart_mobile"><small>Pick-up near: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}</small></span>
+                            {% endif %}
+                        {% endif %}
+                </th>
+            </tr>
+            
+            <tr>
+            <td>
+                <table class="table table_top_border">
+                    {% for orderitemform in orderitemformset.forms %}
+                            {% ifequal orderitemform.instance.product.store.pk store.store.id %}
+                            <tr id="order_item-{{orderitemform.instance.id}}" class="order-items">
+                                <td class="less_padding">
+                                    <table class="table table_border_right">
+                                        <tr>
+                                            <td class="less_padding_inner_td">
+                                                <ul class="inline">
+                                                    <li class="pull-left"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></li>
+                                                    <li>
+                                                        <ul class="unstyled">
+                                                            <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
+                                                            
+                                                            <li><small>Quantity:</small> <small class="muted"><i>(<span id="orderitem_items_in_stock-{{orderitemform.instance.id}}">{{ orderitemform.instance.product.items_in_stock }}</span> left for today)</i></small><li>
+
+                                                            <li>{{ orderitemform.id }}<span id="order_quantity-{{orderitemform.instance.id}}" class="order_quantity">{% form_item_plain orderitemform.quantity %}</span><a class="quantity_plus" id="{{orderitemform.instance.id}}">+</a><a class="quantity_minus" id="{{orderitemform.instance.id}}">-</a></li>
+
+                                                            
+                                                        </ul>
+                                                    </li>
+                                                </ul>
+                                                <ul class="unstyled visible-phone cart_ul">
+                                                    <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span></b></li>
+                                                    <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
+                                                    </li>
+                                                    {% comment %}<li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>{% endcomment %}
+
+                                                    <li><small class="muted"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></small>
+
+                                                </ul>
+                                                
+                                            
+                                            </td>
+                                            <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
+
+                                            {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span><br><br>
+                                            {{ orderitemform.instance.product.quantity_per_item }}
+                                            {% ifequal orderitemform.instance.product.quantity_per_item 1 %}
+                                                {{ orderitemform.instance.product.quantity_unit }}
+                                            {% else %}
+                                                {{ orderitemform.instance.product.quantity_unit }}s
+                                            {% endifequal %}
+                                            <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
+                                            <td class="less_padding_inner_td hidden-phone" width="70">
+                                                {% comment %}<p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p>{% endcomment %}
+                                                <p class="text-center"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></p>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                            {% endifequal %}
+                        
+                    {% endfor %}
+                </table>
+            </td>
+            <td class="cart_delivery_section" >
+                
+                <ul class="unstyled text-center">
+
+                    <li class="muted"><small>I want my order on:</small></li>
+					{% store_order_options store request %}
+					
+
+                    <li><h3 class="muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
+                    <li class="delivery_hide_show">
+                    {% if request.session.place_slug %}
+                        <span class="orange">+ {% store_delivery_charges store.store %} Delivery</span>                      
+                    {% endif %}
+                    </li>
+                    <li><small class="muted">
+                    {% if not store.store.delivers %}
+                        {% if store.store.pick_up %}
+                            Exact address shared after purchase
+                        {% endif %}
+                    {% endif %}
+                    </small></li>
+                </ul>
+                
+            </td>
+            </tr>
+            
+        </table>
+
+        {% endif %}
+
+        {% endfor %}
+
+            <ul class="inline text-right checkout_mobile">
+				{% request_update_cart plata.order %}
+                <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
+                {#<li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>#}
+                <li><input type="submit" class="btn btn-custom" name="checkout" value="{% trans "Checkout" %}" /></li>
+            </ul>
+
+</div>
+<script>
+function update_store_order(field, store_order_id, parameter){
+	var update = {store_order_id: store_order_id};
+	if(parameter == 'delivery_lead'){
+		update[parameter] = field.options[field.selectedIndex].value;
+	}else{
+		update[parameter] = field.value;
+	}
+	$.post('{% url "update_store_order"%}', update, function(data){
+		return true;
+	});
+}
+</script>
