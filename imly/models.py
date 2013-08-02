@@ -27,7 +27,7 @@ from autoslug import AutoSlugField
 from django.template.loader import get_template
 from django.template import Context
 from django.core.mail import send_mail,EmailMessage,get_connection
-from facebook.models import Page
+from fb.modules.profile.page.models import Page
 
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
