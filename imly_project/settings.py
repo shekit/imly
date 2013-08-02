@@ -140,8 +140,8 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'imly.middleware.RefererMiddleware',
     'imly.middleware.SelectCityMiddleware',
-    'facebook.middleware.SignedRequestMiddleware',
-    'facebook.middleware.AppRequestMiddleware',
+    'fb.middleware.SignedRequestMiddleware',
+    'fb.middleware.AppRequestMiddleware',
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -203,6 +203,7 @@ INSTALLED_APPS = (
     'reviews',
     'imly',
     'plata',
+    'django_extensions',
     'fb',
     'fb.modules.profile.page',
     'plata.product.stock',
