@@ -61,13 +61,13 @@
 		<nav class="navbar custom_navbar">
                     <div class="container canvas">
                     <div class="navbar-inner">
-                            <a href="{% url "facestore_landing_page" %}" class="brand">&laquo; All Dishes</a>
+                            <a href="{% url "facestore_landing_page" %}" class="brand">{% block all_dishes %}All Dishes{% endblock all_dishes %}</a>
                             
                                 {% load url from future %}
                                 {% load imly_tags %}
                                 <ul class="nav pull-right">
 
-                                    <li><a class="items_in_cart" href="#"><span class="icon-shopping-cart"></span> Cart &raquo;</a>
+                                    <li><a class="items_in_cart" href="{% url "fb_checkout" %}"><span class="icon-shopping-cart"></span> Cart &raquo;</a>
                                     </li>  
                                 </ul>
                              <!-- end of nav-collapse div -->

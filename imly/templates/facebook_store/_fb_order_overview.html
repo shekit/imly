@@ -1,0 +1,114 @@
+{% load i18n %}
+{% load imly_tags %}
+
+
+<legend class="orange checkout_summary text-left">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} {{ order.total|floatformat:0 }}</span></legend>
+
+<div class="row-fluid">
+    
+            {% for store in order.storeorder_set.all %}
+        {% if store.store_items %}
+        <table class="table table-bordered store_table_checkout" id="{{store.store.slug}}">
+
+            <tr class="shop_cart_header">
+
+                <th colspan="3" class="checkout_th">Your order from: <a class="shop_cart_store" href="{% url "imly_store_detail" store.store.slug %}">{{ store.store.name|lower|title }}</a>
+				
+                                {% store_amend_geo store.store %}
+                        <br>
+                        {% if request.session.place_slug %}
+
+                                <span class="cart_mobile pick_delivery_details"><small>
+
+                                
+                            
+                                {% if not store.pick_up %}
+                                    Delivery Selected
+                                {% else %}
+                                    {% if store.pick_up %}
+                                        Pick-up Selected*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}
+                                    {% endif %}
+
+                                {% endif %}
+                                </small>
+                                </span>
+                        {% else %}
+                            {% if store.store.pick_up %}
+                                <span class="cart_mobile pick_delivery_details" ><small>Pick-up near*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}</small></span>
+                            {% endif %}
+                        {% endif %}
+                        <span class="cart_mobile pick_delivery_details"><small>|&nbsp;{{ store.delivered_on|date:"F j"}}&nbsp;|&nbsp;{{ store.display_order_time }}</small></span>
+                        
+                </th>
+            </tr>
+            {% for item in order.items.all %}
+                {% ifequal item.product.store.pk store.store.id %}
+                    <tr>
+                    <td>{{ item.product.name }}</td>
+                    <td width="85">{{ item.quantity }} &times; {{ item.currency }} {{ item.unit_price|floatformat:"0" }}</td>
+                    <td width="60">{{ item.currency }} {{ item.discounted_subtotal|floatformat:"0" }}</td>
+                    </tr>
+                {% endifequal %}
+            {% endfor %}
+            {% if not store.pick_up %}
+                            {% if request.session.place_slug %}
+                                <tr>
+                                    <th colspan="2"><span style="font-weight: normal;font-style: italic;color:#ff7752;">Delivery Charge</span></th>
+                                    <th colspan="1"><span style="font-weight: normal;">{% store_delivery_charges store.store %}</span></th>
+                                </tr>                      
+                            {% endif %}
+            {% endif %}
+                
+        </table>
+        {% endif %}
+        {% endfor %}
+        
+    
+</div>
+
+
+{% comment %}
+<h2>{% trans "Discounts" %}</h2>
+{% for discount in order.applied_discounts.all %}
+    {% if forloop.first %}
+    <table>
+    {% endif %}
+
+    <tr>
+        <td>{{ discount.name }}</td>
+        <td>{{ discount.code }}</td>
+    </tr>
+
+    {% if forloop.last %}
+    </table>
+    {% endif %}
+{% empty %}
+    {% trans "No discounts" %}
+{% endfor %}
+
+<legend class="legend">{% trans "Total" %}</legend>
+<div class="row-fluid">
+    <div class="span6">
+        <table class="table table-bordered">
+        <tr>
+            <th>{% trans "subtotal"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.subtotal|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "discount"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.discount|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "tax"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.tax|floatformat:2 }}</td>
+        </tr>
+        <tr>
+            <th>{% trans "total"|capfirst %}</th>
+            <td>{{ order.currency }} {{ order.total|floatformat:2 }}</td>
+        </tr>
+        </table>
+    </div>
+    
+    <div class="span6"></div>
+</div>
+{% endcomment %}

@@ -9,6 +9,8 @@ from imly.models import Store, Special, Product
 from imly.forms import OrderItemForm
 import plata
 from plata.shop.models import OrderItem, Order
+from plata.shop.forms import ConfirmationForm
+from plata.contact.forms import CheckoutForm
 import json as simplejson
 
 
@@ -95,4 +97,27 @@ def fb_add_order(request, store_slug, product_slug):
         form = OrderItemForm()
 
     return render(request, "fb_product_detail.html", {"object":product, "form":form})
+
+def fb_one_step_checkout(request):
+    shop = plata.shop_instance()
+    order = shop.order_from_request(request)
+    store = order.storeorder_set.get(order=order).store
+    if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
+        return redirect(reverse('plata_shop_cart'))
+    try:
+        order.validate(order.VALIDATE_CART)
+    except ValidationError, e:
+        for message in e.messages:
+            messages.error(request, message)
+        return HttpResponseRedirect(reverse('plata_shop_cart'))
+    if '_checkout' in request.POST:
+        orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})
+    else:
+        orderform = CheckoutForm(**{"prefix":"order", "instance":order,"request":request,"shop":shop})
+        form = ConfirmationForm(initial={"terms_and_conditions":True,"payment_method":"plata.payment.modules.cod"},**{"order":order,"request":request, "shop":shop})
+    if form.is_valid() and orderform.is_valid():
+        shop.checkout(request, order)
+        return shop.confirmation(request,order)
+    return render(request, "facebook_store/fb_one_step_checkout.html", locals())
     
