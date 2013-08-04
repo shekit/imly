@@ -55,7 +55,7 @@
                 {% csrf_token %}
                     {{ form }} <a class="quantity_plus" >+</a> <a class="quantity_minus">-</a>
                     <br>
-                    <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
+                    <input type="button" class="submit-btn btn primary btn-large" value="Order Now">
                 </form>
                 {% else %}
                     <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>

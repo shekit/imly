@@ -324,6 +324,60 @@ body {
 
 /* CUSTOM BUTTON */
 
+.btn {
+  cursor: pointer;
+  display: inline-block;
+  background-color: #e6e6e6;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#ffffff), color-stop(25%, #ffffff), to(#e6e6e6));
+  background-image: -webkit-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -moz-linear-gradient(top, #ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -ms-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: -o-linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  background-image: linear-gradient(#ffffff, #ffffff 25%, #e6e6e6);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ffffff', endColorstr='#e6e6e6', GradientType=0);
+  padding: 5px 12px 6px;
+  color: #333;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 14px;
+  border: 1px solid #666666;
+  border-bottom-color: #999999;
+  -webkit-border-radius: 0px;
+  -moz-border-radius: 0px;
+  border-radius: 0px;
+  -webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
+  -webkit-transition: 0.1s linear all;
+  -moz-transition: 0.1s linear all;
+  -ms-transition: 0.1s linear all;
+  -o-transition: 0.1s linear all;
+  transition: 0.1s linear all;
+}
+
+.btn:hover,
+.btn:focus {
+  color: #333333;
+  text-decoration: none;
+  background-position: 0 -15px;
+  -webkit-transition: background-position 0.1s linear;
+     -moz-transition: background-position 0.1s linear;
+       -o-transition: background-position 0.1s linear;
+          transition: background-position 0.1s linear;
+}
+
+.btn-mini {
+  padding: 2px 6px;
+  font-size: 10.5px;
+}
+
+
+.btn-large {
+  padding: 11px 19px;
+  font-size: 17.5px;
+}
+
 .btn-custom {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
@@ -670,6 +724,11 @@ li.no_left_margin {
     margin-left: 0px;
 }
 
+#id_quantity {
+    width:30px;
+    margin-top: 6px;
+}
+
 .product_name {
     font-weight: 300;
 }
@@ -714,6 +773,11 @@ li.no_left_margin {
     cursor: pointer;
 }
 
+.quantity_small {
+    padding:1px;
+    font-size: 13px;
+}
+
 .sold_out_image_product_detail {
     position: absolute;
     top:-1px;
@@ -752,6 +816,9 @@ ul.tags_for_product li {
 
 /* CHECKOUT PAGE */
 
+.img-polaroid {
+    padding:1px;
+}
 
 #id_order-billing_address, #id_order-shipping_address {
     height: 60px;
@@ -821,4 +888,70 @@ input[type="color"],
 label {
     font-size: 13px;
     margin-bottom: 0px;
+}
+
+.store_table {
+    font-size:12px;
+}
+
+.store_table_checkout {
+    margin-bottom: 20px;
+}
+
+.shop_cart_header {
+    
+    background: #e9e9e9;
+}
+
+.shop_cart_store {
+    color: #f05a28;
+}
+
+.shop_cart_store:hover {
+    color: #f05a28;
+}
+
+td.cart_delivery_section {
+    background: #fcfcfc;
+    text-shadow: 1px 1px #fff;
+    padding: 0px;
+}
+
+td.outer_td_less_padding {
+    padding: 0px;
+}
+
+td.less_padding {
+    padding: 3px 3px 3px 0px;    
+}
+
+td.less_padding_inner_td {
+    padding:0px;
+}
+
+.table_border_right {
+    margin-bottom:0px;
+}
+
+.table_border_right td {
+    border-right : 1px solid #e5e5e5;
+}
+
+.table_border_right td:last-child {
+    border-right : none;
+}
+
+.table_top_border {
+    margin-bottom: 0px;
+}
+
+.table_top_border td {
+    border-left: none; 
+}
+
+
+td.less_padding_inner_td input[type=text]{
+    width:20px;
+    margin-top: 5px;
+    padding:0px;
 }

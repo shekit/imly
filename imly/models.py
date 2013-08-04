@@ -258,6 +258,8 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         (ML,"ml"),
     )
     
+    SHORT_QUANTITY_BY_PRICE = {PIECES:"pc",GRAMS:"gm",SERVING:"svg",LITRE:"ltr"}
+    
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
     quantity_per_item = models.DecimalField(default=1, max_digits=6,decimal_places=2)
@@ -310,6 +312,9 @@ class Product(ProductBase, PriceBase, geo_models.Model):
 
     def quantity_unit(self):
         return self.QUANTITY_BY_PRICE[self.quantity_by_price - 1][1]
+    
+    def short_quantity_by_price(self):
+        return self.SHORT_QUANTITY_BY_PRICE[self.quantity_by_price]
     
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)

@@ -258,6 +258,14 @@ def store_order_options(store_order, request):
             'request': request,
             'delivery_leads': [[day, store_order.delivered_by_product_lead.date() + datetime.timedelta(days=day)] for day in range(15)],
             'time_choices': StoreOrder.TimeChoices
+            }
+
+@register.inclusion_tag('imly/fb_store_order_options.html')
+def fb_store_order_options(store_order, request):
+    return {'store_order': store_order,
+            'request': request,
+            'delivery_leads': [[day, store_order.delivered_by_product_lead.date() + datetime.timedelta(days=day)] for day in range(15)],
+            'time_choices': StoreOrder.TimeChoices
             } 
 
 @register.inclusion_tag('imly/order_item_quantity.html')
