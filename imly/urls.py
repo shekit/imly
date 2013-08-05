@@ -13,6 +13,10 @@ from plata.contact.models import Contact
 from plata.discount.models import Discount
 from plata.shop.models import Order
 from plata.shop.views import Shop
+from plata.shop.forms import BaseCheckoutForm
+from patches import patched_base_checkout_form_clean
+
+BaseCheckoutForm.clean = patched_base_checkout_form_clean
 
 shop = Shop(
     contact_model=Contact,

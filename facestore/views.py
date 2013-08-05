@@ -110,8 +110,6 @@ def fb_one_step_checkout(request):
     store = Store.objects.get(page=page)
     OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
     orderitemformset=OrderItemFormset(instance=order)
-    #if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
-     #   return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
