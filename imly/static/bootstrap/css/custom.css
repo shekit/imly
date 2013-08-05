@@ -154,6 +154,10 @@ input[type="color"],
       color: #fff;
       background: #f05a28;
     }
+    
+    a.dummy_cart_class{
+	
+    }
 
     .navbar .brand {
 	padding:3px 20px 3px;
@@ -247,8 +251,6 @@ input[type="color"],
     top:-20px;
     right:7px;
 }*/
-
-
 
 
 
@@ -604,6 +606,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	color: #ffffff;
 	background-color: #F05A28;
 }
+
 
 /* customizing tabbed navigation in manage store templates */
 .nav-tabs > .active > a,
@@ -1686,6 +1689,12 @@ td.less_padding_inner_td input[type=text]{
 
 .ingredient_set > .control-group {
     margin-bottom: 5px;
+}
+
+
+
+.orange_back{
+    background: #f05a28;
 }
 
 /* MEDIA QUERIES */

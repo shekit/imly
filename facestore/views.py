@@ -103,6 +103,7 @@ def fb_add_order(request, store_slug, product_slug):
 def fb_one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
+    order.data["from_facebook"] = True   #to check whether refering page is from facebook or imly
     #store = order.storeorder_set.get(order=order).store
     page_info=request.fb_session.signed_request['page']
     page = Page.objects.get(pk=page_info['id'])

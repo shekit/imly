@@ -51,7 +51,15 @@
 	    </li>
 	</ul>
 	{% else %}
-	    <h3 class="text-center store_name">{{ store.name|lower|title }}</h3>
+	    <ul class="unstyled text-center">
+	    <li>
+	        <a href="{% url "facestore_landing_page" %}"><img class="img-polaroid" src="{{ STATIC_URL }}bootstrap/img/logo_for_fb_store.png" width="150"></a>
+	    </li>
+	    <li>
+		<h3 class="text-center store_name">{{ store.name|lower|title }}</h3>
+	    </li>
+	</ul>
+	   
 	{% endif %}
     
     </div>
@@ -67,7 +75,7 @@
                                 {% load imly_tags %}
                                 <ul class="nav pull-right">
 
-                                    <li><a class="items_in_cart" href="{% url "fb_checkout" %}"><span class="icon-shopping-cart"></span> Cart (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>) &raquo;</a>
+                                    <li><a class="dummy_cart_class items_in_cart" href="{% url "fb_checkout" %}"><span class="icon-shopping-cart"></span> Cart (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>) &raquo;</a>
                                     </li>  
                                 </ul>
                              <!-- end of nav-collapse div -->
@@ -127,66 +135,7 @@
 	    }
 </script>
 
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('.submit-btn').click(function(){
-        var form = $(this).parent();
-        var product_name = form.find('input[name=product_name]').val();
-        var store_name = form.find('input[name=store_name]').val();
-        var image_url = form.find('input[name=image_url]').val();
-        var quantity = form.find('input[name=quantity]').val();
-        var product_slug = form.find('input[name=product_slug]').val();
-        $('.dropDowncart').empty();
-        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
-        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
-        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
-        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
-        $('.dropDowncart').append('</ul></li>');
-        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
-        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
-        $.ajax({
-            data:form.serialize(),
-            type:form.attr('method'),
-            url:form.attr('action'),
-            success:function(response){
-                //alert(response['product'])
-                if(response['success'] == true){
-                    $('#items-count_cart').html(response['count']);
 
-                    $('#items-count').html(response['count']);
-                    
-                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
-        function(){
-            $(this).stop(true,false);
-            
-        },
-        function(){
-            $(this).fadeOut(200);
-        }
-    ).fadeOut(200);
-
-                    /*$('.dropDowncart').empty();
-                    $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
-                    $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
-                    $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
-                    $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
-                    $('.dropDowncart').append('</ul></li>');
-                    $('.dropdown_div').slideDown(500).delay(3000).slideUp(500);*/
-                }else{
-                    
-                    
-                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
-                    //alert("Quantity exceed.");
-                    
-                    }
-
-
-            }
-        });
-        return false;
-    });
-    });
-</script>
 {% block extra_javascript %}
     
 {% endblock extra_javascript %}

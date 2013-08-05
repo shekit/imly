@@ -1,15 +1,19 @@
-{% extends "base_cart_order_status.html" %}
+{% extends order.data.from_facebook|yesno:"facebook_store/base_facebook.html,base_cart_order_status.html" %}  
 
 {% load i18n plata_tags %}
 
 {% block title %}Imly | {% trans "Order successful" %} - {{ block.super }}{% endblock %}
 
+{% if order.data.from_facebook %}
 {% block location_search_bar %}
     
 {% endblock location_search_bar %}
+{% endif %}
 
+{% if order.data.from_facebook %}
 {% block main_body %}
 <div class="row-fluid text-center">
+    {{ request.facebook }}
     <div class="span6 offset3">
         <br>
         <div class="well">
@@ -25,3 +29,22 @@
 </div>
 
 {% endblock main_body %}
+{% else %}
+{% block main_content %}
+<div class="row-fluid text-center">
+    <div class="span10 offset1">
+        <br>
+        <div class="well">
+            <h3 class="text-center">{% trans "You will receive a confirmation mail shortly!" %}</h3>
+            <p>Thanks for shopping with us!</p>
+            <p>Please click on continue to proceed.</p>
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_happy.png" alt="Thank you!"></p>
+            <br>
+            <button type="button" class="btn btn-large btn-custom" onclick="window.location.href='{% url "facestore_landing_page" %}'">{% trans "Continue" %}</button>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}
+{% endif %}

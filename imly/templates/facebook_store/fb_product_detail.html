@@ -23,7 +23,7 @@
                                     </ul>
                                     <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
                                     <div class="hidden-desktop">
-                                        <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+                                        <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "fb_checkout" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                                     </div>
                             </div>
 
@@ -55,7 +55,7 @@
                 {% csrf_token %}
                     {{ form }} <a class="quantity_plus" >+</a> <a class="quantity_minus">-</a>
                     <br>
-                    <input type="button" class="submit-btn btn primary btn-large" value="Order Now">
+                    <input type="button" class="submit-btn btn btn-custom btn-large" value="Order Now">
                 </form>
                 {% else %}
                     <h4 class="muted all_out">Sorry I am all out for the day.<br><br>Come back <span class="orange">tomorrow</span>, I will be making a <span class="orange">fresh batch</span>.</h4>
@@ -155,15 +155,8 @@ $(document).ready(function()
     {
         var form = $(this).parent();
         var product_url = $('.product_image').attr('src');
-        $('.dropDowncart').empty();
-        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + product_url.replace('large','mini') + '" width="70"></li>');
-        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
-        $('.dropDowncart2').append('<li class="dropDowncart_product">' + $('#id_quantity').val() + ' &times; ' + '<span class="dropDowncart_product_name">' + $('.product_name').text() + '</span>' + '</li>');
-        $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
-        $('.dropDowncart').append('</ul></li>');
-        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
-        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
-        
+	$('.items_in_cart').stop(true,true).switchClass("dummy_cart_class","orange_back",400).delay(3000).switchClass("orange_back","dummy_cart_class",400);
+	 
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
@@ -186,13 +179,7 @@ $(document).ready(function()
             $(this).fadeOut(200);
         }
     ).fadeOut(200);
-                /*$('.dropDowncart').empty();
-                $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + response['image'] + '" width="70"></li>');
-                $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
-                $('.dropDowncart2').append('<li class="dropDowncart_product">' + response['quantity'] + ' &times; ' + '<span class="dropDowncart_product_name">' + response['product'] + '</span>' + '</li>');
-                $('.dropDowncart2').append('<li class="dropDowncart_store">' + response['store'] + '</li>');
-                $('.dropDowncart').append('</ul></li>');
-                $('.dropdown_div').stop(true,true).slideDown(500).delay(3000).slideUp(500);*/
+               
             }
             else
             {

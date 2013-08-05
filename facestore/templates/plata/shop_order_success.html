@@ -1,0 +1,21 @@
+{% extends "facebook_store/base_facebook.html" %}
+
+{% load i18n plata_tags %}
+
+{% block main_content %}
+<div class="row-fluid text-center">
+    <div class="span10 offset1">
+        <br>
+        <div class="well">
+            <h3 class="text-center">{% trans "You will receive a confirmation mail shortly!" %}</h3>
+            <p>Thanks for shopping with us!</p>
+            <p>Please click on continue to proceed.</p>
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_happy.png" alt="Thank you!"></p>
+            <br>
+            <button type="button" class="btn btn-large btn-custom" onclick="window.location.href='{% url "facestore_landing_page" %}'">{% trans "Continue" %}</button>
+            
+        </div>
+    </div>
+</div>
+
+{% endblock main_content %}

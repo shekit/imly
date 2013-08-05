@@ -48,10 +48,7 @@
                                             <td class="less_padding_inner_td">
                                                 <ul class="inline">
                                                     <li><a href="{% url "fb_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="30"></a></li>
-                                                    <li>
-                                                        
-                                                            <span style="font-size:13px;">{{ orderitemform.instance.product.name|lower|title }}</span>
-                                                    </li>
+                                                    <li class="cart_item_name">{{ orderitemform.instance.product.name|lower|title }}</li>
                                                 </ul>
                                                 
                                             

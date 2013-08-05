@@ -496,8 +496,7 @@ $(document).ready(function(){
         $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
         $('.dropDowncart').append('</ul></li>');
         $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
-        $('.items_in_cart').stop(true,true).animate({backgroundColor:"#f05a28"},200).delay(2000).animate({backgroundColor:"#ffffff"},400);
-        
+        $('.items_in_cart').stop(true,true).switchClass("dummy_cart_class","orange_back",400).delay(3000).switchClass("orange_back","dummy_cart_class",400);
         $.ajax({
             data:form.serialize(),
             type:form.attr('method'),
