@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
@@ -25,7 +26,7 @@ def home(request):
             store = request.user.store
             store.page=page
             store.save()
-            return HttpResponse('imly store just added')
+            return redirect("http://facebook.com/pages/imly/"+page_info['id']+'?id='+page_info['id']+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
         else:
             page = Page.objects.get(pk=page_info['id'])
             store = Store.objects.get(page=page)
@@ -110,8 +111,6 @@ def fb_one_step_checkout(request):
     store = Store.objects.get(page=page)
     OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
     orderitemformset=OrderItemFormset(instance=order)
-    #if not order or not order.items.count():# or order.created.date() < date.today(): #added last part to check for stale orders in cart
-     #   return redirect(reverse('plata_shop_cart'))
     try:
         order.validate(order.VALIDATE_CART)
     except ValidationError, e:
