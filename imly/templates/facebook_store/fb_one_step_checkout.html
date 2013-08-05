@@ -9,15 +9,8 @@
 {% block main_content %}
 
 {% if order.items.count == 0 %}
-    <div class="row-fluid">
-        <div class="span12 text-center">
-            <h4 class="muted">You have no items in your cart :(</h4>
-            <a href="{% url "facestore_landing_page" %}" class="btn btn-custom">Start Shopping</a>
-        </div>
+    {% include "facebook_store/fb_no_items_in_cart.html" %}
 
-        
-    <br><br><br><br><br><br><br><br><br><br><br><br>
-    </div>
     
 {% else %}
     <div class="span5 no_margin_left">
@@ -32,9 +25,9 @@
     
     <legend class="orange text-left">{% trans "Billing address" %}</legend>
     
-    <div style="display: none;">
+    <div>
     {% if orderform.create_account %}
-        {% form_item orderform.create_account %}
+        {% form_item_plain orderform.create_account %} hello
     {% endif %}
     </div>
     

@@ -1,0 +1,14 @@
+{% extends "facebook_store/base_facebook.html" %}
+
+{% load i18n plata_tags %}
+
+{% block all_dishes %}
+    &laquo; All Dishes
+{% endblock all_dishes %}
+
+{% block main_content %}
+
+    {% include "facebook_store/fb_no_items_in_cart.html" %}
+{% endblock main_content %}
+
+

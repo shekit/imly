@@ -20,16 +20,13 @@ def home(request):
     if request.fb_session.signed_request:
         # request is from facebook
         page_info=request.fb_session.signed_request['page']
-        if request.GET.get('tabs_added['+page_info['id']+']', None):
-            page = Page(id=page_info['id'])
-            page.get_from_facebook(save=True)
+        if "tabs_added" in request.META["QUERY_STRING"]:
             store = request.user.store
-            store.page=page
+            store.page=page_info["id"]
             store.save()
             return redirect("http://facebook.com/pages/imly/"+page_info['id']+'?id='+page_info['id']+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
         else:
-            page = Page.objects.get(pk=page_info['id'])
-            store = Store.objects.get(page=page)
+            store = Store.objects.get(page=page_info["id"])
             products = store.product_set.filter(is_flag=False, is_deleted = False)
             try:
                 special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
@@ -104,7 +101,8 @@ def fb_add_order(request, store_slug, product_slug):
 def fb_one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
-    order.data["from_facebook"] = True   #to check whether refering page is from facebook or imly
+    if order:
+        order.data["from_facebook"] = True   #to check whether refering page is from facebook or imly
     #store = order.storeorder_set.get(order=order).store
     page_info=request.fb_session.signed_request['page']
     page = Page.objects.get(pk=page_info['id'])
@@ -113,6 +111,8 @@ def fb_one_step_checkout(request):
     orderitemformset=OrderItemFormset(instance=order)
     try:
         order.validate(order.VALIDATE_CART)
+    except AttributeError:
+        return render(request, "facebook_store/fb_empty_cart.html")
     except ValidationError, e:
         for message in e.messages:
             messages.error(request, message)

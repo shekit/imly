@@ -1,4 +1,5 @@
 from plata.shop.forms import BaseCheckoutForm
+from django.contrib.auth.models import User
 
 def patched_base_checkout_form_clean(self):
         data = super(BaseCheckoutForm, self).clean()
@@ -8,5 +9,5 @@ def patched_base_checkout_form_clean(self):
             users = list(User.objects.filter(email=email))
             if create_account and users and self.request.user not in users:
                 self._errors['email'] = self.error_class([
-                            _('This e-mail address belongs to a different account.')])
+                            'This e-mail address belongs to a different account.'])
         return data

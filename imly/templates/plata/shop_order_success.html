@@ -32,13 +32,12 @@
 {% else %}
 {% block main_content %}
 <div class="row-fluid text-center">
-    <div class="span10 offset1">
+    <div class="span8 offset2">
         <br>
         <div class="well">
-            <h3 class="text-center">{% trans "You will receive a confirmation mail shortly!" %}</h3>
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_happy.png" alt="Thank you!" width="150"></p>
+            <h4 class="text-center store_name">{% trans "You will receive a confirmation mail shortly!" %}</h4>
             <p>Thanks for shopping with us!</p>
-            <p>Please click on continue to proceed.</p>
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_happy.png" alt="Thank you!"></p>
             <br>
             <button type="button" class="btn btn-large btn-custom" onclick="window.location.href='{% url "facestore_landing_page" %}'">{% trans "Continue" %}</button>
             
