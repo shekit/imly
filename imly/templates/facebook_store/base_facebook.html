@@ -75,7 +75,7 @@
                                 {% load imly_tags %}
                                 <ul class="nav pull-right">
 
-                                    <li><a class="dummy_cart_class items_in_cart" href="{% url "fb_checkout" %}"><span class="icon-shopping-cart"></span> Cart (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>) &raquo;</a>
+                                    <li><a class="dummy_cart_class items_in_cart" href="{% url "fb_checkout" %}"><span class="icon-shopping-cart"></span> Cart (<span id="items-count">{{ store_order }}</span>) &raquo;</a>
                                     </li>  
                                 </ul>
                              <!-- end of nav-collapse div -->

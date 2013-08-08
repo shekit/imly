@@ -34,6 +34,12 @@ def home(request):
                 products = products.exclude(special=special_event)
             except IndexError:
                 pass
+            try:
+                shop = plata.shop_instance()
+                order = shop.order_from_request(request)
+                store_order = order.storeorder_set.get(store=store).store_items
+            except:
+                store_order = 0
             return render(request, "facebook_store/fb_product_list.html", locals())
     else:
         return HttpResponse('oye, some wanderer on net, get lost you troll')
@@ -52,6 +58,13 @@ class FBProductDetail(DetailView):
                 context["special_product"] = self.get_object().special_set.filter(slug=special_event.slug)
         except IndexError:
             pass
+        try:
+            shop = plata.shop_instance()
+            order = shop.order_from_request(self.request)
+            store_order = order.storeorder_set.get(store=self.get_object().store).store_items
+        except:
+            store_order = 0
+        context["store_order"] = store_order
         context["store"] = self.get_object().store
         return context
         
@@ -101,12 +114,17 @@ def fb_add_order(request, store_slug, product_slug):
 def fb_one_step_checkout(request):
     shop = plata.shop_instance()
     order = shop.order_from_request(request)
+
     if order:
         order.data["from_facebook"] = True   #to check whether refering page is from facebook or imly
     #store = order.storeorder_set.get(order=order).store
     page_info=request.fb_session.signed_request['page']
     #page = Page.objects.get(pk=page_info['id'])
     store = Store.objects.get(page=page_info["id"])
+    try:
+        store_order = order.storeorder_set.get(store=store).store_items
+    except:
+        store_order = 0
     OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
     orderitemformset=OrderItemFormset(instance=order)
     try:

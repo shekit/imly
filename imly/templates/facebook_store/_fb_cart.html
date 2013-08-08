@@ -3,7 +3,13 @@
 {% load imly_tags %}
 
     
-<legend class="orange checkout_summary text-left">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span></legend>
+<legend class="orange checkout_summary text-left">{% trans "Order Details" %}
+{% for storeorder in order.storeorder_set.all %}
+{% ifequal storeorder.store store %}
+<span class="muted pull-right">{{ storeorder.order.currency }} <span id="order_total">{{ storeorder.store_total|floatformat:"0" }}</span></span>
+{% endifequal %}
+{% endfor %}
+</legend>
 
     <div class="row-fluid">
         

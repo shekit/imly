@@ -290,8 +290,8 @@
             }
             $('#'+input_id).val(data['quantity']);
             $('#store_total-'+store_table).html(data['store_order_total']);
-            $('#order_total').html(data['order_total']);
-            $('#order_total_mobile').html(data['order_total']);
+            $('#order_total').html(data['store_order_total']);
+            $('#order_total_mobile').html(data['store_order_total']);
             $('.orderitem_quantity_'+id).html(data['quantity']);
             $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
             $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
@@ -315,8 +315,8 @@
             }
                 $('#'+input_id).val(data['quantity']);
                 $('#store_total-'+store_table).html(data['store_order_total']);
-                $('#order_total').html(data['order_total']);
-                $('#order_total_mobile').html(data['order_total']);
+                $('#order_total').html(data['store_order_total']);
+                $('#order_total_mobile').html(data['store_order_total']);
                 $('.orderitem_quantity_'+id).html(data['quantity']);
                 $('.orderitem_subtotal_'+id).html(parseInt(data['discounted_subtotal']));
                 $('.order_item_quantity_'+id).html(parseInt(data['order_item_quantity']));
