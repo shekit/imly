@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django.contrib import messages
@@ -105,8 +105,8 @@ def fb_one_step_checkout(request):
         order.data["from_facebook"] = True   #to check whether refering page is from facebook or imly
     #store = order.storeorder_set.get(order=order).store
     page_info=request.fb_session.signed_request['page']
-    page = Page.objects.get(pk=page_info['id'])
-    store = Store.objects.get(page=page)
+    #page = Page.objects.get(pk=page_info['id'])
+    store = Store.objects.get(page=page_info["id"])
     OrderItemFormset = inlineformset_factory(Order,OrderItem,extra=0,fields=('quantity',),)
     orderitemformset=OrderItemFormset(instance=order)
     try:
@@ -116,7 +116,7 @@ def fb_one_step_checkout(request):
     except ValidationError, e:
         for message in e.messages:
             messages.error(request, message)
-        return HttpResponseRedirect(reverse('fb_checkout'))
+        return redirect(reverse('fb_checkout'))
     if '_checkout' in request.POST:
         orderform = CheckoutForm(request.POST, **{"prefix":"order", "instance":order,"request":request,"shop":shop})
         form = ConfirmationForm(request.POST, **{"order":order,"request":request, "shop":shop})

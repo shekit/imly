@@ -927,3 +927,18 @@ td.less_padding_inner_td input[type=text]{
 	float: none;
 	margin-left: 0px;
 }
+
+/* to style cart errors */
+ul.errorlist {
+	list-style: none;
+	margin:5px 0px;
+	padding:0px;
+}
+
+ul.errorlist > li {
+	color:#ff7752;
+	margin-left: 0px;
+	font-style: italic;
+	
+
+}

@@ -21,16 +21,17 @@
                 
         {% form_errors orderitemformset %}
         
-        {% for store in order.storeorder_set.all %}
-        {% if store.store_items %}
-        <table class="table table-bordered store_table" id="{{store.store.slug}}">
+        {% for storeorder in order.storeorder_set.all %}
+	    {% ifequal storeorder.store store %}
+        {% if storeorder.store_items %}
+        <table class="table table-bordered store_table" id="{{storeorder.store.slug}}">
 
             <tr class="shop_cart_header">
 
-                <th class="checkout_th">Your order from: <a class="shop_cart_store" href="{% url "facestore_landing_page" %}">{{ store.store.name|lower|title }}</a>
+                <th class="checkout_th">Your order from: <a class="shop_cart_store" href="{% url "facestore_landing_page" %}">{{ storeorder.store.name|lower|title }}</a><br>
 					
-                            {% if store.store.pick_up %}
-                                <span class="pull-left cart_mobile"><small>Pick-up near*: {% if store.store.pick_up_landmark %}{{ store.store.pick_up_landmark }}, {% endif %}{{ store.store.pick_up_display }}</small></span>
+                            {% if storeorder.store.pick_up %}
+                                <span class="cart_mobile"><small class="text-left">Pick-up near*: {% if storeorder.store.pick_up_landmark %}{{ storeorder.store.pick_up_landmark }}, {% endif %}{{ storeorder.store.pick_up_display }}</small></span>
                             {% endif %}
                         
                 </th>
@@ -40,7 +41,7 @@
             <td class="outer_td_less_padding">
                 <table class="table table_top_border">
                     {% for orderitemform in orderitemformset.forms %}
-                            {% ifequal orderitemform.instance.product.store.pk store.store.id %}
+                            {% ifequal orderitemform.instance.product.store.pk storeorder.store.id %}
                             <tr id="order_item-{{orderitemform.instance.id}}" class="order-items">
                                 <td class="less_padding">
                                     <table class="table table_border_right">
@@ -50,7 +51,11 @@
                                                     <li><a href="{% url "fb_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="30"></a></li>
                                                     <li class="cart_item_name">{{ orderitemform.instance.product.name|lower|title }}</li>
                                                 </ul>
-                                                
+                                                <div style="display:none;">
+						    <span id="orderitem_items_in_stock-{{orderitemform.instance.id}}">
+							{{ orderitemform.instance.product.items_in_stock }}
+						    </span>
+						</div>
                                             
                                             </td>
 					    <td width="60" class="less_padding_inner_td">
@@ -94,7 +99,7 @@
                 <ul class="unstyled text-center">
 
                     <li class="muted"><small>I want my order on:</small></li>
-					{% fb_store_order_options store request %}
+					{% fb_store_order_options storeorder request %}
                 </ul>
                 
             </td>
@@ -102,7 +107,7 @@
 	</table>
 
         {% endif %}
-
+    {% endifequal %}
         {% endfor %}
 
            <!-- <ul class="inline text-right checkout_mobile">

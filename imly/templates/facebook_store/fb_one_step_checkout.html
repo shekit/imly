@@ -27,7 +27,8 @@
     
     <div>
     {% if orderform.create_account %}
-        {% form_item_plain orderform.create_account %} hello
+        Create an imly.in account? {% form_item_plain orderform.create_account %}
+        <p></p>
     {% endif %}
     </div>
     
@@ -42,14 +43,13 @@
     {% form_item orderform.billing_city %}
     {% form_item orderform.billing_country %}
     
-    
+    <p></p>
     <p><span class="shipping_same_as_billing"><span class="orange">{% trans "Shipping address" %}</span> same as billing address?{% form_item_plain orderform.shipping_same_as_billing %}</span></p>
     
     <div class="shipping_address">
-    <table class="table table-order">
-    <tr><td colspan="2">
+    
     <legend class="orange text-left">{% trans "Shipping address" %}</legend>
-    </td></tr>
+    
     {# {% form_item orderform.shipping_company %} #}
     {% form_item orderform.shipping_first_name %}
     {% form_item orderform.shipping_last_name %}
@@ -103,6 +103,10 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 	$(document).ready(function(){
+            
+                $("#id_order-shipping_same_as_billing").css({"margin-top":"-4px"});
+                $("#id_order-create_account").css({"margin-top":"-4px"});
+            
 		if ($('#id_order-shipping_same_as_billing').is(':checked'));
 		{
 			$('#id_order-shipping_first_name').prop("disabled",true);
