@@ -43,13 +43,14 @@ class Category(models.Model):
 class Suggestion(models.Model):
     
     UNDER_REVIEW = 1
-    UNDER_DEVELOPMENT = 2
-    COMPLETED = 3
-    REJECTED = 4
-    
+    QUEUED_FOR_DEVELOPMENT = 2
+    UNDER_DEVELOPMENT = 3
+    COMPLETED = 4
+    REJECTED = 5
     
     STATUS_CHOICES = (
         (UNDER_REVIEW, "under review"),
+        (QUEUED_FOR_DEVELOPMENT, "queued for development"),
         (UNDER_DEVELOPMENT, "under development"),
         (COMPLETED, "completed"),
         (REJECTED, "rejected"),
