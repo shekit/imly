@@ -1,7 +1,9 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 class Question(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(User)
     description = models.TextField(blank=True)
     category = models.ForeignKey(Category)
     notify_answers_by_mail = models.BooleanField(default=True)
@@ -15,6 +17,7 @@ class Question(models.Model):
     
 class Answer(models.Model):
     description = models.TextField()
+    author = models.ForeignKey(User)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     accepted = models.BooleanField(default=False)
 
@@ -28,6 +31,10 @@ class Answer(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=255)
     questions = models.ForeignKey(Question)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    
+    def __unicode__(self):
+        return self.name
     
 class Suggestion(models.Model):
     
@@ -53,6 +60,9 @@ class Suggestion(models.Model):
     
 class Post(models.Model):
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(User)
     description = models.TextField()
     date_created = models.DateTimeField(auto_now_add = True, editable=False)
     email_chefs = models.BooleanField(default = False)
+    
+    
