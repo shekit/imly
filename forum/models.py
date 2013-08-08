@@ -9,6 +9,7 @@ class Question(models.Model):
     notify_answers_by_mail = models.BooleanField(default=True)
     answer = models.ForeignKey(Answer)
     answered = models.BooleanField(default=False)
+    resolved = models.BooleanField(default=False)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True, editable=False)
 
@@ -18,14 +19,17 @@ class Question(models.Model):
 class Answer(models.Model):
     description = models.TextField()
     author = models.ForeignKey(User)
-    date_created = models.DateTimeField(auto_now_add=True, editable=False)
     accepted = models.BooleanField(default=False)
+    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    
 
     def __unicode__(self):
         return "Answer to %s" % self.question
     
     def save(self, *args, **kwargs):
         self.question.answered = True
+        if self.accepted:
+            self.question.resolved = True
         super(Answer,self).save(*args, **kwargs)
         
 class Category(models.Model):
@@ -52,6 +56,7 @@ class Suggestion(models.Model):
     )
     
     title = models.CharField(max_length=255)
+    author = models.ForeignKey(User)
     description = models.TextField(blank=True)
     votes = models.IntegerField(default=0)
     status = models.IntegerField(choices=STATUS_CHOICES, default=UNDER_REVIEW)
