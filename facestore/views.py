@@ -15,32 +15,34 @@ from django.forms.models import inlineformset_factory
 from plata.contact.forms import CheckoutForm
 import json as simplejson
 
-
+def facebook_install(request):
+    if request.method == 'GET':
+        page_id = request.GET.keys()[0].split('[')[1][:-1]
+        #raise Exception(page_id)
+        store = request.user.store
+        store.page=page_id
+        store.save()
+        return redirect("http://facebook.com/pages/imly/"+page_id+'?id='+page_id+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
+    
 def home(request):
     if request.fb_session.signed_request:
         # request is from facebook
         page_info=request.fb_session.signed_request['page']
-        if "tabs_added" in request.META["QUERY_STRING"]:
-            store = request.user.store
-            store.page=page_info["id"]
-            store.save()
-            return redirect("http://facebook.com/pages/imly/"+page_info['id']+'?id='+page_info['id']+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
-        else:
-            store = Store.objects.get(page=page_info["id"])
-            products = store.product_set.filter(is_flag=False, is_deleted = False)
-            try:
+        store = Store.objects.get(page=page_info["id"])
+        products = store.product_set.filter(is_flag=False, is_deleted = False)
+        try:
                 special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
                 special_products = special_event.products.filter(store=store)
                 products = products.exclude(special=special_event)
-            except IndexError:
+        except IndexError:
                 pass
-            try:
+        try:
                 shop = plata.shop_instance()
                 order = shop.order_from_request(request)
                 store_order = order.storeorder_set.get(store=store).store_items
-            except:
+        except:
                 store_order = 0
-            return render(request, "facebook_store/fb_product_list.html", locals())
+        return render(request, "facebook_store/fb_product_list.html", locals())
     else:
         return HttpResponse('oye, some wanderer on net, get lost you troll')
 
