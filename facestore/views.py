@@ -18,7 +18,8 @@ import json as simplejson
 def facebook_install(request):
     if request.method == 'GET':
         page_id = request.GET.keys()[0].split('[')[1][:-1]
-        #raise Exception(page_id)
+        page = Page(id=page_id)
+        page.save()
         store = request.user.store
         store.page=page_id
         store.save()
