@@ -73,14 +73,15 @@ class StoreList(ListView):
         if "category_slug" in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])
             stores = stores.filter(categories=self.category) if self.category.super_category else stores.filter(categories__in=self.category.sub_categories.all()).distinct()
+        stores = stores.distinct()
         try:
             self.tags = Tag.objects.filter(slug__in=self.request.session.get("tags",[]))
         except:
             self.tags = []
         if self.tags:
             for tag in self.tags:
-                stores &= tag.store_set
-        return stores.distinct()
+                stores &= tag.store_set.distinct()
+        return stores
 
     def get_context_data(self, **kwargs):
         context = super(StoreList, self).get_context_data(**kwargs)
