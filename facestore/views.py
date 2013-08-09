@@ -22,14 +22,19 @@ def facebook_install(request):
         store = request.user.store
         store.page=page_id
         store.save()
+        request.session["just_installed"] = True
         return redirect("http://facebook.com/pages/imly/"+page_id+'?id='+page_id+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID']))
     
 def home(request):
     if request.fb_session.signed_request:
         # request is from facebook
+        just_installed = request.session.get("just_installed",None)
+        if just_installed:
+            del request.session["just_installed"]
         page_info=request.fb_session.signed_request['page']
         store = Store.objects.get(page=page_info["id"])
         products = store.product_set.filter(is_flag=False, is_deleted = False)
+        facebook_url = "http://facebook.com/pages/imly/"+page_info["id"]+'?id='+page_info["id"]+'&sk=app_'+str(settings.FACEBOOK_APPS['facestore']['ID'])
         try:
                 special_event = Special.objects.filter(active=True, live=True).order_by("priority")[0]
                 special_products = special_event.products.filter(store=store)
