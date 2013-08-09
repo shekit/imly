@@ -17,11 +17,9 @@ import json as simplejson
 
 
 def home(request):
-    fb_session = request.fb_session
-    del request.session['facebook']
-    if fb_session.signed_request:
+    if request.fb_session.signed_request:
         # request is from facebook
-        page_info=fb_session.signed_request['page']
+        page_info=request.fb_session.signed_request['page']
         if "tabs_added" in request.META["QUERY_STRING"]:
             store = request.user.store
             store.page=page_info["id"]
