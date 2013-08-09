@@ -1,6 +1,22 @@
 {% extends "facebook_store/base_facebook.html" %}
 
 {% block main_content %}
+    {% if just_installed %}
+	<div class="alert alert-block custom_alert">
+	    <button type="button" class="close" data-dismiss="alert">&times;</button>
+	    <h4>Congratulations!</h4>
+	    <p>Your facebook store is setup! Spread the good news!
+	    <a class="btn btn-mini btn-custom share_fb" href="#" 
+  onclick="
+    window.open(
+      'http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{ facebook_url }}&p[title]={{ store.name }}&p[images][0]={% if store.logo %}{{ store.logo_thumbnail.url }}{% else %}{{ STATIC_URL }}bootstrap/img/logo_for_fb_store.png{% endif %}&p[summary]={{ store.description }}', 
+      'facebook-share-dialog', 
+      'width=626,height=436'); 
+    return false;">
+  Share on Facebook
+</a></p>
+	</div>
+    {% endif %}
 	{% if special_event and special_products %}
 	<div class="row-fluid special_event">
 	    <legend class="orange"><span class="legend_upper">{{ special_event.title }}</span> <span class="legend_lower">Special</span></legend>

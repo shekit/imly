@@ -433,6 +433,20 @@ a.dummy_cart_class{
 
 /* hero unit */
 
+.custom_alert{
+    background: #f9f9f9;
+    color: #666;
+    border: 1px solid #ccc;
+}
+
+.custom_alert h4 {
+    color: #f05a28;
+    margin-bottom: 15px;
+}
+
+.custom_alert .share_fb{
+    margin-top: -4px;
+}
 
 
 .hero-unit {

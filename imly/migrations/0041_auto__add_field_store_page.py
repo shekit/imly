@@ -10,13 +10,13 @@ class Migration(SchemaMigration):
     def forwards(self, orm):
         # Adding field 'Store.page'
         db.add_column(u'imly_store', 'page',
-                      self.gf('django.db.models.fields.related.ForeignKey')(to=orm['facebook.Page'], null=True, blank=True),
+                      self.gf('django.db.models.fields.BigIntegerField')(null=True, blank=True),
                       keep_default=False)
 
 
     def backwards(self, orm):
         # Deleting field 'Store.page'
-        db.delete_column(u'imly_store', 'page_id')
+        db.delete_column(u'imly_store', 'page')
 
 
     models = {
@@ -69,31 +69,6 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        'facebook.page': {
-            'Meta': {'object_name': 'Page'},
-            '_access_token': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            '_access_token_expires': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            '_category': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            '_checkins': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            '_graph': ('fb.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
-            '_likes': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
-            '_link': ('django.db.models.fields.URLField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            '_location': ('fb.fields.JSONField', [], {'null': 'True', 'blank': 'True'}),
-            '_name': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            '_phone': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
-            '_pic_crop': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_pic_large': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_pic_small': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_pic_square': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_picture': ('django.db.models.fields.URLField', [], {'max_length': '500', 'null': 'True', 'blank': 'True'}),
-            '_talking_about_count': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True', 'blank': 'True'}),
-            '_username': ('django.db.models.fields.CharField', [], {'max_length': '200', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            '_website': ('django.db.models.fields.URLField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'auto_now_add': 'True', 'blank': 'True'}),
-            'id': ('django.db.models.fields.BigIntegerField', [], {'unique': 'True', 'primary_key': 'True'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50', 'unique': 'True', 'null': 'True', 'blank': 'True'}),
-            'updated': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now', 'auto_now': 'True', 'blank': 'True'})
         },
         u'imly.category': {
             'Meta': {'ordering': "['position', 'name']", 'object_name': 'Category'},
@@ -238,7 +213,7 @@ class Migration(SchemaMigration):
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'orders': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['shop.Order']", 'through': u"orm['imly.StoreOrder']", 'symmetrical': 'False'}),
             'owner': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'}),
-            'page': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['facebook.Page']", 'null': 'True', 'blank': 'True'}),
+            'page': ('django.db.models.fields.BigIntegerField', [], {'null': 'True', 'blank': 'True'}),
             'pick_up': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
             'pick_up_address': ('django.db.models.fields.TextField', [], {}),
             'pick_up_landmark': ('django.db.models.fields.CharField', [], {'max_length': '100', 'blank': 'True'}),
@@ -255,8 +230,8 @@ class Migration(SchemaMigration):
         u'imly.storeorder': {
             'Meta': {'ordering': "['-delivered_on']", 'object_name': 'StoreOrder'},
             'created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'delivered_by_product_lead': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 8, 2, 0, 0)'}),
-            'delivered_on': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 8, 2, 0, 0)'}),
+            'delivered_by_product_lead': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 8, 9, 0, 0)'}),
+            'delivered_on': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 8, 9, 0, 0)'}),
             'delivery_charges': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             'delivery_lead': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
