@@ -82,9 +82,8 @@ class ProductList(ListView):
         except:
             self.tags = []
         if self.tags:
-            products = products
             for tag in self.tags:
-                products &= tag.product_set
+                products &= tag.product_set.all()
         return products.distinct()
 
     def get_context_data(self, **kwargs):
