@@ -205,7 +205,6 @@ INSTALLED_APPS = (
     'plata',
     'django_extensions',
     'fb',
-    'fb.modules.profile.page',
     'plata.product.stock',
     'plata.contact',
     'plata.discount',

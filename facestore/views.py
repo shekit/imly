@@ -4,7 +4,6 @@ from django.core.urlresolvers import reverse
 from django.core.exceptions import ValidationError
 from django.contrib import messages
 from django.views.generic import DetailView
-from fb.modules.profile.page.models import Page
 from django.shortcuts import get_object_or_404, redirect, render,render_to_response
 from imly.models import Store, Special, Product
 from imly.forms import OrderItemForm
@@ -18,7 +17,6 @@ import json as simplejson
 def facebook_install(request):
     if request.method == 'GET':
         page_id = request.GET.keys()[0].split('[')[1][:-1]
-        #raise Exception(page_id)
         store = request.user.store
         store.page=page_id
         store.save()
