@@ -344,12 +344,12 @@ TRACK_AJAX_REQUESTS = TRACK_PAGEVIEWS = True
 BROKER_URL = 'redis://localhost:6379/0'
 FACEBOOK_APPS = {
     'facestore' : {
-            'ID': 486399054777135,
-            'SECRET': '1309418ef8bc76d8518db195647c0bcd',
-            'CANVAS-PAGE': 'https://apps.facebook.com/yourapp',
-            'CANVAS-URL': 'http://www.localdomain:8000/facestore',
-            'SECURE-CANVAS-URL': 'https://www.localdomain:8000/facestore',
-            'REDIRECT-URL': 'http://www.localdomain:8000/facestore/success',
-            'DOMAIN' : 'localdomain:8000',
+            'ID': 573411216031001,
+            'SECRET': '9d044fdb8d7a100577b65a468e7cd64f',
+            'CANVAS-PAGE': 'https://apps.facebook.com/imlyshop',
+            'CANVAS-URL': 'http://imly.in/facestore/',
+            'SECURE-CANVAS-URL': 'https://imly.in/facestore/',
+            'REDIRECT-URL': 'http://imly.in/facestore/install',
+            'DOMAIN' : 'imly.in',
     }
 }
