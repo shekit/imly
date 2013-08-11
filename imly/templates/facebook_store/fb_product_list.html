@@ -9,7 +9,7 @@
 	    <a class="btn btn-mini btn-custom share_fb" href="#" 
   onclick="
     window.open(
-      'http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{ facebook_url }}&p[title]={{ store.name }}&p[images][0]={% if store.logo %}{{ store.logo_thumbnail.url }}{% else %}{{ STATIC_URL }}bootstrap/img/logo_for_fb_store.png{% endif %}&p[summary]={{ store.description }}', 
+      'http://www.facebook.com/sharer/sharer.php?s=100&p[url]={{ facebook_url }}&p[title]={{ store.name|addslashes }}&p[images][0]={% if store.logo %}{{ store.logo_thumbnail.url }}{% else %}{{ STATIC_URL }}bootstrap/img/logo_for_fb_store.png{% endif %}&p[summary]={{ store.description|addslashes }}', 
       'facebook-share-dialog', 
       'width=626,height=436'); 
     return false;">
