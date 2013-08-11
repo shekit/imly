@@ -54,9 +54,9 @@
                         <p class="text-right">
                                         
                                 <a href="{% url "imly_store_detail" user.store.slug %}" class="btn">Preview Store</a> <a href="{% url "imly_store_edit" %}" class="btn btn-success"><span class="icon-edit icon-white"></span> Edit Store</a>
-                                {% if user.store.is_approved and user.store.page > 0 %}
+                                {% if user.store.is_approved and not user.store.page > 0 %}
                 
-                                        <a href="https://www.facebook.com/dialog/pagetab?app_id=486399054777135&next=http://www.localdomain:8000/facestore/install" class="btn btn-primary" target="_blank"><span class="icon-thumbs-up icon-white"></span> Create my Facebook Store</a>
+                                        <a href="https://www.facebook.com/dialog/pagetab?app_id=573411216031001&next=http://imly.in/facestore/install" class="btn btn-primary" target="_blank"><span class="icon-thumbs-up icon-white"></span> Create my Facebook Store</a>
                 
                                 {% endif %}
                         </p>
