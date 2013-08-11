@@ -2,7 +2,7 @@
 
 import os
 
-DEBUG = True
+DEBUG = False
 if DEBUG:
     ADMIN_EMAIL = 'Imly Admin <betamails@imly.in>'
     ORDERS_EMAIL = 'Imly Orders <betamails@imly.in>'
