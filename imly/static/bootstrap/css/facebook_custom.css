@@ -694,6 +694,7 @@ legend {
 
 li.no_left_margin {
     margin-left: 0px;
+    float:none;
 }
 
 #id_quantity {
