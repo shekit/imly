@@ -71,7 +71,10 @@
                         {% if not product.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
-                        
+                        <div id="exceed_stock_{{ product.slug }}" class="exceed_stock">I can't make more today</div>
+                        <div class="hidden-desktop">
+                            <div id="item_added_{{ product.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+                        </div>
                     </div>
                 </a>
 
@@ -89,8 +92,12 @@
                         {% if product.items_in_stock %}
                             <form method="post" action="{% url "imly_add_order" product.store.slug product.slug %}">
                             {% csrf_token %}
+                                <input type="hidden" name="image_url" value="{{ product.image_thumbnail_mini.url }}">
+                                <input type="hidden" name="product_name" value="{{ product.name|title }}">
+                                <input type="hidden" name="store_name" value="{{ product.store.name|title }}">
+                                <input type="hidden" name="product_slug" value="{{ product.slug }}">
                                 <input type="hidden" name="quantity" value="1">
-                                <input type="submit" class="btn btn-custom btn-mini pull-right" value="Order">
+                                <input type="submit" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
                             </form>
                         {% else %}
                             <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
@@ -111,3 +118,53 @@
 
 {% block as_seen_on %}
 {% endblock as_seen_on %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+        
+$(document).ready(function(){
+            
+    $('.submit-btn').click(function(){
+        var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        var product_slug = form.find('input[name=product_slug]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).switchClass("dummy_cart_class","orange_back",400).delay(3000).switchClass("orange_back","dummy_cart_class",400);
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
+                    $('#items-count').html(response['count']);
+                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
+                        function(){
+                            $(this).stop(true,false);    
+                        },
+                        function(){
+                            $(this).fadeOut(200);
+                        }).fadeOut(200);
+                }else{
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                }
+            }
+        });
+        return false;
+    });
+
+            
+});
+</script>
+
+{% endblock extra_javascript %}

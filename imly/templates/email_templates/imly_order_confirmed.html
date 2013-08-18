@@ -702,11 +702,13 @@
 						</tr>
 						
 					</table><br/><br/>
+					{% comment %}
 					{% if not storeorder.pick_up and storeorder.delivery_charges %}
 						<p>Please keep the food ready <b>one hour before</b> the above mentioned time to cater for delivery.</p>
 						<p>A <b>FLY BY KNIGHT</b> representative will collect the food from you.</p>
 						<p>The amount will be paid to you at the end of the 2 week pilot.</p><br/>
 					{% endif %}
+					{% endcomment %}
 					
 					{% if storeorder.note %}
 						<p><b>Your customer has requested:</b>{{storeorder.note}}</p><br/>

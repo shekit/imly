@@ -170,6 +170,53 @@ legend {
       margin-top:-150px;
     }
 
+.dropdown_div {
+    display: none;
+    position: absolute;
+    top: 57px;
+    right: 2px;
+}
+
+.dropDowncart {
+    position: relative;
+    background: #fff;
+    box-shadow: 0px 0px 5px #ccc;
+    border:1px solid #ccc;
+    padding: 10px 7px;
+    z-index: 1400;
+    width: 200px;
+}
+
+.dropDowncart:before, .dropDowncart:after {
+    position: absolute;
+    right:10px;
+    top:-15px;
+    border-color: transparent transparent #f05a28 transparent;
+    border-style: solid;
+    border-width: 7px;
+    content: '';
+}
+
+.dropDowncart_img {
+    border: 1px solid #e5e5e5;
+}
+
+.dropDowncart_store {
+    color: #ccc;
+    font-size: 10px;
+    text-transform: capitalize;
+}
+
+.dropDowncart_product {
+    text-transform: capitalize;
+    font-size: 10px;
+}
+
+.dropDowncart_product_name{
+    font-weight: 500;
+    font-size: 12px;
+}
+
 /* CUSTOMIZING THE CAROUSEL */
 
 .hero-unit{
@@ -947,6 +994,48 @@ ul.city_ul a:hover {
     font-weight: 500;
 }
 
+
+    
+    a.dummy_cart_class{
+	
+    }
+    
+    .orange_back{
+    background: #f05a28;
+    }
+    
+    .exceed_stock , .item_added {
+    position: absolute;
+    top:50%;
+    left:50%;
+    background: red;
+    color:white;
+    width: 150px;
+    height:20px;
+    margin-left:-80px;
+    margin-top:-10px;
+    display: none;
+    padding:0px 3px;
+    color: #ffffff;
+    border:2px solid #fff;
+    border-radius: 15px;
+    background: #ff7752;
+    background: rgba(240,90,40,0.8);
+    box-shadow: 0px 0px 6px #666;
+    text-shadow: 1px 1px rgba(0,0,0,0.250);
+    z-index: 1500;
+    font-size:11px;
+}
+
+.item_added_link {
+    color:#fff;
+}
+
+.item_added_link:hover {
+    color:#fff;
+}
+
+
 /* LOCATION BAR */
 
 .location_bar_outer {
@@ -983,6 +1072,7 @@ input.large_location_search {
 .location_search {
     text-align: center;
 }
+
 
 /* RESPONSIVE CSS
     -------------------------------------------------- */
@@ -1096,6 +1186,27 @@ input.large_location_search {
 	background: #f05a28;
 	font-weight: 200;
 	color: #fff;
+    }
+    
+        .dropdown_div {
+	display: none;
+	position:fixed;
+	left:50%;
+	top:15%;
+	width:200px;
+	height:20px;
+	margin-left:-100px;
+	margin-top:-10px;
+	z-index:1500;
+	padding:3px 5px;
+	color: #ffffff;
+	border:2px solid #fff;
+	border-radius: 15px;
+	background: #ff7752;
+	background: rgba(240,90,40,0.8);
+	box-shadow: 0px 0px 6px #666;
+	text-shadow: 1px 1px rgba(0,0,0,0.250)
+	
     }
 
     
