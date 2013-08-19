@@ -37,7 +37,7 @@ class SpecialList(ListView):
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
         if self.request.city:
-            products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+            products = products.filter( Q(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | Q(store__pick_up_point__within=self.request.city.enclosing_geometry))
         return products.distinct()
 
 class ProductReview(CreateView):
