@@ -76,7 +76,15 @@ class ProductList(ListView):
             user_point = self.request.session.get("bingeo")
             user_point = Point(*user_point)
             products = products.distance(user_point).order_by("distance")
-        products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+        if self.request.session.get('delivery', None):
+            if self.request.session.get('place_slug', None):
+                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry).filter(store__delivery_locations__location__distance_lte=(user_point, D(km=3)))
+                
+#            else:
+#                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)
+        else:
+            products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
+        #products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         self.category=None
         if 'category_slug' in self.kwargs:
             self.category = get_object_or_404(Category, slug=self.kwargs["category_slug"])

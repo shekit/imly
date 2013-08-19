@@ -19,6 +19,24 @@
                 
                     <div class="well sidebar-nav">
                         {% load imly_tags %}
+                        
+                        <div class="span12">
+                            <ul class="inline text-center food_chef">
+                                {% if request.session.delivery and not request.session.pick_up %}
+                                    <li><a href="javascript:;" class="food food_chef_active">Delivery</a></li>
+                                    <li><a href="{% url "set_pick_up" %}" class="chef food_chef_inactive">Pick-Up</a></li>
+                                {% elif request.session.pick_up and not request.session.delivery %}
+                                    <li><a href="{% url "set_delivery" %}" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% else %}
+                                    <li><a href="javascript:;" id="delivery_location_not_set" class="food food_chef_inactive">Delivery</a></li>
+                                    <li><a href="javascript:;" class="chef food_chef_active">Pick-Up</a></li>
+                                {% endif %}
+                                <hr class="hr_less_margin">
+                            </ul>
+                        </div>
+                        
+                        {% include "delivery_modal.html" %}
 
                         <ul class="nav nav-list">
                             {% if request.session.place_slug %}
@@ -218,7 +236,7 @@
     <br>
     <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
     <h4 class="muted text-center no_search_results">
-        Oops, we could not find any chefs who cook {% if category %}<span class="orange">{{ category|capfirst }}</span>{% else %}food{% endif %} {% if request.session.place_slug %}in <span class="orange">{{ request.session.display_place_slug }}</span><br>{% endif %} {% if selected_tags %}that is {% for tag in selected_tags %}<span class="orange">{{ tag }}</span>{%if not forloop.last %}, {% endif %}{% if forloop.counter|divisibleby:"3" %}<br>{% endif %}{% endfor %} and{% endif %} {%if request.session.delivery %}that <span class="orange">delivers</span> to you{% else %}that provide <span class="orange">pick-up</span>{% endif %}.<br>
+        Oops, we could not find any chefs who cook {% if category %}<span class="orange">{{ category|capfirst }}</span>{% else %}food{% endif %} {% if request.session.place_slug %}in <span class="orange">{{ request.session.display_place_slug }}</span><br>{% endif %} {% if selected_tags %}that is {% for tag in selected_tags %}<span class="orange">{{ tag }}</span>{%if not forloop.last %}, {% endif %}{% if forloop.counter|divisibleby:"3" %}<br>{% endif %}{% endfor %} and{% endif %} {%if request.session.delivery %}that <span class="orange">delivers</span> to you.<br>See chefs you can <a href="{% url "set_pick_up" %}" class="pick_up_instead">pick-up</a> from instead{% else %}that provide <span class="orange">pick-up</span>{% endif %}.<br>
         
         </h4><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
         <p class="muted text-center"><small>or try searching for something else.</small></p>
