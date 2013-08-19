@@ -5,3 +5,5 @@ Disallow: /give_us_tip/
 Disallow: /signup-x/
 Disallow: /login-x/
 Disallow: /orderitem/*
+Disallow: /remove-tag/*
+Disallow: /add-tag/*
