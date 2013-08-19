@@ -32,6 +32,10 @@ class SpecialList(ListView):
         special = get_object_or_404(Special, slug=self.kwargs['slug'], active=True)
         self.request.special = special
         products = special.products.is_approved()
+        if self.request.session.get("place_slug",""):
+            user_point = self.request.session.get("bingeo")
+            user_point = Point(*user_point)
+            products = products.distance(user_point).order_by("distance")
         if self.request.city:
             products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry) | products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         return products.distinct()
