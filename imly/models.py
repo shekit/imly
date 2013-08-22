@@ -260,7 +260,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         (ML,"ml"),
     )
     
-    SHORT_QUANTITY_BY_PRICE = {PIECES:"pc",GRAMS:"gm",SERVING:"svg",LITRE:"ltr"}
+    SHORT_QUANTITY_BY_PRICE = {PIECES:"pc",SERVING:"svg",GRAMS:"gm",KILOS:"kg",DOZEN:"dozen",LITRE:"ltr", ML:"ml"}
     
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
