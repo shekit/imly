@@ -29,6 +29,7 @@ from django.template import Context
 from django.core.mail import send_mail,EmailMessage,get_connection
 from fb.modules.profile.page.models import Page
 
+
 def get_image_path(instance,filename):
     ext = filename.split('.')[-1]
     filename = "%s.%s" % (uuid.uuid4(), ext)
@@ -218,7 +219,7 @@ class Store(geo_models.Model):
     @delivers.setter
     def delivers(self, value):
         self._delivers = value
-        
+
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
     store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')
@@ -231,6 +232,7 @@ class DeliveryLocation(geo_models.Model):
     @property
     def display(self):
         return self.name.split(",")[0].title()
+
 
 class Product(ProductBase, PriceBase, geo_models.Model):
     #Product Details
@@ -547,3 +549,32 @@ class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, related_name="steps")
     description = models.TextField()
     
+
+# search configuration using watson
+import watson
+
+class ProductSearchAdapter(watson.SearchAdapter):
+    
+    def get_title(self, product):
+        return product.name
+        
+    def get_description(self, product):
+        return product.store.name + ' ' + product.description
+        
+    def get_content(self, product):
+        return ' '.join([product.category.name, ' '.join([tag.name for tag in product.tags.all()])])
+
+watson.register(Product, ProductSearchAdapter)
+
+class StoreSearchAdapter(watson.SearchAdapter):
+    
+    def get_title(self, store):
+        return store.name
+        
+    def get_description(self, store):
+        return store.description
+        
+    def get_content(self, store):
+        return ' '.join([store.tagline, ' '.join([category.name for category in store.categories.all()]), ' '.join([tag.name for tag in store.tags.all()]), ' '.join([product.name for product in store.product_set.all()])])
+
+watson.register(Store, StoreSearchAdapter)
