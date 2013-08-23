@@ -123,8 +123,9 @@ urlpatterns += patterns('',
 urlpatterns += patterns('',
     url(r"^shop/", include(shop.urls), name="imly_shop"),
     url(r"^shop/add/(?P<store_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$", "imly.views.stores.add_order", name="imly_add_order"),
-    
 )
+
+urlpatterns += patterns('', url(r'^search/(?P<search_item>food|store)', 'imly.views.products.search', name='imly_search'))
 
 urlpatterns += patterns('',
     url(r"^recipes/$", RecipeList.as_view(), name = "imly_recipe_list"),

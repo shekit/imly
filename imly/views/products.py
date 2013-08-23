@@ -18,6 +18,9 @@ from django.contrib.auth.models import User
 from django.template import RequestContext
 import json as simplejson
 from django.db.models import Max,Min
+import json
+import watson
+
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -287,3 +290,15 @@ def wishlist(request):
         else:
             stores[wish.product.store] = [wish.product]
     return render_to_response('wish_products.html',locals(),RequestContext(request))
+    
+def search(request, search_item):
+    search_filter = search_item == 'food' and Product or Store
+    search_filter = search_filter.objects.is_approved()
+    place_slug = request.session.get('place_slug', '')
+    if place_slug:
+        user_point = request.session.get('bingeo')
+        user_point = Point(*user_point)
+        search_filter = search_filter.distance(user_point).order_by('distance')
+    search_result = watson.filter(search_filter, request.GET.get('query', ''))
+    raise Exception(search_result)
+    return render_to_response('search_results.html', locals())
