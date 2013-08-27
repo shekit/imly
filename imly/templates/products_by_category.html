@@ -41,26 +41,21 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#price-slider').slider({
-    range:'min',
-    min:parseInt($("#min_price").text()),
-    max:parseInt($("#max_price").text()),
-    step:50,
-    value: parseInt($('#filter_by_price').text()),
-    slide: function(event, ui){
+        range:'min',
+        min:parseInt($("#min_price").text()),
+        max:parseInt($("#max_price").text()),
+        step:50,
+        value: parseInt($('#filter_by_price').text()),
+        slide: function(event, ui){
             $('#filter_by_price').html(ui.value);
-    },
-    change: function(event,ui){
-<<<<<<< HEAD
-=======
-        $('#filter_by_price').html(ui.value);
-        //$('#slider-range-min a').html(ui.value);
->>>>>>> f4cad7c7a337ba23b77d421b27d57ff858da6164
-        try{
-            window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
-        }catch(e){
-            window.location.href=window.location.href + '?value=' + ui.value;
+        },
+        change: function(event,ui){
+            try{
+                window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
+            }catch(e){
+                window.location.href=window.location.href + '?value=' + ui.value;
+            }
         }
-    }
     });
     $('.product_wish').click(function(){
         var raw_id = $(this).attr('id')
