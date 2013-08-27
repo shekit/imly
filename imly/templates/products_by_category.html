@@ -50,6 +50,7 @@ $(document).ready(function(){
     slide: function(event,ui){
         console.log(ui.value);
         $('#filter_by_price').html(ui.value);
+        //$('#slider-range-min a').html(ui.value);
         try{
             window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
         }catch(e){

@@ -8,18 +8,18 @@
                 {% block sidebar_nav %}
                     
 		    <div class="row-fluid sort_by_first">
-			<div class="span12">
-			    <a class="btn-block sort_by_button sort_by_button_selected">Sort by Relevancy</a>
+			<div class="span6">
+			    <a class="sort_by_button sort_by_button_selected">Sort by Relevancy</a>
+			</div>
+		    
+		    
+			<div class="span6">
+			    <a class="sort_by_button">Sort by Distance</a>
 			</div>
 		    </div>
 		    <div class="row-fluid sort_by">
 			<div class="span12">
-			    <a class="btn-block sort_by_button">Sort by Distance</a>
-			</div>
-		    </div>
-		    <div class="row-fluid sort_by">
-			<div class="span12">
-			    <a class="btn-block sort_by_button">Sort by Price</a>
+			    <a class="sort_by_button">Sort by Price</a>
 			</div>
 		    </div>
                 {% endblock sidebar_nav %}
@@ -32,7 +32,7 @@
 
 {% load imly_tags %}
 {% if search_result %}
-    <h4 class="muted no_search_results"><span style="font-weight: 500;">Search Results:</span> Found <span class="orange">{{ search_result.count }}</span> results for <span class="orange">{{ search_query }}</span> in {{ request.session.place_slug }} ({{ request.city }})</h4>
+    <h4 class="muted no_search_results"><span style="font-weight: 500;">Search Results:</span> Found <span class="orange">{{ search_result.count }}</span> results for <span class="orange">{{ search_query }}</span> in {{ request.session.display_place_slug|capfirst }} ({{ request.city }})</h4>
 
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">

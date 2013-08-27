@@ -580,6 +580,20 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 	color:#ffffff;
 	background: #F05A28;
 }
+
+/* price slider */
+
+.ui-widget-content {
+    border: 1px solid #ccc;
+}
+
+.ui-corner-all {
+    border-radius: 0px;
+}
+
+#slider-range-min .ui-slider-handle {
+    border-color: #bbb;
+}
 		
 /* reducing h5 bottom margin in product list page so shop name comes below product */
 .less_bottom_margin{
@@ -1744,6 +1758,7 @@ a.sort_by_button{
 	color:#f05a28;
 	padding: 5px 8px;
 	text-align: center;
+	font-size: 11px;
 }
 
 a.sort_by_button:hover {
