@@ -581,6 +581,9 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 /* price slider */
 
+#price-slider {
+    margin-top: 10px;    
+}
 
 #price-slider .ui-slider-range { background: #F05A28; }
 #price-slider .ui-slider-handle { border-color: #F05A28; }
@@ -596,7 +599,18 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 #price-slider .ui-slider-handle {
     border-color: #bbb;
 }
-		
+
+.filter_by_price {
+    position: relative;
+}
+
+.selected_price {
+    position: absolute;
+    left: 46%;
+    color: #f05a28;
+    font-weight: bold;
+    font-size: 11px;
+}
 /* reducing h5 bottom margin in product list page so shop name comes below product */
 .less_bottom_margin{
     margin-bottom:5px;
