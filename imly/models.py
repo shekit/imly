@@ -65,7 +65,7 @@ def get_thumbnail_large_path(instance,path,specname,extension):
 
 
 class Category(models.Model):
-    
+
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
@@ -75,27 +75,27 @@ class Category(models.Model):
     position = models.IntegerField(default=1)
     product_ordering = models.IntegerField(default=10)
     tags = models.ManyToManyField("Tag", blank=True)
-    
+
     class Meta:
         verbose_name_plural = "Categories"
         ordering = ["position","name"]
-    
+
     def __unicode__(self):
         return self.name
 
 #how to create filter for multiple tags
 #if has count , make it active?
 class Tag(models.Model):
-    
+
     name= models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     is_active = models.BooleanField(default=False)
-    
+
     class Meta:
         ordering = ["name"]
-        
+
     def __unicode__(self):
         return self.name
 
@@ -103,7 +103,7 @@ class Tag(models.Model):
         return self.product_set.filter(is_flag = True).count() == 1 and self.product_set.count() == 1
 
 class Location(models.Model):
-    
+
     name = models.CharField(max_length=50, unique=True)
     slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
@@ -112,7 +112,7 @@ class Location(models.Model):
 
     class Meta:
         ordering = ["name"]
-    
+
     def __unicode__(self):
         return self.name
 
@@ -131,7 +131,7 @@ class Store(geo_models.Model):
     logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",options={'quality': 92},processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
     cover_photo_thumbnail = ImageSpecField(image_field="cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(900,200)], cache_to=get_store_cover_photo_path)
-    
+
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
     pick_up = models.BooleanField(default=True)
@@ -143,11 +143,11 @@ class Store(geo_models.Model):
     delivery_areas = models.ManyToManyField(Location, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
     date_updated = models.DateTimeField(auto_now=True)
-    
+
     #promotion
     facebook_link = models.URLField(blank=True, help_text="(optional)")
     twitter_link = models.URLField(blank=True, help_text="(optional)")
-    
+
     #status
     is_open = models.BooleanField(default=True)
     store_notice = models.TextField(blank=True)
@@ -157,25 +157,25 @@ class Store(geo_models.Model):
     tags = models.ManyToManyField(Tag, blank=True)
     delivery_points = geo_models.MultiPointField(blank=True, null=True)
     data = JSONField('data',blank=True,help_text="JSON-encoded additional data about the store.")
-    
+
     objects = StoreManager()  # default manager
     everything = models.Manager()
-    
+
     class Meta:
         ordering = ["-date_created"]
-    
+
     def __unicode__(self):
         return "%s by %s" % (self.name, self.owner)
-    
+
     @models.permalink
     def get_absolute_url(self):
         return ("imly_store_detail", (), {"slug": self.slug})
-    
+
     def save(self,*args, **kwargs):
         self.description_html = markdown(self.description)
         if self.pick_up_location:
             result = geocode(self.pick_up_location)
-            if result: self.pick_up_point = Point(*result[1]) 
+            if result: self.pick_up_point = Point(*result[1])
         return super(Store, self).save(*args, **kwargs)
 
     def delivers_to(self):
@@ -211,11 +211,11 @@ class Store(geo_models.Model):
     @property
     def pick_up_display(self):
         return self.pick_up_location.split(",")[0].title()
-    
+
     @property
     def delivers(self):
         return self._delivers
-        
+
     @delivers.setter
     def delivers(self, value):
         self._delivers = value
@@ -223,12 +223,12 @@ class Store(geo_models.Model):
 class DeliveryLocation(geo_models.Model):
     name = geo_models.CharField(max_length=100)
     store = geo_models.ForeignKey(Store,blank=True, related_name='delivery_locations')
-    location = geo_models.PointField(null=True, blank=True)    
+    location = geo_models.PointField(null=True, blank=True)
     objects = geo_models.GeoManager()
 
     def __unicode__(self):
         return self.name
-    
+
     @property
     def display(self):
         return self.name.split(",")[0].title()
@@ -242,7 +242,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         #(HOUR, "hour"),
         (DAY, "day"),
     )
-    
+
     PIECES = 1
     SERVING = 2
     GRAMS = 3
@@ -259,9 +259,9 @@ class Product(ProductBase, PriceBase, geo_models.Model):
         (LITRE,"litre"),
         (ML,"ml"),
     )
-    
+
     SHORT_QUANTITY_BY_PRICE = {PIECES:"pc",SERVING:"svg",GRAMS:"gm",KILOS:"kg",DOZEN:"dozen",LITRE:"ltr", ML:"ml"}
-    
+
     name = models.CharField(max_length=255)
     slug = AutoSlugField(populate_from='name', unique_with=['store__name', 'name'], editable=True)
     quantity_per_item = models.DecimalField(default=1, max_digits=6,decimal_places=2)
@@ -300,24 +300,24 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     class Meta:
         unique_together =("name","store",)
         ordering = ['category__product_ordering', 'position']
-    
+
     def __unicode__(self):
         return "%s by %s" % (self.name, self.store.name)
-    
+
     @models.permalink
     def get_absolute_url(self):
         return ("imly_product_detail", (), {"store_slug": self.store.slug,
                                             "slug":self.slug})
-    
+
     def get_price(self, *args, **kwargs):
         return self
 
     def quantity_unit(self):
         return self.QUANTITY_BY_PRICE[self.quantity_by_price - 1][1]
-    
+
     def short_quantity_by_price(self):
         return self.SHORT_QUANTITY_BY_PRICE[self.quantity_by_price]
-    
+
     def handle_order_item(self, orderitem):
         ProductBase.handle_order_item(self, orderitem)
         PriceBase.handle_order_item(self, orderitem)
@@ -325,7 +325,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     @property
     def is_approved(self):
         return self.store.is_approved
-        
+
     @property
     def sale(self):
         return abs(self.stock_transactions.filter(type=StockTransaction.SALE).filter(order__status=Order.IMLY_CONFIRMED).aggregate(sale_sum=Sum('change'))['sale_sum'])
@@ -349,14 +349,14 @@ class Product(ProductBase, PriceBase, geo_models.Model):
             self.position = Product.objects.filter(store=self.store).count() + 20
             self.flag_reason = "Please upload a better quality image for this dish"
             self.data['flag'],self.data['date'],self.data['time'] = 'True',datetime.today().date(),datetime.today().time()
-             
+
         if not self.is_flag and self.data.get('flag',''):
             self.position = Product.objects.filter(is_deleted = False, store=self.store).count() + 1
             self.flag_reason = ''
             self.data['flag'] = ''
             self.data['date'] = ''
             self.data['time'] = ''
-            
+
         if not self.pk:
             self.position = Product.objects.filter(is_deleted = False, store=self.store).count()
         transaction_type = change = None
@@ -376,10 +376,10 @@ class Product(ProductBase, PriceBase, geo_models.Model):
             self.stock_transactions.items_in_stock(self, update=True)
 
 class StoreOrder(models.Model):
-    
+
     TimeChoices = (
-        
-        
+
+
         (1, ('12pm - 1pm')),
         (2, ('1pm - 2pm')),
         (3, ('2pm - 3pm')),
@@ -388,12 +388,12 @@ class StoreOrder(models.Model):
         (6, ('5pm - 6pm')),
         (7, ('Anytime')),
         )
-    
+
     store = models.ForeignKey(Store)
     order = models.ForeignKey(Order)
     delivered_on = models.DateTimeField(default=date.today())
     delivered_by_product_lead = models.DateTimeField(default=date.today())
-    delivery_lead = models.IntegerField(default=0) 
+    delivery_lead = models.IntegerField(default=0)
     delivery_charges = models.IntegerField(default=0)
     order_time = models.IntegerField(choices= TimeChoices, default=3)
     pick_up = models.BooleanField(default=True)
@@ -405,17 +405,17 @@ class StoreOrder(models.Model):
 
     class Meta:
         ordering = ['-delivered_on']
-        
+
     def __unicode__(self):
         return self.store.slug
 
     def display_order_time(self):
         return self.TimeChoices[self.order_time - 1][1]
-        
+
     def save(self, *args, **kwargs):
         self.delivered_on = self.delivered_by_product_lead + timedelta(days=self.delivery_lead)
         return super(StoreOrder, self).save(*args, **kwargs)
-    
+
     @classmethod
     def update_for_order(cls, instance):
         stores = set((item.product.store for item in instance.items.all()))
@@ -427,8 +427,8 @@ class StoreOrder(models.Model):
             store_order.store_total = sum((item.subtotal for item in instance.items.filter(product__in=store.product_set.all())))
             store_order.store_items = instance.items.filter(product__in=store.product_set.all()).count()
             store_order.save()
-    
-        
+
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User)
     first_name = models.CharField(max_length=100)
@@ -443,7 +443,7 @@ class UserProfile(models.Model):
     word_three = models.CharField(max_length=40)
 
     is_featured = models.BooleanField(default=False)
-    
+
     def __unicode__(self):
         return self.first_name
 
@@ -453,7 +453,10 @@ class UserProfile(models.Model):
         if self.first_name:
             self.slug = "%s-%s" % (slugify(self.first_name).lower(), slugify(self.last_name).lower())
         super(UserProfile,self).save(*args, **kwargs)
-    
+
+    def full_name(self):
+        return ' '.join([self.first_name, self.last_name])
+
 class ChefTip(models.Model):
     name = models.CharField(max_length = 100, verbose_name = "Chef's Name")
     tip_contact_number = models.CharField(max_length = 10, verbose_name = "Chef's Number")
@@ -488,9 +491,9 @@ class Special(models.Model):
 
     special_cover_photo = models.ImageField(upload_to="special-cover-photos", blank=True)
     special_cover_photo_thumbnail_mini = ImageSpecField(image_field="special_cover_photo", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(768,200)], cache_to="special-cover-photo-thumbnails-mini")
-    
+
     special_button_photo = models.ImageField(upload_to="special-button-photo", blank=True)
-    
+
 
     objects = SpecialManager()
 
@@ -506,20 +509,20 @@ class Wish(models.Model):
 
     def __unicode__(self):
         return "%s like %s" % (self.user, self.product)
-    
+
 
 class Ingredient(models.Model):
     name = models.CharField(max_length=255)
     recipe = models.ForeignKey("Recipe", related_name="ingredients")
-    
+
     def __unicode__(self):
         return "%s" % (self.name)
 
 class Recipe(models.Model):
-    
+
     MINUTES = 1
     HOURS = 2
-    
+
     PREP_TIME_CHOICES  = (
         (MINUTES , "minutes"),
         (HOURS , "hours"),
@@ -538,42 +541,42 @@ class Recipe(models.Model):
     cook_time_choices = models.IntegerField(choices=PREP_TIME_CHOICES, default=MINUTES)
     serves = models.IntegerField(default=1)
     chef_note = models.TextField(blank=True)
-    
+
     def save(self, *args, **kwargs):
         self.category = self.product.category
         self.store = self.product.store
         self.user = self.store.owner
         super(Recipe,self).save(*args, **kwargs)
-    
+
 class RecipeStep(models.Model):
     recipe = models.ForeignKey(Recipe, related_name="steps")
     description = models.TextField()
-    
+
 
 # search configuration using watson
 import watson
 
 class ProductSearchAdapter(watson.SearchAdapter):
-    
+
     def get_title(self, product):
         return product.name
-        
+
     def get_description(self, product):
-        return product.store.name + ' ' + product.description
-        
+        return ' '.join([product.store.owner.userprofile.full_name(), product.store.name, product.description])
+
     def get_content(self, product):
         return ' '.join([product.category.name, ' '.join([tag.name for tag in product.tags.all()])])
 
 watson.register(Product, ProductSearchAdapter)
 
 class StoreSearchAdapter(watson.SearchAdapter):
-    
+
     def get_title(self, store):
         return store.name
-        
+
     def get_description(self, store):
-        return store.description
-        
+        return ' '.join([store.owner.userprofile.full_name(), store.description])
+
     def get_content(self, store):
         return ' '.join([store.tagline, ' '.join([category.name for category in store.categories.all()]), ' '.join([tag.name for tag in store.tags.all()]), ' '.join([product.name for product in store.product_set.all()])])
 
