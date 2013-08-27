@@ -27,14 +27,14 @@
           ga('create', 'UA-41246832-1', 'imly.in');
           ga('send', 'pageview');
 		</script>
-		
+
     </head>
-    
-    
-    
+
+
+
 <body>
 
-    <div class="container-fluid lower_border">   
+    <div class="container-fluid lower_border">
         <div class="container">
             {% block navigation %}
             <div class="navbar navbar-fixed-top custom_navbar">
@@ -51,9 +51,9 @@
                                                                 <span class="icon-bar"></span>
                                                                 <span class="icon-bar"></span>
                                                             </li>
-                                                            
+
                                         </ul>
-                                        
+
 
                                 </span>
                   </button>
@@ -68,7 +68,7 @@
                             </a>
                 </div>
                   <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
-                  
+
                   <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
                         <li><a href="{% url "imly_product_list" %}">Food</a></li>
@@ -83,9 +83,9 @@
                         {% else %}
                             <li><a href="{% url "why_open_your_shop" %}">Open Your Shop</a></li>
                         {% endif %}
-                        
+
                                           {% if user.is_authenticated %}
-                                              
+
                                               <li class="dropdown"><a class="dropdown-toggle border_right" data-toggle="dropdown" href="#">
                                               {% if user.userprofile.first_name %}
                                                   {{ user.userprofile.first_name }} <span class="caret"></span>
@@ -104,7 +104,7 @@
                                               <li class="hidden-phone"><a class="index_sign_in" href="#myModal" role="button" data-toggle="modal">Sign In</a></li>
                                               <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
                                           {% endif %}
-      
+
                     </ul>
                   </div><!--/.nav-collapse -->
                 </div><!-- /.navbar-inner -->
@@ -114,14 +114,14 @@
         </div> <!-- end of div container -->
     </div>
     {% block location_search_bar %}
-        
+
     {% endblock location_search_bar %}
     {% block carousel %}
     <div class="hero-unit hero-unit-float hidden-phone">
                     <div class="row-fluid">
                         <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" alt="Imly logo"></p>
                     </div>
-                    
+
                     <div class="row-fluid">
                         <div class="span12">
                         <ul class="inline text-center">{# <h3>The online home food marketplace</h3> #}
@@ -129,29 +129,29 @@
                             <li><a href="{% url "imly_product_list" %}" class="action_button action_button2">Discover Great Food<br><small class="ultra_small_button">fresh. homely. unique.</small></a></li>
                         </ul>
                         </div>
-                        
+
                     </div>
     </div>
-    
+
 
     <div id="myCarousel" class="carousel slide hidden-phone custom_carousel">
         <div class="carousel-inner">
             <div class="hero-unit hero_carousel1 active item"></div>
-            
+
             <div class="hero-unit hero_carousel2 item"></div>
-            
+
             <div class="hero-unit hero_carousel3 item"></div>
         </div>
         <a class="carousel-control left" href="#myCarousel" data-slide="prev">&lsaquo;</a>
         <a class="carousel-control right" href="#myCarousel" data-slide="prev">&rsaquo;</a>
     </div>
-    
+
     <div class="container visible-phone">
         <div class="row-fluid lower_border2">
             <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_cover_photo.jpg"></p>
         </div>
     </div>
-    
+
     <div class="row-fluid">
         <div class="span3"></div>
         <div class="span6 negative_margin">
@@ -162,8 +162,8 @@
 
     {% endblock carousel %}
     <br>
-        
-    
+
+
     <div id="wrap">
         <div id="main" class="container clear-top">
             {% block featurette %}
@@ -179,17 +179,17 @@
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
                             <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a></small>
                         </div>
-                    </li> 
+                    </li>
                     {% endfor %}
                     </ul>
                     </div>
                 </div>
             </div>
-            
+
             <br>
             <br>
             {% endif %}
-        
+
 			{% if recently_bought and recently_added %}
             <div class="row-fluid">
                 <div class="span6">
@@ -202,7 +202,7 @@
                     <li class="span3">
                         <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
-                            
+
                         </div>
                     </li>
                     {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
@@ -222,7 +222,7 @@
                     <li class="span3">
                         <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
-                            
+
                         </div>
                     </li>
                     {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
@@ -232,7 +232,7 @@
                         </div>
                     </div>
                 </div>
-				
+
         </div>
         <br>
         <br>
@@ -249,7 +249,7 @@
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
                             <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
                         </div>
-                    </li> 
+                    </li>
                     {% endfor %}
                     </ul>
                     </div>
@@ -258,16 +258,16 @@
             {% endif %}
         <br>
             <br>
-            
+
             {% if featured_stores %}
             <div class="row-fluid">
                 <div class="span12">
                     <div class="row-fluid">
                     <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">chefs</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
-                    
+
                     <ul class="thumbnails">
                     {% for store in featured_stores %}
-                        
+
                         <li class="span3">
                             <div class="thumbnail thumbnail_custom half">
                                 {% if store.logo %}
@@ -278,7 +278,7 @@
                                     {% endwith %}
                                 {% endif %}
 
-                                
+
                                 <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name|lower|title }}</h5></a><small class="muted"> by
                                             {% if store.owner.userprofile %}
                                                 <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
@@ -288,7 +288,7 @@
                                 <div class="clearfix"></div>
                             </div>
                         </li>
-                        
+
                     {% endfor %}
                     </ul>
                     </div>
@@ -297,10 +297,10 @@
             {% endif %}
             <br>
             <br>
-        
-        
+
+
             <br>
-        
+
             <br>
         {% endblock featurette %}
             {% block as_seen_on %}
@@ -312,7 +312,7 @@
                 <div class="span2"></div>
             </div>
         {% endblock as_seen_on %}
-        
+
                 {% block picture_line %}
             <br>
             <br>
@@ -325,14 +325,14 @@
         </div> <!-- end of container div -->
     </div> <!-- end of wrap div -->
         <div class="container-fluid">
-            <br><br><br>            
+            <br><br><br>
         </div>
-    
+
             {% block login %}
-            {% include "modal_signup.html" %}   
+            {% include "modal_signup.html" %}
             {% include "select_city.html" %}
         {% endblock login %}
-    
+
     <footer class="container-fluid bgfull footer">
             <div class="container">
                 <br>
@@ -341,7 +341,7 @@
                 {% endblock footer %}
             </div>
         </footer>
-    
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <!--<script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>-->
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
@@ -350,56 +350,56 @@
         <script>
       !function ($) {
         $(function(){
-            
+
             var default_bounds = new google.maps.LatLngBounds(
 								new google.maps.LatLng(19.26, 72.98),
-								new google.maps.LatLng(18.89, 72.775)); 
+								new google.maps.LatLng(18.89, 72.775));
 						var google_map_api_options = {
 							bounds: default_bounds,
 							componentRestrictions: {country: 'in'}
 						};
-                                                
+
                                                var set_location_button = function() {
                                                 if($('#loc').val()){
                                                     window.location.href = '/set_location?location=' + $('#loc').val();
                                                 }else{
                                                     return;
                                                 }
-                                                    
+
                                                 }
-                                                
+
                                                 $(".go_location_button").on("click",set_location_button);
-                                                
+
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							window.location.href = '/set_location?location=' + $('#loc').val();
 						});
-            
+
           // carousel demo
           $('#myCarousel').carousel({
                 interval: 4000
           });
-          
+
           var c=0, words=["is different.","connects home chefs to foodies.","is home to great food.","is a marketplace.", "is a community.","is made for you.","is your friend.","is unique.", "is the place to be.","is sweet.","is spicy.","is tangy.","is memorable."]
-          
+
           function loop(){
             $(".what .what_all").delay(2500).fadeTo(300,0,function(){
-               $(this).text(words[++c%words.length]).fadeTo(300,1,loop); 
+               $(this).text(words[++c%words.length]).fadeTo(300,1,loop);
             });
           }
-          
+
           loop();
-          
+
           $("#givetip").click(function(){
                             $("#tip").modal();
                             $('#tip_form')[0].reset();
                         });
-                        
+
                         $('#tip_form').submit(function(){
-                            
+
                             //alert("Submit");
                             var form_data = $(this).serialize()
-                            $.post('/give_us_tip/', form_data, function(data){   
+                            $.post('/give_us_tip/', form_data, function(data){
                                 $('#tip').modal('hide');
                                 $('#tip_form').find("input[type=text], textarea").val("");
                             })
@@ -407,9 +407,9 @@
                             $('#tip_form')[0].reset();
                             return false;
                         });
-                        
+
                         $("#login_form").submit(function(){
-                            
+
                             var form_data = $(this).serialize();
                             $.post("/login-x/", form_data, function(data){
                                 window.location.href = data;
@@ -417,63 +417,43 @@
                             .error(function(data){$("#login_form").html(data.responseText);});
                             return false;
                         });
-                  
+
                         $("#signup_form").submit(function(){
-                            
+
                             var form_data = $(this).serialize();
                             $.post("/signup-x/", form_data, function(data){
-                                window.location.href = data;  
+                                window.location.href = data;
                             })
                             .error(function(data){$("#signup_form").html(data.responseText);});
                             return false;
                         });
-                        
+
                         $("#open_your_shop").on("click",function(){
                             $(".redirect_path").attr("value","{% url "imly_store_info" %}");
                             $("#myModal").modal();
 
                         });
-                        
+
                         $("#from_logout").on("click", function(){
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-                        
+
                         $(".open_your_shop").on("click",function(){
                             $(".redirect_path").attr("value","{% url "imly_store_info" %}");
                             $("#myModal").modal();
 
                         });
-                        
+
         })
       }(window.jQuery)
-      
+
     </script>
 
     {% block extra_javascript %}
-            
+
         {% endblock extra_javascript %}
-    
-        <!-- UserVoice JavaScript SDK (only needed once on a page) -->
-        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-        
-                <!-- A tab to launch the Classic Widget -->
-        <script>
-        UserVoice = window.UserVoice || [];
-        UserVoice.push(['showTab', 'classic_widget', {
-          mode: 'feedback',
-          primary_color: '#f05a28',
-          link_color: '#ff7752',
-          forum_id: 198507,
-          support_tab_name: 'Contact Us',
-          feedback_tab_name: 'We want your Feedback',
-          tab_label: 'Feedback',
-          tab_color: '#ff7752',
-          tab_position: 'middle-right',
-          tab_inverted: true
-        }]);
-        </script>
-        
+
 		<!-- begin olark code -->
 		<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
 		f[z]=function(){
@@ -494,25 +474,5 @@
 		/* custom configuration goes here (www.olark.com/documentation) */
 		olark.identify('7236-129-10-3919');/*]]>*/</script><noscript><a href="https://www.olark.com/site/7236-129-10-3919/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
 		<!-- end olark code -->
-		<!-- Kissmetrics Code -->
-		<script type="text/javascript">
-		  var _kmq = _kmq || [];
-		  var _kmk = _kmk || '460482e66e5e463b9da28aedc76296aa367b8afb';
-		  function _kms(u){
-		    setTimeout(function(){
-		      var d = document, f = d.getElementsByTagName('script')[0],
-		      s = d.createElement('script');
-		      s.type = 'text/javascript'; s.async = true; s.src = u;
-		      f.parentNode.insertBefore(s, f);
-		    }, 1);
-		  }
-		  _kms('//i.kissmetrics.com/i.js');
-		  _kms('//doug1izaerwt3.cloudfront.net/' + _kmk + '.1.js');
-		</script>
-		<script type="text/javascript">
-		$('.announcement_message').click(function(){
-			ga('send', 'event', 'announcement', 'click', "message on homepage ");
-		});
-		</script>
 </body>
 </html>

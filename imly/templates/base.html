@@ -11,16 +11,16 @@
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
         <!--<link href="{{ STATIC_URL }}bootstrap/css/jasny-bootstrap.css" rel="stylesheet" type="text/css">-->
         <link href="{{ STATIC_URL }}star-rating/jquery.rating.css" rel="stylesheet" type="text/css">
-       
+
         <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
 		<link href="https://plus.google.com/102707005754075691667" rel="publisher" />
-        
+
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
         <link rel="shortcut icon" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
-		
+
         {% block extra_head %}
         <meta property="og:url" content="http://imly.in">
 		<meta property="og:title" content="Imly.in - the online marketplace to buy and sell homemade food">
@@ -33,32 +33,32 @@
           (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        
+
           ga('create', 'UA-41246832-1', 'imly.in');
           ga('send', 'pageview');
 		  {% block extra_google_tracking %}
-		  
+
 		  {% endblock extra_google_tracking %}
         </script>
-		
+
     </head>
-    
+
     <body>
-  
+
     <div class="container-fluid lower_border">
         <div class="container">
             {% block navigation %}
-                
+
                 {% include "top_nav.html" %}
-                
+
             {% endblock navigation %}
         </div> <!-- end of div container -->
-    </div>   
+    </div>
         {% block location_search_bar %}
             {% include "search_bar.html" %}
-            
+
         {% endblock location_search_bar %}
-        
+
         <div id="wrap">
         <div id="main" class="container clear-top">
             <div class="row-fluid">
@@ -87,29 +87,29 @@
                             </ul>
                         </div>
                         {% endcomment %}
-                    
+
                         {% include "sidebar_nav.html" %}
                     </div> <!-- end of well sidebar-nav -->
                 {% endblock sidebar_nav %}
                 </nav> <!-- end of nav span3 -->
-                
+
                 <section class="span9">
                     {% block shop_or_product %}
 
-                  
+
                     {% endblock shop_or_product %}
-                    
+
                     <div class="row-fluid">
                         {% block content %}
-                    
-                    
+
+
                         {% endblock content %}
                     </div>
                 </section> <!-- end of section span9 -->
             </div> <!-- end of row-fluid -->
         {% endblock main_body %}
-        
-                </div>    
+
+                </div>
             </div> <!-- end of row-fluid -->
         {% block picture_line %}
             <br>
@@ -121,17 +121,17 @@
                 </div>
             </div>
         {% endblock picture_line %}
-            
+
         </div> <!-- end of container div -->
         </div> <!-- end of wrap div -->
-             
+
         <div class="container-fluid">
-        
+
             <br>
-            <br>            
+            <br>
         </div>
         {% block login %}
-            {% include "modal_signup.html" %}   
+            {% include "modal_signup.html" %}
             {% include "select_city.html" %}
         {% endblock login %}
 
@@ -143,8 +143,8 @@
                 {% endblock footer %}
             </div>
         </footer>
-        
-        
+
+
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
         <!--<script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>-->
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
@@ -152,71 +152,72 @@
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
         <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
         <!--<script src="{{ STATIC_URL }}bootstrap/js/jasny-bootstrap.js"></script>-->
-        
-    
+
+
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51e1d9777bb04639"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
         <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
         <script type="text/javascript">
 
             $(document).ready(function(){
-            
+
             if(window.location.pathname.split("/")[1] == "password") {
                 $(".redirect_path").attr("value","{% url 'imly_product_list' %}");
             }
 		});
 
                 !function ($) {
-					
+
                     $(function(){
-							
-						var default_bounds = new google.maps.LatLngBounds(
+  						var default_bounds = new google.maps.LatLngBounds(
 								new google.maps.LatLng(19.26, 72.98),
-								new google.maps.LatLng(18.89, 72.775)); 
+								new google.maps.LatLng(18.89, 72.775));
 						var google_map_api_options = {
 							bounds: default_bounds,
 							componentRestrictions: {country: 'in'}
 						};
-                                                $('.search_form').submit(function(){
-                                                    if(!$("#search_term").val()){
-                                                        return false;
-                                                    }
-                                                })
-                                               var set_location_button = function() {
-                                                if($('#loc').val()){
-                                                    $.getJSON('/set_location?location=' + $('#loc').val(), function(data){
+                        // flag to check if location is being resolved and hence not submit for search
+                        var locating = false;
+
+                        $('.search_form').submit(function(){
+                             if(!$("#search_term").val()){
+                                return false;
+                        }
+                        return !locating
+                        });
+
+                        var set_location_button = function() {
+                            locating = true;
+                            if($('#loc').val()){
+                               $.getJSON('/set_location?location=' + $('#loc').val(),
+                                         function(data){
                                                         if(data['reason']){
                                                             alert(data['reason'])
                                                         }else{
                                                             if($('#search_term').val())
-                                                            {
-                                                                window.location.href="/search/food/?query=" + $('#search_term').val()
-                                                            }else{
-                                                                window.location.href=window.location.href;
-                                                            }
+                                                                {$('.search_form').submit()}
+
                                                         }
                                                     });
-                                                    //window.location.href = '/set_location?location=' + $('#loc').val();
-                                                }else{
-                                                    return;
-                                                }
-                                                    
-                                                }
-                                                
+
+                             }
+                            locating=false;
+                        }
 						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							set_location_button()
 						});
+                        $('#loc').keypress(function(event){if(event.which == 13){set_location_button();event.preventDefault();}});
 						//expanding, contracting stor info
                         $("div.expandable").expander({
                         slicePoint: 140,
                         expandEffect: 'slideDown',
                         collapseEffect: 'slideUp',
-    
+
                         });
-                        
+
                         $('.form-tips').tooltip({placement:"right"});
-                        
+
                         $('.form-tips-cart').tooltip({placement:"top"});
 
                         //filtering by location
@@ -224,18 +225,18 @@
                             var query = window.location.href
                             window.location = "/set_location/" + $("select.location_list option:selected").val() + "?next=" + encodeURI(query)
                         });
-                        
+
 
                         $(".give_us_a_tip").click(function(){
                             $("#tip").modal();
                             $('#tip_form')[0].reset();
                         });
-                        
+
                         $('#tip_form').submit(function(){
-                            
+
                             //alert("Submit");
                             var form_data = $(this).serialize()
-                            $.post('/give_us_tip/', form_data, function(data){   
+                            $.post('/give_us_tip/', form_data, function(data){
                                 $('#tip').modal('hide');
                                 $('#tip_form').find("input[type=text], textarea").val("");
                             })
@@ -243,9 +244,9 @@
                             $('#tip_form')[0].reset();
                             return false;
                         });
-                        
+
                         $("#login_form").submit(function(){
-                            
+
                             var form_data = $(this).serialize();
                             $.post("/login-x/", form_data, function(data){
                                 window.location.href = data;
@@ -254,12 +255,12 @@
                             .error(function(data){$("#login_form").html(data.responseText);});
                             return false;
                         });
-                  
+
                         $("#signup_form").submit(function(){
-                            
+
                             var form_data = $(this).serialize();
                             $.post("/signup-x/", form_data, function(data){
-                                window.location.href = data;  
+                                window.location.href = data;
                             })
                             .error(function(data){$("#signup_form").html(data.responseText);});
                             return false;
@@ -270,49 +271,29 @@
                             $("#myModal").modal();
 
                         });
-                        
-                        
+
+
                         $("#from_logout").on("click", function(){
                             $(".redirect_path").attr("value","{% url "imly_product_list" %}");
                             $("#myModal").modal();
                         });
-						
+
 						if(window.location.hash == '#suggest'){
 							$('#givetip').click();
 						}
                     })
                 }(window.jQuery)
-                
-				
-              
-        </script>
-        
 
-        
-        {% block extra_javascript %}
-            
-        {% endblock extra_javascript %}
-        
-        <!-- UserVoice JavaScript SDK (only needed once on a page) -->
-        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-        
-        <!-- A tab to launch the Classic Widget -->
-        <script>
-        UserVoice = window.UserVoice || [];
-        UserVoice.push(['showTab', 'classic_widget', {
-          mode: 'feedback',
-          primary_color: '#f05a28',
-          link_color: '#ff7752',
-          forum_id: 198507,
-          support_tab_name: 'Contact Us',
-          feedback_tab_name: 'We want your Feedback',
-          tab_label: 'Feedback',
-          tab_color: '#ff7752',
-          tab_position: 'middle-right',
-          tab_inverted: true
-        }]);
+
+
         </script>
-        
+
+
+
+        {% block extra_javascript %}
+
+        {% endblock extra_javascript %}
+
 		<!-- begin olark code -->
 		<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
 		f[z]=function(){
