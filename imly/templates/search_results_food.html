@@ -1,0 +1,289 @@
+{% extends "base.html" %}
+
+{% block title %}Imly | Search Results{% endblock title %}
+		
+		{% block special_event %}
+		    
+		{% endblock special_event %}
+                {% block sidebar_nav %}
+                    
+		    <div class="row-fluid sort_by_first">
+			<div class="span12">
+			    <a class="btn-block sort_by_button sort_by_button_selected">Sort by Relevancy</a>
+			</div>
+		    </div>
+		    <div class="row-fluid sort_by">
+			<div class="span12">
+			    <a class="btn-block sort_by_button">Sort by Distance</a>
+			</div>
+		    </div>
+		    <div class="row-fluid sort_by">
+			<div class="span12">
+			    <a class="btn-block sort_by_button">Sort by Price</a>
+			</div>
+		    </div>
+                {% endblock sidebar_nav %}
+
+{% block shop_or_product %}
+                    
+{% endblock shop_or_product %}
+
+{% block content %}
+
+{% load imly_tags %}
+{% if search_result %}
+    <h4 class="muted no_search_results"><span style="font-weight: 500;">Search Results:</span> Found <span class="orange">{{ search_result.count }}</span> results for <span class="orange">{{ search_query }}</span> in {{ request.session.place_slug }} ({{ request.city }})</h4>
+
+<!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
+    <ul class="thumbnails">
+        {% load endless %}
+        
+        {% paginate search_result %}
+        {% for object in search_result %}
+		{% if foorloop.first %}
+		{% block extra_head %}
+		<meta property="og:title" content="{{ object.store.name }}: {{ object.name }}"/>
+		<meta property="og:type" content="imly:product"/>
+		<meta property="og:category" content="Food"/>
+		<meta property="og:image" content="{{ object.image_thumbnail.url }}"/>
+		<meta property="og:site_name" content="imly.in"/>
+		<meta property="og:url" content="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/"/>
+		<meta property="og:description" content="Check out {{ object.name|title }} on imly.in! Drooool..."/>
+		{% endblock extra_head %}
+		{% endif %}
+        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
+        <li class="span4">
+            <div class="thumbnail thumbnail_custom">
+                {% if request.session.place_slug %}
+                                {% store_amend_geo object.store %}
+                                {% if object.store.pick_up_location %}
+                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+
+                                    {% if object.store.distance < 1 %}
+                                        &lt; 1 km 
+                                    {% else %}
+                                        {{ object.store.distance|floatformat:"1" }} kms
+                                    {% endif %}
+                                {% endif %}
+                                
+                                
+                                <span class="pull-right">
+				    
+                                {% if object.store.delivers %} {# Was this earlier - {% if object.store.delivers %} #}
+                                    Delivers to you &nbsp;
+                                {% else %}
+                                    {% if object.store.pick_up and object.store.delivers %}
+                                        Pick up/Delivery &nbsp;
+                                    {% elif object.store.pick_up %}
+                                        Pick up required &nbsp;
+                                    {% else %}
+                                        Unavailable &nbsp;
+                                    {% endif %}
+                                {% endif %}
+                                </span>
+                                </small></p>
+                {% endif %}
+                <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
+                    <div class="sold_out">
+                        <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
+                        {% if not object.items_in_stock %}
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
+                        {% endif %}
+                        <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
+                        <div class="hidden-desktop">
+                            <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
+                        </div>
+                        <div>
+                            <div id="item_wished_{{ object.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
+                        </div>
+                        
+                            <div class="visible-desktop">
+                                <!-- AddThis Button BEGIN -->
+                                <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
+                                <div class="pull-left">
+                                <a class="addthis_button_pinterest_share"><img src="{{ STATIC_URL }}bootstrap/img/share_pinterest.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Pin on Pinterest"></a>
+                                <a class="addthis_button_facebook"><img src="{{ STATIC_URL }}bootstrap/img/share_facebook.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Share on Facebook"></a>
+                                <a class="addthis_button_twitter"><img src="{{ STATIC_URL }}bootstrap/img/share_twitter.png" class="custom_addthis_share_button" width="16" height="16" border="0" alt="Tweet on Twitter"></a>
+                                </div>
+                                {% if request.user.is_authenticated %}
+                                    {% wish_product object.slug object.store.slug %}                    
+                                {% else %}
+                                    
+                                    <a href="#myModal" role="button" data-toggle="modal" class="wishlist pull-right"><div class="wishlist_heart"></div></a>
+                                    
+                                {% endif %}
+                                </div>
+                                <!-- AddThis Button END -->
+                            </div>
+
+                    </div>
+
+                </a>
+
+                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
+                <div class="thumbnail_info_wrapper">
+                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                        {% if object.quantity_per_item == 1 %}
+                            /{{ object.get_quantity_by_price_display }}
+                        {% else %}
+                            for {{ object.quantity_per_item|floatformat:"0" }} {{ object.get_quantity_by_price_display }}s
+                        {% endif %} 
+                    </small></span>
+                    
+                {% if object.store.is_open %}
+                    {% if object.items_in_stock %}
+                    <form method="post" action="{% url "imly_add_order" object.store.slug object.slug %}">
+                        {% csrf_token %}
+                        <input type="hidden" name="image_url" value="{{object.image_thumbnail_mini.url}}">
+                        <input type="hidden" name="product_name" value="{{object.name|title}}">
+                        <input type="hidden" name="store_name" value="{{object.store.name|title}}">
+                        <input type="hidden" name="product_slug" value="{{ object.slug }}">
+                        <input type="hidden" name="quantity" value="1">
+                        <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                    </form>
+                    {% else %}
+                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                    {% endif %}
+                {% else %}
+                    <small class="ultra_small muted pull-right">Chef on vacation</small>
+                {% endif %}
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </li>
+        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        {% endfor %}
+    </ul>
+    <div class="text-center">
+        {% show_pages %}
+    </div>
+{% else %}
+    <br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
+
+    <h4 class="muted text-center no_search_results">
+        Oops, we could not find any {% if category %}<span class="orange">{{ category|capfirst }}</span>{% else %}food{% endif %} {% if request.session.place_slug %}in <span class="orange">{{ request.session.display_place_slug }}</span><br>{% endif %} {% if selected_tags %}that is {% for tag in selected_tags %}<span class="orange">{{ tag }}</span>{%if not forloop.last %}, {% endif %}{% if forloop.counter|divisibleby:"3" %}<br>{% endif %}{% endfor %} and{% endif %} {%if request.session.delivery %}that <span class="orange">delivers</span> to you.<br>See chefs you can <a href="{% url "set_pick_up" %}" class="pick_up_instead">pick-up</a> from instead{% else %}that can be <span class="orange">picked-up</span>{% endif %}.<br>
+        
+        </h4><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
+        <p class="muted text-center"><small>or try searching for something else.</small></p>
+{% endif %}
+{% endblock content %}
+
+{% block extra_javascript %}
+<script type="text/javascript">
+$(document).ready(function(){
+    $('.product_wish').click(function(){
+        var raw_id = $(this).attr('id')
+        var clicked = $(this);
+        var product = raw_id.split("_")[1]
+        var store = raw_id.split("_")[2]
+        var user = raw_id.split("_")[3]
+        var data = {store_slug:store,product_slug:product,user_id:user};
+        if (clicked.find('div').hasClass('already_wishlisted'))
+        {
+            $.post('{% url "remove_wish" %}',data,function(data)
+            {
+
+            }).done(function(data){
+                //clicked.removeClass('already_wishlisted').addClass('wishlist_heart');
+                $('#product_'+product+'_'+store+'_'+user + " .already_wishlisted").removeClass('already_wishlisted').addClass('wishlist_heart');//css({"background-position":"top"});
+            });    
+        }
+        else
+        {
+            $.post('{% url "wishlist" %}',data,function(data)
+            {
+
+            }).done(function(data){
+                //clicked.removeClass('product_wish').addClass('wishlist');
+                $('#product_'+product+'_'+store+'_'+user + " .wishlist_heart").removeClass('wishlist_heart').addClass('already_wishlisted');//css({"background-position":"bottom"});
+            
+                $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
+                function(){
+                    $(this).stop(true,false);
+            
+                },
+                function(){
+                    $(this).fadeOut(200);
+                }
+                ).fadeOut(200);
+            });    
+        }
+    });
+    $('.submit-btn').click(function(){
+        var form = $(this).parent();
+        var product_name = form.find('input[name=product_name]').val();
+        var store_name = form.find('input[name=store_name]').val();
+        var image_url = form.find('input[name=image_url]').val();
+        var quantity = form.find('input[name=quantity]').val();
+        var product_slug = form.find('input[name=product_slug]').val();
+        $('.dropDowncart').empty();
+        $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
+        $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
+        $('.dropDowncart').append('</ul></li>');
+        $('.dropdown_div').stop(true,true).slideDown(500).delay(2000).slideUp(500);
+        $('.items_in_cart').stop(true,true).switchClass("dummy_cart_class","orange_back",400).delay(3000).switchClass("orange_back","dummy_cart_class",400);
+        $.ajax({
+            data:form.serialize(),
+            type:form.attr('method'),
+            url:form.attr('action'),
+            success:function(response){
+                //alert(response['product'])
+                if(response['success'] == true){
+                    $('#items-count_cart').html(response['count']);
+                    $('#items-count').html(response['count']);
+                    $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
+                        function(){
+                            $(this).stop(true,false);    
+                        },
+                        function(){
+                            $(this).fadeOut(200);
+                        }).fadeOut(200);
+                }else{
+                    $("#exceed_stock_"+response["product_slug"]).stop(true,true).fadeIn(200).delay(1200).fadeOut(200);
+                }
+            }
+        });
+        return false;
+    });
+    
+
+    
+    $("#delivery_location_not_set").on("click",function(){
+        $("#delivery_modal").modal();
+		ga('send', 'event', 'delivery', 'click', "filter in nav browser");
+    });
+    $('form .submit-btn').click(function(){
+    	ga('send', 'event', 'order', 'click', 'order from listing');
+    })
+    $("#delivery_modal").on("hidden", function(){
+        $(".large_location_search").focus();
+        if(window.location.hash == "#delivery"){
+            window.location.hash = "";
+        }
+    });
+	
+	if(window.location.hash == '#delivery'){
+		$("#delivery_modal").modal();
+	}
+    
+    $(".thumbnail_custom").hover(
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideDown(300);
+        },
+        function(){
+            $(this).find(".custom_addthis").stop(true,false).slideUp(300);
+        }
+    );
+	{% if category %}
+    ga('send', 'event', 'category', 'browse', '{{ category }}');
+    {% else %}
+	ga('send', 'event', 'category', 'browse', 'all');
+	{% endif %}
+    
+});
+</script>   
+{% endblock extra_javascript %}
