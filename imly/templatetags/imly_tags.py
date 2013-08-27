@@ -159,6 +159,7 @@ def current(context, url_name, return_value="active_top_nav", **kwargs):
     matches = current_url_equals(context,url_name, **kwargs)
     return return_value if matches else ""
 
+#MARKED NEEDS TO BE CHECKED
 @register.inclusion_tag('imly/price_filter.html',takes_context=True)
 def price_filter(context):
     value = None

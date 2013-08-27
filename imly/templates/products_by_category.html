@@ -50,6 +50,11 @@ $(document).ready(function(){
             $('#filter_by_price').html(ui.value);
     },
     change: function(event,ui){
+<<<<<<< HEAD
+=======
+        $('#filter_by_price').html(ui.value);
+        //$('#slider-range-min a').html(ui.value);
+>>>>>>> f4cad7c7a337ba23b77d421b27d57ff858da6164
         try{
             window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
         }catch(e){

@@ -96,7 +96,15 @@
                             {% endif %}<br/>
                             <li class="nav-header">Filter by Price</li>
                             <li class="nav-header"><span id="filter_by_price">{% price_filter %}</span></li>
-                            <div><span id="min_price">{{min_range}}</span></div><div><span id="max_price">{{max_range}}</span></div>
-                            <div id="price-slider"></div><br/>
+                            
+                            <div id="price-slider"></div>
+                            <div class="filter_by_price">
+                                <span id="min_price" class="pull-left  muted"><small>{{min_range}}</small></span>
+                            </div>
+                            <div>
+                                <span id="max_price" class="pull-right  muted"><small>{{max_range}}</small></span>
+                            </div>
+                            <div class="clearfix"></div>
+
                         </ul> <!-- end of ul nav-list -->
 
