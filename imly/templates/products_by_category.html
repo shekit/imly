@@ -5,7 +5,7 @@
                 {% block sidebar_nav %}
                     {% load imly_tags %}
 
-                    
+
                     <div class="well sidebar-nav">
                         <div class="span12">
                             <ul class="inline text-center food_chef">
@@ -28,7 +28,7 @@
                 {% endblock sidebar_nav %}
 
 {% block shop_or_product %}
-                    
+
 {% endblock shop_or_product %}
 
 {% block content %}
@@ -40,27 +40,22 @@
 {% block extra_javascript %}
 <script type="text/javascript">
 $(document).ready(function(){
-    var value = parseInt($('#filter_by_price').text())
-    $('#slider-range-min').slider({
-    //value:value,
-    range:"min",
+    $('#price-slider').slider({
+    range:'min',
     min:parseInt($("#min_price").text()),
     max:parseInt($("#max_price").text()),
     step:50,
-    slide: function(event,ui){
-        console.log(ui.value);
+        value: parseInt($('#filter_by_price').text()),
+    change: function(event,ui){
         $('#filter_by_price').html(ui.value);
         //$('#slider-range-min a').html(ui.value);
         try{
             window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
         }catch(e){
-            window.location.href=window.location.href + '?value=' + ui.value;    
+            window.location.href=window.location.href + '?value=' + ui.value;
         }
-        //.get()
-        
     }
-    
-    });$('#slider-range-min').slider("value",value);
+    });
     $('.product_wish').click(function(){
         var raw_id = $(this).attr('id')
         var clicked = $(this);
@@ -76,7 +71,7 @@ $(document).ready(function(){
             }).done(function(data){
                 //clicked.removeClass('already_wishlisted').addClass('wishlist_heart');
                 $('#product_'+product+'_'+store+'_'+user + " .already_wishlisted").removeClass('already_wishlisted').addClass('wishlist_heart');//css({"background-position":"top"});
-            });    
+            });
         }
         else
         {
@@ -86,17 +81,17 @@ $(document).ready(function(){
             }).done(function(data){
                 //clicked.removeClass('product_wish').addClass('wishlist');
                 $('#product_'+product+'_'+store+'_'+user + " .wishlist_heart").removeClass('wishlist_heart').addClass('already_wishlisted');//css({"background-position":"bottom"});
-            
+
                 $('#item_wished_'+ product).stop(true,true).fadeIn(200).delay(4000).hover(
                 function(){
                     $(this).stop(true,false);
-            
+
                 },
                 function(){
                     $(this).fadeOut(200);
                 }
                 ).fadeOut(200);
-            });    
+            });
         }
     });
     $('.submit-btn').click(function(){
@@ -125,7 +120,7 @@ $(document).ready(function(){
                     $('#items-count').html(response['count']);
                     $('#item_added_'+ product_slug).stop(true,true).fadeIn(200).delay(4000).hover(
                         function(){
-                            $(this).stop(true,false);    
+                            $(this).stop(true,false);
                         },
                         function(){
                             $(this).fadeOut(200);
@@ -137,9 +132,9 @@ $(document).ready(function(){
         });
         return false;
     });
-    
 
-    
+
+
     $("#delivery_location_not_set").on("click",function(){
         $("#delivery_modal").modal();
 		ga('send', 'event', 'delivery', 'click', "filter in nav browser");
@@ -153,11 +148,11 @@ $(document).ready(function(){
             window.location.hash = "";
         }
     });
-	
+
 	if(window.location.hash == '#delivery'){
 		$("#delivery_modal").modal();
 	}
-    
+
     $(".thumbnail_custom").hover(
         function(){
             $(this).find(".custom_addthis").stop(true,false).slideDown(300);
@@ -171,7 +166,7 @@ $(document).ready(function(){
     {% else %}
 	ga('send', 'event', 'category', 'browse', 'all');
 	{% endif %}
-    
+
 });
-</script>   
+</script>
 {% endblock extra_javascript %}

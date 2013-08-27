@@ -20,7 +20,7 @@
                                             <li><a {% ifequal sub_category category %}class="selected_sub_category_link"{% else %}class="unselected_sub_category_link"{% endifequal %} href="{% url "imly_products_by_category" sub_category.slug %}">{{ sub_category.name|capfirst }}</a></li>
                                         {% endif %}
                                     {% endfor %}
-                                </ul>  
+                                </ul>
 
                             <li class="nav-header selected_nav_header visible-desktop" style="margin-top:0px;">You have selected:</li>
 
@@ -34,8 +34,8 @@
                                         {% endifequal %}
                                     {% endfor %}
                                 </ul>
-                                
-                            
+
+
                                 {% if not selected_tags and super_category %}
                                         <hr>
                                 {% endif %}
@@ -45,27 +45,27 @@
                                     <p></p>
                                 {% endif %}
                             <li class="nav-header selected_nav_header">You have filtered by:</li>
-                            
+
                                 <ul class="inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
                                         <li><a href="{% url "remove_tag" tag.slug %}" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endfor %}
                                 </ul>
-                            
+
                                 {% if not super_category and selected_tags %}
                                     <hr>
                                 {% endif %}
                             {% endif %}
-                            
+
                             {% if super_category and selected_tags %}
                                 <hr>
                             {% endif %}
-                        
+
                             <li class="nav-header">Search by Category</li>
                             {% get_category_list %}
                                 <li><a href="{% url "imly_product_list" %}">All</a></li>
                                 {% for category in categories %}
-                                    
+
                                         {% if category.sub_categories.count %}
                                             <li class="dropdown-submenu"><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a>
                                                 <ul class="dropdown-menu hidden-phone">
@@ -79,14 +79,14 @@
                                         {% else %}
                                             <li><a href="{% url "imly_products_by_category" category.slug %}">{{ category.name|capfirst }}</a></li>
                                         {% endif %}
-                                    
+
                                 {% endfor %}
-                                
+
                             {% get_tag_list %}
                             {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
                                 <ul class="inline tags_for_product_home">
-                                    
+
                                     {% for tag in tags %}
                                     {% if tag.is_active and not tag.flag_product %}
                                         <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
@@ -97,7 +97,7 @@
                             <li class="nav-header">Filter by Price</li>
                             <li class="nav-header"><span id="filter_by_price">{% price_filter %}</span></li>
                             
-                            <div id="slider-range-min"></div>
+                            <div id="price-slider"></div>
                             <div class="filter_by_price">
                                 <span id="min_price" class="pull-left  muted"><small>{{min_range}}</small></span>
                             </div>
@@ -105,5 +105,6 @@
                                 <span id="max_price" class="pull-right  muted"><small>{{max_range}}</small></span>
                             </div>
                             <div class="clearfix"></div>
+
                         </ul> <!-- end of ul nav-list -->
-                    
+

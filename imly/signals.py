@@ -52,7 +52,7 @@ def reviewed_mail(sender,instance,created,**kwargs):
 		msg = EmailMessage("You just got a review!",get_template('email_templates/reviews_mail_store.html').render(Context({'review':instance, 'site': site})),settings.SIGNUP_EMAIL,[instance.content_object.store.owner.email])
 		msg.content_subtype = "html"
 		msg.send()
-		
+
 @receiver(post_save,sender=ChefTip)
 def cheftip_mail(sender,instance,created,**kwargs):
 	if created:
@@ -116,7 +116,7 @@ def imly_fly_by_night(sender,instance,**kwargs):
 			instance.data['imly_fly_by_knight'] = 'send'
 			instance.save()
 			post_save.connect(imly_fly_by_night,sender=Order)
-    
+
 @receiver(post_save,sender=Order)
 def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 	if instance.status == Order.IMLY_CONFIRMED and not instance.data.get('imly_confirmed',''):
@@ -139,9 +139,9 @@ def imly_confirmed_send_mail_store_owner(sender,instance,**kwargs):
 		post_save.connect(imly_confirmed_send_mail_store_owner,sender=Order)
 
 @receiver(post_save,sender=Order)
-def set_store_order(sender,instance,**kwargs):	
+def set_store_order(sender,instance,**kwargs):
     StoreOrder.update_for_order(instance)
-    
+
 @receiver(m2m_changed, sender=Product.tags.through)
 def update_store_tags_from_product(sender, instance, action, **kwargs):
     if action == 'post_add':
@@ -154,8 +154,8 @@ def update_store_categories_from_product(sender, instance, **kwargs):
 @receiver(pre_delete, sender=Product)
 def update_store_tags_and_categories_from_product(sender, instance, **kwargs):
     instance.store.reset_tags()
-    instance.store.reset_categories()        
-        
+    instance.store.reset_categories()
+
 @receiver(post_save, sender=Store)
 def update_product_geography(sender, instance, **kwargs):
     post_save.disconnect(sender=Product)
@@ -163,7 +163,7 @@ def update_product_geography(sender, instance, **kwargs):
         product.pick_up_point = instance.pick_up_point
         product.save()
     post_save.connect(update_store_categories_from_product, sender=Product)
-    
+
 @receiver(post_save, sender=Store)
 def send_store_mail(sender,instance,created, **kwargs):
     if created:# and Site.objects.get_current().domain == 'imly.in':
