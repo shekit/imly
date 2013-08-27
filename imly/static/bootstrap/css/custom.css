@@ -498,6 +498,9 @@ ul.food_chef > li {
     text-decoration: none;
 }
 
+#slider-range-min .ui-slider-range { background: #F05A28; }
+#slider-range-min .ui-slider-handle { border-color: #F05A28; }
+
 /* class added to search by taste links to make them look like inline tags */
 .tags_for_product_home {
 	margin-top:5px;
