@@ -46,9 +46,12 @@ $(document).ready(function(){
     max:parseInt($("#max_price").text()),
     step:50,
     value: parseInt($('#filter_by_price').text()),
+
+    slide: function(event, ui){
+            $('#filter_by_price').html(ui.value);
+    },
     change: function(event,ui){
-        $('#filter_by_price').html(ui.value);
-        //$('#slider-range-min a').html(ui.value);
+
         try{
             window.location.href=window.location.href.split('?')[0] + '?value=' + ui.value;
         }catch(e){
