@@ -17,8 +17,10 @@ from imly.utils import tracker
 from django.contrib.auth.models import User
 from django.template import RequestContext
 import json as simplejson
+from django.db.models import Max,Min
 import json
 import watson
+
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
@@ -98,6 +100,21 @@ class ProductList(ListView):
         if self.tags:
             for tag in self.tags:
                 products &= tag.product_set.all()
+        try:
+            self.request.session.pop('value')
+        except:
+            pass
+        self.price_range = products.aggregate(Max('_unit_price'),Min('_unit_price'))
+        if self.request.GET.get('value',None):
+            if self.request.session.get('value',None):
+                self.request.session.pop('value')
+            self.request.session['value'] = self.request.GET.get('value',[])
+            products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
+        else:
+            try:
+                products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')
+            except:
+                pass
         return products.distinct()
 
     def get_context_data(self, **kwargs):
@@ -105,6 +122,8 @@ class ProductList(ListView):
         if self.category:
             context["category"], context["super_category"] = self.category, self.category.super_category or self.category
         context["selected_tags"] = self.tags
+        context["max_range"] = self.price_range['_unit_price__max']
+        context["min_range"] = self.price_range['_unit_price__min']
         return context
 
 class ProductCreate(CreateView):

@@ -93,6 +93,10 @@
                                     {% endif %}
                                     {% endfor %}
                                 </ul>
-                            {% endif %}
+                            {% endif %}<br/>
+                            <li class="nav-header">Filter by Price</li>
+                            <li class="nav-header"><span id="filter_by_price">{% price_filter %}</span></li>
+                            <div><span id="min_price">{{min_range}}</span></div><div><span id="max_price">{{max_range}}</span></div>
+                            <div id="slider-range-min"></div><br/>
                         </ul> <!-- end of ul nav-list -->
                     
