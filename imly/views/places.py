@@ -1,8 +1,9 @@
-from django.shortcuts import get_object_or_404, redirect, render
+from django.shortcuts import get_object_or_404, redirect, render, HttpResponse
 from django.contrib.gis.geos import Point
 from django.core.urlresolvers import reverse
 from imly.models import Location, City, Special
 from imly.utils import geocode, tracker
+import json
 
 def set_location(request):
     try:
@@ -17,19 +18,21 @@ def set_location(request):
             except:
                 pass
             if request.city and not Point(*result[1]).within(request.city.enclosing_geometry):
-                return redirect('/not-in-city/')  #redirect if place not within city limits
+                return HttpResponse(json.dumps({"status": False, 'reason': "NoCity"}), mimetype="application/json")  #redirect if place not within city limits
             request.session['bingeo'] = result[1]
             display_place_slug = place_slug.split(",")[0]
             request.session["place_slug"], request.session["display_place_slug"], request.session["delivery"], request.session["pick_up"] = place_slug, display_place_slug , True , False
         else:
-            return redirect("/no-such-place/")            
+            return HttpResponse(json.dumps({'reason': "NoPlace"}), mimetype="application/json")
         if "/no-such-place/" in request.referer:
-            return redirect("/food/")
+            return HttpResponse(json.dumps({'reason': "NoPlace"}), mimetype="application/json")
         if "/not-in-city/" in request.referer:
-            return redirect("/food/")
+            return HttpResponse(json.dumps({'reason': "NoCity"}), mimetype="application/json")
     except IndexError:
-        return redirect("/no-such-place/")
-    return redirect(request.GET.get("next", request.referer))
+        raise 'hody'
+        return HttpResponse(json.dumps({'reason': "NoPlace"}), mimetype="application/json")
+    return HttpResponse(json.dumps({'display_name': request.session['place_slug']}), mimetype="application/json")
+    #return redirect(request.GET.get("next", request.referer))
 
 def unset_location(request):
     try:

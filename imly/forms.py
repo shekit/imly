@@ -106,7 +106,7 @@ class StoreForm(forms.ModelForm):
             msg=u"You must either define a pick up point or a delivery area(s)"
             self._errors["pick_up"] = self.error_class([msg])
             
-            del cleaned_data["pick_up_address"]
+            #del cleaned_data["pick_up_address"]
             #del cleaned_data["delivery_areas"]
             
         return cleaned_data

@@ -275,11 +275,13 @@ def wishlist(request):
 def search(request, search_item):
     search_filter = search_item == 'food' and Product or Store
     search_filter = search_filter.objects.is_approved()
+    search_filter = search_filter.filter(store__pick_up_point__within=request.city.enclosing_geometry)
     place_slug = request.session.get('place_slug', '')
     if place_slug:
         user_point = request.session.get('bingeo')
         user_point = Point(*user_point)
-        search_filter = search_filter.distance(user_point).order_by('distance')
-    search_result = watson.filter(search_filter, request.GET.get('query', ''))
-    raise Exception(search_result)
-    return render_to_response('search_results.html', locals())
+        search_filter = search_filter.distance(user_point).filter(store__pick_up_point__distance_lte=(user_point, D(km=5)))
+    search_query = request.GET.get('query','')
+    search_result = watson.filter(search_filter, search_query)
+    #raise Exception(search_result)
+    return render_to_response('search_results_'+search_item +'.html', locals(), RequestContext(request))
