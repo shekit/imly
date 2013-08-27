@@ -498,8 +498,6 @@ ul.food_chef > li {
     text-decoration: none;
 }
 
-#slider-range-min .ui-slider-range { background: #F05A28; }
-#slider-range-min .ui-slider-handle { border-color: #F05A28; }
 
 /* class added to search by taste links to make them look like inline tags */
 .tags_for_product_home {
@@ -583,6 +581,10 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 /* price slider */
 
+
+#price-slider .ui-slider-range { background: #F05A28; }
+#price-slider .ui-slider-handle { border-color: #F05A28; }
+
 .ui-widget-content {
     border: 1px solid #ccc;
 }
@@ -591,7 +593,7 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     border-radius: 0px;
 }
 
-#slider-range-min .ui-slider-handle {
+#price-slider .ui-slider-handle {
     border-color: #bbb;
 }
 		

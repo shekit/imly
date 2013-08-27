@@ -45,7 +45,7 @@ $(document).ready(function(){
     min:parseInt($("#min_price").text()),
     max:parseInt($("#max_price").text()),
     step:50,
-        value: parseInt($('#filter_by_price').text()),
+    value: parseInt($('#filter_by_price').text()),
     change: function(event,ui){
         $('#filter_by_price').html(ui.value);
         //$('#slider-range-min a').html(ui.value);
