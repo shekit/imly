@@ -50,15 +50,10 @@ $(document).ready(function(){
             $('#filter_by_price').html(ui.value);
     },
     change: function(event,ui){
-        try{
-                window.location.href.split('?')[0];
-                window.location.href=window.location.href.match('value=') ? window.location.href.replace(/value=.*$/, 'value='+ui.value) : window.location.href + '&value=' + ui.value;
-            }catch(e){
-                window.location.href=window.location.href + '?value=' + ui.value;
-            }
-        });
-
-    });
+        window.location.href=window.location.href.match('value=') ? window.location.href.replace(/value=.*$/, 'value='+ui.value) : window.location.href + (window.location.href.match(/\?/) ? '&value=' : '?value=') + ui.value;
+        }
+    }
+    );
 
     $('.product_wish').click(function(){
         var raw_id = $(this).attr('id')
