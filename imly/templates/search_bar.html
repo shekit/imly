@@ -3,23 +3,23 @@
                     <div class="container location_bar_inner">
                             <div class="row-fluid only_for_special_page">
                                 <div class="span12">
-                                   
+
                                         <ul class="text-center inline" style="position: relative;">
                                                 <li>I want</li>
                                                 <li><div class="search_bar_wrapper">
-                                                    
+
                                                 <div class="input-append">
                                                 <form class="search_form" method="get" action="/search/food/">
                                                     <input type="text" id="search_term" class="large_location_search" placeholder="e.g Cupcakes" name="query">
                                                         <div class="input-prepend search_bar_prepend">
                                                             <span class="add-on search_bar_in">in</span>
-                                                            
+
                                                             <input id="loc" type="text" class="large_location_search" {% if not request.session.place_slug %}placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select city above first"{% endif %}{% endif %} {% if request.session.place_slug %}readonly{% endif %}>
-                                                            
+
                                                         </div>
-                                                        
+
                                                     <input type="submit" class="btn btn-custom go_location_button" value="Go"></input>
-                                                    
+
                                                 </form>
                                                 </div>
                                                 {% if request.session.place_slug %}
@@ -32,17 +32,17 @@
                                                                 <span class="small">&times;</span>
                                                             </div>
                                                             <div class="clearfix"></div>
-                                                            
+
                                                     </div>
                                                 </a>
-                                                {% endif %} 
+                                                {% endif %}
                                                 </div>
-                                                   
+
                                                 </li>
-                                                
+
                                         </ul>
                                 </div>
                             </div>
                     </div><!-- end of location_bar_inner -->
                 </div><!-- end of div container-fluid location_bar_outer -->
-            
+
