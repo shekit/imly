@@ -6,7 +6,7 @@
                                    
                                         <ul class="text-center inline" style="position: relative;">
                                                 <li>I want</li>
-                                                <li><div style="position: relative;">
+                                                <li><div class="search_bar_wrapper">
                                                     
                                                 <div class="input-append">
                                                 <form class="search_form" method="get" action="/search/food/">
@@ -21,12 +21,21 @@
                                                     <input type="submit" class="btn btn-custom go_location_button" value="Go"></input>
                                                     
                                                 </form>
-                                                </div>   
-                                                 <div style="position: absolute;">
-                                                            {% if request.session.place_slug %}
-                                                            <a href="{% url "unset_location" %}">{{ request.session.display_place_slug|capfirst }} <span class="small">&times;</span></a>
-                                                            {% endif %} 
-                                                        </div>    
+                                                </div>
+                                                {% if request.session.place_slug %}
+                                                <a class="remove_selected_location" href="{% url "unset_location" %}">
+                                                    <div class="selected_location">
+                                                            <div class="selected_location_name pull-left">
+                                                                {{ request.session.display_place_slug|capfirst|slice:"20" }}
+                                                            </div>
+                                                            <div class="selected_location_cross pull-right">
+                                                                <span class="small">&times;</span>
+                                                            </div>
+                                                            <div class="clearfix"></div>
+                                                            
+                                                    </div>
+                                                </a>
+                                                {% endif %} 
                                                 </div>
                                                    
                                                 </li>
