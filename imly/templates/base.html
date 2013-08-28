@@ -180,10 +180,10 @@
                         var locating = false;
 
                         $('.search_form').submit(function(){
-                             if(!$("#search_term").val()){
-                                return false;
-                        }
-                        return !locating
+                             if($("#search_term").val()){
+                                 return locating
+                             }
+
                         });
 
                         var set_location_button = function() {
@@ -195,8 +195,10 @@
                                                             alert(data['reason'])
                                                         }else{
                                                             if($('#search_term').val())
-                                                                {$('.search_form').submit()}
-
+                                                            {$('.search_form').submit()}
+                                                            else{
+                                                                alert(data['display_name']);
+                                                            }
                                                         }
                                                     });
 
@@ -207,7 +209,7 @@
 						google.maps.event.addListener(autocomplete, 'place_changed', function(){
 							set_location_button()
 						});
-                        $('#loc').keypress(function(event){if(event.which == 13){set_location_button();event.preventDefault();}});
+                        //                        $('#loc').keypress(function(event){if(event.which == 13){set_location_button();event.preventDefault();}});
 						//expanding, contracting stor info
                         $("div.expandable").expander({
                         slicePoint: 140,

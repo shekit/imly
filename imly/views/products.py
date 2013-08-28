@@ -83,9 +83,6 @@ class ProductList(ListView):
         if self.request.session.get('delivery', None):
             if self.request.session.get('place_slug', None):
                 products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry).filter(store__delivery_locations__location__distance_lte=(user_point, D(km=3)))
-                
-#            else:
-#                products = products.filter(store__delivery_locations__location__within=self.request.city.enclosing_geometry)
         else:
             products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
         #products = products.filter(store__pick_up_point__within=self.request.city.enclosing_geometry)
@@ -104,17 +101,14 @@ class ProductList(ListView):
             self.request.session.pop('value')
         except:
             pass
+        if self.request.GET.get('query', None):
+            products = watson.filter(products, self.request.GET.get('query'))
+            self.request.session['value']=None
         self.price_range = products.aggregate(Max('_unit_price'),Min('_unit_price'))
-        if self.request.GET.get('value',None):
-            if self.request.session.get('value',None):
-                self.request.session.pop('value')
-            self.request.session['value'] = self.request.GET.get('value',[])
-            products = products.filter(_unit_price__lte=self.request.GET.get('value',[])).order_by('-_unit_price')
-        else:
-            try:
-                products = products.filter(_unit_price__lte=self.request.session.get('value',[])).order_by('-_unit_price')
-            except:
-                pass
+        if self.request.GET.get('value', None):
+            self.request.session['value'] = self.request.GET.get('value')
+        if self.request.session.get('value', None):
+            products = products.filter(_unit_price__lte=self.request.session.get('value')).order_by('-_unit_price')
         return products.distinct()
 
     def get_context_data(self, **kwargs):
@@ -290,7 +284,7 @@ def wishlist(request):
         else:
             stores[wish.product.store] = [wish.product]
     return render_to_response('wish_products.html',locals(),RequestContext(request))
-    
+
 def search(request, search_item):
     search_filter = search_item == 'food' and Product or Store
     search_filter = search_filter.objects.is_approved()
