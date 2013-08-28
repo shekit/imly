@@ -498,8 +498,6 @@ ul.food_chef > li {
     text-decoration: none;
 }
 
-#slider-range-min .ui-slider-range { background: #F05A28; }
-#slider-range-min .ui-slider-handle { border-color: #F05A28; }
 
 /* class added to search by taste links to make them look like inline tags */
 .tags_for_product_home {
@@ -583,6 +581,13 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
 
 /* price slider */
 
+#price-slider {
+    margin-top: 10px;    
+}
+
+#price-slider .ui-slider-range { background: #F05A28; }
+#price-slider .ui-slider-handle { border-color: #F05A28; }
+
 .ui-widget-content {
     border: 1px solid #ccc;
 }
@@ -591,10 +596,97 @@ ul.tags_for_product_home > li, ul.tags_for_product_home_inverted > li {
     border-radius: 0px;
 }
 
-#slider-range-min .ui-slider-handle {
+#price-slider .ui-slider-handle {
     border-color: #bbb;
 }
-		
+
+.filter_by_price {
+    position: relative;
+}
+
+.selected_price {
+    position: absolute;
+    left: 46%;
+    color: #f05a28;
+    font-weight: bold;
+    font-size: 11px;
+}
+
+/* SEARCH BAR */
+
+.search_bar_wrapper {
+    position: relative;
+}
+
+.selected_location {
+    position: absolute;
+    top:5px;
+    left:49.5%;
+    width:201px;
+    height:32px;
+    background: #fff;
+    color: #f05a28;
+    padding-left: 5px;
+    -webkit-box-shadow: 0px 0px 3px #333;
+    -moz-box-shadow: 0px 0px 3px #333;
+    box-shadow: 0px 0px 3px #333;
+    font-size: 18px;
+    overflow: hidden;
+}
+
+.selected_location:hover{
+    background: #f9f9f9;
+    color: #d85124;
+    -webkit-box-shadow: 0px 0px 2px #333;
+    -moz-box-shadow: 0px 0px 2px #333;
+    box-shadow: 0px 0px 2px #333;
+}
+
+.selected_location_name {
+    width:180px;
+    height:32px;
+    overflow:hidden;
+    display: inline;
+    text-align: left;
+}
+
+.selected_location_cross {
+    width:21px;
+    height:32px;
+    display: inline;
+}
+
+.remove_selected_location{
+    color:#f05a28;
+    line-height: 30px;
+    text-shadow: none;
+}
+
+.remove_selected_location:hover {
+    text-decoration: none;
+    color: #ff7752;
+}
+
+.search_filter_dropdown {
+    font-size: 11px;
+    margin: 15px 0px 10px 0px;
+    text-align: right;
+}
+
+.search_filter_dropdown_menu {
+    min-width:50px;
+    text-align: center;
+}
+
+.search_filter {
+    color: #ff7752;
+}
+
+.search_filter:hover {
+    color: #f05a28;
+    text-decoration: none;
+}
+
 /* reducing h5 bottom margin in product list page so shop name comes below product */
 .less_bottom_margin{
     margin-bottom:5px;
@@ -2006,6 +2098,14 @@ a.sort_by_button_selected {
 	border-top:4px solid #ccc;
     }
     
+    /*search bar*/
+    .selected_location {
+	width:165px;
+    }
+    
+    .selected_location_name {
+	width:144px;
+    }
 
 }
 

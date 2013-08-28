@@ -41,12 +41,13 @@
 <script type="text/javascript">
 $(document).ready(function(){
     $('#price-slider').slider({
-        range:'min',
-        min:parseInt($("#min_price").text()),
-        max:parseInt($("#max_price").text()),
-        step:50,
-        value: parseInt($('#filter_by_price').text()),
-        slide: function(event, ui){
+    range:'min',
+    min:parseInt($("#min_price").text()),
+    max:parseInt($("#max_price").text()),
+    step:50,
+    value: parseInt($('#filter_by_price').text()),
+
+    slide: function(event, ui){
             $('#filter_by_price').html(ui.value);
         },
         change: function(event,ui){
@@ -58,7 +59,9 @@ $(document).ready(function(){
                 window.location.href=window.location.href + '?value=' + ui.value;
             }
         }
+    }
     });
+
     $('.product_wish').click(function(){
         var raw_id = $(this).attr('id')
         var clicked = $(this);

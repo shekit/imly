@@ -32,8 +32,22 @@
 
 {% load imly_tags %}
 {% if search_result %}
-    <h4 class="muted no_search_results"><span style="font-weight: 500;">Search Results:</span> Found <span class="orange">{{ search_result.count }}</span> results for <span class="orange">{{ search_query }}</span> in {{ request.session.display_place_slug|capfirst }} ({{ request.city }})</h4>
-
+    <div class="row-fluid">
+	<div class="span10">
+	    <h4 class="muted no_search_results"><span style="font-weight: 500;">Search Results:</span> Found <span class="orange">{{ search_result.count }}</span> results for <span class="orange">{{ search_query }}</span> in {{ request.session.display_place_slug|capfirst }} ({{ request.city }})</h4>
+	</div>
+	<div class="span2">
+	    <div class="dropdown search_filter_dropdown">
+			<span class="muted">Sort by:</span> <a class="search_filter" href="#" data-toggle="dropdown">Relevancy <span class="caret"></span></a>
+			<ul class="dropdown-menu search_filter_dropdown_menu" role="menu">
+			    <li><a tabindex="-1" href="#">Relevancy</a></li>
+			    <li><a tabindex="-1" href="#">Distance</a></li>
+			    <li><a tabindex="-1" href="#">Price</a></li>
+			</ul>
+		    </div>
+	</div>
+    </div>
+    
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
     <ul class="thumbnails">
         {% load endless %}
