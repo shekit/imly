@@ -7,8 +7,8 @@
 
 
                     <div class="well sidebar-nav">
-                        <div class="span12">
-                            <ul class="inline text-center food_chef">
+                        <div class="col-md-12">
+                            <ul class="list-inline text-center food_chef">
                                 {% if request.session.delivery and not request.session.pick_up %}
                                     <li><a href="javascript:;" class="food food_chef_active">Delivery</a></li>
                                     <li><a href="{% url "set_pick_up" %}" class="chef food_chef_inactive">Pick-Up</a></li>

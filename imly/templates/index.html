@@ -84,7 +84,7 @@
     <div class="row">
         <div class="col-md-3"></div>
         <div class="col-md-6 negative_margin">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/slogan.png" class="img-responsive" alt="Connecting home chefs with curious foodies"></p>
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/slogan.png" class="img-responsive img_center" alt="Connecting home chefs with curious foodies"></p>
         </div>
         <div class="col-md-3"></div>
     </div>
@@ -94,135 +94,139 @@
 
 
     <div id="wrap">
-        <div id="main" class="container clear-top">
+        <div id="main" class="container">
             {% block featurette %}
+                
             {% if special_event %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
                     <legend class="orange"><span class="legend_lower">{{ special_event.title }}</span> <span class="legend_upper">Special</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_specials" special_event.slug %}">View More</a></span></legend>
-                    <ul class="thumbnails">
-                    {% for product in special_products %}
-                    <li class="span3">
-                        <div class="thumbnail thumbnail_custom half">
-                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
-                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a></small>
-                        </div>
-                    </li>
-                    {% endfor %}
-                    </ul>
-                    </div>
                 </div>
             </div>
-
+            
+            <div class="row">
+                {% for product in special_products %}
+                <div class="col-xs-6 col-sm-6 col-md-3">
+                    <div class="thumbnail thumbnail_custom half">
+                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
+                        <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a></small>
+                    </div>
+                </div>
+                {% endfor %}  
+            </div>
             <br>
             <br>
             {% endif %}
 
-			{% if recently_bought and recently_added %}
+            {% if recently_bought and recently_added %}
             <div class="row">
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12 recently_added_bought">
-                    <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Bought</span></legend>
-                    <ul class="thumbnails">
-                    {% for product in recently_bought %}
-                    {% if forloop.counter0|divisibleby:"4" %}<div class="row-fluid margined">{% endif %}
-                    <li class="col-md-3">
-                        <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
-                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
-
+                    <div class="recently_added_bought">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Bought</span></legend>
+                            </div>
                         </div>
-                    </li>
-                    {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
-                    {% if forloop.counter|divisibleby:"4" %}<div class="clearfix"></div>{% endif %}
-                    {% endfor %}
-                    </ul>
-                    </div>
-                    </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                {% for product in recently_bought %}
+                                <div class="col-xs-6 col-sm-6 col-md-3">
+                                    <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
+            
+                                    </div>
+                                </div>
+                               {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end of recently_added_bought -->
                 </div>
+                
                 <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-md-12 recently_added_bought">
-                    <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Added</span></legend>
-                    <ul class="thumbnails">
-                    {% for product in recently_added %}
-                    {% if forloop.counter0|divisibleby:"4" %}<div class="row-fluid margined">{% endif %}
-                    <li class="col-md-3">
-                        <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
-                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
-
+                    <div class="recently_added_bought">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Added</span></legend>
+                            </div>
                         </div>
-                    </li>
-                    {% if forloop.counter|divisibleby:"4" %}</div>{% endif %}
-                    {% if forloop.counter|divisibleby:"4" %}<div class="clearfix"></div>{% endif %}
-                    {% endfor %}
-                    </ul>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                {% for product in recently_added %}
+                                <div class="col-xs-6 col-sm-6 col-md-3">
+                                    <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
+            
+                                    </div>
+                                </div>
+                                {% endfor %}
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </div><!-- end of recently_added_bought -->
                 </div>
 
-        </div>
-        <br>
-        <br>
-		{% endif %}
+            </div>
+            <br>
+            <br>
+	    {% endif %}
+            
             {% if bestselling_products %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
                     <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
-                    <ul class="thumbnails">
-                    {% for product in bestselling_products %}
-                    <li class="col-md-3">
+                </div>
+            </div>
+            
+            <div class="row">
+                {% for product in bestselling_products %}
+                    <div class="col-xs-6 col-sm-6 col-md-3">
                         <div class="thumbnail thumbnail_custom half">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
                             <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
                         </div>
-                    </li>
-                    {% endfor %}
-                    </ul>
                     </div>
-                </div>
+                {% endfor %}    
             </div>
             {% endif %}
-        <br>
+            <br>
             <br>
 
             {% if featured_stores %}
             <div class="row">
                 <div class="col-md-12">
-                    <div class="row">
                     <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">chefs</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
-
-                    <ul class="thumbnails">
-                    {% for store in featured_stores %}
-
-                        <li class="col-md-3">
-                            <div class="thumbnail thumbnail_custom half">
-                                {% if store.logo %}
-                                    <a href="{% url "imly_store_detail" store.slug %}"><img class="bottom_border" src="{{ store.logo_thumbnail.url }}" class="img-responsive" alt="{{ store.name }}"></a>
-                                {% else %}
-                                    {% with store.product_set.all|first as product %}
-                                        <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ store.name }}"></a>
-                                    {% endwith %}
-                                {% endif %}
-
-
-                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name|lower|title }}</h5></a><small class="muted"> by
-                                            {% if store.owner.userprofile %}
-                                                <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
-                                            {% else %}
-                                                {{ store.owner.username }}
-                                            {% endif %}</small>
-                                <div class="clearfix"></div>
-                            </div>
-                        </li>
-
-                    {% endfor %}
-                    </ul>
-                    </div>
                 </div>
-            </div>
+            </div>   
+                
+            <div class="row">
+                {% for store in featured_stores %}
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        <div class="thumbnail thumbnail_custom half">
+                            {% if store.logo %}
+                                <a href="{% url "imly_store_detail" store.slug %}"><img class="bottom_border" src="{{ store.logo_thumbnail.url }}" class="img-responsive" alt="{{ store.name }}"></a>
+                            {% else %}
+                                {% with store.product_set.all|first as product %}
+                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ store.name }}"></a>
+                                {% endwith %}
+                            {% endif %}
+
+
+                            <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name|lower|title }}</h5></a><small class="muted"> by
+                                        {% if store.owner.userprofile %}
+                                            <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
+                                        {% else %}
+                                            {{ store.owner.username }}
+                                        {% endif %}</small>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% endfor %}   
+            </div> <!-- end of row -->
             {% endif %}
             <br>
             <br>
@@ -236,7 +240,7 @@
             <div class="row">
                 <div class="col-md-2"></div>
                 <div class="col-md-8 as_seen_on text-center">
-                        <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on1.png" class="img-responsive" alt="As seen in the press"></span>
+                        <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on1.png" class="img-responsive img_center" alt="As seen in the press"></span>
                 </div>
                 <div class="col-md-2"></div>
             </div>

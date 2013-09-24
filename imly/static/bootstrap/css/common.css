@@ -9,7 +9,7 @@ html,body
 
 body {
     font-size: 13px;
-    padding-top:58px;
+    padding-top:54px;
 }
  
 #wrap
@@ -19,7 +19,6 @@ body {
  
 #main
 {
-    overflow:auto;
     padding-bottom:130px; /* this needs to be bigger than footer height*/
 }
  
@@ -69,6 +68,16 @@ ul.errorlist > li {
 	color:#ff7752;
 	margin-left: 0px;
 	font-style: italic;
+}
+
+.img_center {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.no_padding{
+    padding-left: 0;
+    padding-right: 0;
 }
 
 /* removing rounded corners of form elements */
