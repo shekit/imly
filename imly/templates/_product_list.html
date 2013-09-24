@@ -84,7 +84,7 @@
 
                 </a>
 
-                <h5 class="less_bottom_margin text-center"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center text-muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
+                <h5 class="less_bottom_margin ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center text-muted lower_bottom_margin ellipsis"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
                 <div class="thumbnail_info_wrapper">
                     <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="text-muted">
                         {% if object.quantity_per_item == 1 %}
@@ -115,6 +115,8 @@
                 </div>
             </div>
         </div>
+		{% if forloop.counter|divisibleby:"3" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
         {% endfor %}
     </div>
     <div class="text-center">

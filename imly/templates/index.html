@@ -109,9 +109,16 @@
                 <div class="col-xs-6 col-sm-6 col-md-3">
                     <div class="thumbnail thumbnail_custom half">
                         <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
-                        <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a></small>
+                        <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                            <h5 class="less_bottom_margin ellipsis text-center">{{ product.name|lower|title }}</h5>
+                        </a>
+                        <p class="muted ultra_small ellipsis text-center">
+                            <a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a>
+                        </p>
                     </div>
                 </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
                 {% endfor %}  
             </div>
             <br>
@@ -138,6 +145,8 @@
             
                                     </div>
                                 </div>
+                                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+                                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
                                {% endfor %}
                                 </div>
                             </div>
@@ -163,6 +172,8 @@
             
                                     </div>
                                 </div>
+                                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+                                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
                                 {% endfor %}
                                 </div>
                             </div>
@@ -178,7 +189,9 @@
             {% if bestselling_products %}
             <div class="row">
                 <div class="col-md-12">
-                    <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
+                    <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span>
+                    <span class="pull-right"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span>
+                    </legend>
                 </div>
             </div>
             
@@ -187,9 +200,16 @@
                     <div class="col-xs-6 col-sm-6 col-md-3">
                         <div class="thumbnail thumbnail_custom half">
                             <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive" alt="{{ product.name }}"></a>
-                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name|lower|title }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
+                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                                <h5 class="lower_bottom_margin ellipsis text-center">{{ product.name|lower|title }}</h5>
+                            </a>
+                            <p class="muted ellipsis text-center ultra_small">
+                                <a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a>
+                            </p>
                         </div>
                     </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
                 {% endfor %}    
             </div>
             {% endif %}
@@ -216,15 +236,20 @@
                             {% endif %}
 
 
-                            <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name|lower|title }}</h5></a><small class="muted"> by
+                            <a class="top_text" href="{% url "imly_store_detail" store.slug %}">
+                                <h5 class="lower_bottom_margin ellipsis text-center">{{ store.name|lower|title }}</h5>
+                            </a>
+                            <p class="muted text-center"><small> by
                                         {% if store.owner.userprofile %}
                                             <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
                                         {% else %}
                                             {{ store.owner.username }}
-                                        {% endif %}</small>
+                                        {% endif %}</small></p>
                             <div class="clearfix"></div>
                         </div>
                     </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
                 {% endfor %}   
             </div> <!-- end of row -->
             {% endif %}

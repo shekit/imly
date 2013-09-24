@@ -80,6 +80,16 @@ ul.errorlist > li {
     padding-right: 0;
 }
 
+.ellipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    -ms-text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
 /* removing rounded corners of form elements */
 select,
 textarea,
@@ -547,22 +557,12 @@ margin-bottom: 20px;
     line-height: 80%;
     font-size:14px;
     font-weight: 500;
-    white-space: nowrap;
-    overflow: hidden;
-    -ms-text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
     margin-bottom: 0;
 }
 
 .lower_bottom_margin {
     margin-bottom: 5px;
     line-height: 14px;
-    white-space: nowrap;
-    overflow: hidden;
-    -ms-text-overflow: ellipsis;
-    -o-text-overflow: ellipsis;
-    text-overflow: ellipsis;
 }
 
 .larger_h5 {
