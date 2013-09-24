@@ -8,12 +8,11 @@
         {% get_metadata %}
         <link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
-        <!--<link href="{{ STATIC_URL }}bootstrap/css/jasny-bootstrap.css" rel="stylesheet" type="text/css">-->
         <link href="{{ STATIC_URL }}star-rating/jquery.rating.css" rel="stylesheet" type="text/css">
 
         <link href="{{ STATIC_URL }}bootstrap/css/custom.css" rel="stylesheet" type="text/css">
-		<link href="https://plus.google.com/102707005754075691667" rel="publisher" />
+	
+        <link href="https://plus.google.com/102707005754075691667" rel="publisher" />
 
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
@@ -45,87 +44,88 @@
 
     <body>
 
-    <div class="container-fluid lower_border">
-        <div class="container">
+    <div class="lower_border">
             {% block navigation %}
 
                 {% include "top_nav.html" %}
 
-            {% endblock navigation %}
-        </div> <!-- end of div container -->
-    </div>
-        {% block location_search_bar %}
-            {% include "search_bar.html" %}
+            {% endblock navigation %}     
+    </div><!-- end of div lower border -->
+    
+    {% block location_search_bar %}
+        {% include "search_bar.html" %}
 
-        {% endblock location_search_bar %}
+    {% endblock location_search_bar %}
 
-        <div id="wrap">
-        <div id="main" class="container clear-top">
-            <div class="row-fluid">
-                <div class="span12">
+    <div id="wrap">
+    <div id="main" class="container clear-top">
+        <div class="row">
+            <div class="col-md-12">
 
-            {% block main_body %}
-                {% if request.session.place_slug %}
-                <br> <!-- for presentation purposes, otherwise sticks too close to the top -->
-                <br>
-                {% endif %}
-            <div class="row-fluid">
-                <nav class="span3">
-                {% load imly_tags %}
-                {% block special_event %}
-				{% special_display %}
-                {% endblock special_event %}
-                {% block sidebar_nav %}
-
-                    <div class="well sidebar-nav">
-                        {% comment %}
-                        <div class="span12">
-                            <ul class="inline text-center food_chef">
-                                <li><a href="#" class="food food_chef_active">Food</a></li>
-                                <li><a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}" class="chef food_chef_inactive">Shop</a></li>
-                                <hr class="hr_less_margin">
-                            </ul>
+                {% block main_body %}
+                    {% if request.session.place_slug %}
+                    <br> <!-- for presentation purposes, otherwise sticks too close to the top -->
+                    <br>
+                    {% endif %}
+                <div class="row">
+                    <nav class="col-sm-4 col-md-3">
+                    {% load imly_tags %}
+                        {% block special_event %}
+                            {% special_display %}
+                        {% endblock special_event %}
+                        
+                        {% block sidebar_nav %}
+            
+                            <div class="well sidebar-nav">
+                                {% comment %}
+                                <div class="span12">
+                                    <ul class="inline text-center food_chef">
+                                        <li><a href="#" class="food food_chef_active">Food</a></li>
+                                        <li><a href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}" class="chef food_chef_inactive">Shop</a></li>
+                                        <hr class="hr_less_margin">
+                                    </ul>
+                                </div>
+                                {% endcomment %}
+            
+                                {% include "sidebar_nav.html" %}
+                            </div> <!-- end of well sidebar-nav -->
+                            
+                        {% endblock sidebar_nav %}
+                    </nav> <!-- end of nav col-md-3 -->
+        
+                    <section class="col-sm-8 col-md-9">
+                        {% block shop_or_product %}
+        
+        
+                        {% endblock shop_or_product %}
+        
+                        <div class="row">
+                            {% block content %}
+        
+        
+                            {% endblock content %}
                         </div>
-                        {% endcomment %}
+                    </section> <!-- end of section col-md-9 -->
+                </div> <!-- end of row -->
+                {% endblock main_body %}
 
-                        {% include "sidebar_nav.html" %}
-                    </div> <!-- end of well sidebar-nav -->
-                {% endblock sidebar_nav %}
-                </nav> <!-- end of nav span3 -->
-
-                <section class="span9">
-                    {% block shop_or_product %}
-
-
-                    {% endblock shop_or_product %}
-
-                    <div class="row-fluid">
-                        {% block content %}
-
-
-                        {% endblock content %}
-                    </div>
-                </section> <!-- end of section span9 -->
-            </div> <!-- end of row-fluid -->
-        {% endblock main_body %}
-
-                </div>
-            </div> <!-- end of row-fluid -->
-        {% block picture_line %}
-            <br>
-            <br>
-            <div class="row-fluid">
-                <div class="span3"></div>
-                <div class="span9">
-                    <p class="text-center muted"><small>All pictures on Imly are of the actual products, clicked either by Imly or by the chefs themselves.</small></p>
-                </div>
+            </div> <!-- end of col-md-12 -->
+        </div> <!-- end of row -->
+    {% block picture_line %}
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <p class="text-center text-muted"><small>All pictures on Imly are of the actual products, clicked either by Imly or by the chefs themselves.</small></p>
             </div>
-        {% endblock picture_line %}
+        </div>
+    {% endblock picture_line %}
 
-        </div> <!-- end of container div -->
-        </div> <!-- end of wrap div -->
+    </div> <!-- end of container div -->
+    </div> <!-- end of wrap div -->
 
-        <div class="container-fluid">
+        <div class="container">
 
             <br>
             <br>
@@ -135,14 +135,14 @@
             {% include "select_city.html" %}
         {% endblock login %}
 
-        <footer class="container-fluid bgfull footer">
-            <div class="container">
-                <br>
-                {% block footer %}
-                    {% include "footer.html" %}
-                {% endblock footer %}
-            </div>
-        </footer>
+    <footer class="bgfull footer">
+        <div class="container">
+            <br>
+            {% block footer %}
+                {% include "footer.html" %}
+            {% endblock footer %}
+        </div>
+    </footer>
 
 
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
@@ -150,9 +150,8 @@
         <script src="{{ STATIC_URL }}js/jquery.expander.min.js"></script>
         <script src="{{ STATIC_URL }}star-rating/jquery.rating.js"></script>
         <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
-        <!--<script src="{{ STATIC_URL }}bootstrap/js/jasny-bootstrap.js"></script>-->
-
+        <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    
 
         <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51e1d9777bb04639"></script>
 	<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.4.4/underscore-min.js"></script>
