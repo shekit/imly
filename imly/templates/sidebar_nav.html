@@ -50,7 +50,7 @@
                                 {% endif %}
                             <li class="nav-header selected_nav_header">You have filtered by:</li>
 
-                                <ul class="inline tags_for_product_home_inverted">
+                                <ul class="list-inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
                                         <li><a href="{% url "remove_tag" tag.slug %}" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endfor %}
@@ -89,7 +89,7 @@
                             {% get_tag_list %}
                             {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
-                                <ul class="inline tags_for_product_home">
+                                <ul class="list-inline tags_for_product_home">
 
                                     {% for tag in tags %}
                                     {% if tag.is_active and not tag.flag_product %}

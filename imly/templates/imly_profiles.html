@@ -3,15 +3,14 @@
 {% block title %}Imly | Chefs{% endblock title %}
 
 {% block location_search_bar %}
-    <div class="container-fluid location_bar_outer">
+    <div class="location_bar_outer">
                     <div class="container location_bar_inner">
-                            <div class="row-fluid">
-                                <div class="span12">
-                                   
-                                        <ul class="text-center inline suggest_chef_bar">
-                                            <li><a class="give_us_a_tip give_us_a_tip2 action_button" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></li>
-                                            <li>you want to see here</li>  
-                                        </ul>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <ul class="text-center list-inline suggest_chef_bar">
+                                        <li><a class="give_us_a_tip give_us_a_tip2 action_button" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></li>
+                                        <li>you want to see here</li>  
+                                    </ul>
                                 </div>
                             </div>
                     </div><!-- end of location_bar_inner -->
@@ -23,20 +22,19 @@
 {% if object_list %}
     <br><br>
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
-    <ul class="thumbnails">
+    <div class="row">
         {% load endless %}
         
         {% paginate 30 object_list %}
         
         {% for object in object_list %}
-                {% if forloop.counter0|divisibleby:"2" %}<div class="row-fluid margined">{% endif %}
                 {% if object.cover_profile_image %}
-                <li class="span6">
+                <div class="col-sm-6 col-md-6">
                     <div class="thumbnail thumbnail_custom">
                         <a href="{% url "chef_profile" object.slug %}">
                             <div class="sold_out">
                                 
-                                <img src="{{ object.cover_profile_image_thumbnail.url }}" alt="{{ object.first_name }}">
+                                <img src="{{ object.cover_profile_image_thumbnail.url }}" class="img-responsive img_center" alt="{{ object.first_name }}">
 
                                 
                                 {% if object.is_featured %}
@@ -45,27 +43,27 @@
                                 
                             </div>
                         </a>
-                        <h5 class="less_bottom_margin"><a class="top_text" href="{% url "chef_profile" object.slug %}">{{ object.first_name }} {{ object.last_name }}</a></h5>
-                        <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.user.store.get_absolute_url }}">{{ object.user.store.name|upper }}</a></small></p>
+                        <h5 class="less_bottom_margin ellipsis text-center"><a class="top_text" href="{% url "chef_profile" object.slug %}">{{ object.first_name }} {{ object.last_name }}</a></h5>
+                        <p class="text-center text-muted ellipsis lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.user.store.get_absolute_url }}">{{ object.user.store.name|upper }}</a></small></p>
                         
-                            
                         
                             <div class="clearfix"></div>
                     </div>
-                </li>
+                </div>
                 {% endif %}
-                {% if forloop.counter|divisibleby:"2" %}</div>{% endif %}
-                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix"></div>{% endif %}
+                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix hidden-xs"></div>{% endif %}
         {% endfor %}
-    </ul>
-    <div class="text-center">
+    </div><!-- end of row -->
+
+    <div class="row text-center">
         {% show_pages %}
     </div>
+
 {% else %}
     <br><br>
-    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png"></p>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_hat.png" class="img-responsive img_center" alt="No chefs found"></p>
 
-    <h3 class="muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
+    <h3 class="text-muted text-center">We are out scouting amazing home-chefs to fill this space up.<br>If you have someone in mind, send us a tip below.</h3>
 {% endif %}
     
 

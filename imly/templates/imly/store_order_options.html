@@ -1,20 +1,28 @@
 <li>
-	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
-		{% for lead, delivery_lead in delivery_leads %}
-		<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead|date:"F j" }}</option>
-		{% endfor %}
-	</select>
-	<select class="span4" onchange="update_store_order(this, {{store_order.id}}, 'order_time')">
-		{% for index, value in time_choices %}
-		<option value="{{ index }}" {% ifequal index store_order.order_time %}selected="selected"{%endifequal%}>{{ value }}</option>
-		{% endfor %}
-	</select>
+	<div class="row">
+		<div class="col-md-6">
+			<select class="form-control input-sm" onchange="update_store_order(this, {{store_order.id}}, 'delivery_lead')">
+				{% for lead, delivery_lead in delivery_leads %}
+				<option value="{{ lead }}" {% ifequal lead store_order.delivery_lead %}selected="selected"{%endifequal%}>{{ delivery_lead|date:"F j" }}</option>
+				{% endfor %}
+			</select>
+		</div>
+		<div class="col-md-6">
+			<select class="form-control col-md-4 input-sm" onchange="update_store_order(this, {{store_order.id}}, 'order_time')">
+				{% for index, value in time_choices %}
+				<option value="{{ index }}" {% ifequal index store_order.order_time %}selected="selected"{%endifequal%}>{{ value }}</option>
+				{% endfor %}
+			</select>
+		</div>
+	</div>
 </li>
 <li>
-    <label class="radio inline">
-    <input type="radio" class="pick_up_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios1" value="1" {% if store_order.pick_up %}checked="checked"{% endif %} onchange="update_store_order(this, {{store_order.id}}, 'pick_up')">
-    Pick-up
-    </label>
+	<div class="radio">
+		<label>
+		<input type="radio" class="pick_up_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios1" value="1" {% if store_order.pick_up %}checked="checked"{% endif %} onchange="update_store_order(this, {{store_order.id}}, 'pick_up')">
+		Pick-up
+		</label>
+	</div>
 </li>
 {% if not request.session.place_slug %}
 
@@ -25,10 +33,12 @@
 	{% store_amend_geo store_order.store %}
 	{% if store_order.store.delivers %}
 	<li>
-	    <label class="radio inline">
-	    <input type="radio" class="delivery_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios2" value="0" onchange="update_store_order(this, {{store_order.id}}, 'pick_up')" {% if not store_order.pick_up %}checked="checked"{%endif%}>
-	    Delivery
-	    </label>    
+		<div class="radio">
+			<label>
+			<input type="radio" class="delivery_radio_button" name="pick_up_{{ store_order.pk }}" id="optionsRadios2" value="0" onchange="update_store_order(this, {{store_order.id}}, 'pick_up')" {% if not store_order.pick_up %}checked="checked"{%endif%}>
+			Delivery
+			</label>
+		</div>
 	</li>
 	{% else %}
 		<li class="check_delivery_li">
@@ -40,6 +50,6 @@
 
 
 <li style="margin-top:10px;">
-	<small class="muted">Send a note to the chef:</small><br>
+	<small class="text-muted">Send a note to the chef:</small><br>
 	<textarea class="note_to_chef" row="9" cols="30" placeholder="e.g make it less spicy" onchange="update_store_order(this, {{store_order.id}}, 'note')"></textarea>
 </li>

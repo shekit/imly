@@ -22,7 +22,7 @@
                 {% if request.session.place_slug %}
                                 {% store_amend_geo object.store %}
                                 {% if object.store.pick_up_location %}
-                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="text-muted">
+                                <p class="text-left location_distance"><span class="glyphicon glyphicon-map-marker"></span> <small class="text-muted">
 
                                     {% if object.store.distance < 1 %}
                                         &lt; 1 km 
@@ -49,9 +49,9 @@
                 {% endif %}
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
                     <div class="sold_out">
-                        <img src="{{ STATIC_URL }}bootstrap/img/bisc.jpg" class="img-responsive" alt="{{ object.name }}">
+                        <img src="{{ STATIC_URL }}bootstrap/img/bisc.jpg" class="img-responsive img_center" alt="{{ object.name }}">
                         {% if not object.items_in_stock %}
-                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" class="img-responsive" alt="sold out" class="sold_out_image">
+                            <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
                         <div class="hidden-md">
@@ -61,7 +61,7 @@
                             <div id="item_wished_{{ object.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
                         </div>
                         
-                            <div class="visible-md">
+                            <div class="visible-md visible-lg">
                                 <!-- AddThis Button BEGIN -->
                                 <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
                                 <div class="pull-left">
@@ -84,7 +84,10 @@
 
                 </a>
 
-                <h5 class="less_bottom_margin ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center text-muted lower_bottom_margin ellipsis"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
+                <h5 class="less_bottom_margin ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
+		<p class="text-center text-muted lower_bottom_margin ellipsis">
+		    <small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small>
+		</p>
                 <div class="thumbnail_info_wrapper">
                     <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="text-muted">
                         {% if object.quantity_per_item == 1 %}
@@ -124,7 +127,7 @@
     </div>
 {% else %}
     <br>
-    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png" class="img-responsive img_center" alt="Oops no food matching your criteria"></p><br>
 
     <h4 class="text-muted text-center no_search_results">
         Oops, we could not find any {% if category %}<span class="orange">{{ category|capfirst }}</span>{% else %}food{% endif %} {% if request.session.place_slug %}in <span class="orange">{{ request.session.display_place_slug }}</span><br>{% endif %} {% if selected_tags %}that is {% for tag in selected_tags %}<span class="orange">{{ tag }}</span>{%if not forloop.last %}, {% endif %}{% if forloop.counter|divisibleby:"3" %}<br>{% endif %}{% endfor %} and{% endif %} {%if request.session.delivery %}that <span class="orange">delivers</span> to you.<br>See chefs you can <a href="{% url "set_pick_up" %}" class="pick_up_instead">pick-up</a> from instead{% else %}that can be <span class="orange">picked-up</span>{% endif %}.<br>

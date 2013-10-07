@@ -8,20 +8,20 @@
 
 {% block carousel %}
 
-    <div class="hero-unit hero_unit_contact hidden-phone">
+    <div class="jumbotron hero_unit_contact hidden-xs">
         <div class="container">
             <div class="contact_wrapper">
-                <div class="row-fluid">
-                    <div class="span12">
-                        <ul class="inline" style="padding-top:15px;">
-                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_tel.png"></li>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-inline" style="padding-top:15px;">
+                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_tel.png" alt="contact by phone"></li>
                             <li><h2 class="contact_header">+91 9920190624</h2></li>
                         </ul>
                     </div>
                 </div>
                 
-                <div class="row-fluid">
-                    <div class="span10 offset1">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
                         <hr class="contact_divider">
                     </div>
                 </div>
@@ -33,16 +33,16 @@
                         Mumbai - 400 099
                     </p>
                 
-                <div class="row-fluid">
-                    <div class="span10 offset1">
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-1">
                         <hr class="contact_divider">
                     </div>
                 </div>
                 
-                <div class="row-fluid">
-                    <div class="span12">
-                        <ul class="inline" style="padding-top:15px;">
-                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_mail.png"></li>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-inline" style="padding-top:15px;">
+                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_mail.png" alt="Contact by Mail"></li>
                             <li><h2 class="contact_header">hello@imly.in</h2></li>
                         </ul>
                     </div>
@@ -52,22 +52,22 @@
         
     </div>
     
-    <div class="container visible-phone">
-        <div class="row-fluid">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/choc_brownie_mobile.jpg"></p>
+    <div class="container visible-xs">
+        <div class="row">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/choc_brownie_mobile.jpg" class="img-responsive"></p>
         </div>
 
-                <div class="row-fluid">
-                    <div class="span12">
-                        <ul class="inline text-center" style="padding-top:5px;">
-                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_tel.png" width="40"></li>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-inline text-center" style="padding-top:5px;">
+                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_tel.png" width="40" alt="contact by phone"></li>
                             <li><h4 class="contact_header">+91 9920190624</h4></li>
                             
                         </ul>
                     </div>
                 </div>
-                <div class="row-fluid">
-                    <div class="span12">
+                <div class="row">
+                    <div class="col-md-12">
                     <p class="contact_add text-center">401 Enterprise Centre, <br>
                         Domestic Airport,<br>
                         Next to Orchid Hotel,<br> 
@@ -77,10 +77,10 @@
                     </div>
                 </div>
                 
-                <div class="row-fluid">
-                    <div class="span12">
-                        <ul class="inline text-center email_contact_mobile">
-                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_mail.png" width="40"></li>
+                <div class="row">
+                    <div class="col-md-12">
+                        <ul class="list-inline text-center email_contact_mobile">
+                            <li><img src="{{ STATIC_URL }}bootstrap/img/contact_mail.png" width="40" alt="contact by email"></li>
                             <li><h4 class="contact_header">hello@imly.in</h4></li>
                         </ul>
                     </div>

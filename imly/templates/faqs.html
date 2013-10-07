@@ -12,98 +12,122 @@
 
 {% block featurette %}
     <br>
-    <div class="row-fluid">
-        <div class="span12">
+    <div class="row">
+        <div class="col-md-12">
             <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/faq_q.png"></p>
         </div>
     </div>
     
-    <div class="row-fluid">
-        <div class="span6">
-            <div class="row-fluid">
-                <div class="span8 offset2">
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
                     <h3 class="best_dish text-center faq_header">Chefs</h3>
                 </div>
             </div>
             
-            <div class="accordion" id="chef_accordion">
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_one">
-                            <span class="faq_plus">+</span> What can I sell on Imly?
-                        </a>
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_one">
+                                <span class="faq_plus">+</span> What can I sell on Imly?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_one" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            You can sell any edible item that you cook as long as people can safely eat it. If you feel that your dish doesn't fit in any category we are offering, just give us a call and we will put your category in.
+                    <div id="chef_one" class="panel-collapse collapse">
+                        <div class="panel-body">
+                             You can sell any edible item that you cook as long as people can safely eat it. If you feel that your dish doesn't fit in any category we are offering, just give us a call and we will put your category in.
                         </div>
                     </div>
                 </div>
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_two">
-                            <span class="faq_plus">+</span> How will I receive payment for the orders?
-                        </a>
+            </div>
+            
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_two">
+                                <span class="faq_plus">+</span> How will I receive payment for the orders?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_two" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            Currently all orders are on cash on delivery. So you can collect the amount when the buyer comes to pick up or when you deliver.
+                    <div id="chef_two" class="panel-collapse collapse">
+                        <div class="panel-body">
+                             Currently all orders are on cash on delivery. So you can collect the amount when the buyer comes to pick up or when you deliver.
                         </div>
                     </div>
                 </div>
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_three">
-                            <span class="faq_plus">+</span> I can't provide delivery for my items, what do I do?
-                        </a>
+            </div>
+            
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_three">
+                                <span class="faq_plus">+</span> I can't provide delivery for my items, what do I do?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_three" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            Again no problem. Simply define a pick up point so customers can come collect the food from you. 
+                    <div id="chef_three" class="panel-collapse collapse">
+                        <div class="panel-body">
+                             Again no problem. Simply define a pick up point so customers can come collect the food from you. 
                         </div>
                     </div>
                 </div>
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_four">
-                            <span class="faq_plus">+</span> How much do I need to pay to set up a shop?
-                        </a>
+            </div>
+            
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_four">
+                                <span class="faq_plus">+</span> How much do I need to pay to set up a shop?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_four" class="accordion-body collapse">
-                        <div class="accordion-inner">
-                            Absolutely nothing! We do not charge any setup fees or subscriptions. At this point we are not even charging any commissions on sales, so everything you earn through Imly goes straight into your pocket.
+                    <div id="chef_four" class="panel-collapse collapse">
+                        <div class="panel-body">
+                             Absolutely nothing! We do not charge any setup fees or subscriptions. At this point we are not even charging any commissions on sales, so everything you earn through Imly goes straight into your pocket.
                         </div>
                     </div>
                 </div>
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_five">
-                            <span class="faq_plus">+</span> What if I can't handle many orders?
-                        </a>
+            </div>
+        
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_five">
+                                <span class="faq_plus">+</span> What if I can't handle many orders?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_five" class="accordion-body collapse">
-                        <div class="accordion-inner">
+                    <div id="chef_five" class="panel-collapse collapse">
+                        <div class="panel-body">
                             We have designed Imly to give you complete control. You can enter your daily capacity for every item in your shop. As soon as that capacity is reached, you wont take in any additional orders for that day. So set as high or as low a capacity as you like.
                         </div>
                     </div>
                 </div>
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_six">
-                            <span class="faq_plus">+</span> What if I go on a holiday?
-                        </a>
+            </div>
+            
+            <div class="panel-group" id="chef_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#chef_accordion" href="#chef_six">
+                                <span class="faq_plus">+</span> What if I go on a holiday?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="chef_six" class="accordion-body collapse">
-                        <div class="accordion-inner">
+                    <div id="chef_six" class="panel-collapse collapse">
+                        <div class="panel-body">
                             No problem! Shut your shop with a single click and you will stop receiving more orders. When you return simply click to reopen your shop and you are all set to go.
                         </div>
                     </div>
                 </div>
+            </div>
+
                 
                 <div class="accordion-group">
                     <div class="accordion-heading">
@@ -118,29 +142,35 @@
                     </div>
                 </div>
                 
-            </div>
-        </div>
+
+        </div><!-- end of col-md-6 -->
         
-        <div class="span6">
-            <div class="row-fluid">
-                <div class="span8 offset2">
+        <div class="col-md-6">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
                     <h3 class="best_dish text-center faq_header">Buyers</h3>
                 </div>
             </div>
-            <div class="accordion" id="buyer_accordion">
-                
-                <div class="accordion-group">
-                    <div class="accordion-heading">
-                        <a class="accordion-toggle" data-toggle="collapse" data-parent="#buyer_accordion" href="#buyer_one">
-                            <span class="faq_plus">+</span> How do I make the payments? 
-                        </a>
+            
+            
+            <div class="panel-group" id="buyer_accordion">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h4 class="panel-title">
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#buyer_accordion" href="#buyer_one">
+                                <span class="faq_plus">+</span> How do I make the payments?
+                            </a>
+                        </h4>
                     </div>
-                    <div id="buyer_one" class="accordion-body collapse">
-                        <div class="accordion-inner">
+                    <div id="buyer_one" class="panel-collapse collapse">
+                        <div class="panel-body">
                             Currently all payments are on Cash on Delivery. So you can pay the amount when you go to pick up the items or when the chef delivers.
                         </div>
                     </div>
                 </div>
+            </div>
+            
+            
  
                 <div class="accordion-group">
                     <div class="accordion-heading">
@@ -168,9 +198,9 @@
                     </div>
                 </div>
                 
-            </div>          
-        </div>
-    </div>
+                      
+        </div> <!-- end of col-md-6 -->
+    </div> <!-- end of row -->
 
 
 {% endblock featurette %}

@@ -5,7 +5,7 @@
 {% block shop_info %}
 {% if request.user.is_staff and not object.is_approved %}<h4>Store not Approved</h4>{% endif %}
     {% load imly_tags %}
-    <div class="visible-phone">
+    <div class="visible-xs">
         
         <h3 class="store_name text-center">{{ object.name }}</h3>
             {% if object.tagline %}
@@ -13,8 +13,8 @@
             {% else %}
                 <p class="text-center tagline_mobile_no_tagline">Hi</p>
             {% endif %}
-    <span class="visible-phone">
-        <ul class="unstyled text-center" style="background: #f5f5f5;">    
+    <span class="visible-xs">
+        <ul class="list-unstyled text-center" style="background: #f5f5f5;">    
             {% if object.provide_delivery and object.pick_up %}
                 <li><span class="delivery_area_info">Delivers to:</span>
                 {% if request.session.place_slug %}
@@ -33,7 +33,7 @@
                     Enter location above to check delivery
                 {% endif %}
                 </li>
-                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
+                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="text-muted">Exact address shared after purchase</small></li>
             {% else %}
             
                 {% if object.provide_delivery %}
@@ -55,7 +55,7 @@
                     </li>
                 {% endif %}
                 {% if object.pick_up %}
-                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
+                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="text-muted">Exact address shared after purchase</small></li>
                 {% endif %}
             {% endif %}
         </ul>
@@ -64,7 +64,7 @@
             {% if object.pick_up_location %}
                                 {% store_amend_geo object %}
                                 
-                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                <p class="text-left location_distance"><span class="glyphicon glyphicon-map-marker"></span> <small class="text-muted">
                                 
                                     {% if object.distance < 1 %}
                                         &lt; 1 km 
@@ -87,7 +87,7 @@
         {% endif %}
     </div>
 
-    <div class="well shop_info hidden-phone">
+    <div class="well shop_info hidden-xs">
         {% if object.logo %}
             <p class="text-center"><img class="img-rounded" src="{{ object.logo_thumbnail.url }}" alt="{{ object.name }}"></p>
         {% endif %}
@@ -95,8 +95,8 @@
             
         I'm {% if object.owner.userprofile %}{{ object.owner.userprofile.first_name }}{% else %}{{ object.owner.username }}{% endif %}. Welcome to my store. {% if object.owner.userprofile %}Find out more about me on my <a class="profile_link" href="{% url "chef_profile" object.owner.userprofile.slug %}">profile</a>.{% endif %}
         
-        <div class="row-fluid">
-            <div class="span10 offset1">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
                 <hr>
             </div>
         </div>
@@ -105,7 +105,7 @@
             {% if request.session.place_slug %}
                                 {% store_amend_geo object %}
                                 {% if object.pick_up_location %}
-                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                <p class="text-left location_distance"><span class="glyphicon glyphicon-map-marker"></span> <small class="text-muted">
                                 
                                     {% if object.distance < 1 %}
                                         &lt; 1 km 
@@ -124,7 +124,7 @@
                                 
                                 </small></p>
             {% endif %}
-        <ul class="unstyled">
+        <ul class="list-unstyled">
             {% if object.provide_delivery and object.pick_up %}
                 <li><span class="delivery_area_info">Delivers to:</span>
                 {% if request.session.place_slug %}
@@ -148,7 +148,7 @@
                 {% endcomment %}
                 </li>
                 <br>
-                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
+                <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="text-muted">Exact address shared after purchase</small></li>
             {% else %}
             
                 {% if object.provide_delivery %}
@@ -169,13 +169,13 @@
                 {% endif %}</li>
                 {% endif %}
                 {% if object.pick_up %}
-                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="muted">Exact address shared after purchase</small></li>
+                    <li><span class="delivery_area_info">Pick up near:</span> {% if object.pick_up_landmark %}{{ object.pick_up_landmark }}, {% endif %}{{ object.pick_up_display }}<br><small class="text-muted">Exact address shared after purchase</small></li>
                 {% endif %}
             {% endif %}
         </ul>
         
-        <div class="row-fluid">
-            <div class="span10 offset1">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
                 <hr>
             </div>
         </div>       
@@ -185,7 +185,7 @@
         </div>
         
         <h5>I make:</h5>
-        <ul class="unstyled">
+        <ul class="list-unstyled">
             {% for category in object.categories.all %}
             {% if not category.flag_product %}
                 <li>{{ category.name }}</li>
@@ -205,13 +205,13 @@
     
     {% if object.cover_photo %}
         
-        <div class="hero-unit hero_unit_custom text-center hidden-phone" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%; border: 1px solid #ccc;">
-            <h1 class="store_name store_name_with_cover_photo">{{ object.name|lower|title }}</h1>
+        <div class="jumbotron hero_unit_custom hidden-xs" style="background:url({{ object.cover_photo_thumbnail.url }});background-position: 50% 50%; border: 1px solid #ccc;">
+            <h1 class="store_name store_name_with_cover_photo text-center">{{ object.name|lower|title }}</h1>
         </div>
     
     {% else %}
         
-        <div class="hero-unit no_cover_photo text-center hidden-phone">
+        <div class="jumbotron no_cover_photo text-center hidden-xs">
             <h1 class="store_name">{{ object.name|lower|title }}</h1>
             {% if object.tagline %}
                 <p>{{ object.tagline }}</p>
@@ -219,26 +219,25 @@
         </div>
     {% endif %}
     
-    <div class="row-fluid">
-        <ul class="thumbnails">
+    <div class="row">
+        
         {% for product in products %}
-        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-        <li class="span4">
+        <div class="col-xs-6 col-sm-6 col-md-4">
             <div class="thumbnail thumbnail_custom">
                 <a href="{% url "imly_product_detail" object.slug product.slug %}">
                     <div class="sold_out">
-                        <img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}">
+                        <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
                         {% if not product.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ product.slug }}" class="exceed_stock">I can't make more today</div>
-                        <div class="hidden-desktop">
+                        <div class="hidden-md hidden-lg">
                         <div id="item_added_{{ product.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                         </div>
                         <div>
                         <div id="item_wished_{{ product.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
                         </div>
-                        <div class="visible-desktop">
+                        <div class="visible-md visible-lg">
                             <!-- AddThis Button BEGIN -->
                             <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ product.store.slug }}/{{ product.slug }}/" addthis:title="Check out {{ product.name|title }} only on imly.in! Drooool...">
                                 <div class="pull-left">
@@ -259,9 +258,9 @@
                     </div>
                 </a>
 
-                <h5 class="larger_h5"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
+                <h5 class="ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" object.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
                 <div class="thumbnail_info_wrapper">
-                    <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                    <span class="pull-left">{{ product.currency }} {{ product.get_price.unit_price|floatformat:"0" }}<small class="text-muted">
                         {% if product.quantity_per_item == 1 %}
                             /{{ product.get_quantity_by_price_display }}
                         {% else %}
@@ -278,32 +277,32 @@
                                 <input type="hidden" name="store_name" value="{{product.store.name|title}}">
                                 <input type="hidden" name="product_slug" value="{{ product.slug }}">
                                 <input type="hidden" name="quantity" value="1">
-                                <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                                <input type="button" class="submit-btn btn btn-custom btn-xs pull-right" value="Order">
                             </form>
                         {% else %}
-                            <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                            <small class="ultra_small text-muted pull-right">Fresh batch tomorrow</small>
                         {% endif %}
                     {% else %}
-                        <small class="ultra_small muted pull-right">Chef on vacation</small>
+                        <small class="ultra_small text-muted pull-right">Chef on vacation</small>
                     {% endif %}
                     <div class="clearfix"></div>
                 </div>
             </div>
-        </li>
-        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        </div>
+        {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
         {% endfor %}
-        </ul>
+       
     </div>
     
-    <div class="row-fluid visible-phone">
+    <div class="row visible-xs">
         {% if object.owner.userprofile %}
             
             <a class="btn btn-block btn-custom btn-custom-mobile" href="{% url "chef_profile" object.owner.userprofile.slug %}">{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}'s Profile</a>
             
         {% else %}
             
-            <h5 class="muted text-center" style="font-weight: 300;">by {{ object.owner.username }}</h5>
+            <h5 class="text-muted text-center" style="font-weight: 300;">by {{ object.owner.username }}</h5>
             
         {% endif %}
     </div>
