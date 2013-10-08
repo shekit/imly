@@ -13,7 +13,7 @@
     {% load imly_tags %}
     <div class="well shop_info hidden-xs">
         {% if request.user.is_staff and not object.store.is_approved %}<h4>Store not Approved</h4>{% endif %}
-        <h4><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}"><span class="store_name">{{ object.store.name|lower|title }}</span></a></h4>
+        <h2 class="store_name_in_product"><a class="top_text" href="{% url "imly_store_detail" object.store.slug %}"><span class="store_name">{{ object.store.name|lower|title }}</span></a></h2>
         <small class="text-muted"> by
                                             {% if object.store.owner.userprofile %}
                                                 <a class="sub_text" href="{% url "chef_profile" object.store.owner.userprofile.slug %}"><u>{{ object.store.owner.userprofile.first_name|lower|title }} {{ object.store.owner.userprofile.last_name|lower|title }}</u></a>
@@ -21,11 +21,7 @@
                                                 {{ object.store.owner.username }}
                                             {% endif %}</small>
         
-        <br><br>
-        <div class="expandable">
-            {{ object.store.description_html|safe }}
-        </div>
-
+        <br>
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
                 <hr>
@@ -81,12 +77,12 @@
                 <hr>
             </div>
         </div>
-        <h5>I also make:</h5>
+        <h5>I also make <span class="h5_inline">{{ product_count }}</span> other items</h5>
         
         <div class="row also_make">
-            {% for product in other_store_products|slice:"8" %}
+            {% for product in other_store_products|slice:"5" %}
             <div class="col-sm-6 col-md-4 also_make_product">
-                <div class="thumbnail">
+                <div class="thumbnail also_make_thumbnail">
                     <a href="{% url "imly_product_detail" object.store.slug product.slug %}">
                         <img src="{{ STATIC_URL }}bootstrap/img/bisc2.jpg"  class="img-responsive img_center" alt="{{ product.name }}">
                     </a>
@@ -98,9 +94,9 @@
             {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
             {% if forloop.counter|divisibleby:"3" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
             {% endfor %}
-            {% if other_store_products.count > 8 %}
+            {% if other_store_products.count > 5 %}
                 <div class="col-sm-6 col-md-4 also_make_product">
-                    <div class="thumbnail product_detail_more_products">
+                    <div class="thumbnail also_make_thumbnail product_detail_more_products">
                         <a href="{% url "imly_store_detail" object.store.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/more_items.png" class="img-responsive img_center" alt="{{ object.store.name }}"></a>
                     </div>
                 </div>
@@ -109,15 +105,10 @@
             {% endif %}
         </div>
         
-        <h5>Total Items in my Shop: <span class="h5_inline">{{ product_count }}</span></h5>
-             
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-                <hr>
-            </div>
-        </div>
-        
-    </div>            
+    </div>
+    <div class="well shop_info hidden-xs">
+        <a href="#" class="btn btn-success btn-block">Contact Chef</a>
+    </div>
 {% endblock shop_info %}
 
 {% block shop_product_content %}
@@ -340,6 +331,8 @@
             <span class="badge custom_label"><span class="glyphicon glyphicon-thumbs-up"></span></span> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout
     {% endif %}
     <br><br>
+    <a class="btn btn-block btn-success btn-custom-mobile visible-xs" href="#"><small>Contact Chef</small></a>
+    
     <a class="btn btn-block btn-custom btn-custom-mobile visible-xs" href="{% url "imly_store_detail" object.store.slug %}"><small>More from {{ object.store.name|lower|title }}</small></a>
     
     <div class="row">

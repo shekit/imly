@@ -316,13 +316,14 @@ textarea {
   line-height: inherit;
 }
 
+/* COMMENTED BY IMLY - causing issue with input renderin in firefox
 button,
 input,
 select[multiple],
 textarea {
   background-image: none;
 }
-
+*/
 a {
   color: #428bca;
   text-decoration: none;
