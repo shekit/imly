@@ -83,9 +83,9 @@
         </div>
         <h5>I also make:</h5>
         
-        <div class="row">
+        <div class="row also_make">
             {% for product in other_store_products|slice:"8" %}
-            <div class="col-sm-6 col-md-4">
+            <div class="col-sm-6 col-md-4 also_make_product">
                 <div class="thumbnail">
                     <a href="{% url "imly_product_detail" object.store.slug product.slug %}">
                         <img src="{{ STATIC_URL }}bootstrap/img/bisc2.jpg"  class="img-responsive img_center" alt="{{ product.name }}">
@@ -99,7 +99,7 @@
             {% if forloop.counter|divisibleby:"3" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
             {% endfor %}
             {% if other_store_products.count > 8 %}
-                <div class="col-sm-6 col-md-4">
+                <div class="col-sm-6 col-md-4 also_make_product">
                     <div class="thumbnail product_detail_more_products">
                         <a href="{% url "imly_store_detail" object.store.slug %}"><img src="{{ STATIC_URL }}bootstrap/img/more_items.png" class="img-responsive img_center" alt="{{ object.store.name }}"></a>
                     </div>
@@ -311,7 +311,7 @@
         
         <div class="col-sm-4 col-md-4">
             <ul class="list-unstyled text-center  product_detail_order">
-                <li><h4 class="product_detail_header">Pre-Orders Left Today</h4></li>
+                <li><h4 class="product_detail_header">Pre-Orders Left</h4></li>
                 <li>
                     <b><span id="items_in_stock">{{ object.items_in_stock }}</span></b>
                 </li>
