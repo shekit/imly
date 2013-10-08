@@ -124,7 +124,7 @@
 
     {% load imly_tags %}
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-sm-7 col-md-8">
                 
                         <div class="thumbnail">
                             
@@ -239,7 +239,7 @@
          
         </div>
         
-        <div class="col-md-4 product_detail_mobile">
+        <div class="col-sm-5 col-md-4 product_detail_mobile">
             <h1 class="product_name">{{ object.name|lower|title }}</h1><small>by <a class="sub_text" href="{% url "imly_store_detail" object.store.slug %}">{{ object.store.name|lower|title }}</a></small>
             <br><br>
             {% if object.quantity_per_item == 1 %}
@@ -275,7 +275,7 @@
     <br>
     <div class="row">
 
-        <div class="col-md-4">
+        <div class="col-sm-4 col-md-4">
             <ul class="list-unstyled text-center product_detail_rating">
                 <li><h4 class="product_detail_header">Rating</h4></li>
                 <li>
@@ -294,7 +294,7 @@
             </ul>
         </div>
         
-        <div class="col-md-4 bordered_left_right">
+        <div class="col-sm-4 col-md-4 bordered_left_right">
             <ul class="list-unstyled text-center product_detail_prep">
                 <li><h4 class="product_detail_header">Preparation Time <a href='#' class='form-tips' title='Time in which the chef will have your dish ready for delivery/pick-up'>[?]</a></h4></li>
                 <li>
@@ -309,7 +309,7 @@
             </ul>
         </div>
         
-        <div class="col-md-4">
+        <div class="col-sm-4 col-md-4">
             <ul class="list-unstyled text-center  product_detail_order">
                 <li><h4 class="product_detail_header">Pre-Orders Left Today</h4></li>
                 <li>
@@ -339,6 +339,7 @@
     {% else %}
             <span class="badge custom_label"><span class="glyphicon glyphicon-thumbs-up"></span></span> Mention any requirements you might have in the <span class="orange">Note to the Chef</span> during checkout
     {% endif %}
+    <br><br>
     <a class="btn btn-block btn-custom btn-custom-mobile visible-xs" href="{% url "imly_store_detail" object.store.slug %}"><small>More from {{ object.store.name|lower|title }}</small></a>
     
     <div class="row">

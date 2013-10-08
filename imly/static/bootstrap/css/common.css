@@ -687,7 +687,7 @@ input.large_location_search {
     position: absolute;
     top:5px;
     left:10px;
-    width:176px;
+    width:174px;
     height:32px;
     background: #fff;
     color: #f05a28;
@@ -701,7 +701,7 @@ input.large_location_search {
 }
 
 .selected_location_name {
-    width:149px;
+    width:147px;
     height:32px;
 	white-space: nowrap;
     overflow: hidden;
