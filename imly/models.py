@@ -123,10 +123,10 @@ class Store(geo_models.Model):
     slug = AutoSlugField(populate_from='name', editable=True, unique=True)
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
-                                            help_text="(Mobile number) We will not share this with anyone")
+                                            help_text="(Mobile number) We will not share this with anyone", null=True, blank=True)
     description = models.TextField(null=True,blank=True)
     description_html = models.TextField(editable=False, blank=True)
-    tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
+    tagline = models.CharField(max_length=255, blank=True, help_text="(optional)", null=True)
     logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
     logo_thumbnail = ImageSpecField(image_field="logo", format="JPEG",options={'quality': 92},processors = [ResizeToFill(300,200)], cache_to=get_store_logo_path)
     cover_photo = models.ImageField(upload_to=get_cover_image_path, blank=True, help_text="(optional) Recommended Size - 900 X 250")
@@ -135,9 +135,9 @@ class Store(geo_models.Model):
     #metadata
     categories = models.ManyToManyField(Category, blank=True)
     pick_up = models.BooleanField(default=True)
-    pick_up_address = models.TextField()
-    pick_up_location = models.CharField(max_length=255)
-    pick_up_landmark = models.CharField(max_length=100,blank=True)
+    pick_up_address = models.TextField(null=True, blank=True)
+    pick_up_location = models.CharField(max_length=255, null=True, blank=True)
+    pick_up_landmark = models.CharField(max_length=100,blank=True, null=True)
     pick_up_point = geo_models.PointField(null=True, blank=True)
     provide_delivery = models.BooleanField(default=False)
     delivery_areas = models.ManyToManyField(Location, blank=True)
@@ -145,12 +145,14 @@ class Store(geo_models.Model):
     date_updated = models.DateTimeField(auto_now=True)
 
     #promotion
-    facebook_link = models.URLField(blank=True, help_text="(optional)")
-    twitter_link = models.URLField(blank=True, help_text="(optional)")
+    facebook_link = models.URLField(null=True, blank=True, help_text="(optional)")
+    twitter_link = models.URLField(null=True, blank=True, help_text="(optional)")
+    blog_link = models.URLField(blank=True, null=True)
+    website_link = models.URLField(blank=True, null=True)
 
     #status
     is_open = models.BooleanField(default=True)
-    store_notice = models.TextField(blank=True)
+    store_notice = models.TextField(blank=True, null=True)
     is_approved = models.BooleanField(default=False)
     is_featured = models.BooleanField(default=False)
     orders = models.ManyToManyField(Order, through='StoreOrder')

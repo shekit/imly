@@ -14,6 +14,39 @@ from crispy_forms.layout import Layout, Fieldset, Field, Submit, Div, HTML
 from crispy_forms.bootstrap import PrependedText
 from crispy_forms.layout import Field
 
+class StoreEmptyValidation(object):
+
+    def clean_contact_number(self):
+        data = self.cleaned_data["contact_number"]
+        if len(data) != 10 or not re.match("^\d+$", data):
+            raise forms.ValidationError("Please enter a valid mobile number")
+        return data
+
+    def clean_description(self):
+        data = self.cleaned_data["description"]
+        if len(data) == 0:
+            raise forms.ValidationError("Please enter a description for your shop")
+        return data
+
+    def clean_address(self):
+        data = self.cleaned_data["address"]
+        if len(data) <= 10:
+            raise forms.ValidationError("Please enter your complete address")
+        return data
+
+    def clean_geo_location(self):
+        data = self.cleaned_data["geo_location"]
+        if len(data) <= 5:
+            raise forms.ValidationError("Please enter a valid location")
+        return data
+
+    def clean_landmark(self):
+        data = self.cleaned_data["landmark"]
+        if len(data) <= 10:
+            raise forms.ValidationError("Please enter a landmark nearby")
+        return data
+
+
 class FileField(Field):
     template = "bootstrap/layout/file_field.html"
 
@@ -372,3 +405,27 @@ class ChefTipForm(forms.ModelForm):
         if len(contact) != 10 or not re.match('^\d+$',contact):
             raise forms.ValidationError("Please enter a valid 10 digit phone number")
         return contact
+
+class StoreSocialForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ("facebook_link", "twitter_link", "blog_link", "website_link")
+
+class StoreDetailForm(forms.ModelForm, StoreEmptyValidation):
+    class Meta:
+        model = Store
+        fields = ('name','store_contact_number', 'tagline', 'description')
+
+
+class StoreAvailabilityForm(forms.ModelForm, StoreEmptyValidation):
+    class Meta:
+        model = Store
+        fields = ('pick_up_address', 'pick_up_point', 'pick_up_landmark', 'pick_up', 'provide_delivery')
+
+class StoreCanBeApprovedForm(forms.ModelForm):
+    class Meta:
+        model = Store
+        fields = ('name', 'store_contact_number', 'pick_up_address', 'pick_up_point', 'pick_up_landmark', 'pick_up', 'provide_delivery')
+
+    # make sure there is atleast one product
+
