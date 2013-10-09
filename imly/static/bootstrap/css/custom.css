@@ -1382,11 +1382,9 @@ a.sort_by_button_selected {
     
     /* MODAL WINDOWS */
     
-    .login_modal {
-	width:450px;
-	margin-left:auto;
-	margin-right:auto;
-    }
+	.login_modal_content{
+		width:280px;
+	}
 
     .modal-header .extra_top_margin {
 	margin-top:2px;

@@ -59,12 +59,12 @@
                 </li>
             {% else %}
                 
-                <li class="hidden-sm">
+                <li class="hidden-xs hidden-sm">
                     {% ifequal request.path "/logout/" %}
                         <a id="from_logout" class="hand_pointer">Sign In</a>
                         {% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>
                     {% endifequal %}</li>
-                <li class="visible-sm top_border"><a href="{% url "account_login" %}">Sign-In</a></li>
+                <li class="visible-xs visible-sm top_border"><a href="{% url "account_login" %}">Sign-In</a></li>
             {% endif %}
 
             <li class="border_right"><a class="{% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="glyphicon glyphicon-shopping-cart"></span> (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a>
