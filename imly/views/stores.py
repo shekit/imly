@@ -23,7 +23,26 @@ from imly.utils import tracker
 import json as simplejson
 from datetime import date
 
+@csrf_exempt
+def upload_images(request):
+    store = request.user.store
+    user_profile = request.user.userprofile
+    if request.FILES.get('logo'):
+        store.logo = request.FILES['logo']
+    if request.FILES.get('cover_photo'):
+        store.cover_photo = request.FILES['cover_photo']
+    if request.FILES.get('cover_profile_image'):
+        user_profile.cover_profile_image = request.FILES['cover_profile_image']
+        user_profile.save()
+    store.save()
+    return HttpResponse("Success")
 
+@csrf_exempt
+def upload_store_cover(request):
+    store = request.user.store
+    store.cover_photo = request.FILES['cover_photo']
+    store.save()
+    return HttpResponse("success")
 
 def home_page(request):
     city_stores = Store.objects.is_approved().filter(Q(pick_up_point__within=request.city.enclosing_geometry) | Q(delivery_locations__location__within=request.city.enclosing_geometry))

@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout, CreateStore, ManageStore
-from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout, CreateStore, ManageStore, upload_images
+from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product,remove_product,upload_product_images
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
@@ -90,6 +90,12 @@ urlpatterns += patterns('',
     #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
     #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
 
+)
+
+urlpatterns += patterns('',
+    url(r"^upload/images/$",upload_images,name="upload_images"),
+    url(r"^upload/images/(?P<slug>[-\w]+)/$",upload_product_images,name="upload_product_images"),
+    #url(r"^upload/cover/$",upload_store_cover,name="upload_store_logo"),
 )
 
 
