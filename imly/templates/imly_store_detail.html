@@ -184,7 +184,7 @@
             {{ object.description_html|safe }}
         </div>
         
-        <h5>I make:</h5>
+        {% comment %}<h5>I make:</h5>
         <ul class="list-unstyled">
             {% for category in object.categories.all %}
             {% if not category.flag_product %}
@@ -192,13 +192,18 @@
             {% endif %}
             {% endfor %}
         </ul>
+        {% endcomment %}
         
         <h5>Total Items in my Shop: <span class="h5_inline">{{ product_count }}</span></h5>
              
 
         
 
-    </div>            
+    </div>
+    <div class="well shop_info hidden-xs">
+        <a href="#" class="btn btn-success btn-block">Contact Chef</a>
+    </div>
+    
 {% endblock shop_info %}
 
 {% block shop_product_content %}
@@ -226,7 +231,7 @@
             <div class="thumbnail thumbnail_custom">
                 <a href="{% url "imly_product_detail" object.slug product.slug %}">
                     <div class="sold_out">
-                        <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
+                        <img src="{{ STATIC_URL }}bootstrap/img/bisc.jpg" class="img-responsive img_center" alt="{{ product.name }}">
                         {% if not product.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
@@ -296,6 +301,8 @@
     </div>
     
     <div class="row visible-xs">
+        <a class="btn btn-block btn-success btn-custom-mobile visible-xs" href="#">Contact Chef</a>
+    
         {% if object.owner.userprofile %}
             
             <a class="btn btn-block btn-custom btn-custom-mobile" href="{% url "chef_profile" object.owner.userprofile.slug %}">{{ object.owner.userprofile.first_name }} {{ object.owner.userprofile.last_name }}'s Profile</a>

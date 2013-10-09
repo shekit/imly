@@ -332,6 +332,22 @@ open .dropdown-toggle.btn-default {
 	border-color: #c04820;
 }
 
+.btn_facebook {
+	color: #ffffff;
+	text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+	background-color: #3b5998;
+	border-color: #2f4779;
+}
+
+.btn_facebook:hover,
+.btn_facebook:focus,
+.btn_facebook:active,
+.btn_facebook.active {
+  color: #ffffff;
+  background-color: #2f4779;
+	border-color: #293e6a;
+}
+
 .action_button{
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -428,24 +444,22 @@ a.give_us_a_tip2:hover {
 	background-position: bottom;
     }
     
-    .twitter{
+    .twitter_footer{
 	width:23px;
 	background: url("../img/twitter_logo.png") no-repeat;
     }
     
-    .facebook{
+    .facebook_footer{
 	background: url("../img/fb_logo.png") no-repeat;
     }
     
-    .tumblr{
+    .tumblr_footer{
 	background: url("../img/tumblr_logo.png") no-repeat;
     }
     
 /* GIVE A TIP FORM */
 .tip_modal {
     color: #333;
-    width:300px;
-    margin-left:-150px;
 }
 
 .tip_modal_form {
@@ -467,6 +481,20 @@ a.give_us_a_tip2:hover {
 .tip_modal_heading {
     color:#f05a28;
     text-shadow: 1px 1px #fff;
+}
+
+.modal-header .tip_form_close {
+	margin-top: 5px;
+}
+
+.tip_form_modal_content {
+	width: 300px;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+#tip_form_body > li > label {
+	display: block;
 }
 
 /* END OF FOOTER */
@@ -523,6 +551,10 @@ margin-bottom: 20px;
 
 .location_distance {
     margin:0px;
+}
+
+.deliver_pick_up {
+	margin-top: 2px;
 }
 
 .sold_out {
@@ -633,12 +665,15 @@ input.large_location_search {
     font-size:16px;
 }
 
+li.search_button {
+	margin-left: -16px;	
+}
+
 .go_location_button {
     padding-top:9px;
     padding-bottom: 9px;
 	font-size: 16px;
 	border-radius: 0 3px 3px 0;
-	margin-left:-16px;
 }
 
 .location_search {
@@ -724,8 +759,16 @@ input.large_location_search {
 
 /* MODAL SIGNUP WINDOW */
 .login_modal {
-    width:450px;
-    margin-left:-225px;
+    
+}
+
+.login_modal_content {
+	width:450px;
+	background: #fff;
+	margin-top:5%;
+	margin-left: auto;
+	margin-right: auto;
+	border-radius: 5px;
 }
 
 .modal_login_header {
@@ -744,7 +787,7 @@ input.large_location_search {
     margin-top:10px;
 }
 
-.form-horizontal .control-group {
+.form-horizontal .form-group {
     margin-bottom:15px;
 }
 
@@ -754,6 +797,10 @@ input.large_location_search {
 
 .modal-header a:hover {
     color:#666;
+}
+
+.nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus{
+	color: #f05a28;
 }
 
 /* END OF MODAL SIGNUP WINDOW */
@@ -782,7 +829,8 @@ input.large_location_search {
 .city_modal_heading {
     color: #bbb;
     text-shadow: 1px 1px 0px #fff;
-    
+    margin-top:0;
+	margin-bottom: 0;
 }
 
 ul.city_ul a {
