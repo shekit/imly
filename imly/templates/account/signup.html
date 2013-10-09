@@ -6,9 +6,9 @@
 {% block title %}{% trans "Signup" %}{% endblock %}
 
 {% block content %}
-<div class="row-fluid">
-    <div class="span8 offset2">
-        <div class="well">
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <div class="well" style="margin-top: 30px;">
             <ul class="nav nav-tabs">
                 <li><a href="{{ login_url }}"><h4 class="modal_window_header">Login</h4></a></li>
                 <li class="active"><a href="#"><h4 class="modal_window_header">Sign Up</h4></a></li>
@@ -19,12 +19,12 @@
             {% if socialaccount.providers  %}
     
             <br><br>
-            <div class="socialaccount_ballot">
-            
-                <ul class="socialaccount_providers inline text-center">
+            <div class="socialaccount_ballot row">
+            <div class="col-sm-6 col-sm-offset-3">
+                <ul class="socialaccount_providers list-unstyled text-center">
                 {% include "socialaccount/snippets/provider_list.html" %}
                 </ul>
-            
+            </div>
             <!--<div class="login-or">{% trans 'or' %}</div>-->
             
             </div>
@@ -34,7 +34,7 @@
             {% endif %}
         {% endif %}
         
-        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+        <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png" class="img-responsive img_center"></p>
     
             {% if user.is_authenticated %}
                 {% include "account/snippets/already_logged_in.html" %}
@@ -44,44 +44,44 @@
                     {% csrf_token %}
                
                 {% load widget_tweaks %}
-                <div class="row-fluid">
-                    <div class="span12">
+                <div class="row">
+                    <div class="col-sm-12">
                         <span class="text-center">{{ form.non_field_errors }}</span>
                     </div>
                 </div>
                 
-                <div class="control-group">
+                <div class="form-group">
                     
-                    <span class="control-label">{{ form.email.label }}</span>
-                    <div class="controls">
+                    <label class="col-xs-4 control-label">{{ form.email.label }}</label>
+                    <div class="col-xs-8">
                         {{ form.email }}
                         {{ form.email.errors }}
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     
-                    <span class="control-label">{{ form.password1.label }}</span>
-                    <div class="controls">
+                    <label class="col-xs-4 control-label">{{ form.password1.label }}</label>
+                    <div class="col-xs-8">
                         {{ form.password1 }}
                         {{ form.password1.errors }}
                     </div>
                 </div>
-                <div class="control-group">
+                <div class="form-group">
                     
-                    <span class="control-label">{{ form.password2.label }}</span>
-                    <div class="controls">
+                    <label class="col-xs-4 control-label">{{ form.password2.label }}</label>
+                    <div class="col-xs-8">
                         {{ form.password2 }}
                         {{ form.password2.errors }}
                     </div>
                 </div>
 
                 <br>
-                <div class="row-fluid">
-                    <div class="span4 offset4">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3">
                     {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                     {% endif %}
-                    <button class="btn btn-primary btn-block btn-custom" type="submit">{% trans "Sign Up" %} &raquo;</button>
+                    <button class="btn btn-primary btn-block btn-custom" type="submit">{% trans "Create Account" %} &raquo;</button>
                     </div>
                 </div>
 

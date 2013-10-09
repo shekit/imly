@@ -1,97 +1,84 @@
 
-<nav class="navbar navbar-fixed-top custom_navbar">
-                    <div class="container">
-                    <div class="navbar-inner">
+<nav class="navbar navbar-default navbar-fixed-top custom_navbar" role="navigation">
+    <div class="container">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Menu</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+                        
+        <div class="logo_city_wrapper">
+            <a href="{% url "imly_landing_page" %}" class="navbar-brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_top_nav_logo.png" alt="Imly.in"></a>
+            <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
+            {% if request.city %}
+                {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
+            {% else %}
+                Select City <span class="caret caret_city"></span>
+            {% endif %}
+            </a>
+        </div>
+            
+    </div><!-- end of navbar header -->
+    
+    <div class="collapse navbar-collapse">
+        {% load url from future %}
+        {% load imly_tags %}
+        <ul class="nav navbar-nav navbar-right">
+                
+            <li><a class="no_border {% current 'imly_products_by_category' %} {% current 'imly_product_list' %} {% current 'imly_product_detail' %}" href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url 'imly_product_list' %}{% endif %}">Food</a></li>
+            <li><a class="no_border {% current 'imly_stores_by_category' %} {% current 'imly_store_list' %} {% current 'imly_store_detail' %}" href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Shops</a></li>
+            <li><a class="no_border {% current 'imly_profiles' %} {% current 'chef_profile' %}"  href="{% url "imly_profiles" %}">Chefs</a></li>
+            {% if user.is_authenticated %}
+                {% if user.store %}
+                    <li><a class="btn navbar-btn custom_navbar_btn {% current 'imly_store_info' %} {% current 'imly_store_create' %} {% current 'imly_store_edit' %} {% current 'imly_store_products' %} {% current 'imly_product_add' %} {% current 'imly_product_edit' %} {% current 'imly_product_delete' %} {% current 'imly_store_orders' %} {% current 'imly_my_profile' %} {% current 'imly_create_profile' %} {% current 'imly_profile_edit' %}"  href="{% url "imly_store_products" %}">Manage your Shop</a></li>
+                {% else %}
+                    <li><a class="btn navbar-btn custom_navbar_btn {% current 'imly_store_info' %} {% current 'imly_store_create' %}"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
+                {% endif %}
+            {% else %}
+                <li class="hidden-sm"><a id="open_your_shop" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
+                <li class="visible-sm"><a href="{% url "imly_store_info" %}" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
+            {% endif %}
+            
+            {% if user.is_authenticated %}
+                <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                {% if user.userprofile.first_name %}
+                    {{ user.userprofile.first_name|slice:"12" }} <span class="caret"></span>
+                {% else %}
+                    {{ user.first_name|slice:"12" }} <span class="caret"></span>
+                {% endif %}
+                </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url "plata_shop_cart" %}"><span class="glyphicon glyphicon-shopping-cart"></span> My Cart (<span id="items-count_cart">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a></li>
+                        <li><a href="{% url "imly_store_info" %}"><span class="glyphicon glyphicon-home"></span> Manage Shop</a></li>
+                        <li><a href="{% url "show_wishlist" %}"><span class="glyphicon glyphicon-heart"></span> Favourites</a></li>
+                        <li class="divider"></li>
+                        <li><a href="{% url "account_logout" %}"><span class="glyphicon glyphicon-off"></span> Logout</a></li>
+                    </ul>
+                </li>
+            {% else %}
+                
+                <li class="hidden-xs hidden-sm">
+                    {% ifequal request.path "/logout/" %}
+                        <a id="from_logout" class="hand_pointer">Sign In</a>
+                        {% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>
+                    {% endifequal %}</li>
+                <li class="visible-xs visible-sm top_border"><a href="{% url "account_login" %}">Sign-In</a></li>
+            {% endif %}
 
-                            <button class="btn btn-navbar btn-nav-collapse" data-toggle="collapse" data-target=".nav-collapse">
-                                <a href="{% url "imly_landing_page" %}" class="brand"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_small_without_beta_light.png" alt="Imly Logo" width="65"></a>
-                                <span class="pull-right">
-                                        <br>
-                                        <ul class="inline">
-                                                            <li>MENU</li>
-                                                            <li><span class="icon-bar"></span>
-                                                                <span class="icon-bar"></span>
-                                                                <span class="icon-bar"></span>
-                                                            </li>
-                                                            
-                                        </ul>
-                                        
+            <li class="border_right"><a class="{% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="glyphicon glyphicon-shopping-cart"></span> (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a>
+                <div class="hidden-sm">
+                <div class="dropdown_div">
+                <div class="dropDowncart_triangle"></div>
+                <ul class="list-inline dropDowncart"></ul>
+                </div>
+                </div>
+            </li>
+            
+            
+        </ul>
+    </div> <!-- end of navbar-collapse div -->
 
-                                </span>
-                            </button>
-                            <div class="logo_city_wrapper" style="position:relative;">
-                            <a href="{% url "imly_landing_page" %}" class="brand hidden-phone"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo_without_beta.png" width="65" alt="Imly Logo"></a>
-                            <a href="#cityModal" role="button" data-toggle="modal" class="select_city">
-                                        {% if request.city %}
-                                                            {{ request.city.name|capfirst }} <span class="caret caret_city"></span>
-                                        {% else %}
-                                                            Select City <span class="caret caret_city"></span>
-                                        {% endif %}
-                            </a>
-                            </div>
-                            <div class="nav-collapse collapse">
-                                {% load url from future %}
-                                {% load imly_tags %}
-                                <ul class="nav pull-right">
-                                        
-                                    <li><a class="no_border {% current 'imly_products_by_category' %} {% current 'imly_product_list' %} {% current 'imly_product_detail' %}" href="{% if category %}{% url "imly_products_by_category" category.slug %}{% else %}{% url 'imly_product_list' %}{% endif %}">Food</a></li>
-                                    <li><a class="no_border {% current 'imly_stores_by_category' %} {% current 'imly_store_list' %} {% current 'imly_store_detail' %}" href="{% if category %}{% url "imly_stores_by_category" category.slug %}{% else %}{% url 'imly_store_list' %}{% endif %}">Shops</a></li>
-                                    <li><a class="no_border {% current 'imly_profiles' %} {% current 'chef_profile' %}"  href="{% url "imly_profiles" %}">Chefs</a></li>
-                                    {% if user.is_authenticated %}
-                                        {% if user.store %}
-                                            <li><a class="no_border_orange {% current 'imly_store_info' %} {% current 'imly_store_create' %} {% current 'imly_store_edit' %} {% current 'imly_store_products' %} {% current 'imly_product_add' %} {% current 'imly_product_edit' %} {% current 'imly_product_delete' %} {% current 'imly_store_orders' %} {% current 'imly_my_profile' %} {% current 'imly_create_profile' %} {% current 'imly_profile_edit' %}"  href="{% url "imly_store_products" %}">Manage your Shop</a></li>
-                                        {% else %}
-                                            <li><a class="no_border_orange {% current 'imly_store_info' %} {% current 'imly_store_create' %}"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
-                                        {% endif %}
-                                    {% else %}
-                                        <li class="hidden-phone"><a id="open_your_shop" class="no_border_orange hand_pointer">Open your Shop</a></li>
-                                        <li class="visible-phone"><a href="{% url "imly_store_info" %}">Open your Shop</a></li>
-                                    {% endif %}
-                                    
-                                    {% if user.is_authenticated %}
-                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        {% if user.userprofile.first_name %}
-                                            {{ user.userprofile.first_name|slice:"12" }} <span class="caret"></span>
-                                        {% else %}
-                                            {{ user.first_name|slice:"12" }} <span class="caret"></span>
-                                        {% endif %}
-                                        </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart (<span id="items-count_cart">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a></li>
-                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
-                                                <li><a href="{% url "show_wishlist" %}"><span class="icon-heart"></span> Favourites</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        
-                                        <li class="hidden-phone">
-                                                            {% ifequal request.path "/logout/" %}
-                                                                                <a id="from_logout" class="hand_pointer">Sign In</a>
-                                                                                {% else %}<a href="#myModal" role="button" data-toggle="modal">Sign In</a>
-                                                            {% endifequal %}</li>
-                                        <li class="visible-phone"><a href="{% url "account_login" %}">Sign-In</a></li>
-                                    {% endif %}
-
-                                    <li class="border_right"><a class="dummy_cart_class items_in_cart {% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a>
-                                        <div class="hidden-phone">
-                                        <div class="dropdown_div">
-                                        <div class="dropDowncart_triangle"></div>
-                                        <ul class="inline dropDowncart"></ul>
-                                        </div>
-                                        </div>
-                                    </li>
-                                    
-                                    
-                                </ul>
-                            </div> <!-- end of nav-collapse div -->
-
-                    </div> <!-- end of navbar-inner --> 
-                    </div>
-                    <!--<div class="visible-phone">
-                    <div class="dropdown_div">
-                                        <p class="text-center">Item added to cart</p>
-                    </div>
-                    </div>-->
-                </nav> <!-- end of navbar -->
+    </div> <!-- end of container div -->
+</nav> <!-- end of navbar -->

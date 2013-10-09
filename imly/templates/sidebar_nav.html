@@ -1,6 +1,8 @@
 {% load imly_tags %}
 
                         <ul class="nav nav-list">
+                            
+                            {% comment %}
                             {% if request.session.place_slug %}
                             <li class="nav-header selected_nav_header">Your location: </li>
                                 <ul class="inline tags_for_product_home_inverted">
@@ -11,6 +13,8 @@
                                         <hr>
                                 {% endif %}
                             {% endif %}
+                            {% endcomment %}
+                        
                             {% if super_category %}
                             <li class="nav-header selected_nav_header hidden-desktop">You have selected:</li>
                             <li class="hidden-desktop"><a href="{% url "imly_products_by_category" super_category.slug %}" {% ifequal super_category category %}class="selected_super_category"{% endifequal %}>{{ super_category.name|capfirst }}</a><!-- passed through get_context_data from the view -->
@@ -24,7 +28,7 @@
 
                             <li class="nav-header selected_nav_header visible-desktop" style="margin-top:0px;">You have selected:</li>
 
-                                <ul class="inline tags_for_product_home_inverted visible-desktop">
+                                <ul class="list-inline tags_for_product_home_inverted visible-desktop">
                                     {% ifequal super_category category %}
                                         <li><a href="{% url "imly_product_list" %}">{{ super_category.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endifequal %}
@@ -46,7 +50,7 @@
                                 {% endif %}
                             <li class="nav-header selected_nav_header">You have filtered by:</li>
 
-                                <ul class="inline tags_for_product_home_inverted">
+                                <ul class="list-inline tags_for_product_home_inverted">
                                     {% for tag in selected_tags %}
                                         <li><a href="{% url "remove_tag" tag.slug %}" class="tag_selected" id="{{ tag.slug }}">{{ tag.name|capfirst }} <span class="small">&times;</span></a></li>
                                     {% endfor %}
@@ -85,7 +89,7 @@
                             {% get_tag_list %}
                             {% if tags %}
                             <li class="nav-header">Filter by Taste</li>
-                                <ul class="inline tags_for_product_home">
+                                <ul class="list-inline tags_for_product_home">
 
                                     {% for tag in tags %}
                                     {% if tag.is_active and not tag.flag_product %}

@@ -1,0 +1,141 @@
+{% load imly_tags %}
+
+<div class="btn-group-vertical">
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Course
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Dessert <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Appetizers</a></li>
+            <li><a href="#">Main Course</a></li>
+            <li>
+                <div class="btn-group">
+                    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                        Dessert
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Cakes</a></li>
+                        <li><a href="#">Cupcakes</a></li>
+                        <li><a href="#">Tarts</a></li>
+                        <li><a href="#">Ice Cream</a></li>
+                        <li><a href="#">Brownies</a></li>
+                        <li><a href="#">Cookies</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="#">Salad</a></li>
+            <li><a href="#">Others</a></li>
+        </ul>
+
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Cuisine
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Asian <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Indian</a></li>
+            <li><a href="#">Continental</a></li>
+            <li><a href="#">Asian</a></li>
+            <li><a href="#">American</a></li>
+            <li><a href="#">Latin</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Veg/Non-Veg
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Vegetarian <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Vegetarian</a></li>
+            <li><a href="#">Non-Vegetarian</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Main Ingredient
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Chicken <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Chicken</a></li>
+            <li><a href="#">Pork</a></li>
+            <li><a href="#">Seafood</a></li>
+            <li><a href="#">Rice</a></li>
+            <li><a href="#">Vegetables</a></li>
+            <li><a href="#">Fruits</a></li>
+        </ul>
+    </div>
+    
+    <div class="btn-group" >
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Availability
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Tomorrow <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Today</a></li>
+            <li><a href="#">Tomorrow</a></li>
+            <li><a href="#">Later</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Price
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Upto 100 <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">&lt; 100</a></li>
+            <li><a href="#">&lt; 500</a></li>
+            <li><a href="#">&lt; 750</a></li>
+            <li><a href="#">&lt; 1000</a></li>
+        </ul>
+    </div>
+    <div class="btn-group">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+            Technique
+            <span class="pull-right caret_right"></span><br>
+        <div class="selected_item">
+            <a href="#" class="selected_item_link">Baked <span class="pull-right remove_facet">&times;</span><div class="clearfix"></div></a>
+        </div>
+        </button>
+        <ul class="dropdown-menu">
+            <li><a href="#">Baked</a></li>
+            <li><a href="#">Fried</a></li>
+            <li><a href="#">Roasted</a></li>
+            <li><a href="#">Sauteed</a></li>
+            <li><a href="#">Pan-Fried</a></li>
+            <li><a href="#">Boiled</a></li>
+        </ul>
+    </div>
+</div>
+{% get_tag_list %}
+<div class="special_diet">
+<span class="diet_heading">Special Diet</span>
+        <ul class="list-inline tags_for_product_home">
+    
+            {% for tag in tags %}
+            {% if tag.is_active and not tag.flag_product %}
+                <li><a href="{% url "add_tag" tag.slug %}" class="tag" id="{{ tag.slug }}">{{ tag.name }}</a></li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+</div>

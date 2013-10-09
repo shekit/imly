@@ -1,14 +1,19 @@
-                        <div id="delivery_modal" class="modal hide fade tip_modal" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-header tip_modal_header">
-                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                                <h3 id="myModalLabel_tip" class="text-center city_modal_heading">Where are you?</h3>
-                            </div>
-                          <div class="modal-body">
-                            
-                            <p class="text-center">Enter your location in the box at the top<br/>to see which chefs deliver to you!</p>
-                            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/delivery_location.png" alt="Close this window and enter your location in the box"></p>
-                          </div>
-                          <div class="modal-footer delivery_location_footer">
-                            <p class="text-center"><button class="btn btn-custom" data-dismiss="modal" aria-hidden="true">Ok, Got it!</button></p>
-                          </div>
-                        </div>
+<div id="delivery_modal" class="modal fade tip_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_delivery" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content tip_form_modal_content">
+            <div class="modal-header tip_modal_header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="myModalLabel_delivery" class="text-center city_modal_heading">Where are you?</h3>
+            </div>
+            
+            <div class="modal-body">
+                <p class="text-center">Enter your location in the box at the top<br/>to see which chefs deliver to you!</p>
+                <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/delivery_location.png" alt="Close this window and enter your location in the box"></p>
+            </div>
+            
+            <div class="modal-footer delivery_location_footer">
+                <p class="text-center"><button class="btn btn-custom" data-dismiss="modal" aria-hidden="true">Ok, Got it!</button></p>
+            </div>
+        </div>
+    </div>  
+</div>

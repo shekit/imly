@@ -1,48 +1,47 @@
 
-                <div class="container-fluid location_bar_outer">
-                    <div class="container location_bar_inner">
-                            <div class="row-fluid only_for_special_page">
-                                <div class="span12">
+<div class="location_bar_outer">
+    <div class="container location_bar_inner">
+            <div class="row only_for_special_page">
+                <div class="col-md-12 text-center">
 
-                                        <ul class="text-center inline" style="position: relative;">
-                                                <li>I want</li>
-                                                <li><div class="search_bar_wrapper">
-
-                                                <div class="input-append">
-                                                <form class="search_form" method="get" action="/search/food/">
-                                                    <input type="text" id="search_term" class="large_location_search" placeholder="e.g Cupcakes" name="query">
-                                                        <div class="input-prepend search_bar_prepend">
-                                                            <span class="add-on search_bar_in">in</span>
-
-                                                            <input id="loc" type="text" class="large_location_search" {% if not request.session.place_slug %}placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select city above first"{% endif %}{% endif %} {% if request.session.place_slug %}readonly{% endif %}>
-
-                                                        </div>
-
-                                                    <input type="submit" class="btn btn-custom go_location_button" value="Go"></input>
-
-                                                </form>
+                        <ul class="list-inline search_list">
+                                <li>I want</li>
+                                
+                                <li>
+                                    <input type="text" id="search_term" class="large_location_search" placeholder="e.g Cupcakes" name="query">  
+                                </li>
+                                
+                                <li class="in_search_bar">in</li>
+                                
+                                <li class="location_input">
+                                    
+                                    <input id="loc" type="text" class="large_location_search" {% if not request.session.place_slug %}placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select city above first"{% endif %}{% endif %} {% if request.session.place_slug %}readonly{% endif %}>
+                                
+                                    {% if request.session.place_slug %}
+                                    <a class="remove_selected_location" href="{% url "unset_location" %}">
+                                        <div class="selected_location">
+                                                <div class="selected_location_name pull-left">
+                                                    {{ request.session.display_place_slug|capfirst|slice:"20" }}
                                                 </div>
-                                                {% if request.session.place_slug %}
-                                                <a class="remove_selected_location" href="{% url "unset_location" %}">
-                                                    <div class="selected_location">
-                                                            <div class="selected_location_name pull-left">
-                                                                {{ request.session.display_place_slug|capfirst|slice:"20" }}
-                                                            </div>
-                                                            <div class="selected_location_cross pull-right">
-                                                                <span class="small">&times;</span>
-                                                            </div>
-                                                            <div class="clearfix"></div>
-
-                                                    </div>
-                                                </a>
-                                                {% endif %}
+                                                <div class="selected_location_cross pull-right">
+                                                    <span class="small">&times;</span>
                                                 </div>
+                                                <div class="clearfix"></div>
+    
+                                        </div>
+                                    </a>
+                                    {% endif %}
+                                
+                                </li>
+                                        
 
-                                                </li>
+                                <li class="search_button">
+                                    <input type="submit" class="btn btn-custom go_location_button" value="Search"></input>
+                                </li>
 
-                                        </ul>
-                                </div>
-                            </div>
-                    </div><!-- end of location_bar_inner -->
-                </div><!-- end of div container-fluid location_bar_outer -->
+                        </ul>
+                </div>
+            </div>
+    </div><!-- end of location_bar_inner -->
+</div><!-- end of div location_bar_outer -->
 

@@ -1,7 +1,7 @@
 {% load imly_tags %}
 {% if object_list %}
 <!-- using forloop counter to correct bootstrap bug- thumbnails dont align after first row, added bottom margin to each row fluid for proper spacing -->   
-    <ul class="thumbnails">
+    <div class="row">
         {% load endless %}
         
         {% paginate object_list %}
@@ -17,13 +17,12 @@
 		<meta property="og:description" content="Check out {{ object.name|title }} on imly.in! Drooool..."/>
 		{% endblock extra_head %}
 		{% endif %}
-        {% if forloop.counter0|divisibleby:"3" %}<div class="row-fluid margined">{% endif %}
-        <li class="span4">
+        <div class="col-xs-6 col-sm-6 col-md-4">
             <div class="thumbnail thumbnail_custom">
                 {% if request.session.place_slug %}
                                 {% store_amend_geo object.store %}
                                 {% if object.store.pick_up_location %}
-                                <p class="text-left location_distance"><span class="icon-map-marker"></span> <small class="muted">
+                                <p class="text-left location_distance"><span class="glyphicon glyphicon-map-marker"></span> <small class="text-muted">
 
                                     {% if object.store.distance < 1 %}
                                         &lt; 1 km 
@@ -33,7 +32,7 @@
                                 {% endif %}
                                 
                                 
-                                <span class="pull-right">
+                                <span class="pull-right deliver_pick_up">
                                 {% if object.store.delivers %} {# Was this earlier - {% if object.store.delivers %} #}
                                     Delivers to you &nbsp;
                                 {% else %}
@@ -50,19 +49,19 @@
                 {% endif %}
                 <a href="{% url "imly_product_detail" object.store.slug object.slug %}">
                     <div class="sold_out">
-                        <img src="{{ object.image_thumbnail.url }}" alt="{{ object.name }}">
+                        <img src="{{ STATIC_URL }}bootstrap/img/bisc.jpg" class="img-responsive img_center" alt="{{ object.name }}">
                         {% if not object.items_in_stock %}
                             <img src="{{ STATIC_URL }}bootstrap/img/sold_out_tag.png" alt="sold out" class="sold_out_image">
                         {% endif %}
                         <div id="exceed_stock_{{ object.slug }}" class="exceed_stock">I can't make more today</div>
-                        <div class="hidden-desktop">
+                        <div class="hidden-md">
                             <div id="item_added_{{ object.slug }}" class="item_added"><a href="{% url "plata_shop_cart" %}" class="item_added_link">Item added. Go to cart &raquo;</a></div>
                         </div>
                         <div>
                             <div id="item_wished_{{ object.slug }}" class="item_added"><a href="{% url "show_wishlist" %}" class="item_added_link">Favourited! Go there &raquo;</a></div>
                         </div>
                         
-                            <div class="visible-desktop">
+                            <div class="visible-md visible-lg">
                                 <!-- AddThis Button BEGIN -->
                                 <div class="addthis_toolbox addthis_default_style addthis_16x16_style custom_addthis" addthis:url="http://imly.in/{{ object.store.slug }}/{{ object.slug }}/" addthis:title="Check out {{ object.name|title }} on imly.in! Drooool...">
                                 <div class="pull-left">
@@ -85,9 +84,12 @@
 
                 </a>
 
-                <h5 class="less_bottom_margin"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5> <p class="text-center muted lower_bottom_margin"><small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small></p>
+                <h5 class="less_bottom_margin ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" object.store.slug object.slug %}">{{ object.name|lower|title }}</a></h5>
+		<p class="text-center text-muted lower_bottom_margin ellipsis">
+		    <small class="ultra_small"><a class="sub_text" href="{{ object.store.get_absolute_url }}">{{ object.store.name|upper }}</a></small>
+		</p>
                 <div class="thumbnail_info_wrapper">
-                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="muted">
+                    <span class="pull-left">{{ object.currency }} {{ object.get_price.unit_price|floatformat:"0" }}<small class="text-muted">
                         {% if object.quantity_per_item == 1 %}
                             /{{ object.get_quantity_by_price_display }}
                         {% else %}
@@ -104,32 +106,32 @@
                         <input type="hidden" name="store_name" value="{{object.store.name|title}}">
                         <input type="hidden" name="product_slug" value="{{ object.slug }}">
                         <input type="hidden" name="quantity" value="1">
-                        <input type="button" class="submit-btn btn btn-custom btn-mini pull-right" value="Order">
+                        <input type="button" class="submit-btn btn btn-custom btn-xs pull-right" value="Order">
                     </form>
                     {% else %}
-                        <small class="ultra_small muted pull-right">Fresh batch tomorrow</small>
+                        <small class="ultra_small text-muted pull-right">Fresh batch tomorrow</small>
                     {% endif %}
                 {% else %}
-                    <small class="ultra_small muted pull-right">Chef on vacation</small>
+                    <small class="ultra_small text-muted pull-right">Chef on vacation</small>
                 {% endif %}
                     <div class="clearfix"></div>
                 </div>
             </div>
-        </li>
-        {% if forloop.counter|divisibleby:"3" %}</div>{% endif %}
-        {% if forloop.counter|divisibleby:"3" %}<div class="clearfix"></div>{% endif %}
+        </div>
+		{% if forloop.counter|divisibleby:"3" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
         {% endfor %}
-    </ul>
+    </div>
     <div class="text-center">
         {% show_pages %}
     </div>
 {% else %}
     <br>
-    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png"></p><br>
+    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_sad.png" class="img-responsive img_center" alt="Oops no food matching your criteria"></p><br>
 
-    <h4 class="muted text-center no_search_results">
+    <h4 class="text-muted text-center no_search_results">
         Oops, we could not find any {% if category %}<span class="orange">{{ category|capfirst }}</span>{% else %}food{% endif %} {% if request.session.place_slug %}in <span class="orange">{{ request.session.display_place_slug }}</span><br>{% endif %} {% if selected_tags %}that is {% for tag in selected_tags %}<span class="orange">{{ tag }}</span>{%if not forloop.last %}, {% endif %}{% if forloop.counter|divisibleby:"3" %}<br>{% endif %}{% endfor %} and{% endif %} {%if request.session.delivery %}that <span class="orange">delivers</span> to you.<br>See chefs you can <a href="{% url "set_pick_up" %}" class="pick_up_instead">pick-up</a> from instead{% else %}that can be <span class="orange">picked-up</span>{% endif %}.<br>
         
         </h4><p class="text-center"><a class="give_us_a_tip give_us_a_tip2" href="javascript:void(0)" data-toggle="modal">Suggest a Chef</a></p>
-        <p class="muted text-center"><small>or try searching for something else.</small></p>
+        <p class="text-muted text-center"><small>or try searching for something else.</small></p>
 {% endif %}

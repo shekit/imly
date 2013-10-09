@@ -5,11 +5,11 @@
 {% endblock navigation %}
 
 {% block carousel %}
-    <div class="hero-unit hero_open_shop hidden-phone">
+    <div class="jumbotron hero_open_shop hidden-xs">
         <div class="container">
-            <ul class="unstyled text-right">
-                <li class="visible-desktop"><h2>Imly is a marketplace unlike any other.</h2></li>
-                <li class="visible-tablet"><h3>Imly is a marketplace unlike any other.</h3></li>
+            <ul class="list-unstyled text-right">
+                <li class="visible-md visible-lg"><h2>Imly is a marketplace unlike any other.</h2></li>
+                <li class="visible-sm"><h3>Imly is a marketplace unlike any other.</h3></li>
                 <p class="text-right open_shop_para">Open your store now. Its Fast, Easy and Free!</p>
                 <li><br><br></li>
                 {% if not user.is_authenticated %}
@@ -22,52 +22,52 @@
         </div>
     </div>
     
-    <div class="container visible-phone">
-        <div class="row-fluid">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_cover_mobile.jpg"></p>
+    <div class="container visible-xs">
+        <div class="row">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/chef_cover_mobile.jpg" class="img-responsive" alt="Open your food shop on Imly"></p>
         </div>
     </div>
     
-    <div class="row-fluid visible-phone">
+    <div class="row visible-xs">
         <h3 class="text-center open_your_shop_mobile">Fast, Easy & Free!</h3>
     </div>
     
 {% endblock carousel %}
 
 {% block featurette %}
-    <div class="row-fluid">
-        <div class="span4 feature_list">
+    <div class="row">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Setup shop in minutes</h3>
             <p class="feature_list_para">We designed Imly to be simple and fun to use so you can focus on what matters most - cooking great food!</p>
         </div>
 
-        <div class="span4 feature_list">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Cook by the Day</h3>
             <p class="feature_list_para">We know you also have other things to do. We let you manage your ability to make each product on a daily basis.</p>
         </div>
         
         
-        <div class="span4 feature_list">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Control Delivery</h3>
             <p class="feature_list_para">Select your areas of delivery or simply define a pick up address so customers can come collect their orders.</p>
         </div>
         
         
     </div>
-        <div class="row-fluid">
+        <div class="row">
         
 
-        <div class="span4 feature_list">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Track your Orders</h3>
             <p class="feature_list_para">Track the orders that have been placed for your products. See when orders are due and which items are selling like hot cakes.</p>
         </div>
         
-        <div class="span4 feature_list">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Click to Shut Shop</h3>
             <p class="feature_list_para">Taking that much needed vacation? Shut your shop with a single click to stop taking in orders. Click to reopen whenever you return.</p>
         </div>
         
-        <div class="span4 feature_list">
+        <div class="col-sm-4 col-md-4 feature_list">
             <h3 class="feature_list_header">Oh, and its free!</h3>
             <p class="feature_list_para">Yes, its true. No setup costs, no credit card, no commissions. We are here to create value for you, so hurry up and set up shop.</p>
         </div>
@@ -95,13 +95,13 @@
         </div>
     </div>{% endcomment %}
     
-    <div class="row-fluid">
-        <div class="span3"></div>
-        <div class="span6 feature_list_border">
-            <ul class="inline text-center">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6 feature_list_border">
+            <ul class="list-inline text-center">
                 {% if not user.is_authenticated %}
-                    <li class="hidden-phone"><a class="action_button action_button3 hand_pointer open_your_shop">Open your Shop</a></li>
-                    <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 visible-phone">Open your Shop</a></li>
+                    <li><a class="action_button action_button3 hand_pointer open_your_shop hidden-xs">Open your Shop</a></li>
+                    <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 visible-xs">Open your Shop</a></li>
                 {% else %}
                     <li><a href="{% url "imly_store_info" %}" class="action_button action_button3 pull-right">Open your Shop</a></li>
                 {% endif %}
@@ -109,7 +109,7 @@
             </ul>
             
         </div>
-        <div class="span3"></div>
+        <div class="col-md-3"></div>
     </div>
     <br><br><br><br>
 {% endblock featurette %}

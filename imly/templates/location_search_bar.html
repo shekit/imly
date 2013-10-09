@@ -1,10 +1,10 @@
             {% if not request.session.place_slug %}
-                <div class="container-fluid location_bar_outer">
+                <div class="container location_bar_outer">
                     <div class="container location_bar_inner">
-                            <div class="row-fluid only_for_special_page">
-                                <div class="span12">
+                            <div class="row only_for_special_page">
+                                <div class="col-lg-12">
                                    
-                                        <ul class="text-center inline">
+                                        <ul class="list-inline text-center">
                                                 <li><p>I want food in</p></li>
                                                 <li><div class="input-append">
                                                     <input id="loc" type="text" class="large_location_search" placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select city above first"{% endif %}>

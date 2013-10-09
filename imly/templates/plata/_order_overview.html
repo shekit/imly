@@ -16,10 +16,10 @@
 </ul>
 {% endwith %}{% endcomment %}
 
-<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="muted pull-right">{{ order.currency }} {{ order.total|floatformat:0 }}</span></legend>
+<legend class="orange checkout_summary">{% trans "Order Details" %} <span class="text-muted pull-right">{{ order.currency }} {{ order.total|floatformat:0 }}</span></legend>
 
-<div class="row-fluid">
-    <div class="span12">
+<div class="row">
+    <div class="col-md-12">
             {% for store in order.storeorder_set.all %}
         {% if store.store_items %}
         <table class="table table-bordered store_table_checkout" id="{{store.store.slug}}">
@@ -59,8 +59,8 @@
                 {% ifequal item.product.store.pk store.store.id %}
                     <tr>
                     <td>{{ item.product.name }}</td>
-                    <td width="85">{{ item.quantity }} &times; {{ item.currency }} {{ item.unit_price|floatformat:"0" }}</td>
-                    <td width="60">{{ item.currency }} {{ item.discounted_subtotal|floatformat:"0" }}</td>
+                    <td width="110">{{ item.quantity }} &times; {{ item.currency }} {{ item.unit_price|floatformat:"0" }}</td>
+                    <td width="85">{{ item.currency }} {{ item.discounted_subtotal|floatformat:"0" }}</td>
                     </tr>
                 {% endifequal %}
             {% endfor %}

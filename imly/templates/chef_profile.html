@@ -9,17 +9,17 @@
 {% block carousel %}
     {% if object.cover_profile_image %}
         
-    <div class="hero-unit hero_chef_profile hidden-phone" style="background:url({{ object.cover_profile_image_thumbnail.url }}) top no-repeat;">
+    <div class="jumbotron hero_chef_profile hidden-xs" style="background:url({{ object.cover_profile_image_thumbnail.url }}) top no-repeat;">
 
        
     {% else %}
     
-    <div class="hero-unit hero_chef_profile chef_profile_no_cover">
+    <div class="jumbotron hero_chef_profile chef_profile_no_cover">
     
 {% endif %}
 
         <div class="container">
-            <ul class="unstyled text-center pull-right">
+            <ul class="list-unstyled text-center pull-right">
                 <li><h2 class="chef_profile">{{ object.first_name }} {{ object.last_name }}</h2></li>
                 <li><p class="chef_profile_para">{{ object.word_one }}. {{ object.word_two }}. {{ object.word_three }}.</p></li>
             </ul>
@@ -29,8 +29,8 @@
     
     {% if object.cover_profile_image %}
         
-    <div class="container visible-phone">
-        <div class="row-fluid">
+    <div class="container visible-xs">
+        <div class="row">
             <img src="{{ object.cover_profile_image_thumbnail.url }}">
         </div>
     </div>
@@ -38,10 +38,10 @@
        
     {% endif %}
     
-    <div class="row-fluid visible-phone">
-        <ul class="unstyled text-center">
-                <li><h4 class="chef_profile" style="font-weight: 300;">{{ object.first_name }} {{ object.last_name }}</h4></li>
-                <li><p class="chef_profile_para">{{ object.word_one }}. {{ object.word_two }}. {{ object.word_three }}.</p></li>
+    <div class="row visible-xs">
+        <ul class="list-unstyled text-center">
+            <li><h4 class="chef_profile" style="font-weight: 300;">{{ object.first_name }} {{ object.last_name }}</h4></li>
+            <li><p class="chef_profile_para">{{ object.word_one }}. {{ object.word_two }}. {{ object.word_three }}.</p></li>
         </ul>
     </div>
  
@@ -50,41 +50,45 @@
 {% endblock carousel %}
 
 {% block featurette %}
-    <div class="row-fluid">
-        <div class="span9">
+    <div class="row">
+        <div class="col-sm-9 col-md-9">
             <h5 class="about_chef">
                 {{ object.about_me_html|safe }}
             </h5>
         </div>
-        <div class="span3">
+        <div class="col-sm-3 col-md-3">
 
             <h4 class="best_dish text-center orange">My Best Dish</h4>
 
             {% with object.user.store.product_set.all|first as product %}
-            <ul class="thumbnails">
-                <li class="span12">
+            <div class="row">
+                <div class="col-md-12">
                     <div class="thumbnail thumbnail_custom">
+
                     {% if product.image %}
-                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}"></a>
                     {% endif %}
-                        <h5 class="store_list_name"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
-                        <small class="muted"><a class="sub_text" href="{% url "imly_store_detail" product.store.slug %}">{{ product.store.name|upper }}</a></small>
+                        <h5 class="store_list_name ellipsis text-center"><a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">{{ product.name|lower|title }}</a></h5>
+                        <p class="text-muted text-center">
+                            <small><a class="sub_text" href="{% url "imly_store_detail" product.store.slug %}">{{ product.store.name|upper }}</a></small>
+                        </p>
+
                     </div>
-                </li>
-            </ul>
+                </div>
+            </div>
             {% endwith %}
             <br>
                 
             {% if object.user.store.facebook_link or object.user.store.twitter_link %}
             <div style="border-top:1px solid #e5e5e5; border-bottom: 1px solid #e5e5e5;">
-            <p class="text-center chef_social_links orange">Connect with me:
-                {% if object.user.store.facebook_link %}
-                    <a href="{{ object.user.store.facebook_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/facebook_chef.png" width="32" height="32"></a>
-                {% endif %}
-                {% if object.user.store.twitter_link %}
-                    <a href="{{ object.user.store.twitter_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/twitter_chef.png" width="32" height="32"></a>
-                {% endif %}
-            </p>
+                <p class="text-center chef_social_links orange">Connect with me:
+                    {% if object.user.store.facebook_link %}
+                        <a href="{{ object.user.store.facebook_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/facebook_chef.png" width="32" height="32" alt="Connect with the chef through Facebook"></a>
+                    {% endif %}
+                    {% if object.user.store.twitter_link %}
+                        <a href="{{ object.user.store.twitter_link }}" target="blank"><img src="{{ STATIC_URL }}bootstrap/img/twitter_chef.png" width="32" height="32" alt="Connect with the chef through Twitter"></a>
+                    {% endif %}
+                </p>
             </div>
             {% endif %}
         </div>

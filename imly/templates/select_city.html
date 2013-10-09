@@ -1,19 +1,23 @@
-<div id="cityModal" class="modal hide fade tip_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_city" aria-hidden="true">
-    <div class="modal-header tip_modal_header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 id="myModalLabel_city" class="text-center city_modal_heading">Select your City</h3>
-    </div>
-    
-    <div class="modal-body city_modal_body">
-        <ul class="unstyled text-center city_ul">
+<div id="cityModal" class="modal fade tip_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_city" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content tip_form_modal_content">
+            <div class="modal-header tip_modal_header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h3 id="myModalLabel_city" class="text-center city_modal_heading">Select your City</h3>
+            </div>
             
-        {% for city in cities %}
-            {% ifnotequal city.name "fbn-pilot" %}
-            <li><a href="{% url "imly_set_city" city.slug %}">{{ city.name|capfirst }}</a></li>
-            {% endifnotequal %}
-        {% endfor %}
-            <!--<li><a href="{% url "imly_set_city" "all" %}">Show me food everywhere!</a></li>-->
-            <li><a href="{% url "imly_dont_see_city" %}">I don't see my city</a></li>
-        </ul>       
+            <div class="modal-body city_modal_body">
+                <ul class="list-unstyled text-center city_ul">
+                    
+                {% for city in cities %}
+                    {% ifnotequal city.name "fbn-pilot" %}
+                    <li><a href="{% url "imly_set_city" city.slug %}">{{ city.name|capfirst }}</a></li>
+                    {% endifnotequal %}
+                {% endfor %}
+                    <!--<li><a href="{% url "imly_set_city" "all" %}">Show me food everywhere!</a></li>-->
+                    <li><a href="{% url "imly_dont_see_city" %}">I don't see my city</a></li>
+                </ul>       
+            </div>
+        </div>
     </div>
 </div>

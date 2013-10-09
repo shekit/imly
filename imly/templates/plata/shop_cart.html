@@ -8,21 +8,21 @@
 
 {% block cart_content %}
      {% include "delivery_modal.html" %}
-    <div class="row-fluid">
+    <div class="row">
         {% if empty %}
         <br><br><br><br>
-        <h2 class="muted text-center">Your Cart is Empty :(</h2>
-        <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-large btn-custom">Start Shopping!</a></p>
+        <h2 class="text-muted text-center">Your Cart is Empty :(</h2>
+        <p class="text-center"><a href="{% url "imly_product_list" %}" class="btn btn-lg btn-custom">Start Shopping!</a></p>
         <br><br>
         {% else %}
-        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="muted visible-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="muted pull-right hidden-desktop" style="font-weight:300;">{{ order.currency }} <span id="order_total_mobile">{{ order.total|floatformat:"2" }}</span></h3>
+        <h3>{% trans "Cart" %} (<span class="items-count_cart">{{ plata.order.items.count }}</span>) <span class="text-muted visible-md visible-lg" style="font-weight:300;">{{ order.currency }} <span id="order_total">{{ order.total|floatformat:"2" }}</span></span><span class="text-muted pull-right hidden-md hidden-lg" style="font-weight:300;">{{ order.currency }} <span id="order_total_mobile">{{ order.total|floatformat:"2" }}</span></h3>
         
         <br>
         
         <form method="post" action="{% url 'imly_one_step_checkout' %}" onsubmit="sync_notes();">{% csrf_token %}{{ orderitemformset.management_form }}
                 
                 {% if messages %}
-                    <ul class="messages unstyled">
+                    <ul class="messages list-unstyled">
                         {% for message in messages %}
                             {% if "error" in message.tags %}
                                 <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
@@ -44,7 +44,10 @@
 
                         {% if request.session.place_slug %}
                                 {% if store.store.pick_up_location %}
-                                <span class="pull-right cart_mobile"><span class="icon-map-marker"></span> <small>
+                                <span class="pull-right cart_mobile">
+                                    <span class="glyphicon glyphicon-map-marker"></span>
+                                    
+                                    <small>
 
                                     {% if store.store.distance < 1 %}
                                         &lt; 1 km 
@@ -85,10 +88,10 @@
                                     <table class="table table_border_right">
                                         <tr>
                                             <td class="less_padding_inner_td">
-                                                <ul class="inline">
+                                                <ul class="list-inline">
                                                     <li class="pull-left"><a href="{% url "imly_product_detail" orderitemform.instance.product.store.slug orderitemform.instance.product.slug %}"><img class="img-polaroid" src="{{ orderitemform.instance.product.image_thumbnail_mini.url }}" alt="{{ orderitemform.instance.product.name }}" width="100" height="80"></a></li>
                                                     <li>
-                                                        <ul class="unstyled">
+                                                        <ul class="list-unstyled">
                                                             <li><span style="font-size:16px;">{{ orderitemform.instance.product.name|lower|title }}</span></li>
                                                             
                                                             <li><small>Quantity:</small> <small class="muted"><i>(<span id="orderitem_items_in_stock-{{orderitemform.instance.id}}">{{ orderitemform.instance.product.items_in_stock }}</span> left for today)</i></small><li>
@@ -99,19 +102,19 @@
                                                         </ul>
                                                     </li>
                                                 </ul>
-                                                <ul class="unstyled visible-phone cart_ul">
+                                                <ul class="list-unstyled visible-xs cart_ul">
                                                     <li><b>{{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span></b></li>
                                                     <li><b>{{ orderitemform.instance.product.quantity_per_item }} {% ifequal orderitemform.instance.product.quantity_per_item 1 %}{{ orderitemform.instance.product.quantity_unit }}{% else %}{{ orderitemform.instance.product.quantity_unit }}s{% endifequal %} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> {{ orderitemform.instance.product.quantity_unit }}</b>
                                                     </li>
                                                     {% comment %}<li><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</li>{% endcomment %}
 
-                                                    <li><small class="muted"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></small>
+                                                    <li><small class="text-muted"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></small>
 
                                                 </ul>
                                                 
                                             
                                             </td>
-                                            <td width="200"  class="less_padding_inner_td hidden-phone"><p class="text-center">
+                                            <td width="200"  class="less_padding_inner_td hidden-xs"><p class="text-center">
 
                                             {{ orderitemform.instance.currency }} {{ orderitemform.instance.unit_price|floatformat:0 }} <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}">{{ orderitemform.instance.quantity }}</span> = {{ orderitemform.instance.currency }} <span class="orderitem_subtotal_{{orderitemform.instance.id}}">{{ orderitemform.instance.discounted_subtotal|floatformat:0 }}</span><br><br>
                                             {{ orderitemform.instance.product.quantity_per_item }}
@@ -120,8 +123,8 @@
                                             {% else %}
                                                 {{ orderitemform.instance.product.quantity_unit }}s
                                             {% endifequal %}
-                                            <span class="muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
-                                            <td class="less_padding_inner_td hidden-phone" width="70">
+                                            <span class="text-muted">x</span> <span class="orderitem_quantity_{{orderitemform.instance.id}}"> {{ orderitemform.instance.quantity }}</span> = <span class="order_item_quantity_{{orderitemform.instance.id}}">{% order_item_quantity orderitemform.instance %}</span> <span class="quantity_by_price_{{orderitemform.instance.id}}">{% quantity_by_price orderitemform.instance %}</span></p></td>
+                                            <td class="less_padding_inner_td hidden-xs" width="70">
                                                 {% comment %}<p class="text-center"><small class="muted">Remove:</small> {% form_item_plain orderitemform.DELETE %}</p>{% endcomment %}
                                                 <p class="text-center"><a class="order-item" id="order_item_remove-{{orderitemform.instance.id}}" >Remove</a></p>
                                             </td>
@@ -136,19 +139,19 @@
             </td>
             <td class="cart_delivery_section" >
                 
-                <ul class="unstyled text-center">
+                <ul class="list-unstyled text-center">
 
-                    <li class="muted"><small>I want my order on:</small></li>
+                    <li class="text-muted"><small>I want my order on:</small></li>
 					{% store_order_options store request %}
 					
 
-                    <li><h3 class="muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
+                    <li><h3 class="text-muted">{{ order.currency }} <span id="store_total-{{store.store.slug}}" class="store_order_total"> {{ store.store_total|floatformat:"0" }}</span></h3></li>
                     <li class="delivery_hide_show">
                     {% if request.session.place_slug %}
                         <span class="orange">+ {% store_delivery_charges store.store %} Delivery</span>                      
                     {% endif %}
                     </li>
-                    <li><small class="muted">
+                    <li><small class="text-muted">
                     {% if not store.store.delivers %}
                         {% if store.store.pick_up %}
                             Exact address shared after purchase
@@ -166,9 +169,9 @@
 
         {% endfor %}
 
-            <ul class="inline text-right checkout_mobile">
+            <ul class="list-inline text-right checkout_mobile">
 				{% request_update_cart plata.order %}
-                <li><a href="{% url "imly_product_list" %}" class="btn">Keep Shopping</a></li>
+                <li><a href="{% url "imly_product_list" %}" class="btn btn-success">Keep Shopping</a></li>
                 {#<li><input type="submit" class="btn" name="save" value="{% trans "Update & Save" %}" /></li>#}
                 <li><input type="submit" class="btn btn-custom" name="checkout" value="{% trans "Checkout" %}" /></li>
             </ul>

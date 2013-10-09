@@ -9,7 +9,7 @@
 {% endblock location_search_bar %}
 
 {% block cart_content %}
-    <div class="span7">
+    <div class="col-sm-6 col-md-7">
 <h2>{% trans "Checkout" %}</h2>
 
 <form method="post" action=".">
@@ -67,18 +67,18 @@
 </div>
 </div> <!-- end of span7 -->
 
-<div class="span5">
+<div class="col-sm-6 col-md-5">
 {% include "plata/_order_overview.html" %}            
-<p class="text-center muted">Pay in Cash</p>
-<div class="row-fluid">
-    <div class="span12">    
-        <button type="submit" class="btn btn-success btn-large btn-block btn-custom">{% trans "Confirm Order" %}</button>
+<p class="text-center text-muted">Pay in Cash</p>
+<div class="row">
+    <div class="col-md-12">    
+        <button type="submit" class="btn btn-large btn-block btn-custom">{% trans "Confirm Order" %}</button>
     </div>
 </div>
 
-<div class="row-fluid">
+<div class="row">
     <br>
-    <p class="text-right"><small class="muted">*Exact pick-up addresses will be shared after purchase</small></p>
+    <p class="text-right"><small class="text-muted">*Exact pick-up addresses will be shared after purchase</small></p>
     <br><br>
 </div>
 

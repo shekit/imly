@@ -3,11 +3,13 @@
 {% load url from future %}
             
             <!-- Modal -->
-            <div id="myModal" class="modal hide fade login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="myModal" class="modal fade login_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div id="modal-dialog">
+            <div id="modal-content" class="login_modal_content">
                 
                 <div class="modal-header modal_login_header">
                     <button type="button" class="close extra_top_margin" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <ul class="nav nav-tabs" id="myTab">
+                    <ul class="nav nav-tabs">
                         <li class="active"><a href="#login" data-toggle="tab"><h4 class="modal_window_header">Login</h4></a></li>
                         <li><a href="#signup" data-toggle="tab"><h4 class="modal_window_header">Sign Up</h4></a></li>
                     </ul>
@@ -25,14 +27,14 @@
                                 
                                     {% if socialaccount.providers  %}
                                         
-                                    <div class="socialaccount_ballot">
-                                    
-                                    <ul class="socialaccount_providers inline text-center">
-                                    {% include "socialaccount/snippets/provider_list.html" %}
-                                    </ul>
+                                    <div class="socialaccount_ballot row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                        <ul class="socialaccount_providers list-unstyled text-center">
+                                            {% include "socialaccount/snippets/provider_list.html" %}
+                                        </ul>
                                     
                                     <!--<div class="login-or">{% trans 'or' %}</div>-->
-                                    
+                                    </div>
                                     </div>
                             
                                     {% include "socialaccount/snippets/login_extra.html" %}
@@ -40,43 +42,43 @@
                                     {% endif %}
                                 {% endif %}
                                     
-                                    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png" alt="or"></p>
-                                    <form class="login form-horizontal" id="login_form" method="POST" action="{% url 'account_login' %}">
+                                    <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png" class="img-responsive img_center" alt="or"></p>
+                                    <form class="login form-horizontal" role="form" id="login_form" method="POST" action="{% url 'account_login' %}">
                                         {% csrf_token %}
                                         {% load widget_tweaks %}
                                         <input class="redirect_path" type="hidden" name="next" value="{{ request.path }}">
                                         {% if login_form.non_field_errors %}
-                                        <div class="row-fluid">
-                                            <div class="span12">
+                                        <div class="row">
+                                            <div class="col-xs-12">
                                                 <span class="text-center">{{ login_form.non_field_errors }}</span>
                                             </div>
                                         </div>
                                     {% endif %}
                                     <br>
-                                        <div class="control-group">
-                                            <span class="control-label">{{ login_form.login.label }}</span>
-                                            <div class="controls">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">{{ login_form.login.label }}</label>
+                                            <div class="col-sm-8">
                                                 {{ login_form.login }}
                                                 {{ login_form.login.errors }}
                                             </div>
                                         </div>
-                                        <div class="control-group">
-                                            <span class="control-label">{{ login_form.password.label }}</span>
-                                            <div class="controls">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label">{{ login_form.password.label }}</label>
+                                            <div class="col-sm-8">
                                                 {{ login_form.password }}
                                                 {{ login_form.password.errors }}
                                             </div>
                                         </div>
-                                        <div class="control-group">
+                                        <div class="form-group">
                                             
-                                            <div class="controls">
+                                            <div class="col-sm-8 col-sm-offset-4">
                                                 {{ login_form.remember }} <small>Remember Me</small>
                                             </div>
                                             
                                         </div>
                                         
-                                        <div class="row-fluid">
-                                            <div class="span4 offset4">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
                                                 {% if redirect_field_value %}
                                                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                                                 {% endif %}
@@ -102,12 +104,12 @@
                                 
                                     {% if socialaccount.providers  %}
                                         
-                                    <div class="socialaccount_ballot">
-                                    
-                                    <ul class="socialaccount_providers inline text-center">
-                                    {% include "socialaccount/snippets/provider_list.html" %}
-                                    </ul>
-                                    
+                                    <div class="socialaccount_ballot row">
+                                        <div class="col-sm-6 col-sm-offset-3">
+                                            <ul class="socialaccount_providers list-unstyled text-center">
+                                            {% include "socialaccount/snippets/provider_list.html" %}
+                                            </ul>
+                                        </div>
                                     <!--<div class="login-or">{% trans 'or' %}</div>-->
                                     
                                     </div>
@@ -116,7 +118,7 @@
                                     
                                     {% endif %}
                                 {% endif %}
-                            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png"></p>
+                            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/or_splitter.png" class="img-responsive img_center" alt="or"></p>
                             {% if user.is_authenticated %}
                                 {% include "account/snippets/already_logged_in.html" %}
                             {% else %}
@@ -126,41 +128,41 @@
                             {% load widget_tweaks %}
                             
                             {% if signup_form.non_field_errors %}
-                            <div class="row-fluid">
-                                <div class="span12">
+                            <div class="row">
+                                <div class="col-sm-12">
                                     <span class="text-center">{{ signup_form.non_field_errors }}</span>
                                 </div>
                             </div>
                             {% endif %}
                             <br>
-                            <div class="control-group">
+                            <div class="form-group">
                                 
-                                <span class="control-label">{{ signup_form.email.label }}</span>
-                                <div class="controls">
+                                <label class="col-sm-4 control-label">{{ signup_form.email.label }}</label>
+                                <div class="col-sm-8">
                                     {{ signup_form.email }}
                                     {{ signup_form.email.errors }}
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="form-group">
                                 
-                                <span class="control-label">{{ signup_form.password1.label }}</span>
-                                <div class="controls">
+                                <label class="col-sm-4 control-label">{{ signup_form.password1.label }}</label>
+                                <div class="col-sm-8">
                                     {{ signup_form.password1 }}
                                     {{ signup_form.password1.errors }}
                                 </div>
                             </div>
-                            <div class="control-group">
+                            <div class="form-group">
                                 
-                                <span class="control-label">{{ signup_form.password2.label }}</span>
-                                <div class="controls">
+                                <label class="col-sm-4 control-label">{{ signup_form.password2.label }}</label>
+                                <div class="col-sm-8">
                                     {{ signup_form.password2 }}
                                     {{ signup_form.password2.errors }}
                                 </div>
                             </div>
             
                             <br>
-                            <div class="row-fluid">
-                                <div class="span4 offset4">
+                            <div class="row">
+                                <div class="col-sm-6 col-sm-offset-3">
                                 {% if redirect_field_value %}
                                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                                 {% endif %}
@@ -176,8 +178,11 @@
                     </div> <!-- end div tab-content -->
                     
                 </div> <!-- end div modal body -->
+            </div><!-- end div modal content -->
+        </div><!-- end div modal dialog -->
+                
 
             
         
             
-            </div> <!-- end id = myModal -->
+</div> <!-- end id = myModal -->

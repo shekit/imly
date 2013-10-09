@@ -12,8 +12,8 @@
 {% endfor %}
 {% endif %}
 <li>
-  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}}" 
-     href="{% provider_login_url provider.id %}"><img src="{{ STATIC_URL }}bootstrap/img/{{provider.name}}.png" alt="Login or Signup with {{ provider.name }}"></a>
+  <a title="{{provider.name}}" class="socialaccount_provider {{provider.id}} btn btn-primary btn-block btn_facebook" 
+     href="{% provider_login_url provider.id %}">Sign-in with Facebook</a>
 </li>
 {% endfor %}
 
