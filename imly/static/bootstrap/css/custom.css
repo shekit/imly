@@ -919,6 +919,9 @@ div.store_form > legend {
     border-left: none; 
 }
 
+.table_top_border tbody > tr:first-child > td {   /*remove top border from first cart element */
+	border-top: none;
+}
 
 td.less_padding_inner_td input[type=text]{
     width:30px;

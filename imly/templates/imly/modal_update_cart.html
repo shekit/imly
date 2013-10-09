@@ -1,15 +1,20 @@
 {% if request_update %}
-<div class="modal hide fade stale_cart_modal" id="cart-update-modal" data-backdrop="static">
-  <div class="modal-header tip_modal_heading stale_cart_heading">
-    <h3 class="text-center tip_modal_heading">You have an old cart</h3>
+<div class="modal fade stale_cart_modal" id="cart-update-modal" data-backdrop="static">
+  <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header tip_modal_heading stale_cart_heading">
+          <h3 class="text-center tip_modal_heading">You have an old cart</h3>
+        </div>
+        <div class="modal-body">
+          <p class="text-center">Looks like you started shopping on {{ order.created|date:"F j" }}.</p>
+          <p class="text-center">The chefs will need more time to prepare all the awesome food for you!</p>
+          <p class="text-center">The dates in your cart will be updated.</p>
+        </div>
+        <div class="modal-footer stale_cart_footer">
+          <p class="text-center"><a class="btn btn-custom" href="{% url 'update_store_orders_for_order' order.pk %}">Great, Update my Cart!</a></p>
+        </div>
+    </div>
   </div>
-  <div class="modal-body">
-    <p class="text-center">Looks like you started shopping on {{ order.created|date:"F j" }}.</p>
-    <p class="text-center">The chefs will need more time to prepare all the awesome food for you!</p>
-    <p class="text-center">The dates in your cart will be updated.</p>
-  </div>
-  <div class="modal-footer stale_cart_footer">
-    <p class="text-center"><a class="btn btn-custom" href="{% url 'update_store_orders_for_order' order.pk %}">Great, Update my Cart!</a></p>
-  </div>
+
 </div>
 {% endif %}
