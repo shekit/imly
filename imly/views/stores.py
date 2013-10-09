@@ -1,4 +1,5 @@
 from django.views.generic import ListView, DetailView
+from django.views.generic.base import TemplateView
 from django.shortcuts import get_object_or_404, redirect, render,render_to_response
 from django.views.generic.edit import UpdateView, CreateView
 from django.views.decorators.csrf import csrf_exempt
@@ -6,16 +7,18 @@ from django.http import HttpResponseForbidden,HttpResponseRedirect,HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.contrib import messages
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, reverse_lazy
 from django.db.models import Q, F
 from imly.models import Category, Store, Product, Location, Tag, StoreOrder, Special, City
-from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet
+from imly.forms import StoreForm, OrderItemForm,DeliveryLocationFormSet, StoreCreateForm
 from django.contrib.gis.geos import Point, MultiPolygon
 from django.contrib.gis.measure import D
 import plata
 from plata.shop.forms import ConfirmationForm
 from plata.shop.models import OrderItem, Order
 from plata.contact.forms import CheckoutForm
+from braces.views import LoginRequiredMixin
+
 from imly.utils import tracker
 import json as simplejson
 from datetime import date
@@ -130,6 +133,62 @@ class StoreEdit(UpdateView):
             context['delivery_location_form'] = DeliveryLocationFormSet(self.request.POST, queryset=store.delivery_locations.all(),instance=store)
         else:
             context['delivery_location_form'] = DeliveryLocationFormSet(queryset=store.delivery_locations.all(),instance=store)
+        return context
+
+
+class CreateStore(LoginRequiredMixin, CreateView):
+
+    form_class = StoreCreateForm
+    model = Store
+    template_name = "stores/create.html"
+    success_url = reverse_lazy('manage_store')
+
+    def form_valid(self, form):
+        try:
+            self.request.user.store
+            raise PermissionDenied
+        except Store.DoesNotExist:
+            form.instance.owner = self.request.user
+            return super(CreateStore, self).form_valid(form)
+
+class ManageStore(LoginRequiredMixin, TemplateView):
+
+    template_name='stores/manage.html'
+
+    def get_context_data(self, **kwargs):
+        context = super(ManageStore, self).get_context_data(**kwargs)
+        form = StoreSocialForm(instance=self.request.user.store)
+        form.is_valid()
+        context["social_form"] = form
+        policy_spec = {
+            'expiration': (datetime.datetime.now() + datetime.timedelta(hours=24)).strftime('%Y-%m-%dT%H:%M:%S.000Z'),
+            'conditions': [
+                {'bucket': "imlydev"},
+                {'acl': 'public-read'},
+                ['starts-with', '$key', 'stores/'],
+                {'success_action_status': '201'}
+            ]
+        }
+        policy= base64.b64encode(json.dumps(policy_spec))
+        context['s3_upload_config'] = {
+                                       'policy': policy,
+                                       'signature': base64.b64encode(hmac.new("0Woz6NT9vwTj3bTahuPzloHw7TeVJa5PVRtE+GAq", policy, sha).digest()),
+                                       'key_part': 'stores/'+self.request.user.store.uuid + '/',
+                                       'AWS_KEY_ID': 'AKIAJLZTSZS7CQ57KK4Q',
+                                       }
+        store = self.request.user.store
+
+        detail_form = StoreDetailForm(store.__dict__, instance=store)
+        availability_form = StoreAvailabilityForm(store.__dict__, instance=store)
+        social_form = StoreSocialForm(store.__dict__, instance=store)
+        detail_form.is_valid()
+        availability_form.is_valid()
+        social_form = StoreSocialForm({"facebook_link":store.facebook_link, "twitter_link":store.twitter_link, "blog_link":store.blog_link, "website_link":store.website_link},instance=store)
+        social_form.is_valid()
+        context["detail_form"] = detail_form
+        context["social_form"] = social_form
+        context["availability_form"] = availability_form
+        context["products"] = store.products.all()
         return context
 
 class StoreCreate(CreateView):
@@ -279,7 +338,7 @@ def one_step_checkout(request):
         shop.checkout(request, order)
         return shop.confirmation(request,order)
     return render(request, "one_step_checkout.html", locals())
-        
+
 class OrderList(ListView):
     #orders = Order.objects.filter(items=OrderItem.objects.filter(product__in=user.store.product_set.all())) -- This returns only one order, of the first orderItem, actually OrderItem is needed and not Order
     model = OrderItem

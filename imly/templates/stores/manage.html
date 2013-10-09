@@ -1,0 +1,798 @@
+{% extends "base_store_manage.html" %}
+
+{% block left_content %}
+    <ul class="no-bullet">
+        <li id="select_store">
+            <div class="row store_side_nav_link active" >
+                <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-home"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Shop Details</h4></li>
+                                <li><small>completed</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+        <li id="select_availability">
+            <div class="row store_side_nav_link">
+                <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-marker"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Availability</h4></li>
+                                <li><small>incomplete</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+        <li id="select_products">
+            <div class="row store_side_nav_link">
+                <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-thumbnails"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Products</h4></li>
+                                <li><small>0 added</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                </div>
+            </div>
+        </li>
+        <li id="select_profile">
+            <div class="row store_side_nav_link">
+                <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-torso"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>My Profile</h4></li>
+                                <li><small>completed</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+        <li id="select_social">
+            <div class="row store_side_nav_link">
+                 <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-like"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Social Media</h4></li>
+                                <li><small>incomplete</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                 </div>
+             </div>
+        </li>
+        <li class="text-center side_nav_button">
+            <br>
+            <a href="#" class="button radius custom_button">Submit for Approval</a>
+        </li>
+    </ul>
+{% endblock left_content %}
+
+{% block right_content %}
+
+    {% load imly_tags %}
+
+
+    <div class="row store_manage_main_content product_edit_form manage_profile selected">
+
+
+    </div>
+
+    <div class="row store_manage_main_content manage_store selected">
+        <div class="large-9 columns">
+            <div class="row">
+                <div class="small-12 medium-12 large-8 columns store_form_fields">
+                    <div class="row">
+                        <form method="post" action="https://imlydev.s3.amazonaws.com" enctype="multipart/form-data" >
+                            <input type="hidden" name="key" value="{{ s3_upload_config.key_part }}large.jpg" />
+                            <input type="hidden" name="acl" value="public-read" />
+                            <input type="hidden" name="success_action_status" value="201" />
+                            <input type="hidden" name="AWSAccessKeyId" value="{{ s3_upload_config.AWS_KEY_ID }}" />
+                            <input type="hidden" name="policy" value="{{ s3_upload_config.policy }}" />
+                            <input type="hidden" name="signature" value="{{ s3_upload_config.signature }}" />
+                            <input type="file" name="file" id="store-logo-image"/>
+                            <input type="submit" />
+                        </form>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_name" class="text-center"><i class="fi-home"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ detail_form.name|placeholder:"Shop Name" }}
+                        </div>
+                        <div class="small-1 columns validation">
+
+                            <i class="{% if detail_form.name.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_contact_number" class="text-center"><i class="fi-telephone"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <div class="row collapse">
+                                <div class="small-2 columns">
+                                    <span class="prefix">+91</span>
+                                </div>
+                                <div class="small-10 columns">
+                                    {{ detail_form.contact_number|placeholder:"Mobile Number" }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if detail_form.contact_number.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_tagline" class="text-center"><i class="fi-target"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ detail_form.tagline|placeholder:"Tagline" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_description" class="text-center"><i class="fi-list"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ detail_form.description|placeholder:"Shop Description" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if detail_form.description.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <p>Put shop tips here</p>
+        </div>
+    </div>
+
+    <div class="row store_manage_main_content manage_availability deselected">
+        <div class="large-9 columns">
+            <div class="row">
+                <div class="small-12 medium-12 large-8 columns store_form_fields">
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_address" class="text-center"><i class="fi-marker"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ availability_form.address|placeholder:"Your Address. It is safe with us. Needed for our location search abilities." }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if availability_form.address.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_geo_location" class="text-center"><i class="fi-map"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ availability_form.geo_location|placeholder:"Location e.g Bandra, Mumbai"}}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if availability_form.geo_location.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_landmark" class="text-center"><i class="fi-flag"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ availability_form.landmark|placeholder:"Landmark Nearby" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if availability_form.landmark.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-8 columns">
+                           <p>Do you provide pick-up from the above address?</p>
+                        </div>
+                        <div class="small-3 columns">
+                            {{ availability_form.has_pickup }}
+                        </div>
+                        <div class="small-1 columns">
+
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-8 columns">
+                           <p>Do you provide delivery?</p>
+                        </div>
+                        <div class="small-3 columns">
+                           {{ availability_form.has_delivery }}
+                        </div>
+                        <div class="small-1 columns">
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="large-3 columns">
+            <p>Put availability tips here</p>
+        </div>
+    </div>
+
+    <div class="row store_manage_main_content manage_products deselected">
+        <div class="large-9 columns">
+            <ul class="small-block-grid-2 large-block-grid-3">
+                <li>
+                    <div class="th thumbnail_custom thumbnail_add">
+                        <div class="new_product">
+                            <form method="post" action="{% url "products:create_product" %}" id="product_add_form">
+                            <!--    {% csrf_token %} -->
+                                <input type="text" id="id_product" name="name" placeholder="Product Name">
+                                <input type="hidden" name="vertical" value="food">
+                                <input type="submit" class="button small expand custom_button" value="Add Product">
+                                <a class="button small secondary expand" id="cancel_add_product">Cancel</a>
+                                <span class="error_msg" style="display:none;"></span>
+                            </form>
+                        </div>
+                        <a href="#"><img src="{{ STATIC_URL }}images/add_product.png"></a>
+                        <div class="info_wrapper">
+                            <h5>Add a product</h5>
+                            <h6>What's new?</h6>
+                        </div>
+                    </div>
+                </li>
+                {% for product in products %}
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">{{product.name}}</a></h5>
+                            <h6>INR 500 for 5</h6>
+                            <a onclick="load_edit_form('{% url "products:edit_form_product" product.slug %}')">Edit</a>
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                {% endfor %}
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product is so freaking long that it will overlapp into the next line</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+                <li>
+                    <div class="th thumbnail_custom">
+                        <a href="#"><img src="{{ STATIC_URL }}images/bisc.jpg"></a>
+                        <div class="info_wrapper">
+                            <h5><a href="#">Name of product</a></h5>
+                            <h6>INR 500 for 5</h6>
+                        </div>
+                    </div>
+
+                </li>
+            </ul>
+        </div>
+        <div class="large-3 columns">
+            <p>Put product tips here</p>
+        </div>
+    </div>
+
+    <div class="row store_manage_main_content manage_profile deselected">
+        <div class="large-9 columns">
+            <div class="row">
+                <div class="small-12 medium-12 large-8 columns store_form_fields">
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_product_name" class="text-center"><i class="fi-info"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <input id="id_product_name" max_length="200" name="product_name" type="text" placeholder="Product Name">
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_other_ingredients" class="text-center"><i class="fi-clipboard-notes"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <input id="id_other_ingredients" max_length="200" name="other_ingredients" type="text" placeholder="Other Ingredients">
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_capacity" class="text-center"><img src="{{ STATIC_URL }}zurb/foundation-icons/capacity.png" class="img_icon"></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <input id="id_capacity" max_length="200" name="capacity" type="text" placeholder="Capacity per day e.g 5">
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_product_name" class="text-center"><img src="{{ STATIC_URL }}zurb/foundation-icons/rupee.png" class="img_icon"></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <div class="row">
+                                <div class="small-4 columns">
+                                    <div class="row collapse">
+                                        <div class="small-5 columns">
+                                            <span class="prefix">INR</span>
+                                        </div>
+                                        <div class="small-7 columns">
+                                            <input type="text" placeholder="100">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="small-4 columns">
+                                    <div class="row collapse">
+                                        <div class="small-5 columns">
+                                            <span class="prefix">for</span>
+                                        </div>
+                                        <div class="small-7 columns">
+                                            <input type="text" placeholder="5">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="small-4 columns">
+                                    <form class="custom">
+                                        <select id="quantity_unit">
+                                            <option>pieces</option>
+                                            <option>kgs</option>
+                                            <option>ml</option>
+                                            <option>dozen</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_product_name" class="text-center"><i class="fi-clock"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <div class="row">
+                                <div class="small-8 columns">
+                                    <div class="row collapse">
+                                        <div class="small-7 columns">
+                                            <span class="prefix">Notice Period</span>
+                                        </div>
+                                        <div class="small-5 columns">
+                                            <input type="text" placeholder="1">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="small-4 columns">
+                                    <form class="custom">
+                                        <select id="time_unit">
+                                            <option>day</option>
+                                            <option>hour</option>
+                                        </select>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <form class="custom">
+                        <div class="small-2 columns label_icon">
+                            <label for="course" class="text-center"><img src="{{ STATIC_URL }}zurb/foundation-icons/dish.png" class="img_icon"></label>
+                        </div>
+                        <div class="small-10 columns">
+                            <select id="course" class="medium">
+                                <option disabled selected="selected">Select Course</option>
+                                <option>Dinner</option>
+                                <option>Lunch</option>
+                                <option>Dessert</option>
+                            </select>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="custom">
+                        <div class="small-2 columns label_icon">
+                            <label for="cuisine" class="text-center"><img src="{{ STATIC_URL }}zurb/foundation-icons/cuisine.png" class="img_icon"></label>
+                        </div>
+                        <div class="small-10 columns">
+                            <select id="cuisine" class="medium">
+                                <option disabled selected="selected">Select Cuisine</option>
+                                <option>Thai</option>
+                                <option>Continental</option>
+                            </select>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="custom">
+                        <div class="small-2 columns label_icon">
+                            <label for="main_ingredient" class="text-center"><i class="fi-star"></i></label>
+                        </div>
+                        <div class="small-10 columns">
+                            <select id="main_ingredient" class="medium">
+                                <option disabled selected="selected">Select Main Ingredient</option>
+                                <option>Chicken</option>
+                                <option>Rice</option>
+                            </select>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <form class="custom">
+                        <div class="small-2 columns label_icon">
+                            <label class="text-center"><img src="{{ STATIC_URL }}zurb/foundation-icons/veg_non_veg.png" class="img_icon"></label>
+                        </div>
+                        <div class="small-10 columns">
+                            <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio veg"></span> Vegetarian</label>
+                            <label for="non_veg"><input name="radio1" type="radio" id="non_veg" style="display:none;"><span class="custom radio non_veg"></span> Non-Vegetarian</label>
+                        </div>
+                        </form>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_product_description" class="text-center"><i class="fi-list"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            <textarea cols="40" id="id_product_description" name="address" rows="10" placeholder="Describe your dish"></textarea>
+                        </div>
+                        <div class="small-1 columns">
+                            <i class="fi-check"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row"><!-- cooking style fieldset row -->
+                        <div class="small-1 columns label_icon">
+
+                        </div>
+
+                        <div class="small-11 columns">
+                            <div class="row">
+                                <fieldset>
+                                    <legend>Tell us more</legend>
+                                    <div class="large-4 columns">
+                                    <h5>Taste</h5>
+                                    <form class="custom">
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Sweet</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Spicy</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Tangy</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Sour</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Bitter</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Savoury</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Salty</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Sweet & Sour</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Creamy</label>
+                                    </form>
+                                </div>
+                                <div class="large-4 columns">
+                                    <h5>Cooking Style</h5>
+                                    <form class="custom">
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Baked</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Barbequed</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Fried</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Pan Fried</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Stir Fried</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Sauteed</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Steamed</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Boiled</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Roasted</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Grilled</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Tandoor</label>
+                                        <label for="veg"><input name="radio1" type="radio" id="veg" style="display:none;"><span class="custom radio"></span> Poached</label>
+                                    </form>
+                                </div>
+                                <div class="large-4 columns">
+                                    <h5>Dietary Needs</h5>
+                                    <form class="custom">
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Sugarfree</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Eggless</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Vegan</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Low-Fat</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Seafood</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Gluten-Free</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Low-Cholestrol</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Jain</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Contains Nuts</label>
+                                        <label for="checkbox1"><input type="checkbox" id="checkbox1" style="display: none;"><span class="custom checkbox"></span> Contains Alcohol</label>
+                                    </form>
+                                </div>
+                                </fieldset>
+
+                            </div>
+                        </div>
+
+            </div><!-- end of cooking style fieldset row -->
+        </div>
+        <div class="large-3 columns">
+            <p>Put profile tips here</p>
+        </div>
+    </div>
+
+    <div class="row store_manage_main_content manage_social deselected">
+        <div class="large-9 columns">
+            <div class="row">
+                <div class="small-12 medium-12 large-8 columns store_form_fields">
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_facebook_link" class="text-center"><i class="fi-social-facebook"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+
+                            {{ social_form.facebook_link|placeholder:"Facebook Page Link" }}
+
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if social_form.facebook_link.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_twitter_link" class="text-center"><i class="fi-social-twitter"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ social_form.twitter_link|placeholder:"Twitter Profile Link" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if social_form.twitter_link.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_blog_link" class="text-center"><i class="fi-rss"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ social_form.blog_link|placeholder:"Blog Link" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if social_form.blog_link.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="small-2 columns label_icon">
+                            <label for="id_website_link" class="text-center"><i class="fi-web"></i></label>
+                        </div>
+                        <div class="small-9 columns">
+                            {{ social_form.website_link|placeholder:"Website Link" }}
+                        </div>
+                        <div class="small-1 columns validation">
+                            <i class="{% if social_form.website_link.errors %}fi-x{% else %}fi-check{% endif %}"></i>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+        <div class="large-3 columns">
+            <p>Put social media tips here</p>
+        </div>
+    </div>
+    {% if debug %}
+        <script type='text/javascript' id='lt_ws' src='http://localhost:58430/socket.io/lighttable/ws.js'></script>
+    {% endif %}
+{% endblock right_content %}
+
+{% block extra_javascript %}
+    <script>
+        function update_store(data){
+  $.ajax({
+                url: '{% url "products:update_store" %}',
+                type: 'POST',
+                data: JSON.stringify(data),
+                dataType: 'json',
+                beforeSend: function(){return true},
+                complete: function(){return true},
+                success: function(data){
+                    if(data["status"]=="ok"){
+                        $(event.target).parents(".small-9").siblings(".validation").find("i").removeClass().addClass("fi-check");
+                    }
+                    else{
+                        $(event.target).parents(".small-9").siblings(".validation").find("i").removeClass().addClass("fi-x");
+                    }
+                }
+            });
+}
+
+            function load_edit_form(url){
+                $.ajax({url: url,
+                    type:'GET',
+                    success: function(data){
+                        $('.product_edit_form').html(data);
+                        $('.store_manage_main_content').hide();
+                        $('.product_edit_form').show();
+                    },
+            })
+            }
+        $(document).ready(function(){
+            // to make left shadow on content pane extend entire height
+            var height = ($("footer").offset().top - $(".store_manage_bar").offset().top)+20;
+            $(".column_left_border").css("min-height",height);
+
+            // to make side nav stick to the top
+            var stickyTop = $(".custom_sticky").offset().top;
+
+            $(window).scroll(function() {
+               var windowTop = $(window).scrollTop();
+
+               if (windowTop >= 55){
+                    $(".custom_sticky").css({position:"fixed", top:45});
+               }
+               else {
+                    $(".custom_sticky").css("position","static");
+               }
+            });
+
+            $(".thumbnail_add").on("click", function(){
+                $(".thumbnail_add .info_wrapper").css("display","none");
+                $(".thumbnail_add img").slideUp(200);
+                $(".thumbnail_add .new_product").slideDown(200);
+                $(".thumbnail_add").css("cursor","default");
+            });
+
+            $("#cancel_add_product").on("click", function(event){
+                event.stopPropagation();
+                $(".thumbnail_add .info_wrapper").slideDown(200);
+                $(".thumbnail_add img").slideDown(200);
+                $(".thumbnail_add .new_product").slideUp(200);
+                $(".thumbnail_add").css("cursor","pointer");
+                $("#id_product").val("");
+            });
+
+            function form_2_json(form){
+                function array_to_map(a){
+                    var map = {};
+                    $.map(a, function(element, index){
+                      map[element['name']] = element['value'];
+                      });
+                    return map;
+                }
+                return JSON.stringify(array_to_map(form.serializeArray()));
+            }
+
+            $("#product_add_form").submit(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '{% url "products:create_product"%}',
+                    type: 'POST',
+                    //                                        contentType: 'application/json; charset=utf-8',
+                    data: form_2_json($(this)),
+                    dataType:'json',
+                    success: function(data){
+                        var product_slug = data['product']
+                        var url = '/accounts/products/' + product_slug + '/edit/'
+                        if (data['status'] == 'ok'){
+                            load_edit_form(url);
+                        }
+                        else
+                        {
+                            if (data['messages']['__all__']){
+                                $('.error_msg').css({'display':'block','color':'red'});
+                                $('.error_msg').html(data['messages']['__all__']);
+                            }else{
+                                $('.error_msg').css({'display':'block','color':'red'});
+                                $('.error_msg').html(data['messages']['name']);
+                            }
+
+                        }
+                    }
+                })
+            });
+
+
+            // to hide or show panes based on side nav
+            $(".store_side_nav_link").on("click", function(){
+                var link_li_id = $(this).parent().attr("id"); //get id of the li enclosing the div
+                var section_link_name = link_li_id.split("_")[1];
+                var section_name = "manage_"+section_link_name;
+                $("#"+link_li_id).siblings().find("div.store_side_nav_link").removeClass("active");
+                $("#"+link_li_id).find("div.store_side_nav_link").addClass("active");
+                $("."+section_name).siblings().removeClass("selected").addClass("deselected");
+                if($("."+section_name).hasClass("selected")){
+                    return false;
+                } else {
+                    $("."+section_name).removeClass("deselected").addClass("selected");
+                }
+            });
+        });
+
+        $('input,textarea').change(function(event){
+            event.preventDefault();
+            var target = event.target;
+            var data = {};
+            if(target.type == 'checkbox'){
+
+                target.value=target.checked ? 1 : 0;
+            }
+            data[target.name] = target.value;
+            update_store(data);
+        });
+
+        $('#id_filters').change(function(event){
+            event.preventDefault();
+            alert("Select");
+        });
+
+        // support for javascript location
+        autocomplete_location(document.getElementById("id_geo_location"))
+    {% for key, value in s3_upload_config.items %}
+    var {{key}} = "{{ value }}";
+    {% endfor %}
+    </script>
+{% endblock extra_javascript %}
+
