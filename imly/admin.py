@@ -4,7 +4,7 @@ from imly.models import Category, Tag, Location, Product, Store, ChefTip, UserPr
 from imagekit.admin import AdminThumbnail
 from rollyourown.seo.admin import register_seo_admin
 from seo import ImlyMetadata
-import watson
+#import watson
 
 register_seo_admin(admin.site, ImlyMetadata)
 
@@ -47,7 +47,7 @@ class StoreAdmin(admin.ModelAdmin):
             qs=qs.order_by(*ordering)
         return qs
 
-class ProductAdmin(watson.SearchAdmin):
+class ProductAdmin(admin.ModelAdmin):
     
     list_display = ["admin_thumbnail","name","store", "category", '_unit_price', "lead_time", "capacity_per_day", "is_bestseller","is_flag"]
     list_filter = [ "is_featured", 'category', "store","is_flag"]

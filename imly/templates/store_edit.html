@@ -176,6 +176,18 @@ google.maps.event.addListener(autocomplete_delivery, 'place_changed', function()
                                 $(".delivery_location_form").slideUp();
         
                         });
+                        $('#id_logo').fileupload({    
+                                url:"/upload/images/",                           
+                                disableImageResize:false,
+                                imageMaxWidth:800,
+                                imageMaxHeight:800
+                        })
+                        $('#id_cover_photo').fileupload({
+                                url:"/upload/images/",                           
+                                disableImageResize:false,
+                                imageMaxWidth:800,
+                                imageMaxHeight:800
+                        })
         
 
     

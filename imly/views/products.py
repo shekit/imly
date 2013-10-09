@@ -24,6 +24,13 @@ import watson
 # how to put products by location?
 #how is it finding a single product in product detail??
 #how do you restrict product edit, product delete to the specific shop owner?
+@csrf_exempt
+def upload_product_images(request,slug):
+    store = request.user.store
+    product = store.product_set.get(slug=slug)
+    product.image = request.FILES['image']
+    product.save()
+    return HttpResponse("Success")
 
 def coming_soon(request):
     return render(request,"coming_soon.html")
