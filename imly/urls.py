@@ -1,8 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib.auth.decorators import login_required
 from imly.models import Product, Store, Category, Location
-from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout
-from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product
+from imly.views.stores import OrderList, StoreList, StoreCreate, StoreDetail, StoreEdit, StoreInfoDetail, home_page, why_open_your_shop, contact_us, faqs, what_is_imly, wrong_location, status, update_store_order, no_city, not_in_city, one_step_checkout, CreateStore, ManageStore, upload_images
+from imly.views.products import SpecialList, ProductReview, ProductList, ProductCreate, ProductDelete, ProductDetail, ProductEdit, ProductsByAccount, coming_soon,sort_product,activate_product,special_event,unsubscribe_event,wish_product,wishlist,remove_product,remove_product,upload_product_images
 from imly.views.profile import ProfileInfo,ProfileCreate,EditProfile, ChefProfile, ProfileList
 from imly.views.places import set_location, unset_location, set_city, set_delivery, set_pick_up
 from imly.views.orders import UserOrders, StoreOrders, update_store_orders_for_order,update_cart,change_quantity,change_quantity_text
@@ -46,7 +46,7 @@ location_info = {
 }
 
 urlpatterns = patterns('',
-    
+
     url(r"^$", home_page, name="imly_landing_page"),
     url(r"^give_us_tip/$", "imly.views.profile.give_us_tip",name="imly_give_us_tip"),
     url(r"^login-x/$", "imly.views.profile.modal_login", name="imly_modal_login"),
@@ -74,11 +74,11 @@ urlpatterns = patterns('',
     url(r"^not-in-city/$", not_in_city, name="not_in_city"),
     url(r"^special_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",special_event,name="imly_special_event"),
     url(r"^unsubscribe_event/(?P<event_slug>[-\w]+)/(?P<product_slug>[-\w]+)/$",unsubscribe_event,name="imly_unsubscribe_event"),
-    
+
 )
 
 urlpatterns += patterns('',
-    
+
     url(r"^set_location/$", set_location, name="imly_filter_by_place"),
     url(r"^unset_location/$", unset_location, name="unset_location"),
     url(r'^set_city/(?P<slug>[-\w]+)/$', set_city, name='imly_set_city'),
@@ -89,22 +89,28 @@ urlpatterns += patterns('',
     #url(r"^places/$", ListView.as_view(**location_info), name="imly_place_list" ),
     #url(r"^places/(?P<place_slug>[-\w]+)/stores/$", StoresByPlace.as_view(), name="imly_stores_by_place"),
     #url(r"^places/(?P<place_slug>[-\w]+)/products/$", "products_by_place", name="imly_products_by_place"),
-    
+
+)
+
+urlpatterns += patterns('',
+    url(r"^upload/images/$",upload_images,name="upload_images"),
+    url(r"^upload/images/(?P<slug>[-\w]+)/$",upload_product_images,name="upload_product_images"),
+    #url(r"^upload/cover/$",upload_store_cover,name="upload_store_logo"),
 )
 
 
 urlpatterns += patterns('',
-    
+
     url(r"^food/$", ProductList.as_view(), name="imly_product_list"),
     url(r"^review/$", ProductReview.as_view(), name="submit_product_review"),
     url(r"^account/store/status/$", "imly.views.stores.status" , name="imly_store_status"),
-    
-    
-    
+
+
+
 )
 
 urlpatterns += patterns('',
-    
+
     #url(r"^categories/$", ListView.as_view(**category_info), name="imly_category_list" ),
     url(r"^categories/(?P<category_slug>[-\w]+)/chefs/$", StoreList.as_view(), name="imly_stores_by_category"),
     url(r"^categories/(?P<category_slug>[-\w]+)/food/$", ProductList.as_view(), name="imly_products_by_category"),
@@ -118,7 +124,7 @@ urlpatterns += patterns('',
     url(r"^account/store/products/(?P<pk>\d+)/delete/$", login_required(ProductDelete.as_view()), name="imly_product_delete"),
     url(r"^account/store/products/(?P<product_id>\d+)/activate/$", "imly.views.products.activate_product", name="imly_product_activate"),
     url(r"^account/store/products/$", login_required(ProductsByAccount.as_view()), name="imly_store_products" ),
-    
+
 )
 urlpatterns += patterns('',
     url(r"^shop/", include(shop.urls), name="imly_shop"),
@@ -133,6 +139,11 @@ urlpatterns += patterns('',
     url(r"^account/store/recipe/edit/(?P<slug>[-\w]+)/$", EditRecipe.as_view(), name = "imly_recipe_edit"),
     url(r"^recipe/(?P<slug>[-\w]+)/$", RecipeDetail.as_view(), name="imly_recipe_detail")
 )
+
+urlpatterns += patterns('',
+    url(r"^accounts/stores/create/$", CreateStore.as_view(), name="create_store"),
+    url(r"^accounts/stores/$", ManageStore.as_view(), name="manage_store"),
+                        )
 
 urlpatterns += patterns('',
     url(r"^checkout/$", one_step_checkout, name="imly_one_step_checkout"),

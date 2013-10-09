@@ -1,0 +1,10 @@
+{% extends "base_zurb.html" %}
+
+{% block main_content %}
+    <h2>create your store form</h2>
+    <form action="." method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" class="button" value="Create Store">
+    </form>
+{% endblock main_content %}

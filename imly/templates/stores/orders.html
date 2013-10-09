@@ -1,0 +1,132 @@
+{% extends "base_store_manage.html" %}
+
+{% block left_content %}
+    <ul class="no-bullet">
+
+        <li id="select_orders">
+            <div class="row store_side_nav_link active" >
+                <div class="large-12 columns">    
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-shopping-bag"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Orders</h4></li>
+                                <li><small>0 Pending</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+        <li id="select_analytics">
+            <div class="row store_side_nav_link">
+                <div class="large-12 columns">
+                    <ul class="inline-list link_list">
+                        <li><h4><i class="fi-graph-bar"></i></h4></li>
+                        <li class="link_text">
+                            <ul class="no-bullet">
+                                <li><h4>Analytics</h4></li>
+                                <li><small>incomplete</small></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </li>
+    </ul>
+{% endblock left_content %}
+
+{% block right_content %}
+    <div class="row store_manage_main_content manage_orders selected">
+        <div class="large-9 columns">
+            <p>Order Details</p>
+        </div>
+        <div class="large-3 columns">
+            <p>Put order tips here</p>
+        </div>
+    </div>
+    
+    <div class="row store_manage_main_content manage_analytics deselected">
+        <div class="large-9 columns">
+            <p>Analytics details</p>
+        </div>
+        <div class="large-3 columns">
+            <p>Put analytics tips here</p>
+        </div>
+    </div>
+    
+
+{% endblock right_content %}
+
+{% block extra_javascript %}
+    <script>
+        $(document).ready(function(){
+            
+            var stickyTop = $(".custom_sticky").offset().top;
+            
+            $(window).scroll(function() {
+               var windowTop = $(window).scrollTop();
+               
+               if (windowTop >= 55){
+                    $(".custom_sticky").css({position:"fixed", top:45});
+               }
+               else {
+                    $(".custom_sticky").css("position","static");
+               }
+            });
+            
+            
+            $(".thumbnail_add").on("click", function(){
+                $(".thumbnail_add .info_wrapper").css("display","none");
+                $(".thumbnail_add img").slideUp(200);
+                $(".thumbnail_add .new_product").slideDown(200);
+                $(".thumbnail_add").css("cursor","default");
+            });
+
+            $("#cancel_add_product").on("click", function(event){
+                event.stopPropagation();
+                $(".thumbnail_add .info_wrapper").slideDown(200);
+                $(".thumbnail_add img").slideDown(200);
+                $(".thumbnail_add .new_product").slideUp(200);
+                $(".thumbnail_add").css("cursor","pointer");
+                $("#id_product").val("");
+            });
+            function array_to_map(a){
+                var map = {};
+                $.map(a, function(element, index){
+                      map[element['name']] = element['value'];
+                      });
+                return map;
+            };
+            $("#product_add_form").submit(function(event){
+                event.preventDefault();
+                $.ajax({
+                    url: '{% url "products:create_product"%}',
+                    type: 'POST',
+                    //                                        contentType: 'application/json; charset=utf-8',
+                    data: JSON.stringify(array_to_map($(this).serializeArray())),
+                    dataType:'json',
+                })
+            });
+
+            
+            $(".store_side_nav_link").on("click", function(){
+                
+                var link_li_id = $(this).parent().attr("id"); //get id of the li enclosing the div
+                var section_link_name = link_li_id.split("_")[1];
+                var section_name = "manage_"+section_link_name;
+                
+                $("#"+link_li_id).siblings().find("div.store_side_nav_link").removeClass("active");
+                $("#"+link_li_id).find("div.store_side_nav_link").addClass("active");
+                $("."+section_name).siblings().removeClass("selected").addClass("deselected");
+                if($("."+section_name).hasClass("selected")){
+                    return false;
+                } else {
+                    $("."+section_name).removeClass("deselected").addClass("selected");
+                }
+                
+            });
+            
+        })
+    </script>
+{% endblock extra_javascript %}

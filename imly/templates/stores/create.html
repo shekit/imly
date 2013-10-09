@@ -1,0 +1,25 @@
+{% extends "base_zurb.html" %}
+
+{% block main_content %}
+
+        <div class="large-6 large-centered columns create_store">
+            <form method="post">
+                {% csrf_token %}
+        
+                {{ form.non_field_errors }}
+                {{ form.name.errors }}
+                <input class="create_store_form" id="id_name" maxlength="100" name="name" type="text" placeholder="Name of your Shop">
+        </div>
+
+        <div class="large-6 large-centered columns">
+            <input type="submit" class="button prefix custom_button create_store_form" value="Create Shop">
+        </div>
+
+
+    </form>
+{% endblock main_content %}
+
+{% block extra_javascript %}
+
+{% endblock extra_javascript %}
+

@@ -1,0 +1,790 @@
+/* line 55, ../sass/custom.scss */
+html, body {
+  height: 100%;
+}
+
+
+/* line 60, ../sass/custom.scss */
+#wrap {
+  min-height: 100%;
+  margin: 0 auto -150px;
+}
+
+/* line 66, ../sass/custom.scss */
+.footer, .push {
+  clear: both;
+  height: 150px;
+}
+
+/* FOOTER */
+/* line 73, ../sass/custom.scss */
+.footer {
+  border-top: 1px solid #a83e1c;
+  background: #f05a28;
+  font-size: emCalc(13);
+}
+/* line 78, ../sass/custom.scss */
+.footer .footer_row {
+  padding-top: 10px;
+}
+/* line 82, ../sass/custom.scss */
+.footer ul.footer_nav {
+  color: #fff;
+}
+/* line 84, ../sass/custom.scss */
+.footer ul.footer_nav li > a {
+  text-decoration: none;
+  color: #fff;
+}
+/* line 87, ../sass/custom.scss */
+.footer ul.footer_nav li > a:hover {
+  text-decoration: underline;
+  color: #fff;
+}
+/* line 94, ../sass/custom.scss */
+.footer a.give_us_a_tip {
+  background: #ff7752;
+  border-radius: 5px;
+  color: white;
+  padding: 5px 8px;
+}
+/* line 100, ../sass/custom.scss */
+.footer a.give_us_a_tip:hover {
+  background: white;
+  text-decoration: none;
+  color: #f05a28;
+}
+/* line 107, ../sass/custom.scss */
+.footer p.suggest_chef {
+  color: white;
+  text-align: right;
+}
+/* line 112, ../sass/custom.scss */
+.footer ul.social_links {
+  text-align: center;
+}
+/* line 29, ../sass/custom.scss */
+.footer ul.social_links li {
+  float: none;
+  display: inline-block;
+}
+/* line 114, ../sass/custom.scss */
+.footer ul.social_links li > a {
+  color: white;
+  font-size: emCalc(36);
+  line-height: emCalc(20);
+}
+/* line 118, ../sass/custom.scss */
+.footer ul.social_links li > a:hover {
+  text-decoration: none;
+  color: #e5e5e5;
+}
+
+/* line 129, ../sass/custom.scss */
+::selection {
+  background: #f16a3d;
+  color: #fff;
+  text-shadow: none;
+}
+
+/* line 135, ../sass/custom.scss */
+.row_wide {
+  max-width: 100%;
+}
+
+/* line 139, ../sass/custom.scss */
+.row_wide2 {
+  max-width: 80em;
+}
+
+/* line 143, ../sass/custom.scss */
+.row_wide_with_padding {
+  max-width: 100%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+/* line 149, ../sass/custom.scss */
+.row_wide_custom {
+  max-width: 1280px;
+}
+
+/* line 153, ../sass/custom.scss */
+.text-center {
+  text-align: center;
+}
+
+/* line 157, ../sass/custom.scss */
+.white {
+  color: white;
+}
+
+/* line 161, ../sass/custom.scss */
+.orange {
+  color: #f05a28;
+}
+
+/* line 165, ../sass/custom.scss */
+.column_no_padding {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/* line 170, ../sass/custom.scss */
+.column_left_border {
+  border-left: 1px solid #e5e5e5;
+  -moz-box-shadow: -5px 0px 4px -5px #cccccc;
+  -webkit-box-shadow: -5px 0px 4px -5px #cccccc;
+  box-shadow: -5px 0px 4px -5px #cccccc;
+}
+
+/* line 175, ../sass/custom.scss */
+ul.errorlist > li {
+  list-style: none;
+  color: #ff7752;
+}
+
+/* line 180, ../sass/custom.scss */
+.button {
+  -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+}
+
+/* line 186, ../sass/custom.scss */
+.custom_button {
+  background: #f05a28;
+  border-color: #d6410f;
+}
+/* line 189, ../sass/custom.scss */
+.custom_button:hover {
+  background: #d6410f;
+}
+
+/* line 194, ../sass/custom.scss */
+textarea {
+  min-height: 150px;
+}
+
+/* line 198, ../sass/custom.scss */
+.muted {
+  color: #999999;
+}
+
+/* line 202, ../sass/custom.scss */
+.font_13 {
+  font-size: emCalc(13);
+  padding-top: 1em;
+}
+
+/* line 207, ../sass/custom.scss */
+.clearfix {
+  clear: both;
+}
+
+/* line 211, ../sass/custom.scss */
+.caret {
+  display: inline-block;
+  width: 0;
+  height: 0;
+  vertical-align: top;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid #333333;
+  content: "";
+}
+
+/* line 224, ../sass/custom.scss */
+.custom_top_bar {
+  box-shadow: 0px 0px 3px #333;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+/* line 229, ../sass/custom.scss */
+.custom_top_bar .custom_title_area {
+  min-width: 170px;
+}
+/* line 232, ../sass/custom.scss */
+.custom_top_bar .custom_title_area .custom_caret {
+  margin-top: 8px;
+}
+/* line 237, ../sass/custom.scss */
+.custom_top_bar .select_city {
+  position: absolute;
+  top: 16px;
+  left: 95px;
+  color: #ff7752;
+  border: 1px solid #ddd;
+  font-size: emCalc(13);
+  padding: 0px 5px;
+  border-radius: 3px;
+}
+/* line 247, ../sass/custom.scss */
+.custom_top_bar .select_city:hover {
+  color: #f05a28;
+}
+/* line 252, ../sass/custom.scss */
+.custom_top_bar .top_bar_logo {
+  vertical-align: top;
+  padding-top: 2px;
+}
+/* line 257, ../sass/custom.scss */
+.custom_top_bar .custom_top_bar_link:hover {
+  color: #f05a28;
+}
+/* line 261, ../sass/custom.scss */
+.custom_top_bar .custom_top_bar_link2:hover {
+  color: white;
+  background: #f05a28;
+}
+/* line 266, ../sass/custom.scss */
+.custom_top_bar .top-bar-section ul li > a {
+  color: #333;
+}
+/* line 270, ../sass/custom.scss */
+.custom_top_bar .dropdown {
+  border: 1px solid #e5e5e5;
+}
+/* line 272, ../sass/custom.scss */
+.custom_top_bar .dropdown li a:hover {
+  background: #ff7752;
+  color: white;
+}
+/* line 278, ../sass/custom.scss */
+.custom_top_bar .top-bar-section ul li > a.top_bar_button {
+  top: 14px;
+  color: #f05a28;
+  background: whitesmoke;
+  border: 1px solid whitesmoke;
+  -moz-box-shadow: inset 0px 0px 2px 0px #eeeeee;
+  -webkit-box-shadow: inset 0px 0px 2px 0px #eeeeee;
+  box-shadow: inset 0px 0px 2px 0px #eeeeee;
+}
+/* line 284, ../sass/custom.scss */
+.custom_top_bar .top-bar-section ul li > a.top_bar_button:hover {
+  background: #f05a28;
+  color: white;
+  border: 1px solid #ee4811;
+  -moz-box-shadow: inset 0px 0px 0px 0px #f05a28;
+  -webkit-box-shadow: inset 0px 0px 0px 0px #f05a28;
+  box-shadow: inset 0px 0px 0px 0px #f05a28;
+}
+/* line 292, ../sass/custom.scss */
+.custom_top_bar .top-bar-section > ul > .divider {
+  border-right: 0px;
+}
+/* line 297, ../sass/custom.scss */
+.custom_top_bar .top-bar-section i {
+  vertical-align: middle;
+  font-size: emCalc(22);
+  line-height: 0;
+  font-weight: normal;
+}
+/* line 303, ../sass/custom.scss */
+.custom_top_bar .top-bar-section .cart_qty {
+  vertical-align: middle;
+  line-height: 0;
+  letter-spacing: 0.1em;
+}
+
+/* line 312, ../sass/custom.scss */
+.no_top_bar_shadow {
+  -moz-box-shadow: 0px 0px 0px 0px white;
+  -webkit-box-shadow: 0px 0px 0px 0px white;
+  box-shadow: 0px 0px 0px 0px white;
+}
+
+/* line 318, ../sass/custom.scss */
+.th {
+  display: inherit;
+}
+
+/* line 322, ../sass/custom.scss */
+.th.thumbnail_custom {
+  border: 1px solid #e5e5e5;
+  border-radius: 0px 0px 5px 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 328, ../sass/custom.scss */
+.th.thumbnail_custom .delivery_pick_up {
+  margin-top: 1px;
+}
+/* line 332, ../sass/custom.scss */
+.th.thumbnail_custom ul.no-bullet {
+  margin-bottom: 0;
+}
+/* line 336, ../sass/custom.scss */
+.th.thumbnail_custom p {
+  margin-bottom: 0;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+/* line 343, ../sass/custom.scss */
+.th.thumbnail_custom h5 {
+  font-size: emCalc(17);
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0;
+  margin-top: 0.3em;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+/* line 352, ../sass/custom.scss */
+.th.thumbnail_custom h5 a {
+  color: #333333;
+}
+/* line 354, ../sass/custom.scss */
+.th.thumbnail_custom h5 a:hover {
+  text-decoration: underline;
+}
+/* line 360, ../sass/custom.scss */
+.th.thumbnail_custom h6 {
+  text-align: center;
+  font-size: emCalc(12);
+  font-weight: normal;
+  color: #999999;
+  margin-bottom: 0;
+  margin-top: 0.2em;
+  white-space: nowrap;
+  overflow: hidden;
+  -ms-text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+  text-overflow: ellipsis;
+  padding-left: 3px;
+  padding-right: 3px;
+}
+/* line 370, ../sass/custom.scss */
+.th.thumbnail_custom h6 a {
+  color: #999999;
+}
+/* line 372, ../sass/custom.scss */
+.th.thumbnail_custom h6 a:hover {
+  color: #f05a28;
+}
+/* line 378, ../sass/custom.scss */
+.th.thumbnail_custom h6.store_name {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+/* line 383, ../sass/custom.scss */
+.th.thumbnail_custom .info_wrapper {
+  padding: 3px;
+}
+/* line 386, ../sass/custom.scss */
+.th.thumbnail_custom .info_wrapper p {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+/* line 391, ../sass/custom.scss */
+.th.thumbnail_custom .info_wrapper .button {
+  margin-bottom: 0;
+  font-weight: normal;
+  font-size: emCalc(13);
+  text-shadow: 0px 0px 1px #999999;
+}
+/* line 399, ../sass/custom.scss */
+.th.thumbnail_custom:hover {
+  box-shadow: none;
+  border-color: #cccccc;
+}
+
+/* line 407, ../sass/custom.scss */
+.sidebar_nav {
+  background: white;
+  border: 1px solid #e5e5e5;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+  border-radius: 4px;
+  -moz-box-shadow: 0px 1px 0px rgba(0, 0, 0, 0.5);
+  -webkit-box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05);
+  box-shadow: inset 0px 1px 1px rgba(0, 0, 0, 0.05);
+  height: 500px;
+}
+
+/* line 421, ../sass/custom.scss */
+.store_manage_bar {
+  background: #333;
+  color: #fff;
+  height: 45px;
+  line-height: 45px;
+  padding-left: 1.2em;
+  padding-right: 5%;
+  -moz-box-shadow: 0px 3px 3px -3px #333333;
+  -webkit-box-shadow: 0px 3px 3px -3px #333333;
+  box-shadow: 0px 3px 3px -3px #333333;
+}
+/* line 431, ../sass/custom.scss */
+.store_manage_bar .name h1 {
+  line-height: 45px;
+  text-shadow: 0px 0px 2px #444444;
+  color: black;
+}
+/* line 436, ../sass/custom.scss */
+.store_manage_bar ul.title-area {
+  height: 45px;
+}
+/* line 438, ../sass/custom.scss */
+.store_manage_bar ul.title-area li.name {
+  height: 45px;
+}
+/* line 444, ../sass/custom.scss */
+.store_manage_bar .top-bar-section ul.right {
+  height: 45px !important;
+}
+/* line 447, ../sass/custom.scss */
+.store_manage_bar .top-bar-section .has-form {
+  height: 45px;
+  background: #333333;
+}
+/* line 451, ../sass/custom.scss */
+.store_manage_bar .top-bar-section .store_manage_button {
+  top: 9px;
+  color: white;
+  background: #222222;
+  border: none;
+  -moz-box-shadow: inset 0px 0px 3px black, 0px 0px 3px #444444;
+  -webkit-box-shadow: inset 0px 0px 3px black, 0px 0px 3px #444444;
+  box-shadow: inset 0px 0px 3px black, 0px 0px 3px #444444;
+}
+/* line 459, ../sass/custom.scss */
+.store_manage_bar .top-bar-section .store_manage_button:hover {
+  background: #2ba6cb;
+  color: white;
+}
+
+/* line 469, ../sass/custom.scss */
+.row .store_side_nav_link {
+  border-bottom: 1px solid #e5e5e5;
+  margin-right: 0;
+  padding-left: 5%;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  cursor: pointer;
+}
+/* line 479, ../sass/custom.scss */
+.row .store_side_nav_link ul.inline-list {
+  margin-bottom: 0;
+}
+/* line 484, ../sass/custom.scss */
+.row .store_side_nav_link ul.link_list li.link_text {
+  margin-left: 0.6em;
+}
+/* line 489, ../sass/custom.scss */
+.row .store_side_nav_link ul.no-bullet {
+  margin-left: 0;
+}
+/* line 493, ../sass/custom.scss */
+.row .store_side_nav_link h4 {
+  font-size: emCalc(20);
+  font-weight: 300;
+  margin-top: 0;
+  margin-bottom: -0.5em;
+}
+/* line 498, ../sass/custom.scss */
+.row .store_side_nav_link h4 i {
+  color: #cccccc;
+}
+/* line 503, ../sass/custom.scss */
+.row .store_side_nav_link small {
+  font-size: 65%;
+  color: #999999;
+  text-transform: uppercase;
+}
+/* line 509, ../sass/custom.scss */
+.row .store_side_nav_link:hover {
+  background: whitesmoke;
+  -moz-box-shadow: inset 25px 0px 0px -5px #f05a28;
+  -webkit-box-shadow: inset 25px 0px 0px -5px #f05a28;
+  box-shadow: inset 25px 0px 0px -5px #f05a28;
+}
+/* line 512, ../sass/custom.scss */
+.row .store_side_nav_link:hover i {
+  color: #f05a28;
+}
+
+/* line 518, ../sass/custom.scss */
+.row.store_manage_main_content {
+  padding-top: 1em;
+}
+/* line 521, ../sass/custom.scss */
+.row.store_manage_main_content .th {
+  display: inherit;
+}
+/* line 525, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom {
+  border: 1px solid #e5e5e5;
+  border-radius: 0px 0px 5px 5px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+/* line 531, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom ul.no-bullet {
+  margin-bottom: 0;
+}
+/* line 535, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom .info_wrapper {
+  padding: 3px;
+}
+/* line 538, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom .info_wrapper h5 {
+  font-size: emCalc(14);
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0;
+}
+/* line 543, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom .info_wrapper h5 a {
+  color: #333333;
+}
+/* line 545, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom .info_wrapper h5 a:hover {
+  text-decoration: underline;
+}
+/* line 551, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom .info_wrapper h6 {
+  text-align: center;
+  font-size: emCalc(11);
+  font-weight: normal;
+  color: #999999;
+}
+/* line 559, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_custom:hover {
+  box-shadow: none;
+  border-color: #cccccc;
+}
+/* line 565, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add {
+  border: 3px dashed #e5e5e5;
+  cursor: pointer;
+  width: 100%;
+}
+/* line 570, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add .new_product {
+  display: none;
+  padding: 5%;
+}
+/* line 574, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add .new_product #id_product {
+  text-align: center;
+}
+/* line 580, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add .info_wrapper h5 {
+  color: #cccccc;
+}
+/* line 584, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add .info_wrapper h6 {
+  color: white;
+}
+/* line 590, ../sass/custom.scss */
+.row.store_manage_main_content .th.thumbnail_add:hover h5 {
+  color: #f05a28;
+}
+
+/* line 598, ../sass/custom.scss */
+.row.selected {
+  display: block;
+}
+
+/* line 602, ../sass/custom.scss */
+.row.deselected {
+  display: none;
+}
+
+/* line 606, ../sass/custom.scss */
+.row .active {
+  background: #f05a28;
+  cursor: default;
+  -moz-box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+  -webkit-box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+  box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+}
+/* line 611, ../sass/custom.scss */
+.row .active h4 {
+  color: white;
+  text-shadow: 0px 0px 3px #782d14;
+}
+/* line 614, ../sass/custom.scss */
+.row .active h4 i {
+  color: white;
+}
+/* line 619, ../sass/custom.scss */
+.row .active small {
+  color: #333333;
+}
+/* line 623, ../sass/custom.scss */
+.row .active:hover {
+  background: #f05a28;
+  -moz-box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+  -webkit-box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+  box-shadow: inset 0 6px 6px -6px #782d14, inset 0 -6px 6px -6px #782d14;
+  color: white;
+}
+/* line 627, ../sass/custom.scss */
+.row .active:hover i {
+  color: white;
+}
+/* line 631, ../sass/custom.scss */
+.row .active:hover small {
+  color: #333333;
+}
+
+/* line 639, ../sass/custom.scss */
+form.custom .custom.checkbox.checked:before {
+  content: "\2713";
+  color: #f05a28;
+}
+/* line 644, ../sass/custom.scss */
+form.custom .custom.radio.veg.checked:before {
+  background: #5da423;
+}
+/* line 648, ../sass/custom.scss */
+form.custom .custom.radio.non_veg.checked:before {
+  background: red;
+}
+
+/* line 658, ../sass/custom.scss */
+.manage_social .store_form_fields .row, .manage_store .store_form_fields .row, .manage_availability .store_form_fields .row, .manage_profile .store_form_fields .row {
+  padding-top: 1em;
+  padding-bottom: 1em;
+}
+/* line 662, ../sass/custom.scss */
+.manage_social .store_form_fields .row .row, .manage_store .store_form_fields .row .row, .manage_availability .store_form_fields .row .row, .manage_profile .store_form_fields .row .row {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+/* line 667, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon, .manage_store .store_form_fields .row .label_icon, .manage_availability .store_form_fields .row .label_icon, .manage_profile .store_form_fields .row .label_icon {
+  margin-top: emCalc(-6);
+}
+/* line 670, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon label, .manage_store .store_form_fields .row .label_icon label, .manage_availability .store_form_fields .row .label_icon label, .manage_profile .store_form_fields .row .label_icon label {
+  font-size: emCalc(43);
+}
+/* line 673, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon label .fi-social-facebook, .manage_store .store_form_fields .row .label_icon label .fi-social-facebook, .manage_availability .store_form_fields .row .label_icon label .fi-social-facebook, .manage_profile .store_form_fields .row .label_icon label .fi-social-facebook {
+  color: #3b5998;
+}
+/* line 677, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon label .fi-social-twitter, .manage_store .store_form_fields .row .label_icon label .fi-social-twitter, .manage_availability .store_form_fields .row .label_icon label .fi-social-twitter, .manage_profile .store_form_fields .row .label_icon label .fi-social-twitter {
+  color: #4099ff;
+}
+/* line 681, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon label .fi-rss, .manage_store .store_form_fields .row .label_icon label .fi-rss, .manage_availability .store_form_fields .row .label_icon label .fi-rss, .manage_profile .store_form_fields .row .label_icon label .fi-rss {
+  color: #ff6600;
+}
+/* line 685, ../sass/custom.scss */
+.manage_social .store_form_fields .row .label_icon label .img_icon, .manage_store .store_form_fields .row .label_icon label .img_icon, .manage_availability .store_form_fields .row .label_icon label .img_icon, .manage_profile .store_form_fields .row .label_icon label .img_icon {
+  width: 33px;
+  margin-top: -6px;
+}
+/* line 694, ../sass/custom.scss */
+.manage_social .store_form_fields .row .fi-check, .manage_store .store_form_fields .row .fi-check, .manage_availability .store_form_fields .row .fi-check, .manage_profile .store_form_fields .row .fi-check {
+  line-height: emCalc(30);
+  color: #5da423;
+}
+/* line 699, ../sass/custom.scss */
+.manage_social .store_form_fields .row .fi-x, .manage_store .store_form_fields .row .fi-x, .manage_availability .store_form_fields .row .fi-x, .manage_profile .store_form_fields .row .fi-x {
+  line-height: emCalc(30);
+  color: #f05a28;
+}
+
+/* line 711, ../sass/custom.scss */
+.create_store {
+  padding-top: 10%;
+}
+
+/* line 715, ../sass/custom.scss */
+input.create_store_form {
+  font-size: emCalc(36);
+  text-align: center;
+}
+
+@media (max-width: 860px) {
+  /* line 726, ../sass/custom.scss */
+  .custom_top_bar .top-bar-section ul li > a {
+    padding-left: emCalc(13);
+    padding-right: emCalc(13);
+  }
+}
+@media (max-width: emCalc(768)) {
+  /* line 737, ../sass/custom.scss */
+  .custom_top_bar {
+    background: #111;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* line 742, ../sass/custom.scss */
+  .custom_top_bar .custom_caret {
+    border-top: 4px solid white;
+  }
+  /* line 746, ../sass/custom.scss */
+  .custom_top_bar .top-bar-section ul li > a {
+    color: white;
+  }
+  /* line 750, ../sass/custom.scss */
+  .custom_top_bar .top-bar-section .dropdown li.title h5 a {
+    color: white;
+    font-size: emCalc(12);
+  }
+  /* line 755, ../sass/custom.scss */
+  .custom_top_bar .top-bar-section ul li > a.top_bar_button {
+    top: 8px;
+    color: white;
+    background: #f05a28;
+    border: 1px solid #f05a28;
+    -moz-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    -webkit-box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.5) inset;
+  }
+
+  /* line 768, ../sass/custom.scss */
+  .store_manage_bar {
+    background: #ff7752;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  /* line 773, ../sass/custom.scss */
+  .store_manage_bar .name h1 {
+    color: #f05a28;
+    text-shadow: 0px 0px 2px #ff9f85;
+    padding-left: 5px;
+  }
+  /* line 779, ../sass/custom.scss */
+  .store_manage_bar .top-bar-section ul.right {
+    height: auto !important;
+  }
+  /* line 783, ../sass/custom.scss */
+  .store_manage_bar .top-bar-section .has-form {
+    height: auto;
+  }
+
+  /* line 791, ../sass/custom.scss */
+  #wrap {
+    margin: 0 auto -170px;
+  }
+
+  /* line 795, ../sass/custom.scss */
+  .footer, .push {
+    height: 170px;
+  }
+
+  /* line 800, ../sass/custom.scss */
+  .footer p.suggest_chef {
+    text-align: center;
+  }
+  /* line 804, ../sass/custom.scss */
+  .footer .footer_nav {
+    text-align: center;
+  }
+  /* line 29, ../sass/custom.scss */
+  .footer .footer_nav li {
+    float: none;
+    display: inline-block;
+  }
+}

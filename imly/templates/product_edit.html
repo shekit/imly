@@ -43,7 +43,7 @@
                     {% crispy form %}
                     <a href="{% url "imly_store_products" %}" class="btn">Cancel</a>
                     <input type="submit" class="btn btn-success" value="Update">
-
+                    <input type="hidden" id="slug" value="{{form.instance.slug}}" />
                 </form>
             </div>
     
@@ -83,6 +83,13 @@
 		<script>
 		$(document).ready(function(){
 			$('#id_category').select2();
-		});
+            var slug = $('#slug').val();
+            $('#id_image').fileupload({
+                url:"/upload/images/"+$('#slug').val()+'/',
+                disableImageResize:false,
+                imageMaxWidth:800,
+                imageMaxHeight:800
+            })
+	   });
 		</script>
 {% endblock extra_javascript %}

@@ -63,4 +63,18 @@
             <li>Keep the "about me" section short but <span class="orange">interesting</span>. Write about why you started cooking, your inspirations, your hobbies. Get creative!</li>
         </ol>
     </aside>                     
-{% endblock shop_info %} 
+{% endblock shop_info %}
+{% block extra_javascript %}
+<script type="text/javascript">
+    
+$(document).ready(function(){
+    $('#id_cover_profile_image').fileupload({
+        url:"/upload/images/",                           
+        disableImageResize:false,
+        imageMaxWidth:800,
+        imageMaxHeight:800
+    })
+});
+
+</script>
+{% endblock extra_javascript %} 

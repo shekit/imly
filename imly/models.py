@@ -124,7 +124,7 @@ class Store(geo_models.Model):
     owner = models.OneToOneField(User)
     store_contact_number = models.CharField(max_length=10, verbose_name="Contact Number",
                                             help_text="(Mobile number) We will not share this with anyone")
-    description = models.TextField()
+    description = models.TextField(null=True,blank=True)
     description_html = models.TextField(editable=False, blank=True)
     tagline = models.CharField(max_length=255, blank=True, help_text="(optional)")
     logo = models.ImageField(upload_to=get_store_image_path,blank=True, help_text="(optional)")
@@ -276,7 +276,7 @@ class Product(ProductBase, PriceBase, geo_models.Model):
     lead_time_unit = models.IntegerField(choices=LEAD_TIME_CHOICES, default=DAY)
     category = models.ForeignKey(Category)
     store = models.ForeignKey(Store)
-    image = models.ImageField(upload_to=get_image_path, help_text="Minimum 600 pixels wide")
+    image = models.ImageField(upload_to=get_image_path, help_text="Minimum 600 pixels wide",null=True,blank=True)
     image_thumbnail = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(300,200)], cache_to=get_thumbnail_path)
     image_thumbnail_mini = ImageSpecField(image_field="image", format="JPEG",options={'quality': 92}, processors = [ResizeToFill(100,80)], cache_to=get_thumbnail_mini_path)
     image_thumbnail_large = ImageSpecField(image_field="image", format="JPEG",options={'quality':92}, processors = [ResizeToFit(width=575)], cache_to=get_thumbnail_large_path)
@@ -553,7 +553,7 @@ class RecipeStep(models.Model):
     description = models.TextField()
 
 
-# search configuration using watson
+'''# search configuration using watson
 import watson
 
 class ProductSearchAdapter(watson.SearchAdapter):
@@ -581,3 +581,4 @@ class StoreSearchAdapter(watson.SearchAdapter):
         return ' '.join([store.tagline, ' '.join([category.name for category in store.categories.all()]), ' '.join([tag.name for tag in store.tags.all()]), ' '.join([product.name for product in store.product_set.all()])])
 
 watson.register(Store, StoreSearchAdapter)
+'''
