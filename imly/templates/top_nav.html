@@ -37,8 +37,8 @@
                     <li><a class="btn navbar-btn custom_navbar_btn {% current 'imly_store_info' %} {% current 'imly_store_create' %}"  href="{% url "imly_store_info" %}">Open your Shop</a></li>
                 {% endif %}
             {% else %}
-                <li class="hidden-sm"><a id="open_your_shop" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
-                <li class="visible-sm"><a href="{% url "imly_store_info" %}" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
+                <li class="hidden-xs hidden-sm"><a id="open_your_shop" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
+                <li class="visible-xs visible-sm"><a href="{% url "imly_store_info" %}" class="btn navbar-btn custom_navbar_btn">Open your Shop</a></li>
             {% endif %}
             
             {% if user.is_authenticated %}
@@ -68,7 +68,7 @@
             {% endif %}
 
             <li class="border_right"><a class="{% current 'plata_shop_cart' %} {% current 'plata_shop_checkout' %} {% current 'plata_shop_confirmation' %}" href="{% url "plata_shop_cart" %}"><span class="glyphicon glyphicon-shopping-cart"></span> (<span id="items-count">{% if plata.order %}{{ plata.order.items.count }}{% else %}0{% endif %}</span>)</a>
-                <div class="hidden-sm">
+                <div class="hidden-xs hidden-sm">
                 <div class="dropdown_div">
                 <div class="dropDowncart_triangle"></div>
                 <ul class="list-inline dropDowncart"></ul>

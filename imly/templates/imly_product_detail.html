@@ -481,7 +481,7 @@ $(document).ready(function(){
         var product_url = $('.product_image').attr('src');
         $('.dropDowncart').empty();
         $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + product_url.replace('large','mini') + '" width="70"></li>');
-        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 list-unstyled">');
         $('.dropDowncart2').append('<li class="dropDowncart_product">' + $('#id_quantity').val() + ' &times; ' + '<span class="dropDowncart_product_name">' + $('.product_name').text() + '</span>' + '</li>');
         $('.dropDowncart2').append('<li class="dropDowncart_store">' + $('.store_name').text() + '</li>');
         $('.dropDowncart').append('</ul></li>');

@@ -102,7 +102,7 @@ $(document).ready(function(){
         var product_slug = form.find('input[name=product_slug]').val();
         $('.dropDowncart').empty();
         $('.dropDowncart').append('<li><img class="dropDowncart_img" src="' + image_url + '" width="70"></li>');
-        $('.dropDowncart').append('<li><ul class="dropDowncart2 unstyled">');
+        $('.dropDowncart').append('<li><ul class="dropDowncart2 list-unstyled">');
         $('.dropDowncart2').append('<li class="dropDowncart_product">' + quantity + ' &times; ' + '<span class="dropDowncart_product_name">' + product_name + '</span>' + '</li>');
         $('.dropDowncart2').append('<li class="dropDowncart_store">' + store_name + '</li>');
         $('.dropDowncart').append('</ul></li>');

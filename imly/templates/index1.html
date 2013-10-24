@@ -3,232 +3,436 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Imly {% block title %}{% endblock title %}</title>
-        
+		<meta name="google-site-verification" content="TM0PA9SNMaBm8WQvOoO_M5se6dt72LVlD9eD1WaFKi4" />
+        <title>{% block title %}Imly - Now order homemade food online{% endblock title %}</title>
+		<meta name="description" content="Imly is a marketplace to discover great home chefs, a place to buy unique homemade delicacies being served fresh from kitchens across your city.">
+		<meta name="keywords" content="Imly,homemade food, gourmet, mumbai food, local, delivered,bangalore">
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
-        <link href="{{ STATIC_URL }}bootstrap/css/custom_index1.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}bootstrap/css/custom_index.css" rel="stylesheet" type="text/css">
         <!-- HTML5 shim for IE backwards compatibility -->
         <!--[if lt IE 9]>
         <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
         <![endif]-->
+        <link rel="shortcut icon" type="image/ico" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
+		<meta property="og:url" content="http://imly.in">
+		<meta property="og:title" content="Imly.in - the online marketplace to buy and sell homemade food">
+		<meta property="og:type" content="website"/>
+		<meta property="og:image" content="https://imly.s3.amazonaws.com/bootstrap/img/fb_og_image.png"/>
+        <script>
+          (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+          (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+          })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+          ga('create', 'UA-41246832-1', 'imly.in');
+          ga('send', 'pageview');
+		</script>
+
     </head>
-    
-    
-    
+
+
+
 <body>
+
+    <div class="lower_border">
+        {% block navigation %}
+
+            {% include "top_nav.html" %}
+
+        {% endblock navigation %}     
+    </div><!-- end of div lower border -->
     
-    <div class="navbar-wrapper">
-      <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
-      <div class="container">
+    {% block location_search_bar %}
 
-        <div class="navbar navbar-inverse">
-          <div class="navbar-inner">
-            <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
-            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="brand" href="{% url "imly_product_list" %}">Imly</a>
-            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
-            <div class="nav-collapse collapse">
-              <ul class="nav pull-right">
-                <li><a href="{% url "imly_store_create" %}">Create Your Shop</a></li>
-                <li><a href="{% url "imly_product_list" %}">Discover Great Food</a></li>
-
-                                    {% if user.is_authenticated %}
-                                        
-                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                                        {% if user.first_name %}
-                                            {{ user.first_name }} <span class="caret"></span>
-                                        {% else %}
-                                            {{ user.username }} <span class="caret"></span>
-                                        {% endif %}
-                                        </a>
-                                            <ul class="dropdown-menu">
-                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
-                                                {% if user.userprofile %}
-                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-font"></span> My Account</a></li>
-                                                {% else %}
-                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-font"></span> Create Account</a></li>
-                                                {% endif %}
-                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
-                                                <li class="divider"></li>
-                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
-                                            </ul>
-                                        </li>
-                                    {% else %}
-                                        <li><a href="{% url "account_login" %}">Sign In</a></li>
-                                    {% endif %}
-
-              </ul>
-            </div><!--/.nav-collapse -->
-          </div><!-- /.navbar-inner -->
-        </div><!-- /.navbar -->
-
-      </div> <!-- /.container -->
-    </div><!-- /.navbar-wrapper -->
+    {% endblock location_search_bar %}
     
+    {% block carousel %}
+    <div class="jumbotron hidden-xs">
+        <div class="row">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" alt="Imly logo"></p>
+        </div>
 
-
-            <div class="row-fluid logo">
-                <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/logo-large.png"></p>
+        <div class="row">
+            <div class="col-md-12">
+            <ul class="list-inline text-center">{# <h3>The online home food marketplace</h3> #}
+                <li><a href="{% url "why_open_your_shop" %}" class="action_button">Open Your Shop<br><small class="ultra_small_button">fast. easy. free.</small></a></li>
+                <li><a href="{% url "imly_product_list" %}" class="action_button action_button2">Discover Great Food<br><small class="ultra_small_button">fresh. homely. unique.</small></a></li>
+            </ul>
             </div>
 
-    
-    <div id="myCarousel" class="carousel slide">
-      <div class="carousel-inner">
-        <div class="item active">
-          <img src="{{ STATIC_URL }}bootstrap/img/car2.jpg">
         </div>
-        <div class="item">
-          <img src="{{ STATIC_URL }}bootstrap/img/car1.jpg">
-        </div>
-        <div class="item">
-          <img src="{{ STATIC_URL }}bootstrap/img/car3.jpg">
-        </div>
-      </div>
-      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
-      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
-    </div><!-- /.carousel -->
-    
-    <div class="row-fluid">
-        <div class="span12">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/slogan.png" alt="Connecting home chefs with curious foodies"></p>
+                
+    </div>
+
+    <div class="container visible-xs">
+        <div class="row lower_border2">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_cover_photo.jpg" class="img-responsive"></p>
         </div>
     </div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3"></div>
+            <div class="col-md-6 negative_margin">
+                <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/slogan.png" class="img-responsive img_center" alt="Connecting home chefs with curious foodies"></p>
+            </div>
+            <div class="col-md-3"></div>
+        </div>
     </div>
+
+    {% endblock carousel %}
     <br>
-    
-    <div id="wrap">
-        <div id="main" class="container clear-top">
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="row-fluid">
-                    <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">Shops</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
-                    {% load imly_tags %}
-                    {% get_featured_store_list %}
-                    <ul class="thumbnails">
-                    {% for store in featured_stores %}
-                        
-                        <li class="span3">
-                            <div class="thumbnail">
-                                {% with store.product_set.all|first as product %}
-                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
-                                {% endwith %}
-                                
-                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
-                                            {% if store.owner.userprofile.first_name %}
-                                                {{ store.owner.userprofile.first_name }} {{ store.owner.userprofile.last_name }}
-                                            {% else %}
-                                                {{ store.owner.username }}
-                                            {% endif %}</small>
-                                <div class="clearfix"></div>
-                            </div>
-                        </li>
-                        
-                    {% endfor %}
-                    </ul>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <div class="row-fluid">
-                <div class="span12">
-                    <div class="row-fluid">
-                    <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
-                    {% get_bestseller_product_list %}
-                    <ul class="thumbnails">
-                    {% for product in bestselling_products %}
-                    <li class="span3">
-                        <div class="thumbnail">
-                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
-                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
-                        </div>
-                    </li> 
-                    {% endfor %}
-                    </ul>
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
-            <br>
-            <div class="row-fluid">
-                <div class="span2"></div>
-                <div class="span8 as_seen_on">
-                        <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on.png" alt="As seen in the press"></span>
 
+
+    <div id="wrap">
+        <div id="main" class="container">
+            {% block featurette %}
+                
+            {% if special_event %}
+            <div class="row">
+                <div class="col-md-12">
+                    <legend class="orange"><span class="legend_lower">{{ special_event.title }}</span> <span class="legend_upper">Special</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_specials" special_event.slug %}">View More</a></span></legend>
                 </div>
-                <div class="span2"></div>
             </div>
+            
+            <div class="row">
+                {% for product in special_products %}
+                <div class="col-xs-6 col-sm-6 col-md-3">
+                    <div class="thumbnail thumbnail_custom half">
+                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                            <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
+                        </a>
+                        <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                            <h5 class="less_bottom_margin ellipsis text-center">{{ product.name|lower|title }}</h5>
+                        </a>
+                        <p class="muted ultra_small ellipsis text-center">
+                            <a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a>
+                        </p>
+                    </div>
+                </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+                {% endfor %}  
+            </div>
+            <br>
+            <br>
+            {% endif %}
+
+            {% if recently_bought and recently_added %}
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="recently_added_bought">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Bought</span></legend>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                {% for product in recently_bought %}
+                                <div class="col-xs-6 col-sm-6 col-md-3">
+                                    <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                                            <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
+                                        </a>
+            
+                                    </div>
+                                </div>
+                                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+                                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+                               {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end of recently_added_bought -->
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="recently_added_bought">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <legend class="orange"><span class="legend_lower">Recently</span> <span class="legend_upper">Added</span></legend>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                {% for product in recently_added %}
+                                <div class="col-xs-6 col-sm-6 col-md-3">
+                                    <div class="thumbnail thumbnail_custom thumbnail_custom_recently_added_bought half">
+                                        <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                                            <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
+                                        </a>
+            
+                                    </div>
+                                </div>
+                                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+                                {% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+                                {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div><!-- end of recently_added_bought -->
+                </div>
+
+            </div>
+            <br>
+            <br>
+	    {% endif %}
+            
+            {% if bestselling_products %}
+            <div class="row">
+                <div class="col-md-12">
+                    <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span>
+                    <span class="pull-right"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span>
+                    </legend>
+                </div>
+            </div>
+            
+            <div class="row">
+                {% for product in bestselling_products %}
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        <div class="thumbnail thumbnail_custom half">
+                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                                <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ product.name }}">
+                            </a>
+                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}">
+                                <h5 class="lower_bottom_margin ellipsis text-center">{{ product.name|lower|title }}</h5>
+                            </a>
+                            <p class="muted ellipsis text-center ultra_small">
+                                <a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</a>
+                            </p>
+                        </div>
+                    </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+                {% endfor %}    
+            </div>
+            {% endif %}
+            <br>
+            <br>
+
+            {% if featured_stores %}
+            <div class="row">
+                <div class="col-md-12">
+                    <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">chefs</span><span class="pull-right"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
+                </div>
+            </div>   
+                
+            <div class="row">
+                {% for store in featured_stores %}
+                    <div class="col-xs-6 col-sm-6 col-md-3">
+                        <div class="thumbnail thumbnail_custom half">
+                            {% if store.logo %}
+                                <a href="{% url "imly_store_detail" store.slug %}">
+                                    <img src="{{ store.logo_thumbnail.url }}" class="bottom_border img-responsive img_center" alt="{{ store.name }}">
+                                </a>
+                            {% else %}
+                                {% with store.product_set.all|first as product %}
+                                    <a href="{% url "imly_store_detail" store.slug %}">
+                                        <img src="{{ product.image_thumbnail.url }}" class="img-responsive img_center" alt="{{ store.name }}">
+                                    </a>
+                                {% endwith %}
+                            {% endif %}
+
+
+                            <a class="top_text" href="{% url "imly_store_detail" store.slug %}">
+                                <h5 class="lower_bottom_margin ellipsis text-center">{{ store.name|lower|title }}</h5>
+                            </a>
+                            <p class="muted text-center"><small> by
+                                        {% if store.owner.userprofile %}
+                                            <a class="sub_text" href="{% url "chef_profile" store.owner.userprofile.slug %}"><u>{{ store.owner.userprofile.first_name|lower|title }} {{ store.owner.userprofile.last_name|lower|title }}</u></a>
+                                        {% else %}
+                                            {{ store.owner.username }}
+                                        {% endif %}</small></p>
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% if forloop.counter|divisibleby:"4" %}<div class="clearfix visible-md visible-lg"></div>{% endif %}
+		{% if forloop.counter|divisibleby:"2" %}<div class="clearfix visible-xs visible-sm"></div>{% endif %}
+                {% endfor %}   
+            </div> <!-- end of row -->
+            {% endif %}
+            <br>
+            <br>
+
+
+            <br>
+
+            <br>
+        {% endblock featurette %}
+            {% block as_seen_on %}
+            <div class="row">
+                <div class="col-md-2"></div>
+                <div class="col-md-8 as_seen_on text-center">
+                        <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on1.png" class="img-responsive img_center" alt="As seen in the press"></span>
+                </div>
+                <div class="col-md-2"></div>
+            </div>
+        {% endblock as_seen_on %}
+
+                {% block picture_line %}
+            <br>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <p class="text-center text-muted"><small>All pictures on Imly are of the actual products, clicked either by Imly or by the chefs themselves.</small></p>
+                </div>
+            </div>
+        {% endblock picture_line %}
         </div> <!-- end of container div -->
     </div> <!-- end of wrap div -->
-        <div class="container-fluid">
-            <br><br><br>            
+        <div class="container">
+            <br><br><br>
         </div>
-    
-    
-    <footer class="container-fluid bgfull footer">
-            <div class="container">
-                <br>
-                {% block footer %}
-                    <div class="row-fluid">
-                        <div class="span7">
-                            <small><ul class="inline footer_nav">
-                                <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
-                                <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
-                                <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
-                            </ul></small>
-                        </div>
-                        <div class="span5">
-                            <small><p class="text-right">Know an amazing home chef? We'd love to know.
-                            <a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>                    
-                        </div>
-                    </div>
-                    <br>
-                    <div class="row-fluid">
-                        <div class="span12">
-                            <small><p class="text-center">&copy; Cooked with <span class="icon-heart icon-white"></span> by Imly</p></small>
-                        </div>
-                    </div>
-                {% endblock footer %}
-            </div>
-        </footer>
-    
+
+            {% block login %}
+            {% include "modal_signup.html" %}
+            {% include "select_city.html" %}
+        {% endblock login %}
+
+    <footer class="bgfull footer">
+        <div class="container">
+            <br>
+            {% block footer %}
+                {% include "footer.html" %}
+            {% endblock footer %}
+        </div>
+    </footer>
+
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-    {# <script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script> #}
-    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+    <!--<script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script>-->
+    <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
         <script>
       !function ($) {
         $(function(){
+
+            var default_bounds = new google.maps.LatLngBounds(
+								new google.maps.LatLng(19.26, 72.98),
+								new google.maps.LatLng(18.89, 72.775));
+						var google_map_api_options = {
+							bounds: default_bounds,
+							componentRestrictions: {country: 'in'}
+						};
+
+                                               var set_location_button = function() {
+                                                if($('#loc').val()){
+                                                    window.location.href = '/set_location?location=' + $('#loc').val();
+                                                }else{
+                                                    return;
+                                                }
+
+                                                }
+
+                                                $(".go_location_button").on("click",set_location_button);
+
+						var autocomplete = new google.maps.places.Autocomplete(document.getElementById('loc'), google_map_api_options);
+						google.maps.event.addListener(autocomplete, 'place_changed', function(){
+							window.location.href = '/set_location?location=' + $('#loc').val();
+						});
+
           // carousel demo
           $('#myCarousel').carousel({
                 interval: 4000
-          })
+          });
+
+          var c=0, words=["is different.","connects home chefs to foodies.","is home to great food.","is a marketplace.", "is a community.","is made for you.","is your friend.","is unique.", "is the place to be.","is sweet.","is spicy.","is tangy.","is memorable."]
+
+          function loop(){
+            $(".what .what_all").delay(2500).fadeTo(300,0,function(){
+               $(this).text(words[++c%words.length]).fadeTo(300,1,loop);
+            });
+          }
+
+          loop();
+
+          $("#givetip").click(function(){
+                            $("#tip").modal();
+                            $('#tip_form')[0].reset();
+                        });
+
+                        $('#tip_form').submit(function(){
+
+                            //alert("Submit");
+                            var form_data = $(this).serialize()
+                            $.post('/give_us_tip/', form_data, function(data){
+                                $('#tip').modal('hide');
+                                $('#tip_form').find("input[type=text], textarea").val("");
+                            })
+                            .error(function(data){$('#tip_form_body').html(data.responseText);});
+                            $('#tip_form')[0].reset();
+                            return false;
+                        });
+
+                        $("#login_form").submit(function(){
+
+                            var form_data = $(this).serialize();
+                            $.post("/login-x/", form_data, function(data){
+                                window.location.href = data;
+                            })
+                            .error(function(data){$("#login_form").html(data.responseText);});
+                            return false;
+                        });
+
+                        $("#signup_form").submit(function(){
+
+                            var form_data = $(this).serialize();
+                            $.post("/signup-x/", form_data, function(data){
+                                window.location.href = data;
+                            })
+                            .error(function(data){$("#signup_form").html(data.responseText);});
+                            return false;
+                        });
+
+                        $("#open_your_shop").on("click",function(){
+                            $(".redirect_path").attr("value","{% url "imly_store_info" %}");
+                            $("#myModal").modal();
+
+                        });
+
+                        $("#from_logout").on("click", function(){
+                            $(".redirect_path").attr("value","{% url "imly_product_list" %}");
+                            $("#myModal").modal();
+                        });
+
+                        $(".open_your_shop").on("click",function(){
+                            $(".redirect_path").attr("value","{% url "imly_store_info" %}");
+                            $("#myModal").modal();
+
+                        });
+
         })
       }(window.jQuery)
+
     </script>
 
-<!-- UserVoice JavaScript SDK (only needed once on a page) -->
-        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
-        
-        <script type="text/javascript">
+    {% block extra_javascript %}
 
-            var _gaq = _gaq || [];
-            _gaq.push(['_setAccount', 'UA-39358285-1']);
-            _gaq.push(['_trackPageview']);
-          
-            (function() {
-              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
-              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
-              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
-            })();
-          
-        </script>
+        {% endblock extra_javascript %}
+
+		<!-- begin olark code -->
+		<script data-cfasync="false" type='text/javascript'>/*<![CDATA[*/window.olark||(function(c){var f=window,d=document,l=f.location.protocol=="https:"?"https:":"http:",z=c.name,r="load";var nt=function(){
+		f[z]=function(){
+		(a.s=a.s||[]).push(arguments)};var a=f[z]._={
+		},q=c.methods.length;while(q--){(function(n){f[z][n]=function(){
+		f[z]("call",n,arguments)}})(c.methods[q])}a.l=c.loader;a.i=nt;a.p={
+		0:+new Date};a.P=function(u){
+		a.p[u]=new Date-a.p[0]};function s(){
+		a.P(r);f[z](r)}f.addEventListener?f.addEventListener(r,s,false):f.attachEvent("on"+r,s);var ld=function(){function p(hd){
+		hd="head";return["<",hd,"></",hd,"><",i,' onl' + 'oad="var d=',g,";d.getElementsByTagName('head')[0].",j,"(d.",h,"('script')).",k,"='",l,"//",a.l,"'",'"',"></",i,">"].join("")}var i="body",m=d[i];if(!m){
+		return setTimeout(ld,100)}a.P(1);var j="appendChild",h="createElement",k="src",n=d[h]("div"),v=n[j](d[h](z)),b=d[h]("iframe"),g="document",e="domain",o;n.style.display="none";m.insertBefore(n,m.firstChild).id=z;b.frameBorder="0";b.id=z+"-loader";if(/MSIE[ ]+6/.test(navigator.userAgent)){
+		b.src="javascript:false"}b.allowTransparency="true";v[j](b);try{
+		b.contentWindow[g].open()}catch(w){
+		c[e]=d[e];o="javascript:var d="+g+".open();d.domain='"+d.domain+"';";b[k]=o+"void(0);"}try{
+		var t=b.contentWindow[g];t.write(p());t.close()}catch(x){
+		b[k]=o+'d.write("'+p().replace(/"/g,String.fromCharCode(92)+'"')+'");d.close();'}a.P(2)};ld()};nt()})({
+		loader: "static.olark.com/jsclient/loader0.js",name:"olark",methods:["configure","extend","declare","identify"]});
+		/* custom configuration goes here (www.olark.com/documentation) */
+		olark.identify('7236-129-10-3919');/*]]>*/</script><noscript><a href="https://www.olark.com/site/7236-129-10-3919/contact" title="Contact us" target="_blank">Questions? Feedback?</a> powered by <a href="http://www.olark.com?welcome" title="Olark live chat software">Olark live chat software</a></noscript>
+		<!-- end olark code -->
 </body>
 </html>

@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Imly {% block title %}{% endblock title %}</title>
+        
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}bootstrap/css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
+        <link href="{{ STATIC_URL }}bootstrap/css/custom_index1.css" rel="stylesheet" type="text/css">
+        <!-- HTML5 shim for IE backwards compatibility -->
+        <!--[if lt IE 9]>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+    </head>
+    
+    
+    
+<body>
+    
+    <div class="navbar-wrapper">
+      <!-- Wrap the .navbar in .container to center it within the absolutely positioned parent. -->
+      <div class="container">
+
+        <div class="navbar navbar-inverse">
+          <div class="navbar-inner">
+            <!-- Responsive Navbar Part 1: Button for triggering responsive navbar (not covered in tutorial). Include responsive CSS to utilize. -->
+            <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
+            <a class="brand" href="{% url "imly_product_list" %}">Imly</a>
+            <!-- Responsive Navbar Part 2: Place all navbar contents you want collapsed withing .navbar-collapse.collapse. -->
+            <div class="nav-collapse collapse">
+              <ul class="nav pull-right">
+                <li><a href="{% url "imly_store_create" %}">Create Your Shop</a></li>
+                <li><a href="{% url "imly_product_list" %}">Discover Great Food</a></li>
+
+                                    {% if user.is_authenticated %}
+                                        
+                                        <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                                        {% if user.first_name %}
+                                            {{ user.first_name }} <span class="caret"></span>
+                                        {% else %}
+                                            {{ user.username }} <span class="caret"></span>
+                                        {% endif %}
+                                        </a>
+                                            <ul class="dropdown-menu">
+                                                <li><a href="{% url "imly_store_info" %}"><span class="icon-home"></span> Manage Shop</a></li>
+                                                {% if user.userprofile %}
+                                                    <li><a href="{% url "imly_my_profile" %}"><span class="icon-font"></span> My Account</a></li>
+                                                {% else %}
+                                                    <li><a href="{% url "imly_create_profile" %}"><span class="icon-font"></span> Create Account</a></li>
+                                                {% endif %}
+                                                <li><a href="{% url "plata_shop_cart" %}"><span class="icon-shopping-cart"></span> My Cart</a></li>
+                                                <li class="divider"></li>
+                                                <li><a href="{% url "account_logout" %}"><span class="icon-off"></span> Logout</a></li>
+                                            </ul>
+                                        </li>
+                                    {% else %}
+                                        <li><a href="{% url "account_login" %}">Sign In</a></li>
+                                    {% endif %}
+
+              </ul>
+            </div><!--/.nav-collapse -->
+          </div><!-- /.navbar-inner -->
+        </div><!-- /.navbar -->
+
+      </div> <!-- /.container -->
+    </div><!-- /.navbar-wrapper -->
+    
+
+
+            <div class="row-fluid logo">
+                <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/logo-large.png"></p>
+            </div>
+
+    
+    <div id="myCarousel" class="carousel slide">
+      <div class="carousel-inner">
+        <div class="item active">
+          <img src="{{ STATIC_URL }}bootstrap/img/car2.jpg">
+        </div>
+        <div class="item">
+          <img src="{{ STATIC_URL }}bootstrap/img/car1.jpg">
+        </div>
+        <div class="item">
+          <img src="{{ STATIC_URL }}bootstrap/img/car3.jpg">
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div><!-- /.carousel -->
+    
+    <div class="row-fluid">
+        <div class="span12">
+            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/slogan.png" alt="Connecting home chefs with curious foodies"></p>
+        </div>
+    </div>
+    </div>
+    <br>
+    
+    <div id="wrap">
+        <div id="main" class="container clear-top">
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="row-fluid">
+                    <legend class="orange"><span class="legend_lower">Featured</span> <span class="legend_upper">Shops</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_store_list" %}">View More</a></span></legend>
+                    {% load imly_tags %}
+                    {% get_featured_store_list %}
+                    <ul class="thumbnails">
+                    {% for store in featured_stores %}
+                        
+                        <li class="span3">
+                            <div class="thumbnail">
+                                {% with store.product_set.all|first as product %}
+                                    <a href="{% url "imly_store_detail" store.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ object.name }}"></a>
+                                {% endwith %}
+                                
+                                <a class="top_text" href="{% url "imly_store_detail" store.slug %}"><h5>{{ store.name }}</h5></a><small class="muted"> by
+                                            {% if store.owner.userprofile.first_name %}
+                                                {{ store.owner.userprofile.first_name }} {{ store.owner.userprofile.last_name }}
+                                            {% else %}
+                                                {{ store.owner.username }}
+                                            {% endif %}</small>
+                                <div class="clearfix"></div>
+                            </div>
+                        </li>
+                        
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <div class="row-fluid">
+                <div class="span12">
+                    <div class="row-fluid">
+                    <legend class="orange"><span class="legend_lower">Popular</span> <span class="legend_upper">Items</span><span class="pull-right small"><a class="index_view_more" href="{% url "imly_product_list" %}">View More</a></span></legend>
+                    {% get_bestseller_product_list %}
+                    <ul class="thumbnails">
+                    {% for product in bestselling_products %}
+                    <li class="span3">
+                        <div class="thumbnail">
+                            <a href="{% url "imly_product_detail" product.store.slug product.slug %}"><img src="{{ product.image_thumbnail.url }}" alt="{{ product.name }}"></a>
+                            <a class="top_text" href="{% url "imly_product_detail" product.store.slug product.slug %}"><h5>{{ product.name }}</h5></a><small class="muted ultra_small"><a class="sub_text" href="{{ product.store.get_absolute_url }}">{{ product.store.name|upper }}</small></a>
+                        </div>
+                    </li> 
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+            <br>
+            <div class="row-fluid">
+                <div class="span2"></div>
+                <div class="span8 as_seen_on">
+                        <span class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/as_seen_on.png" alt="As seen in the press"></span>
+
+                </div>
+                <div class="span2"></div>
+            </div>
+        </div> <!-- end of container div -->
+    </div> <!-- end of wrap div -->
+        <div class="container-fluid">
+            <br><br><br>            
+        </div>
+    
+    
+    <footer class="container-fluid bgfull footer">
+            <div class="container">
+                <br>
+                {% block footer %}
+                    <div class="row-fluid">
+                        <div class="span7">
+                            <small><ul class="inline footer_nav">
+                                <li><a href="{% url "imly_coming_soon" %}">What is Imly</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">The Team</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">Terms of Service</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">FAQ</a></li>
+                                <li><a href="{% url "imly_coming_soon" %}">Blog</a></li>
+                                <li><a href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="support" data-uv-forum-id="198507">Contact Us</a></li>
+                            </ul></small>
+                        </div>
+                        <div class="span5">
+                            <small><p class="text-right">Know an amazing home chef? We'd love to know.
+                            <a class="give_us_a_tip" href="javascript:void(0)" data-uv-lightbox="classic_widget" data-uv-mode="full" data-uv-default-mode="feedback" data-uv-forum-id="198507">Give us a Tip</a></p></small>                    
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row-fluid">
+                        <div class="span12">
+                            <small><p class="text-center">&copy; Cooked with <span class="icon-heart icon-white"></span> by Imly</p></small>
+                        </div>
+                    </div>
+                {% endblock footer %}
+            </div>
+        </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    {# <script src="{{ STATIC_URL }}bootstrap/js/jquery-1.9.1.min.js"></script> #}
+    <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.js"></script>
+        <script>
+      !function ($) {
+        $(function(){
+          // carousel demo
+          $('#myCarousel').carousel({
+                interval: 4000
+          })
+        })
+      }(window.jQuery)
+    </script>
+
+<!-- UserVoice JavaScript SDK (only needed once on a page) -->
+        <script>(function(){var uv=document.createElement('script');uv.type='text/javascript';uv.async=true;uv.src='//widget.uservoice.com/dL897A8Wf1MBVZxoxlMw.js';var s=document.getElementsByTagName('script')[0];s.parentNode.insertBefore(uv,s)})()</script>
+        
+        <script type="text/javascript">
+
+            var _gaq = _gaq || [];
+            _gaq.push(['_setAccount', 'UA-39358285-1']);
+            _gaq.push(['_trackPageview']);
+          
+            (function() {
+              var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+              ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+              var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+            })();
+          
+        </script>
+</body>
+</html>

@@ -46,28 +46,77 @@
     {% endblock location_search_bar %}
     
     {% block carousel %}
-    <div class="jumbotron hidden-xs">
-        <div class="row">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_logo.png" alt="Imly logo"></p>
+    <div class="jumbotron jumbotron_index">
+    <div class="row">
+    <div id="myCarousel" class="carousel slide">
+      <div class="carousel-inner">
+        <div class="jumbotron hero_carousel1 item active">
+          
         </div>
+        <div class="jumbotron hero_carousel2 item">
+          
+        </div>
+        <div class="jumbotron hero_carousel3 item">
+          
+        </div>
+	<div class="jumbotron hero_carousel4 item">
+          
+        </div>
+      </div>
+      <a class="left carousel-control" href="#myCarousel" data-slide="prev">&lsaquo;</a>
+      <a class="right carousel-control" href="#myCarousel" data-slide="next">&rsaquo;</a>
+    </div><!-- /.carousel -->
+    </div>
+        <div class="row jumbotron_search">
+	    <div class="col-md-12 text-center">
+		<ul class="list-unstyled index_welcome">
+		    <li><h1>Find homemade food near you</h1></li>
+		    <li class="hidden-xs"><h2>Choose from over 113 homechefs and 1000 dishes</h2></li>
+		    <li>
+                        <ul class="list-inline index_search">
+                                <li>
+                                    <input type="text" id="search_term" class="index_location_search" placeholder="e.g Cupcakes" name="query">  
+                                </li>
+                                
+                                <li class="in_search_bar_index">in</li>
+                                
+                                <li class="location_input">
+                                    
+                                    <input id="loc" type="text" class="index_location_search" {% if not request.session.place_slug %}placeholder={% if request.city %}"e.g places in {{ request.city.name|capfirst }}"{% else %}"Select city above first"{% endif %}{% endif %} {% if request.session.place_slug %}readonly{% endif %}>
+                                
+                                    {% if request.session.place_slug %}
+                                    <a class="remove_selected_location" href="{% url "unset_location" %}">
+                                        <div class="selected_location">
+                                                <div class="selected_location_name pull-left">
+                                                    {{ request.session.display_place_slug|capfirst|slice:"20" }}
+                                                </div>
+                                                <div class="selected_location_cross pull-right">
+                                                    <span class="small">&times;</span>
+                                                </div>
+                                                <div class="clearfix"></div>
+    
+                                        </div>
+                                    </a>
+                                    {% endif %}
+                                
+                                </li>
+                                        
 
-        <div class="row">
-            <div class="col-md-12">
-            <ul class="list-inline text-center">{# <h3>The online home food marketplace</h3> #}
-                <li><a href="{% url "why_open_your_shop" %}" class="action_button">Open Your Shop<br><small class="ultra_small_button">fast. easy. free.</small></a></li>
-                <li><a href="{% url "imly_product_list" %}" class="action_button action_button2">Discover Great Food<br><small class="ultra_small_button">fresh. homely. unique.</small></a></li>
-            </ul>
+                                <li class="search_button_index">
+                                    <input type="submit" class="btn btn-custom go_location_button_index" value="Search"></input>
+                                </li>
+
+                        </ul>
+		    </li>
+		</ul>	
+		    
             </div>
-
-        </div>
+	</div>
+	
                 
-    </div>
+    </div><!-- end of jumbotron -->
 
-    <div class="container visible-xs">
-        <div class="row lower_border2">
-            <p class="text-center"><img src="{{ STATIC_URL }}bootstrap/img/imly_cover_photo.jpg" class="img-responsive"></p>
-        </div>
-    </div>
+
 
     <div class="container">
         <div class="row">
@@ -307,7 +356,26 @@
     <script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
     <script src="{{ STATIC_URL }}bootstrap/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?libraries=places&sensor=false"></script>
-        <script>
+    <script>
+	var x=0;
+	function changePlaceholder(){
+	    var placeholders = new Array;
+	    
+	    placeholders[0]="Cupcakes";
+	    placeholders[1]="Thai Food";
+	    placeholders[2]="Fajitas";
+
+	    $("#search_term").attr('placeholder',placeholders[x]);
+	    x++;
+	    
+	    if(x>=placeholders.length){
+		x=0;
+	    }
+
+	    setTimeout(changePlaceholder,2000);
+
+	}
+	
       !function ($) {
         $(function(){
 
@@ -340,6 +408,10 @@
                 interval: 4000
           });
 
+
+	  
+	  setTimeout(changePlaceholder,2000);
+	  
           var c=0, words=["is different.","connects home chefs to foodies.","is home to great food.","is a marketplace.", "is a community.","is made for you.","is your friend.","is unique.", "is the place to be.","is sweet.","is spicy.","is tangy.","is memorable."]
 
           function loop(){
