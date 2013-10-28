@@ -48,6 +48,8 @@ def home_page(request):
     city_stores = Store.objects.is_approved().filter(Q(pick_up_point__within=request.city.enclosing_geometry) | Q(delivery_locations__location__within=request.city.enclosing_geometry))
     city_products = Product.objects.is_approved().filter(store__in=city_stores)
     bestselling_products = city_products.filter(is_bestseller=True, is_deleted=False,is_flag = False)[:4]
+    store_number = Store.objects.is_approved().count()
+    product_number = Product.objects.is_approved().count()
     featured_stores = city_stores.filter(is_featured=True)[:4]
     recently_added = city_products.filter(is_deleted=False, is_flag=False).order_by("-date_created")[:8]
     recently_bought = city_products.filter(orderitem__order__status__gte=0).order_by("-orderitem__order__created")[:8]
