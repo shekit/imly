@@ -9,10 +9,13 @@
 		<meta name="keywords" content="Imly,homemade food, gourmet, mumbai food, local, delivered,bangalore">
         <link href="{{ STATIC_URL }}bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
         <link href="{{ STATIC_URL }}bootstrap/css/custom_index.css" rel="stylesheet" type="text/css">
-        <!-- HTML5 shim for IE backwards compatibility -->
-        <!--[if lt IE 9]>
-        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
-        <![endif]-->
+        <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	  <script src="{{ STATIC_URL }}bootstrap/js/html5shiv.js"></script>
+	  <script src="{{ STATIC_URL }}bootstrap/js/respond.min.js"></script>
+	<![endif]-->
         <link rel="shortcut icon" type="image/ico" href="{{ STATIC_URL }}bootstrap/img/favicon.ico">
 		<meta property="og:url" content="http://imly.in">
 		<meta property="og:title" content="Imly.in - the online marketplace to buy and sell homemade food">
@@ -476,6 +479,17 @@
                             $("#myModal").modal();
 
                         });
+			
+			// for windows 8 phone bootstrap 3 issue
+			if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
+			var msViewportStyle = document.createElement("style")
+			msViewportStyle.appendChild(
+			  document.createTextNode(
+			    "@-ms-viewport{width:auto!important}"
+			  )
+			)
+			document.getElementsByTagName("head")[0].appendChild(msViewportStyle)
+		      }
 
         })
       }(window.jQuery)

@@ -24,7 +24,7 @@ from plata.shop.forms import ConfirmationForm
 from plata.shop.models import OrderItem, Order
 from plata.contact.forms import CheckoutForm
 from braces.views import LoginRequiredMixin
-from django_extension.db.fields import UUIDField
+#from django_extension.db.fields import UUIDField
 from imly.utils import tracker
 import json as simplejson
 from datetime import date

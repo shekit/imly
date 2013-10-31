@@ -1,6 +1,13 @@
 @charset "UTF-8";
 /* CSS Document */
 
+/* for windows 8 phone issue */
+@-webkit-viewport   { width: device-width; }
+@-moz-viewport      { width: device-width; }
+@-ms-viewport       { width: device-width; }
+@-o-viewport        { width: device-width; }
+@viewport           { width: device-width; }
+
 /* styles to make footer stick to bottom even if content is less */
 html,body
 {
@@ -137,6 +144,16 @@ input::-moz-focus-inner /*Remove button padding in FF*/
 }
 
 /* TOP NAVBAR */
+
+/*for some ie8 issue */
+	.navbar-inverse .nav li.dropdown.open>.dropdown-toggle, .navbar-inverse .nav
+	li.dropdown.active>.dropdown-toggle, .navbar-inverse .nav    
+	li.dropdown.open.active>.dropdown-toggle,
+	.navbar, .navbar-inverse .navbar-inner {
+		filter:none;
+		background-image: none;
+	}
+	
     .navbar {
 	margin-bottom: 0px;
 	background: #fff;
